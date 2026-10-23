@@ -277,6 +277,7 @@ explains how VectorCraft avoids crashing, and [`docs/releasing.md`](docs/releasi
 signed and published. Every bundled asset is listed with its licence in [`ASSETS.md`](ASSETS.md).
 
 ## Downloads
+To build Windows packages for this fork, run the ArtCraft Launcher release workflow with a pinned source revision.
 
 **New to VectorCraft?** Download it from the [VectorCraft page on getartcraft.com](https://getartcraft.com/apps/vectorcraft). That's the easiest way to install it.
 
