@@ -509,6 +509,21 @@ fn a_masked_gradient_mesh_takes_the_transparency_written_after_its_mask() {
 }
 
 #[test]
+fn a_transparency_set_in_a_dictionary_s_art_stays_after_it() {
+    // GUARDS: an area text's frame (its `/ConfiningPath` art) sets its own transparency; the objects
+    // after the text, with no `Xy` of their own, draw with it. Read as the dictionary's alone, they
+    // drew with the Lighten of the path before the text and vanished on a light background.
+    let text = "/AI11Text :\n0 /FreeUndo ,\n0 /FrameIndex ,\n0 /StoryIndex ,\n/Art :\nX=\n0 Ap\n0 1 0 0 0 Xy\n0 w\n100 0 m\n100 10 L\nn\nX+\n\
+                ; /ConfiningPath ,\n2 /TextAntialiasing ,\n;\n";
+    let body = format!("9 0.5 0 0 0 Xy\n{RED}{}f\n{text}{RED}{}f\n", rect_path(0.0, 0.0, 10.0, 10.0), rect_path(20.0, 0.0, 30.0, 10.0));
+    let a = art(&read_ok(&layer(&body)).doc);
+    let paths: Vec<_> = a.iter().filter(|n| matches!(n.kind, NodeKind::Path { .. })).collect();
+    assert_eq!(paths.len(), 2, "{a:#?}");
+    assert_eq!((paths[0].opacity, paths[0].blend), (0.5, BlendMode::Lighten), "the state before the text");
+    assert_eq!((paths[1].opacity, paths[1].blend), (1.0, BlendMode::Normal), "the state the text's art set");
+}
+
+#[test]
 fn gradients() {
     let defs = "%AI5_BeginGradient: (G)\n(G) 1 2 Bd\n[\n<00FF>\n0\n0 0 0 0 1 0 0 2 1 6 %_BS\n\
                 %_0 0 0 0 1 0 0 2 1 6 40 0 Bs\n%_0 0 0 0 0 0 1 2 0.5 6 50 100 Bs\nBD\n%AI5_EndGradient\n";
