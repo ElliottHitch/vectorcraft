@@ -1184,10 +1184,35 @@ fn plain_and_shifted_paint_keys_run_once_on_us_and_german_like_input() {
         (Key::Colon, Key::Period, Modifiers::SHIFT, ":"),
         (Key::Semicolon, Key::Comma, Modifiers::SHIFT, ";"),
     ] {
+        let journal_before = app.session.journal.len();
         frame(&mut app, press(key, physical_key, mods, typed));
         assert_eq!(crate::panels::current_paints(&app), paints_before, "typing {typed} keeps fill and stroke");
+        assert!(
+            app.session.journal.since(journal_before).iter().all(|(command, _)| !command.starts_with("paint.")),
+            "typing {typed} runs no paint command"
+        );
     }
     assert_eq!(text_and_layers(&mut app, id).0, "Hi,.<>:;");
+}
+
+#[test]
+fn modified_german_like_punctuation_keeps_text_size() {
+    let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default());
+    app.session.execute("file.new", &json!({"width": 200, "height": 200})).unwrap();
+    let id = app.session.execute("text.create", &json!({"x": 20, "y": 50, "text": "Hi", "size": 12})).unwrap()["id"].as_u64().unwrap();
+    app.session.execute("select.set", &json!({"ids": [id]})).unwrap();
+    for (key, physical_key) in [(Key::Colon, Key::Period), (Key::Semicolon, Key::Comma)] {
+        let modifiers = Modifiers::COMMAND | Modifiers::SHIFT;
+        frame(
+            &mut app,
+            vec![
+                egui::Event::ModifiersChanged(modifiers),
+                egui::Event::Key { key, physical_key: Some(physical_key), pressed: true, repeat: false, modifiers },
+            ],
+        );
+        let range = app.session.execute("text.getRange", &json!({"id": id})).unwrap();
+        assert_eq!(range["runs"][0]["style"]["size"], json!(12.0), "{key:?} keeps the text size");
+    }
 }
 
 #[test]

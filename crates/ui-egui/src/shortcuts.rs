@@ -736,6 +736,10 @@ fn dispatch(app: &mut VectorcraftApp, ctx: &egui::Context, accept: impl FnMut(&H
         for e in &mut i.events {
             if let egui::Event::Key { key, physical_key: Some(physical), modifiers, pressed: true, .. } = e
                 && modifiers.shift
+                && !modifiers.command
+                && !modifiers.ctrl
+                && !modifiers.alt
+                && !modifiers.mac_cmd
                 && matches!(*physical, Key::Comma | Key::Period)
                 && *key != *physical
                 && let (Some(logical), Some(position)) = (craft_keymap::Key::from_egui(*key), craft_keymap::Key::from_egui(*physical))
