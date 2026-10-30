@@ -1140,12 +1140,12 @@ lighting	Light	Światło
 	 to set spacing and orientation	 aby ustawić odstęp i orientację
 	Apply	Zastosuj
 	Change Screen Mode (F)	Zmień tryb ekranu (F)
-	Color (, or <)	Kolor (, lub <)
+	Color (, or Shift+,)	Kolor (, lub Shift+,)
 	Draw Behind	Rysuj pod spodem
 	Draw Inside	Rysuj wewnątrz
 	Draw Normal	Rysuj normalnie
 	Expand:	Rozszerz:
-	Gradient (. or >)	Gradient (. lub >)
+	Gradient (. or Shift+.)	Gradient (. lub Shift+.)
 	H:	W:
 	Modify	Modyfikuj
 	Navigate	Nawigacja

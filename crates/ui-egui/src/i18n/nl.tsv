@@ -1141,12 +1141,12 @@ lighting	Light	Licht
 	 to set spacing and orientation	 om de tussenruimte en de oriëntatie in te stellen
 	Apply	Toepassen
 	Change Screen Mode (F)	Schermmodus wisselen (F)
-	Color (, or <)	Kleur (, of <)
+	Color (, or Shift+,)	Kleur (, of Shift+,)
 	Draw Behind	Achter tekenen
 	Draw Inside	Binnen tekenen
 	Draw Normal	Normaal tekenen
 	Expand:	Uitvouwen:
-	Gradient (. or >)	Verloop (. of >)
+	Gradient (. or Shift+.)	Verloop (. of Shift+.)
 	H:	H:
 	Modify	Wijzigen
 	Navigate	Navigeren

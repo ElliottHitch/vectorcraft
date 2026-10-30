@@ -486,7 +486,9 @@ fn bottom_controls(app: &mut VectorcraftApp, ui: &mut Ui, t: &Tokens, cols: usiz
             ui.add_space((ui.available_width() - 3.0 * chip - 2.0 * gap) / 2.0);
             ui.spacing_mut().item_spacing.x = gap;
             let mut clicked = None;
-            for (tip, cmd) in [("Color (, or <)", "paint.lastColor"), ("Gradient (. or >)", "paint.lastGradient"), ("None (/)", "paint.none")] {
+            for (tip, cmd) in
+                [("Color (, or Shift+,)", "paint.lastColor"), ("Gradient (. or Shift+.)", "paint.lastGradient"), ("None (/)", "paint.none")]
+            {
                 let (r, resp) = ui.allocate_exact_size(vec2(chip, chip), Sense::click());
                 match cmd {
                     "paint.lastColor" => widgets::paint_chip(ui, r, &Paint::solid(app.session.last_solid)),
