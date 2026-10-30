@@ -803,6 +803,35 @@ impl Story {
         !self.lines.is_empty() && vectorcraft_text::fit_first_line(vectorcraft_text::FontDb::global(), t)
     }
 
+    /// Area type (`node`, the story's first frame as [`Self::node`] makes it with `template` and
+    /// `to_doc`) whose first line the file lays out higher or lower than it is laid out here, as its
+    /// page draws it: its first baseline is fixed where the file has it. The font's ascent below the
+    /// frame's top, the first baseline here, isn't where the app that wrote the file puts it for
+    /// every font. Whether it was.
+    pub(super) fn place_first_line(&self, node: &mut Node, template: (f64, f64), to_doc: Affine) -> bool {
+        // Closer than this (points of the document) and the line is where the file has it.
+        const SAME: f64 = 0.5;
+        let NodeKind::Text(t) = &mut node.kind else { return false };
+        if !matches!(t.kind, TextKind::Area { .. }) || t.area.vertical_align != vectorcraft_doc::VerticalAlign::Top {
+            return false;
+        }
+        let Some((_, (x, y))) = self.line_starts(template).into_iter().next() else { return false };
+        let want = (to_doc * Point::new(x, y)).y;
+        let db = vectorcraft_text::FontDb::global();
+        // A frame too short for the line lays nothing out: as the line needs it (see `fit_first_line`).
+        let mut probe = TextObject::clone(t);
+        vectorcraft_text::fit_first_line(db, &mut probe);
+        let laid = vectorcraft_text::layout(db, &probe);
+        let Some(first) = laid.lines.first().filter(|l| l.region == 0) else { return false };
+        let min = first.first_baseline + (want - first.baseline);
+        if (want - first.baseline).abs() <= SAME || !min.is_finite() || min <= 0.0 {
+            return false;
+        }
+        t.area.first_baseline = vectorcraft_doc::FirstBaseline::Fixed;
+        t.area.first_baseline_min = min;
+        true
+    }
+
     /// The leading the file's own line positions imply: the distance from one line to the next, less
     /// the space between paragraphs that is part of it (a paragraph's space after and the next one's
     /// space before; a layout's lines are where that space has put them, and the text object adds it
@@ -1248,5 +1277,39 @@ mod tests {
         assert!(!s.fit_first_line(&mut t) && height(&t).unwrap().3 == 40.0);
         let mut t = area(13.0);
         assert!(!story("Heading\r", &[], &Para::default()).fit_first_line(&mut t) && height(&t).unwrap().3 == 13.0);
+    }
+
+    #[test]
+    fn area_type_s_first_line_goes_where_the_file_lays_it_out() {
+        // GUARDS: area type's first baseline was the font's ascent below the frame's top, where the
+        // file's own layout (and its page) can have it higher: a heading came in lower than the page's.
+        let line = |a: (f64, f64), b: (f64, f64)| [a.0, a.1, a.0, a.1, b.0, b.1, b.0, b.1];
+        let frame = vec![
+            line((10.0, 20.0), (210.0, 20.0)),
+            line((210.0, 20.0), (210.0, 120.0)),
+            line((210.0, 120.0), (10.0, 120.0)),
+            line((10.0, 120.0), (10.0, 20.0)),
+        ];
+        // The canvas is the document here: the art's y up, the document's down.
+        let (template, to_doc) = ((CANVAS_CENTRE, -CANVAS_CENTRE), Affine::new([1.0, 0.0, 0.0, -1.0, 0.0, 0.0]));
+        let first = |s: &Story| {
+            let mut node = s.node(NodeId(0), 0, template, to_doc).unwrap();
+            let placed = s.place_first_line(&mut node, template, to_doc);
+            let NodeKind::Text(t) = node.kind else { panic!("area type") };
+            let l = vectorcraft_text::layout(vectorcraft_text::FontDb::global(), &t);
+            (placed, l.lines.first().map(|l| l.baseline), t.area.first_baseline)
+        };
+        let mut s = story("Heading\r", &[], &Para::default());
+        s.frames = vec![FrameKind::Area(frame)];
+        // Where this lays the line out on its own: the file agrees, and nothing changes.
+        s.lines = vec![(10.0, 20.0)];
+        let (_, Some(own), _) = first(&s) else { panic!("a line") };
+        s.lines = vec![(10.0, own)];
+        assert_eq!(first(&s), (false, Some(own), vectorcraft_doc::FirstBaseline::Ascent));
+        // Higher in the file: there.
+        s.lines = vec![(10.0, own - 3.0)];
+        let (placed, at, fb) = first(&s);
+        assert!(placed && fb == vectorcraft_doc::FirstBaseline::Fixed, "{fb:?}");
+        assert!(at.is_some_and(|y| (y - (own - 3.0)).abs() < 1e-6), "{at:?} for {}", own - 3.0);
     }
 }
