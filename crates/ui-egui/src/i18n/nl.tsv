@@ -1486,6 +1486,9 @@ lighting	Light	Licht
 	Reverse Gradient	Verloop omkeren
 	Save to Swatches	Opslaan in stalen
 	Delete Graphic Style (Alt-click: without asking)	Grafische stijl verwijderen (Alt-klik: zonder vragen)
+	Delete the brush “{name}”?	Kwast „{name}” verwijderen?
+	Delete these {count} brushes?	Deze {count} kwasten verwijderen?
+	Strokes using deleted brushes become plain strokes.	Lijnen die verwijderde kwasten gebruiken, worden gewone lijnen.
 	Delete the graphic style “{name}”?	De grafische stijl „{name}” verwijderen?
 	Delete these {n} graphic styles?	Deze {n} grafische stijlen verwijderen?
 	Delete this {n} graphic style?	Deze {n} grafische stijl verwijderen?

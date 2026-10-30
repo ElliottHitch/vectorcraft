@@ -981,6 +981,9 @@ font-technology	Variable	Változó
 	Yes	Igen
 	No	Nem
 	Delete Tab	Tabulátor törlése
+	Delete the brush “{name}”?	Törlöd ezt az ecsetet: „{name}”?
+	Delete these {count} brushes?	Törlöd ezt a {count} ecsetet?
+	Strokes using deleted brushes become plain strokes.	A törölt ecseteket használó körvonalak egyszerű körvonalakká válnak.
 	Delete the graphic style “{name}”?	Törlöd ezt a grafikai stílust: „{name}”?
 	Delete the library “{name}”?	Törlöd ezt a könyvtárat: „{name}”?
 	Delete Theme	Téma törlése

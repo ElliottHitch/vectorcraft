@@ -1472,6 +1472,9 @@ lighting	Light	Światło
 	Reverse Gradient	Odwróć gradient
 	Save to Swatches	Zapisz w próbkach
 	Delete Graphic Style (Alt-click: without asking)	Usuń styl graficzny (kliknięcie z Alt: bez pytania)
+	Delete the brush “{name}”?	Usunąć pędzel „{name}”?
+	Delete these {count} brushes?	Usunąć te {count} pędzle?
+	Strokes using deleted brushes become plain strokes.	Obrysy używające usuniętych pędzli stają się zwykłymi obrysami.
 	Delete the graphic style “{name}”?	Usunąć styl graficzny „{name}”?
 	Delete these {n} graphic styles?	Usunąć te style graficzne ({n})?
 	Delete this {n} graphic style?	Usunąć ten styl graficzny ({n})?

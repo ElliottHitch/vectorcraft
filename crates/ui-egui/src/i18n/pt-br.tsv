@@ -674,6 +674,9 @@
 	Delete Transparency Flattener Preset	Excluir Predefinido de Achatamento de Transparência
 	Delete Width Point	Excluir Ponto de Largura
 	Delete Workspace	Excluir Espaço de Trabalho
+	Delete the brush “{name}”?	Excluir o pincel “{name}”?
+	Delete these {count} brushes?	Excluir estes {count} pincéis?
+	Strokes using deleted brushes become plain strokes.	Traços que usam pincéis excluídos tornam-se traços simples.
 	Delete the graphic style “{name}”?	Excluir o estilo gráfico “{name}”?
 	Delete theme	Excluir tema
 	Delete this saved preset	Excluir este predefinido salvo

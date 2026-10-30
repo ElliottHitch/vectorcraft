@@ -719,6 +719,9 @@ font-technology	Variable	可變
 	Yes	是
 	No	否
 	Delete Tab	刪除定位點
+	Delete the brush “{name}”?	要刪除筆刷「{name}」嗎？
+	Delete these {count} brushes?	要刪除這 {count} 個筆刷嗎？
+	Strokes using deleted brushes become plain strokes.	使用已刪除筆刷的筆畫會變成一般筆畫。
 	Delete the graphic style “{name}”?	要刪除繪圖樣式「{name}」嗎？
 	Delete Theme	刪除主題
 	Delete theme	刪除主題

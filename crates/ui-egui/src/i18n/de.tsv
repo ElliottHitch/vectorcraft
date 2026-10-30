@@ -736,6 +736,9 @@ font-technology	Variable	Variabel
 	Yes	Ja
 	No	Nein
 	Delete Tab	Tabulator löschen
+	Delete the brush “{name}”?	Pinsel „{name}“ löschen?
+	Delete these {count} brushes?	Diese {count} Pinsel löschen?
+	Strokes using deleted brushes become plain strokes.	Konturen mit gelöschten Pinseln werden zu einfachen Konturen.
 	Delete the graphic style “{name}”?	Grafikstil „{name}“ löschen?
 	Delete Theme	Thema löschen
 	Delete theme	Thema löschen

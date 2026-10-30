@@ -759,6 +759,9 @@ font-technology	Variable	Variables
 	Yes	Oui
 	No	Non
 	Delete Tab	Supprimer la tabulation
+	Delete the brush “{name}”?	Supprimer la forme « {name} » ?
+	Delete these {count} brushes?	Supprimer ces {count} formes ?
+	Strokes using deleted brushes become plain strokes.	Les contours utilisant des formes supprimées deviennent des contours simples.
 	Delete the graphic style “{name}”?	Supprimer le style graphique « {name} » ?
 	Delete Theme	Supprimer le thème
 	Delete theme	Supprimer le thème

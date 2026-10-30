@@ -751,6 +751,9 @@ font-technology	Variable	Варіативні
 	Yes	Так
 	No	Ні
 	Delete Tab	Видалити табуляцію
+	Delete the brush “{name}”?	Видалити пензель «{name}»?
+	Delete these {count} brushes?	Видалити ці пензлі ({count})?
+	Strokes using deleted brushes become plain strokes.	Обведення, що використовують видалені пензлі, стають звичайними обведеннями.
 	Delete the graphic style “{name}”?	Видалити графічний стиль «{name}»?
 	Delete Theme	Видалити тему
 	Delete theme	Видалити тему

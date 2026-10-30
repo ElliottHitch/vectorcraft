@@ -1472,6 +1472,9 @@ lighting	Light	Lys
 	Reverse Gradient	Omvend gradient
 	Save to Swatches	Gem i farveprøver
 	Delete Graphic Style (Alt-click: without asking)	Slet grafisk typografi (Alt-klik: uden at spørge)
+	Delete the brush “{name}”?	Slet penslen »{name}«?
+	Delete these {count} brushes?	Slet disse {count} pensler?
+	Strokes using deleted brushes become plain strokes.	Streger, der bruger slettede pensler, bliver almindelige streger.
 	Delete the graphic style “{name}”?	Slet den grafiske typografi »{name}«?
 	Delete these {n} graphic styles?	Slet disse {n} grafiske typografier?
 	Delete this {n} graphic style?	Slet denne {n} grafiske typografi?

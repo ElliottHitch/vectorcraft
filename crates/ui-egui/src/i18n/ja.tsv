@@ -1308,6 +1308,9 @@ font-technology	Variable	バリアブル
 	Delete Transparency Flattener Preset	透明の分割・統合プリセットを削除
 	Delete Width Point	幅ポイントを削除
 	Delete Workspace	ワークスペースを削除
+	Delete the brush “{name}”?	ブラシ「{name}」を削除しますか？
+	Delete these {count} brushes?	これら {count} 個のブラシを削除しますか？
+	Strokes using deleted brushes become plain strokes.	削除したブラシを使用する線は通常の線になります。
 	Delete the graphic style “{name}”?	グラフィックスタイル「{name}」を削除しますか？
 	Delete theme	テーマを削除
 	Delete this saved preset	この保存済みプリセットを削除

@@ -742,6 +742,9 @@ font-technology	Variable	Променливи
 	Yes	Да
 	No	Не
 	Delete Tab	Изтриване на табулация
+	Delete the brush “{name}”?	Да се изтрие четката „{name}“?
+	Delete these {count} brushes?	Да се изтрият тези {count} четки?
+	Strokes using deleted brushes become plain strokes.	Щрихите, които използват изтритите четки, стават обикновени щрихи.
 	Delete the graphic style “{name}”?	Изтриване на графичния стил „{name}“?
 	Delete Theme	Изтриване на тема
 	Delete theme	Изтриване на тема

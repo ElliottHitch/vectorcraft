@@ -1472,6 +1472,9 @@ lighting	Light	Cahaya
 	Reverse Gradient	Balikkan gradien
 	Save to Swatches	Simpan ke swatch
 	Delete Graphic Style (Alt-click: without asking)	Hapus gaya grafis (Alt+klik: tanpa konfirmasi)
+	Delete the brush “{name}”?	Hapus kuas “{name}”?
+	Delete these {count} brushes?	Hapus {count} kuas ini?
+	Strokes using deleted brushes become plain strokes.	Goresan yang menggunakan kuas terhapus menjadi goresan biasa.
 	Delete the graphic style “{name}”?	Hapus gaya grafis “{name}”?
 	Delete these {n} graphic styles?	Hapus {n} gaya grafis ini?
 	Delete this {n} graphic style?	Hapus {n} gaya grafis ini?

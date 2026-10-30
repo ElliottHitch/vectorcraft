@@ -877,6 +877,9 @@ font-technology	Variable	Biến thiên
 	Yes	Có
 	No	Không
 	Delete Tab	Xóa tab
+	Delete the brush “{name}”?	Xóa cọ “{name}”?
+	Delete these {count} brushes?	Xóa {count} cọ này?
+	Strokes using deleted brushes become plain strokes.	Các nét dùng cọ đã xóa trở thành nét thông thường.
 	Delete the graphic style “{name}”?	Xóa kiểu đồ họa “{name}”?
 	Delete the library “{name}”?	Xóa thư viện “{name}”?
 	Delete Theme	Xóa bộ màu

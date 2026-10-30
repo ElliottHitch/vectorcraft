@@ -755,6 +755,9 @@ font-technology	Variable	Вариативные
 	Yes	Да
 	No	Нет
 	Delete Tab	Удалить табуляцию
+	Delete the brush “{name}”?	Удалить кисть «{name}»?
+	Delete these {count} brushes?	Удалить эти кисти ({count})?
+	Strokes using deleted brushes become plain strokes.	Обводки, использующие удалённые кисти, становятся обычными обводками.
 	Delete the graphic style “{name}”?	Удалить графический стиль «{name}»?
 	Delete Theme	Удалить тему
 	Delete theme	Удалить тему

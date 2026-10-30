@@ -744,6 +744,9 @@ font-technology	Variable	Variabla
 	Yes	Ja
 	No	Nej
 	Delete Tab	Radera tabb
+	Delete the brush “{name}”?	Radera penseln ”{name}”?
+	Delete these {count} brushes?	Radera dessa {count} penslar?
+	Strokes using deleted brushes become plain strokes.	Linjer som använder borttagna penslar blir vanliga linjer.
 	Delete the graphic style “{name}”?	Radera grafikstilen ”{name}”?
 	Delete Theme	Radera tema
 	Delete theme	Radera tema

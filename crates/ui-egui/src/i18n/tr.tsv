@@ -736,6 +736,9 @@ font-technology	Variable	Değişken
 	Yes	Evet
 	No	Hayır
 	Delete Tab	Sekmeyi Sil
+	Delete the brush “{name}”?	“{name}” fırçası silinsin mi?
+	Delete these {count} brushes?	Bu {count} fırça silinsin mi?
+	Strokes using deleted brushes become plain strokes.	Silinen fırçaları kullanan konturlar düz konturlara dönüşür.
 	Delete the graphic style “{name}”?	“{name}” grafik stili silinsin mi?
 	Delete Theme	Temayı Sil
 	Delete theme	Temayı sil

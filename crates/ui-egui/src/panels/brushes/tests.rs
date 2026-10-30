@@ -146,6 +146,23 @@ fn names(app: &mut VectorcraftApp) -> Vec<String> {
     brushes(app).0.into_iter().map(|b| b.0).collect()
 }
 
+fn undo_count(app: &VectorcraftApp) -> usize {
+    app.session.active().unwrap().history.undo.len()
+}
+
+fn delete_button(ctx: &egui::Context, app: &mut VectorcraftApp, modifiers: egui::Modifiers, time: f64) {
+    let out = frame_with(ctx, app, vec![], egui::Modifiers::NONE, time, show);
+    let at = clickable(&out).into_iter().find(|(label, _)| label.as_deref() == Some("Delete Brush")).expect("Delete Brush button").1.center();
+    click(ctx, app, at, modifiers, time + 0.5, show);
+}
+
+fn assert_delete_dialog(app: &VectorcraftApp, message: &str) {
+    let d = app.ui.dialog.as_ref().expect("Delete Brush asks first");
+    assert_eq!(d.kind, crate::dialogs::confirm::KIND);
+    assert_eq!(d.str("message"), message);
+    assert_eq!(d.str("detail"), "Strokes using deleted brushes become plain strokes.");
+}
+
 /// Click the panel menu's item `label` (frames at `time`, `time + 0.5`).
 fn menu_click(ctx: &egui::Context, app: &mut VectorcraftApp, label: &str, time: f64) {
     let out = frame_with(ctx, app, vec![], egui::Modifiers::NONE, time, menu);
@@ -186,21 +203,23 @@ fn shift_and_command_clicks_select_brushes_for_delete_and_duplicate() {
     click(&ctx, &mut app, tiles[1].center(), egui::Modifiers::COMMAND, 3.0, show);
     let out = frame_with(&ctx, &mut app, vec![], egui::Modifiers::NONE, 3.5, show);
     assert_eq!(lit_tiles(&out), [0, 2]);
-    let undo = |app: &VectorcraftApp| app.session.active().unwrap().history.undo.len();
-    let before = (names(&mut app), undo(&app));
+    let before = (names(&mut app), undo_count(&app));
     menu_click(&ctx, &mut app, "Duplicate Brush", 4.0);
     let copies = [format!("{} copy", three[0]), format!("{} copy", three[2])];
     assert_eq!(names(&mut app)[before.0.len()..], copies);
-    assert_eq!(undo(&app), before.1 + 1);
+    assert_eq!(undo_count(&app), before.1 + 1);
     // The bottom bar's last button, Delete Brush.
-    let out = frame_with(&ctx, &mut app, vec![], egui::Modifiers::NONE, 5.0, show);
-    let trash = clickable(&out).last().unwrap().1.center();
-    click(&ctx, &mut app, trash, egui::Modifiers::NONE, 6.0, show);
+    delete_button(&ctx, &mut app, egui::Modifiers::NONE, 5.0);
+    assert_delete_dialog(&app, "Delete these 2 brushes?");
+    assert_eq!(names(&mut app), [before.0.clone(), copies.to_vec()].concat());
+    assert_eq!(brush_of(&app, rect).as_deref(), Some(three[0].as_str()));
+    assert_eq!(undo_count(&app), before.1 + 1);
+    crate::dialogs::confirm(&mut app).unwrap();
     let left = names(&mut app);
     assert!(!left.contains(&three[0]) && !left.contains(&three[2]) && left.contains(&three[1]), "{left:?}");
     assert!(copies.iter().all(|c| left.contains(c)), "{left:?}");
     assert_eq!(brush_of(&app, rect), None);
-    assert_eq!(undo(&app), before.1 + 2);
+    assert_eq!(undo_count(&app), before.1 + 2);
 }
 
 /// Selecting other art ends the multi-selection: selecting the first art again does not bring
@@ -231,6 +250,9 @@ fn selecting_other_art_ends_the_brush_multi_selection() {
     let out = frame_with(&ctx, &mut app, vec![], egui::Modifiers::NONE, 4.0, show);
     assert_eq!(lit_tiles(&out), [1]);
     menu_click(&ctx, &mut app, "Delete Brush", 5.0);
+    assert_delete_dialog(&app, &format!("Delete the brush “{}”?", three[1]));
+    assert!(names(&mut app).contains(&three[1]));
+    crate::dialogs::confirm(&mut app).unwrap();
     let left = names(&mut app);
     assert!(left.contains(&three[0]) && !left.contains(&three[1]) && left.contains(&three[2]), "{left:?}");
     assert_eq!((brush_of(&app, a).as_deref(), brush_of(&app, c)), (Some(three[0].as_str()), None));
@@ -297,8 +319,55 @@ fn select_all_unused_selects_the_brushes_no_stroke_paints_with() {
     let on: Vec<usize> = (0..tiles.len()).filter(|i| lit(&ctx, &out).contains(&tiles[*i])).collect();
     assert_eq!(on, (0..tiles.len()).filter(|i| *i != 1).collect::<Vec<_>>());
     menu_click(&ctx, &mut app, "Delete Brush", 3.0);
+    assert_delete_dialog(&app, &format!("Delete these {} brushes?", list.len() - 1));
+    assert_eq!(names(&mut app).len(), list.len());
+    crate::dialogs::confirm(&mut app).unwrap();
     assert_eq!(names(&mut app), [list[1].0.clone()]);
     assert_eq!(brush_of(&app, a), Some(list[1].0.clone()));
+}
+
+#[test]
+fn delete_button_cancel_keeps_selected_brushes_strokes_and_history() {
+    let mut app = VectorcraftApp::new(Session::new(), Default::default());
+    app.run("file.new", json!({"width": 200, "height": 100})).unwrap();
+    let rect = NodeId(app.run("shape.rectangle", json!({"x": 10, "y": 10, "width": 50, "height": 40})).unwrap()["id"].as_u64().unwrap());
+    let ctx = egui::Context::default();
+    ctx.enable_accesskit();
+    let (three, _) = select_three(&ctx, &mut app, rect);
+    let before = (names(&mut app), brush_of(&app, rect), undo_count(&app));
+    delete_button(&ctx, &mut app, egui::Modifiers::NONE, 3.0);
+    assert_delete_dialog(&app, "Delete these 3 brushes?");
+    assert_eq!((names(&mut app), brush_of(&app, rect), undo_count(&app)), before);
+    crate::dialogs::cancel(&mut app);
+    assert!(app.ui.dialog.is_none());
+    assert_eq!((names(&mut app), brush_of(&app, rect), undo_count(&app)), before);
+    assert_eq!(before.1.as_deref(), Some(three[0].as_str()));
+    app.run("brush.delete", json!({"name": three[0]})).unwrap();
+    assert!(app.ui.dialog.is_none());
+    assert_eq!(undo_count(&app), before.2 + 1);
+    app.run("brush.delete", json!({"names": [three[1], three[2]]})).unwrap();
+    assert!(app.ui.dialog.is_none());
+    assert_eq!(undo_count(&app), before.2 + 2);
+}
+
+#[test]
+fn alt_delete_button_removes_selected_brushes_without_dialog() {
+    let mut app = VectorcraftApp::new(Session::new(), Default::default());
+    app.run("file.new", json!({"width": 200, "height": 100})).unwrap();
+    let rect = NodeId(app.run("shape.rectangle", json!({"x": 10, "y": 10, "width": 50, "height": 40})).unwrap()["id"].as_u64().unwrap());
+    let ctx = egui::Context::default();
+    ctx.enable_accesskit();
+    let (three, _) = select_three(&ctx, &mut app, rect);
+    let before = undo_count(&app);
+    delete_button(&ctx, &mut app, egui::Modifiers::NONE, 3.0);
+    assert_delete_dialog(&app, "Delete these 3 brushes?");
+    crate::dialogs::cancel(&mut app);
+    delete_button(&ctx, &mut app, egui::Modifiers::ALT, 4.0);
+    assert!(app.ui.dialog.is_none());
+    let left = names(&mut app);
+    assert!(three.iter().all(|name| !left.contains(name)));
+    assert_eq!(brush_of(&app, rect), None);
+    assert_eq!(undo_count(&app), before + 1);
 }
 
 #[test]

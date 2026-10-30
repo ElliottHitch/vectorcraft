@@ -204,6 +204,23 @@ fn run_on(app: &mut VectorcraftApp, id: &str, names: &[String]) {
     app.run(id, p).ok();
 }
 
+/// Delete `names` after asking, or immediately when the bottom button was Alt-clicked.
+fn delete(app: &mut VectorcraftApp, names: &[String], now: bool) {
+    let params = match names {
+        [name] => json!({ "name": name }),
+        _ => json!({ "names": names }),
+    };
+    if now {
+        app.run("brush.delete", params).ok();
+        return;
+    }
+    let message = match names {
+        [name] => crate::i18n::fmt(tl!("Delete the brush “{name}”?"), &[("name", name)]),
+        _ => crate::i18n::fmt(tl!("Delete these {count} brushes?"), &[("count", &names.len().to_string())]),
+    };
+    crate::dialogs::confirm::ask(app, &message, tl!("Strokes using deleted brushes become plain strokes."), "brush.delete", params);
+}
+
 /// The names in `list` in the order the panel shows them: by type in [`KINDS`] order, without the
 /// hidden types.
 fn shown<'a>(list: &'a [(String, String)], hidden: &[String]) -> Vec<&'a str> {
@@ -417,7 +434,7 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
             app.status(e);
         }
         if widgets::icon_button_enabled(ui, "trash-2", tl!("Delete Brush"), false, !targets.is_empty(), 24.0).clicked() {
-            run_on(app, "brush.delete", &targets);
+            delete(app, &targets, ui.input(|i| i.modifiers.alt));
         }
     });
 }
@@ -452,7 +469,7 @@ pub fn menu(app: &mut VectorcraftApp, ui: &mut Ui) {
         run_on(app, "brush.duplicate", &targets);
     }
     if menu_item(ui, tl!("Delete Brush"), !targets.is_empty(), false) {
-        run_on(app, "brush.delete", &targets);
+        delete(app, &targets, false);
     }
     if menu_item(ui, tl!("Remove Brush Stroke"), sel.is_some(), false) {
         app.run("brush.remove", json!({})).ok();

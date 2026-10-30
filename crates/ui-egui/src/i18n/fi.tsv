@@ -1532,6 +1532,9 @@ lighting	Light	Valo
 	Reverse Gradient	Käännä liukuväri
 	Save to Swatches	Tallenna värimalleihin
 	Delete Graphic Style (Alt-click: without asking)	Poista grafiikkatyyli (Alt-napsautus: kysymättä)
+	Delete the brush “{name}”?	Poistetaanko sivellin ”{name}”?
+	Delete these {count} brushes?	Poistetaanko nämä {count} sivellintä?
+	Strokes using deleted brushes become plain strokes.	Poistettuja siveltimiä käyttävät viivat muuttuvat tavallisiksi viivoiksi.
 	Delete the graphic style “{name}”?	Poistetaanko grafiikkatyyli ”{name}”?
 	Delete these {n} graphic styles?	Poistetaanko nämä {n} grafiikkatyyliä?
 	Delete this {n} graphic style?	Poistetaanko tämä {n} grafiikkatyyli?

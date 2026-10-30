@@ -1558,6 +1558,9 @@ lighting	Light	Světlo
 	Reverse Gradient	Obrátit přechod
 	Save to Swatches	Uložit do vzorníku
 	Delete Graphic Style (Alt-click: without asking)	Odstranit grafický styl (Alt+kliknutí: bez dotazu)
+	Delete the brush “{name}”?	Odstranit štětec „{name}“?
+	Delete these {count} brushes?	Odstranit těchto {count} štětců?
+	Strokes using deleted brushes become plain strokes.	Tahy používající odstraněné štětce se změní na běžné tahy.
 	Delete the graphic style “{name}”?	Odstranit grafický styl „{name}“?
 	Delete these {n} graphic styles?	Odstranit tyto grafické styly ({n})?
 	Delete this {n} graphic style?	Odstranit tento grafický styl ({n})?

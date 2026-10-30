@@ -757,6 +757,9 @@ font-technology	Variable	Variables
 	Yes	Sí
 	No	No
 	Delete Tab	Eliminar tabulación
+	Delete the brush “{name}”?	¿Eliminar el pincel “{name}”?
+	Delete these {count} brushes?	¿Eliminar estos {count} pinceles?
+	Strokes using deleted brushes become plain strokes.	Los trazos que usan pinceles eliminados se convierten en trazos simples.
 	Delete the graphic style “{name}”?	¿Eliminar el estilo gráfico “{name}”?
 	Delete Theme	Eliminar tema
 	Delete theme	Eliminar tema

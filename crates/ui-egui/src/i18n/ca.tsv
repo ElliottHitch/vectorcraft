@@ -1059,6 +1059,9 @@
 	Yes	Sí
 	No	No
 	Delete Tab	Suprimeix la tabulació
+	Delete the brush “{name}”?	Voleu suprimir el pinzell “{name}”?
+	Delete these {count} brushes?	Voleu suprimir aquests {count} pinzells?
+	Strokes using deleted brushes become plain strokes.	Els traços que utilitzen pinzells suprimits esdevenen traços normals.
 	Delete the graphic style “{name}”?	Voleu suprimir l’estil gràfic “{name}”?
 	Delete the library “{name}”?	Voleu suprimir la biblioteca “{name}”?
 	Delete Theme	Suprimeix el tema

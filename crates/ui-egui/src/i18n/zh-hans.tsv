@@ -700,6 +700,9 @@
 	Yes	是
 	No	否
 	Delete Tab	删除制表位
+	Delete the brush “{name}”?	要删除画笔“{name}”吗？
+	Delete these {count} brushes?	要删除这 {count} 个画笔吗？
+	Strokes using deleted brushes become plain strokes.	使用已删除画笔的描边会变成普通描边。
 	Delete the graphic style “{name}”?	要删除图形样式“{name}”吗？
 	Delete Theme	删除主题
 	Delete theme	删除主题

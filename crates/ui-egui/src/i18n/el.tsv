@@ -716,6 +716,9 @@ font-technology	Variable	Μεταβλητές
 	Yes	Ναι
 	No	Όχι
 	Delete Tab	Διαγραφή στηλοθέτη
+	Delete the brush “{name}”?	Να διαγραφεί το πινέλο «{name}»;
+	Delete these {count} brushes?	Να διαγραφούν αυτά τα {count} πινέλα;
+	Strokes using deleted brushes become plain strokes.	Οι πινελιές που χρησιμοποιούν διαγραμμένα πινέλα γίνονται απλές πινελιές.
 	Delete the graphic style “{name}”?	Να διαγραφεί το στυλ γραφικών «{name}»;
 	Delete Theme	Διαγραφή θέματος
 	Delete theme	Διαγραφή θέματος

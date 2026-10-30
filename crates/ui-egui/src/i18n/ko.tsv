@@ -1299,6 +1299,9 @@ font-technology	Variable	가변
 	Delete Transparency Flattener Preset	투명도 병합 프리셋 삭제
 	Delete Width Point	너비 포인트 삭제
 	Delete Workspace	작업 영역 삭제
+	Delete the brush “{name}”?	브러시 “{name}”을(를) 삭제하시겠습니까?
+	Delete these {count} brushes?	이 브러시 {count}개를 삭제하시겠습니까?
+	Strokes using deleted brushes become plain strokes.	삭제된 브러시를 사용한 선은 일반 선이 됩니다.
 	Delete the graphic style “{name}”?	그래픽 스타일 “{name}”을(를) 삭제하시겠습니까?
 	Delete theme	테마 삭제
 	Delete this saved preset	저장된 이 프리셋 삭제
