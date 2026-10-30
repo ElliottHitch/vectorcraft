@@ -5967,6 +5967,11 @@ breakText	Glyphs	გლიფები
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` უნდა იყოს lines, paragraphs, words ან glyphs და არა {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` უნდა იყოს "line" ან "paragraph" და არა {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` უნდა იყოს "left", "center" ან "right" და არა {other}
+	File + Number	ფაილი + ნომერი
+	File + Data Set Name	ფაილი + მონაცემთა ნაკრების სახელი
+	Data Set Name	მონაცემთა ნაკრების სახელი
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` უნდა იყოს `fileNumber`, `fileDataSetName` ან `dataSetName`
+@msg	no free data set file name in destination folder	დანიშნულების საქაღალდეში მონაცემთა ნაკრებისთვის თავისუფალი ფაილის სახელი არ არის
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	ტრაექტორიის ეფექტები

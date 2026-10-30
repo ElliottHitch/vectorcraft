@@ -5895,6 +5895,11 @@ breakText	Glyphs	Glifos
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` deve ser lines, paragraphs, words ou glyphs, não {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` deve ser "line" ou "paragraph", não {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` deve ser "left", "center" ou "right", não {other}
+	File + Number	Arquivo + número
+	File + Data Set Name	Arquivo + nome do conjunto de dados
+	Data Set Name	Nome do conjunto de dados
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` deve ser `fileNumber`, `fileDataSetName` ou `dataSetName`
+@msg	no free data set file name in destination folder	Não há nome de arquivo livre para o conjunto de dados na pasta de destino
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Distance	Distância

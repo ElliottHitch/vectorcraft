@@ -6008,6 +6008,11 @@ breakText	Glyphs	Merkit
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` on oltava lines, paragraphs, words tai glyphs, ei {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` on oltava "line" tai "paragraph", ei {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` on oltava "left", "center" tai "right", ei {other}
+	File + Number	Tiedosto + numero
+	File + Data Set Name	Tiedosto + tietojoukon nimi
+	Data Set Name	Tietojoukon nimi
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming`-arvon on oltava `fileNumber`, `fileDataSetName` tai `dataSetName`
+@msg	no free data set file name in destination folder	Kohdekansiossa ei ole vapaata tietojoukon tiedostonimeä
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	Polkutehosteet

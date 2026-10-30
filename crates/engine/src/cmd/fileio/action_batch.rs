@@ -93,7 +93,7 @@ pub(super) fn action_batch(s: &mut Session, p: &Value) -> Result<Value> {
     };
     match source {
         "folder" => batch_folder(s, C, p, override_open, &run),
-        "datasets" => batch_datasets(s, C, &run),
+        "datasets" => batch_datasets(s, C, &run, p),
         _ => Err(bad(C, "`source` must be `folder` or `datasets`")),
     }
 }
@@ -134,10 +134,7 @@ fn batch_folder(s: &mut Session, cmd: &str, p: &Value, override_open: bool, run:
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-fn batch_datasets(s: &mut Session, cmd: &str, run: &Run<'_>) -> Result<Value> {
-    use super::distinct_names;
-    use super::screens::file_part;
-
+fn batch_datasets(s: &mut Session, cmd: &str, run: &Run<'_>, p: &Value) -> Result<Value> {
     let st = s.doc()?;
     let names: Vec<String> = st.doc.variables.datasets.iter().map(|d| d.name.clone()).collect();
     if names.is_empty() {
@@ -147,11 +144,8 @@ fn batch_datasets(s: &mut Session, cmd: &str, run: &Run<'_>) -> Result<Value> {
         return Err(bad(cmd, format!("more than {MAX_BATCH_FILES} data sets")));
     }
     let doc_stem = st.path.as_deref().and_then(|p| std::path::Path::new(p).file_stem().and_then(|s| s.to_str())).unwrap_or("Untitled").to_string();
-    // Data set files are named File + Data Set Name (helpx, for Override Save/Export; the folder
-    // destination uses the same name). `file_part` writes the characters Windows does not allow in a
-    // file name (`/`, `\`, `:`, `<`, `>`, `"`, `|`, `?`, `*` and control characters) in the data set's
-    // name as `-`, and `distinct_names` adds `-2`, `-3`… to a name an earlier data set used.
-    let stems = distinct_names(names.iter().map(|name| format!("{doc_stem}_{}", file_part(name))));
+    let naming = p.get("datasetFileNaming").map_or("fileDataSetName", |v| v.as_str().unwrap_or(""));
+    let stems = dataset_stems(&names, &doc_stem, naming, run)?;
     let steps = filter_steps(run.steps, true, false);
     let run = Run { steps: &steps, ..*run };
     let mut processed = Vec::new();
@@ -238,6 +232,68 @@ fn finish_destination(s: &mut Session, run: &Run<'_>, stem: &str, ext: &str, sou
         }
         _ => Ok(()),
     }
+}
+
+/// Builds the three data set naming forms, replaces unsafe name characters, and adds `-2`, `-3`
+/// suffixes when a stem was used earlier or its output already exists in the destination folder.
+#[cfg(not(target_arch = "wasm32"))]
+fn dataset_stems(names: &[String], doc_stem: &str, naming: &str, run: &Run<'_>) -> Result<Vec<String>> {
+    use super::screens::{file_part, safe_file_name};
+
+    if !matches!(naming, "fileNumber" | "fileDataSetName" | "dataSetName") {
+        return Err(bad("action.batch", "`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`"));
+    }
+    let bases = names.iter().enumerate().map(|(i, name)| {
+        let safe = file_part(name);
+        let safe_data_set = safe_file_name(&safe);
+        match naming {
+            "fileNumber" => format!("{doc_stem}{:03}", i + 1),
+            "dataSetName" if !safe_data_set.is_empty() => safe_data_set,
+            "dataSetName" => format!("{doc_stem}{:03}", i + 1),
+            _ => format!("{doc_stem}_{safe}"),
+        }
+    });
+    let extensions = dataset_output_extensions(run);
+    let mut taken = std::collections::HashSet::new();
+    let mut stems = Vec::with_capacity(bases.len());
+    for base in bases {
+        let mut candidate = base.clone();
+        let mut suffix = 2;
+        while taken.contains(&candidate.to_lowercase()) || dataset_output_exists(run.dest_folder, &candidate, &extensions) {
+            if suffix > 10_000 {
+                return Err(bad("action.batch", "no free data set file name in destination folder"));
+            }
+            candidate = format!("{base}-{suffix}");
+            suffix += 1;
+        }
+        taken.insert(candidate.to_lowercase());
+        stems.push(candidate);
+    }
+    Ok(stems)
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn dataset_output_extensions(run: &Run<'_>) -> Vec<String> {
+    let mut extensions = Vec::new();
+    if run.destination == "folder" {
+        extensions.push("vectorcraft".to_string());
+    }
+    for step in run.steps {
+        let id = step.get("command").and_then(Value::as_str).unwrap_or("");
+        let writes = (run.override_save && matches!(id, "document.save" | "file.save" | "file.saveAs"))
+            || (run.override_export && matches!(id, "document.export" | "document.exportForScreens" | "document.exportSelection"));
+        if writes {
+            let ext = step.get("params").and_then(|p| p.get("format")).and_then(Value::as_str).filter(|f| !f.is_empty());
+            extensions.push(ext.map_or_else(|| "vectorcraft".to_string(), format_extension));
+        }
+    }
+    extensions
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn dataset_output_exists(folder: Option<&str>, stem: &str, extensions: &[String]) -> bool {
+    let Some(folder) = folder else { return false };
+    extensions.iter().any(|ext| std::path::Path::new(folder).join(format!("{stem}.{ext}")).exists())
 }
 
 /// Save when the extension is a Save format; otherwise export (PNG, JPEG…).
@@ -546,6 +602,142 @@ mod tests {
             s.execute("dataset.new", &json!({"name": name})).unwrap();
         }
         s
+    }
+
+    fn named_batch(s: &mut Session, dest: &std::path::Path, naming: Option<&str>) -> Value {
+        let mut p = json!({
+            "source": "datasets", "destination": "folder", "destinationFolder": dest.to_string_lossy(),
+            "commands": [{"command": "object.unlockAll", "params": {}}]
+        });
+        if let Some(naming) = naming {
+            p["datasetFileNaming"] = json!(naming);
+        }
+        s.execute("action.batch", &p).unwrap()
+    }
+
+    #[test]
+    fn batch_data_set_naming_choices_and_omitted_default() {
+        for (i, (naming, want)) in [
+            (Some("fileNumber"), ["source001.vectorcraft", "source002.vectorcraft"]),
+            (Some("fileDataSetName"), ["source_Alpha.vectorcraft", "source_Beta.vectorcraft"]),
+            (Some("dataSetName"), ["Alpha.vectorcraft", "Beta.vectorcraft"]),
+            (None, ["source_Alpha.vectorcraft", "source_Beta.vectorcraft"]),
+        ]
+        .into_iter()
+        .enumerate()
+        {
+            let dest = tmp(&format!("choice-{i}"));
+            let mut s = with_data_sets(&["Alpha", "Beta"]);
+            let saved = tmp(&format!("saved-{i}")).join("source.vectorcraft");
+            s.execute("document.save", &json!({"path": saved.to_string_lossy()})).unwrap();
+            let r = named_batch(&mut s, &dest, naming);
+            assert_eq!(r["failed"], 0, "{r}");
+            assert_eq!(file_names(&dest), want, "{naming:?}: {r}");
+        }
+    }
+
+    #[test]
+    fn batch_file_number_uses_three_digits_through_500() {
+        let names: Vec<String> = (1..=500).map(|n| format!("Set {n}")).collect();
+        let run = Run {
+            label: "Test",
+            steps: &[],
+            stop_on_error: true,
+            override_save: true,
+            override_export: true,
+            destination: "none",
+            dest_folder: None,
+        };
+        let stems = dataset_stems(&names, "source", "fileNumber", &run).unwrap();
+        for n in [1, 2, 10, 100, 500] {
+            assert_eq!(stems[n - 1], format!("source{n:03}"));
+        }
+    }
+
+    #[test]
+    fn batch_unsaved_data_set_names_and_empty_fallback() {
+        let dest = tmp("unsaved-number");
+        let mut s = with_data_sets(&["Alpha"]);
+        assert_eq!(named_batch(&mut s, &dest, Some("fileNumber"))["failed"], 0);
+        assert_eq!(file_names(&dest), ["Untitled001.vectorcraft"]);
+        let dest = tmp("unsaved-name");
+        assert_eq!(named_batch(&mut s, &dest, Some("fileDataSetName"))["failed"], 0);
+        assert_eq!(file_names(&dest), ["Untitled_Alpha.vectorcraft"]);
+        let run = Run {
+            label: "Test",
+            steps: &[],
+            stop_on_error: true,
+            override_save: true,
+            override_export: true,
+            destination: "none",
+            dest_folder: None,
+        };
+        assert_eq!(dataset_stems(&[String::new()], "Untitled", "dataSetName", &run).unwrap(), ["Untitled001"]);
+        assert_eq!(dataset_stems(&["   ".to_string()], "Untitled", "dataSetName", &run).unwrap(), ["Untitled001"]);
+    }
+
+    #[test]
+    fn batch_data_set_name_collisions_and_existing_files() {
+        let clear = tmp("choice-collision-clear");
+        let mut s = with_data_sets(&["a:b", "a-b"]);
+        let r = named_batch(&mut s, &clear, Some("dataSetName"));
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(file_names(&clear), ["a-b-2.vectorcraft", "a-b.vectorcraft"]);
+        let dest = tmp("choice-collision");
+        std::fs::write(dest.join("a-b.vectorcraft"), b"keep").unwrap();
+        let mut s = with_data_sets(&["a:b", "a-b"]);
+        let r = named_batch(&mut s, &dest, Some("dataSetName"));
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(std::fs::read(dest.join("a-b.vectorcraft")).unwrap(), b"keep");
+        assert_eq!(file_names(&dest), ["a-b-2.vectorcraft", "a-b-3.vectorcraft", "a-b.vectorcraft"]);
+    }
+
+    #[test]
+    fn batch_data_set_name_avoids_windows_device_files() {
+        let dest = tmp("choice-device");
+        let mut s = with_data_sets(&["CON"]);
+        let r = named_batch(&mut s, &dest, Some("dataSetName"));
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(file_names(&dest), ["CON-.vectorcraft"]);
+    }
+
+    #[test]
+    fn batch_override_export_keeps_existing_output() {
+        let dest = tmp("choice-existing-export");
+        std::fs::write(dest.join("Alpha.svg"), b"keep").unwrap();
+        let mut s = with_data_sets(&["Alpha"]);
+        let r = s
+            .execute(
+                "action.batch",
+                &json!({
+                    "source": "datasets", "datasetFileNaming": "dataSetName",
+                    "destinationFolder": dest.to_string_lossy(),
+                    "commands": [{"command": "document.export", "params": {"format": "svg"}}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(std::fs::read(dest.join("Alpha.svg")).unwrap(), b"keep");
+        assert_eq!(file_names(&dest), ["Alpha-2.svg", "Alpha.svg"]);
+    }
+
+    #[test]
+    fn batch_rejects_unknown_data_set_naming_but_ignores_it_for_folders() {
+        let mut s = with_data_sets(&["Alpha"]);
+        let e = s
+            .execute("action.batch", &json!({"source": "datasets", "datasetFileNaming": "other", "commands": [{"command": "object.unlockAll"}]}))
+            .unwrap_err();
+        let msg = e.to_string();
+        for value in ["fileNumber", "fileDataSetName", "dataSetName"] {
+            assert!(msg.contains(value), "{msg}");
+        }
+        assert!(
+            s.execute("action.batch", &json!({"source": "datasets", "datasetFileNaming": 7, "commands": [{"command": "object.unlockAll"}]})).is_err()
+        );
+        let src = tmp("folder-ignore-src");
+        write_svg(&src, "one.svg", "#f00");
+        let r = s.execute("action.batch", &json!({"source": "folder", "folder": src.to_string_lossy(), "datasetFileNaming": "other", "commands": [{"command": "object.unlockAll"}]})).unwrap();
+        assert_eq!(r["failed"], 0, "{r}");
     }
 
     #[test]

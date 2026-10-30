@@ -6030,6 +6030,11 @@ breakText	Glyphs	Glyfer
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` måste vara lines, paragraphs, words eller glyphs, inte {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` måste vara "line" eller "paragraph", inte {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` måste vara "left", "center" eller "right", inte {other}
+	File + Number	Fil + nummer
+	File + Data Set Name	Fil + datauppsättningens namn
+	Data Set Name	Datauppsättningens namn
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` måste vara `fileNumber`, `fileDataSetName` eller `dataSetName`
+@msg	no free data set file name in destination folder	Inget ledigt filnamn för datauppsättningen i målmappen
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	Baneffekter

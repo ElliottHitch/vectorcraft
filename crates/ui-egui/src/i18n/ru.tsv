@@ -5955,6 +5955,11 @@ breakText	Glyphs	Глифы
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` должен быть lines, paragraphs, words или glyphs, а не {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` должен быть "line" или "paragraph", а не {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` должен быть "left", "center" или "right", а не {other}
+	File + Number	Файл + номер
+	File + Data Set Name	Файл + имя набора данных
+	Data Set Name	Имя набора данных
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` должно быть `fileNumber`, `fileDataSetName` или `dataSetName`
+@msg	no free data set file name in destination folder	В папке назначения нет свободного имени файла для набора данных
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	Эффекты контура

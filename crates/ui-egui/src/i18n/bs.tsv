@@ -5869,6 +5869,11 @@ swatch	Yellow Green	Žuto-zelena
 	Position:	Položaj:
 	Font Size:	Veličina fonta:
 shape	Open	Otvoren
+	File + Number	Datoteka + broj
+	File + Data Set Name	Datoteka + naziv skupa podataka
+	Data Set Name	Naziv skupa podataka
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` mora biti `fileNumber`, `fileDataSetName` ili `dataSetName`
+@msg	no free data set file name in destination folder	Nema slobodnog naziva datoteke skupa podataka u odredišnoj mapi
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Retract Handles	Uvuci ručke

@@ -5929,6 +5929,11 @@ breakText	Glyphs	Γλύφοι
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	το `by` πρέπει να είναι lines, paragraphs, words ή glyphs, όχι {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	το `kind` πρέπει να είναι "line" ή "paragraph", όχι {other}
 @msg	`align` must be "left", "center" or "right", not {other}	το `align` πρέπει να είναι "left", "center" ή "right", όχι {other}
+	File + Number	Αρχείο + αριθμός
+	File + Data Set Name	Αρχείο + όνομα συνόλου δεδομένων
+	Data Set Name	Όνομα συνόλου δεδομένων
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	Το `datasetFileNaming` πρέπει να είναι `fileNumber`, `fileDataSetName` ή `dataSetName`
+@msg	no free data set file name in destination folder	Δεν υπάρχει διαθέσιμο όνομα αρχείου συνόλου δεδομένων στον φάκελο προορισμού
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Mode	Λειτουργία

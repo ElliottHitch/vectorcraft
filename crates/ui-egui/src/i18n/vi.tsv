@@ -5578,6 +5578,11 @@ breakText	Glyphs	Glyph
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` phải là lines, paragraphs, words hoặc glyphs, không phải {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` phải là "line" hoặc "paragraph", không phải {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` phải là "left", "center" hoặc "right", không phải {other}
+	File + Number	Tệp + số
+	File + Data Set Name	Tệp + tên tập dữ liệu
+	Data Set Name	Tên tập dữ liệu
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` phải là `fileNumber`, `fileDataSetName` hoặc `dataSetName`
+@msg	no free data set file name in destination folder	Không có tên tệp tập dữ liệu còn trống trong thư mục đích
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	Hiệu ứng đường dẫn

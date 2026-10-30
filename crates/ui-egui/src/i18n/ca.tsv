@@ -5966,6 +5966,11 @@ breakText	Glyphs	Glifs
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` ha de ser lines, paragraphs, words o glyphs, no {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` ha de ser "line" o "paragraph", no {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` ha de ser "left", "center" o "right", no {other}
+	File + Number	Fitxer + número
+	File + Data Set Name	Fitxer + nom del conjunt de dades
+	Data Set Name	Nom del conjunt de dades
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` ha de ser `fileNumber`, `fileDataSetName` o `dataSetName`
+@msg	no free data set file name in destination folder	No hi ha cap nom de fitxer de conjunt de dades lliure a la carpeta de destinació
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	Efectes de traçat

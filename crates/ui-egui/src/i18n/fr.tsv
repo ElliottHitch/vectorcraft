@@ -5975,6 +5975,11 @@ breakText	Glyphs	Glyphes
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` doit valoir lines, paragraphs, words ou glyphs, et non {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` doit valoir "line" ou "paragraph", et non {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` doit valoir "left", "center" ou "right", et non {other}
+	File + Number	Fichier + numéro
+	File + Data Set Name	Fichier + nom du jeu de données
+	Data Set Name	Nom du jeu de données
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` doit être `fileNumber`, `fileDataSetName` ou `dataSetName`
+@msg	no free data set file name in destination folder	Aucun nom de fichier libre pour le jeu de données dans le dossier de destination
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	Effets de tracé

@@ -5875,6 +5875,11 @@ breakText	Glyphs	Glif
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` harus lines, paragraphs, words, atau glyphs, bukan {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` harus "line" atau "paragraph", bukan {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` harus "left", "center", atau "right", bukan {other}
+	File + Number	File + nomor
+	File + Data Set Name	File + nama set data
+	Data Set Name	Nama set data
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` harus `fileNumber`, `fileDataSetName`, atau `dataSetName`
+@msg	no free data set file name in destination folder	Tidak ada nama file set data yang tersedia di folder tujuan
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	Efek jalur

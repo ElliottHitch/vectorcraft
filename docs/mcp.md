@@ -1622,12 +1622,13 @@ already walks Image Trace. Short agent entry points:
   `%`). A declaration that holds anything else, and entity references that expand the library past 8 MiB, are
   refused. So are a variable or data set declared twice and a value for a variable the library doesn't declare.
 - Batch: `action.batch {commands, source?: folder|datasets, folder?, destination?: none|saveAndClose|folder,
-  destinationFolder?, overrideOpen?, overrideSave?, overrideExport?, includeSubdirs?, stopOnError?}` plays an
-  action on every file in a folder or every data set (the Actions panel menu's Batch…). Override Save and Override
-  Export end the file name of a step with `format` in that `format`, in lower case and without a leading dot, when it
-  is one of the format's extensions (`.svg` and `SVG` give `.svg`, `.JPEG` gives `.jpeg`), and otherwise in the
-  format's first extension (`png8` gives `.png`, `template` gives `.vctemplate`). A step without `format` keeps the
-  source file's extension (`.vectorcraft` over data sets).
+  destinationFolder?, datasetFileNaming?: fileNumber|fileDataSetName|dataSetName, overrideOpen?,
+  overrideSave?, overrideExport?, includeSubdirs?, stopOnError?}` plays an action on every file in a
+  folder or every data set (the Actions panel menu's Batch…). Override Save and Override Export end
+  the file name of a step with `format` in that `format`, in lower case and without a leading dot,
+  when it is one of the format's extensions (`.svg` and `SVG` give `.svg`, `.JPEG` gives `.jpeg`),
+  and otherwise in the format's first extension (`png8` gives `.png`, `template` gives `.vctemplate`).
+  A step without `format` keeps the source file's extension (`.vectorcraft` over data sets).
 - Image Trace: `imageTrace.presets`, `imageTrace.make {id?, preset?, params?, view?}` (or `imageTrace.makeAndExpand`),
   `imageTrace.setView`, `imageTrace.expand`, `imageTrace.release`. A key inside `params` that is not one of the trace
   settings, such as `colours`, is an error that names it and the nearest setting (`colors`), as for a command's own keys.
@@ -2963,10 +2964,16 @@ earlier step deleted the active artboard when it was the last one), the step get
 remote mode, MCP's `run_command` calls and each step of the `command_batch` tool get the active artboard too. The
 Actions panel plays an action as a `command.batch`. The Actions panel menu's Batch… runs
 `action.batch`: the same steps on every readable file in a folder (or every data set of the open document), with
-destination `none` | `saveAndClose` | `folder` and Override Open / Save / Export. Over data sets, the folder
-destination and the overrides name each file after the document and the data set (`<document>_<data set>.<ext>`).
+destination `none` | `saveAndClose` | `folder` and Override Open / Save / Export. For a Data Sets source,
+`datasetFileNaming` chooses File + Number (`source001`), File + Data Set Name (`source_Alpha`), or Data Set Name
+(`Alpha`). An omitted parameter keeps File + Data Set Name for existing callers; the dialog starts with File +
+Number. A folder source ignores this parameter. The folder destination and overridden Save/Export paths use the
+chosen stem with the output format's extension. An empty data set name under Data Set Name falls back to the
+document stem plus its three-digit ordinal.
 Batch writes `/`, `\`, `:`, `<`, `>`, `"`, `|`, `?`, `*` and control characters in the data set's name as `-`, and
-adds `-2`, `-3`… to a name an earlier data set used (compared without case). Caps: 500 files or data sets, 8
+adds the next free `-2`, `-3` suffix to a stem already used in the batch or whose generated output path exists in
+the destination folder before the batch starts. Under Data Set Name, VectorCraft also makes Windows device names
+safe (`CON` becomes `CON-`). This is VectorCraft's naming behavior. Caps: 500 files or data sets, 8
 folder levels, 256 steps. An action recorded in the Actions panel leaves the artboard out,
 and its steps of these commands get the artboard that is active when the action plays. A press with the Selection,
 Direct Selection or Group Selection tool inside an artboard makes that artboard the active one; with the Selection

@@ -5977,6 +5977,11 @@ breakText	Glyphs	Glyfy
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` musí být lines, paragraphs, words nebo glyphs, ne {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` musí být "line" nebo "paragraph", ne {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` musí být "left", "center" nebo "right", ne {other}
+	File + Number	Soubor + číslo
+	File + Data Set Name	Soubor + název sady dat
+	Data Set Name	Název sady dat
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` musí být `fileNumber`, `fileDataSetName` nebo `dataSetName`
+@msg	no free data set file name in destination folder	V cílové složce není volný název souboru sady dat
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	Efekty cesty
