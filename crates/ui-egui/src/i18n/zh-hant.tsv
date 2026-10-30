@@ -720,7 +720,6 @@ font-technology	Variable	可變
 	No	否
 	Delete Tab	刪除定位點
 	Delete the brush “{name}”?	要刪除筆刷「{name}」嗎？
-	Delete these {count} brushes?	要刪除這 {count} 個筆刷嗎？
 	Strokes using deleted brushes become plain strokes.	使用已刪除筆刷的筆畫會變成一般筆畫。
 	Delete the graphic style “{name}”?	要刪除繪圖樣式「{name}」嗎？
 	Delete Theme	刪除主題
@@ -4560,6 +4559,7 @@ imageTrace	Outline	輪廓
 @plural	{n} item|{n} items	{n} 個項目
 @plural	Color Table ({n} color)|Color Table ({n} colors)	色彩表 ({n} 色)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	要刪除這 {n} 個繪圖樣式嗎？
+@plural	Delete this {n} brush?|Delete these {n} brushes?	要刪除這 {n} 個筆刷嗎？
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	要刪除這 {n} 個色票和群組嗎？
 @plural	{n} Layer|{n} Layers	{n} 個圖層
 @plural	{n} Object|{n} Objects	{n} 個物件

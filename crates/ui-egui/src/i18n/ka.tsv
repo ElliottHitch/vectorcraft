@@ -1390,7 +1390,6 @@ lighting	Light	სინათლე
 	Save to Swatches	ფერის ნიმუშებში შენახვა
 	Delete Graphic Style (Alt-click: without asking)	გრაფიკული სტილის წაშლა (Alt-დაწკაპუნებით: დაუკითხავად)
 	Delete the brush “{name}”?	წაიშალოს ფუნჯი „{name}“?
-	Delete these {count} brushes?	წაიშალოს ეს {count} ფუნჯი?
 	Strokes using deleted brushes become plain strokes.	წაშლილი ფუნჯებით დახატული შტრიხები ჩვეულებრივ შტრიხებად იქცევა.
 	Delete the graphic style “{name}”?	წაიშალოს გრაფიკული სტილი „{name}“?
 	Delete these {n} graphic styles?	წაიშალოს ეს გრაფიკული სტილები ({n})?
@@ -3636,6 +3635,7 @@ font-technology	Variable	ცვლადი
 @plural	{n} item|{n} items	ელემენტი: {n}
 @plural	Color Table ({n} color)|Color Table ({n} colors)	ფერების ცხრილი (ფერი: {n})
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	წაიშალოს გრაფიკული სტილები ({n})?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	წაიშალოს ეს ფუნჯი ({n})?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	წაიშალოს ეს ფერის ნიმუშები და ჯგუფები ({n})?
 @plural	{n} Layer|{n} Layers	შრე: {n}
 @plural	{n} Object|{n} Objects	ობიექტი: {n}

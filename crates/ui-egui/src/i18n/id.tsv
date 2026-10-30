@@ -1473,7 +1473,6 @@ lighting	Light	Cahaya
 	Save to Swatches	Simpan ke swatch
 	Delete Graphic Style (Alt-click: without asking)	Hapus gaya grafis (Alt+klik: tanpa konfirmasi)
 	Delete the brush “{name}”?	Hapus kuas “{name}”?
-	Delete these {count} brushes?	Hapus {count} kuas ini?
 	Strokes using deleted brushes become plain strokes.	Goresan yang menggunakan kuas terhapus menjadi goresan biasa.
 	Delete the graphic style “{name}”?	Hapus gaya grafis “{name}”?
 	Delete these {n} graphic styles?	Hapus {n} gaya grafis ini?
@@ -3870,6 +3869,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} item
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabel warna ({n} warna)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Hapus {n} gaya grafis ini?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Hapus {n} kuas ini?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Hapus {n} swatch dan grup ini?
 @plural	{n} Layer|{n} Layers	{n} lapisan
 @plural	{n} Object|{n} Objects	{n} objek

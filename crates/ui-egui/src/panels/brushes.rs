@@ -216,7 +216,7 @@ fn delete(app: &mut VectorcraftApp, names: &[String], now: bool) {
     };
     let message = match names {
         [name] => crate::i18n::fmt(tl!("Delete the brush “{name}”?"), &[("name", name)]),
-        _ => crate::i18n::fmt(tl!("Delete these {count} brushes?"), &[("count", &names.len().to_string())]),
+        _ => crate::i18n::tn(names.len() as u64, "Delete this {n} brush?", "Delete these {n} brushes?"),
     };
     crate::dialogs::confirm::ask(app, &message, tl!("Strokes using deleted brushes become plain strokes."), "brush.delete", params);
 }

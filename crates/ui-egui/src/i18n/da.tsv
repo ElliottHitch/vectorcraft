@@ -1473,7 +1473,6 @@ lighting	Light	Lys
 	Save to Swatches	Gem i farveprøver
 	Delete Graphic Style (Alt-click: without asking)	Slet grafisk typografi (Alt-klik: uden at spørge)
 	Delete the brush “{name}”?	Slet penslen »{name}«?
-	Delete these {count} brushes?	Slet disse {count} pensler?
 	Strokes using deleted brushes become plain strokes.	Streger, der bruger slettede pensler, bliver almindelige streger.
 	Delete the graphic style “{name}”?	Slet den grafiske typografi »{name}«?
 	Delete these {n} graphic styles?	Slet disse {n} grafiske typografier?
@@ -3870,6 +3869,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} element|{n} elementer
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Farvetabel ({n} farve)|Farvetabel ({n} farver)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Vil du slette denne {n} grafikstil?|Vil du slette disse {n} grafikstile?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Vil du slette denne {n} pensel?|Vil du slette disse {n} pensler?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Slet denne {n} farveprøve eller gruppe?|Slet disse {n} farveprøver og grupper?
 @plural	{n} Layer|{n} Layers	{n} lag|{n} lag
 @plural	{n} Object|{n} Objects	{n} objekt|{n} objekter

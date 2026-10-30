@@ -737,7 +737,6 @@ font-technology	Variable	Variabel
 	No	Nein
 	Delete Tab	Tabulator löschen
 	Delete the brush “{name}”?	Pinsel „{name}“ löschen?
-	Delete these {count} brushes?	Diese {count} Pinsel löschen?
 	Strokes using deleted brushes become plain strokes.	Konturen mit gelöschten Pinseln werden zu einfachen Konturen.
 	Delete the graphic style “{name}”?	Grafikstil „{name}“ löschen?
 	Delete Theme	Thema löschen
@@ -3621,6 +3620,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} Element|{n} Elemente
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Farbtabelle ({n} Farbe)|Farbtabelle ({n} Farben)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Diesen {n} Grafikstil löschen?|Diese {n} Grafikstile löschen?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Diesen {n} Pinsel löschen?|Diese {n} Pinsel löschen?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	{n} Farbfeld oder Gruppe löschen?|Diese {n} Farbfelder und Gruppen löschen?
 @plural	{n} Layer|{n} Layers	{n} Ebene|{n} Ebenen
 @plural	{n} Object|{n} Objects	{n} Objekt|{n} Objekte

@@ -675,7 +675,6 @@
 	Delete Width Point	Excluir Ponto de Largura
 	Delete Workspace	Excluir Espaço de Trabalho
 	Delete the brush “{name}”?	Excluir o pincel “{name}”?
-	Delete these {count} brushes?	Excluir estes {count} pincéis?
 	Strokes using deleted brushes become plain strokes.	Traços que usam pincéis excluídos tornam-se traços simples.
 	Delete the graphic style “{name}”?	Excluir o estilo gráfico “{name}”?
 	Delete theme	Excluir tema
@@ -3044,6 +3043,7 @@ imageTrace	Outline	Contorno
 @plural	{n} item|{n} items	{n} item|{n} itens
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabela de Cores ({n} cor)|Tabela de Cores ({n} cores)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Excluir este {n} estilo gráfico?|Excluir estes {n} estilos gráficos?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Excluir este {n} pincel?|Excluir estes {n} pincéis?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Excluir esta {n} amostra ou grupo?|Excluir estas {n} amostras e grupos?
 @plural	{n} Layer|{n} Layers	{n} Camada|{n} Camadas
 @plural	{n} Object|{n} Objects	{n} Objeto|{n} Objetos

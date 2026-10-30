@@ -1533,7 +1533,6 @@ lighting	Light	Valo
 	Save to Swatches	Tallenna värimalleihin
 	Delete Graphic Style (Alt-click: without asking)	Poista grafiikkatyyli (Alt-napsautus: kysymättä)
 	Delete the brush “{name}”?	Poistetaanko sivellin ”{name}”?
-	Delete these {count} brushes?	Poistetaanko nämä {count} sivellintä?
 	Strokes using deleted brushes become plain strokes.	Poistettuja siveltimiä käyttävät viivat muuttuvat tavallisiksi viivoiksi.
 	Delete the graphic style “{name}”?	Poistetaanko grafiikkatyyli ”{name}”?
 	Delete these {n} graphic styles?	Poistetaanko nämä {n} grafiikkatyyliä?
@@ -4056,6 +4055,7 @@ imageTrace	Outline	Ääriviiva
 @plural	{n} item|{n} items	{n} kohde|{n} kohdetta
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Väritaulukko ({n} väri)|Väritaulukko ({n} väriä)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Poistetaanko tämä {n} grafiikkatyyli?|Poistetaanko nämä {n} grafiikkatyyliä?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Poistetaanko tämä {n} sivellin?|Poistetaanko nämä {n} sivellintä?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Poistetaanko tämä {n} värimalli tai ryhmä?|Poistetaanko nämä {n} värimallia ja ryhmää?
 @plural	{n} Layer|{n} Layers	{n} taso|{n} tasoa
 @plural	{n} Object|{n} Objects	{n} objekti|{n} objektia

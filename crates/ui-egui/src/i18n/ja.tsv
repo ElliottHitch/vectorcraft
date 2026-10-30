@@ -1309,7 +1309,6 @@ font-technology	Variable	バリアブル
 	Delete Width Point	幅ポイントを削除
 	Delete Workspace	ワークスペースを削除
 	Delete the brush “{name}”?	ブラシ「{name}」を削除しますか？
-	Delete these {count} brushes?	これら {count} 個のブラシを削除しますか？
 	Strokes using deleted brushes become plain strokes.	削除したブラシを使用する線は通常の線になります。
 	Delete the graphic style “{name}”?	グラフィックスタイル「{name}」を削除しますか？
 	Delete theme	テーマを削除
@@ -3725,6 +3724,7 @@ file-filter	Templates	テンプレート
 imageTrace	Outline	アウトライン
 @plural	Color Table ({n} color)|Color Table ({n} colors)	カラーテーブル ({n} 色)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	{n} 個のグラフィックスタイルを削除しますか？
+@plural	Delete this {n} brush?|Delete these {n} brushes?	{n} 個のブラシを削除しますか？
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	これら {n} 個のスウォッチとグループを削除しますか？
 @plural	{n} Layer|{n} Layers	{n} レイヤー
 @plural	{n} Object|{n} Objects	{n} オブジェクト

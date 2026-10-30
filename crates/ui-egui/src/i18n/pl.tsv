@@ -1473,7 +1473,6 @@ lighting	Light	Światło
 	Save to Swatches	Zapisz w próbkach
 	Delete Graphic Style (Alt-click: without asking)	Usuń styl graficzny (kliknięcie z Alt: bez pytania)
 	Delete the brush “{name}”?	Usunąć pędzel „{name}”?
-	Delete these {count} brushes?	Usunąć te {count} pędzle?
 	Strokes using deleted brushes become plain strokes.	Obrysy używające usuniętych pędzli stają się zwykłymi obrysami.
 	Delete the graphic style “{name}”?	Usunąć styl graficzny „{name}”?
 	Delete these {n} graphic styles?	Usunąć te style graficzne ({n})?
@@ -3964,6 +3963,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} element|{n} elementy|{n} elementów
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tablica kolorów ({n} kolor)|Tablica kolorów ({n} kolory)|Tablica kolorów ({n} kolorów)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Usunąć {n} styl graficzny?|Usunąć {n} style graficzne?|Usunąć {n} stylów graficznych?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Usunąć {n} pędzel?|Usunąć {n} pędzle?|Usunąć {n} pędzli?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Usunąć {n} próbkę lub grupę?|Usunąć {n} próbki i grupy?|Usunąć {n} próbek i grup?
 @plural	{n} Layer|{n} Layers	{n} warstwa|{n} warstwy|{n} warstw
 @plural	{n} Object|{n} Objects	{n} obiekt|{n} obiekty|{n} obiektów

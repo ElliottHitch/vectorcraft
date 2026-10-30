@@ -743,7 +743,6 @@ font-technology	Variable	Променливи
 	No	Не
 	Delete Tab	Изтриване на табулация
 	Delete the brush “{name}”?	Да се изтрие четката „{name}“?
-	Delete these {count} brushes?	Да се изтрият тези {count} четки?
 	Strokes using deleted brushes become plain strokes.	Щрихите, които използват изтритите четки, стават обикновени щрихи.
 	Delete the graphic style “{name}”?	Изтриване на графичния стил „{name}“?
 	Delete Theme	Изтриване на тема
@@ -3634,6 +3633,7 @@ imageTrace	Outline	Контур
 @plural	{n} item|{n} items	{n} обект|{n} обекта
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Цветна таблица ({n} цвят)|Цветна таблица ({n} цвята)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Изтриване на този графичен стил ({n})?|Изтриване на тези графични стилове ({n})?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Изтриване на тази четка ({n})?|Изтриване на тези четки ({n})?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Изтриване на този {n} образец или група?|Изтриване на тези {n} образца и групи?
 @plural	{n} Layer|{n} Layers	{n} слой|{n} слоя
 @plural	{n} Object|{n} Objects	{n} обект|{n} обекта

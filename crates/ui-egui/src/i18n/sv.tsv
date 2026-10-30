@@ -745,7 +745,6 @@ font-technology	Variable	Variabla
 	No	Nej
 	Delete Tab	Radera tabb
 	Delete the brush “{name}”?	Radera penseln ”{name}”?
-	Delete these {count} brushes?	Radera dessa {count} penslar?
 	Strokes using deleted brushes become plain strokes.	Linjer som använder borttagna penslar blir vanliga linjer.
 	Delete the graphic style “{name}”?	Radera grafikstilen ”{name}”?
 	Delete Theme	Radera tema
@@ -3634,6 +3633,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} objekt|{n} objekt
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Färgtabell ({n} färg)|Färgtabell ({n} färger)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Radera {n} grafisk stil?|Radera de här {n} grafiska stilarna?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Radera {n} pensel?|Radera dessa {n} penslar?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Radera {n} färgruta eller grupp?|Radera dessa {n} färgrutor och grupper?
 @plural	{n} Layer|{n} Layers	{n} lager|{n} lager
 @plural	{n} Object|{n} Objects	{n} objekt|{n} objekt

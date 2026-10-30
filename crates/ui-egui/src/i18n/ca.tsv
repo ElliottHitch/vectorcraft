@@ -1060,7 +1060,6 @@
 	No	No
 	Delete Tab	Suprimeix la tabulació
 	Delete the brush “{name}”?	Voleu suprimir el pinzell “{name}”?
-	Delete these {count} brushes?	Voleu suprimir aquests {count} pinzells?
 	Strokes using deleted brushes become plain strokes.	Els traços que utilitzen pinzells suprimits esdevenen traços normals.
 	Delete the graphic style “{name}”?	Voleu suprimir l’estil gràfic “{name}”?
 	Delete the library “{name}”?	Voleu suprimir la biblioteca “{name}”?
@@ -4694,6 +4693,7 @@
 @plural	agrees with {n} default shortcut|agrees with {n} default shortcuts	coincideix amb {n} drecera per defecte|coincideix amb {n} dreceres per defecte
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Taula de colors ({n} color)|Taula de colors ({n} colors)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Voleu suprimir aquest {n} estil gràfic?|Voleu suprimir aquests {n} estils gràfics?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Voleu suprimir aquest {n} pinzell?|Voleu suprimir aquests {n} pinzells?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Voleu suprimir aquesta {n} mostra o grup?|Voleu suprimir aquestes {n} mostres i grups?
 @plural	{n} area highlighted|{n} areas highlighted	{n} àrea ressaltada|{n} àrees ressaltades
 @plural	{n} color|{n} colors	{n} color|{n} colors

@@ -737,7 +737,6 @@ font-technology	Variable	Değişken
 	No	Hayır
 	Delete Tab	Sekmeyi Sil
 	Delete the brush “{name}”?	“{name}” fırçası silinsin mi?
-	Delete these {count} brushes?	Bu {count} fırça silinsin mi?
 	Strokes using deleted brushes become plain strokes.	Silinen fırçaları kullanan konturlar düz konturlara dönüşür.
 	Delete the graphic style “{name}”?	“{name}” grafik stili silinsin mi?
 	Delete Theme	Temayı Sil
@@ -3528,6 +3527,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} öğe
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Renk Tablosu ({n} renk)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Bu {n} grafik stili silinsin mi?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Bu {n} fırça silinsin mi?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Bu {n} renk örneği ve grup silinsin mi?
 @plural	{n} Layer|{n} Layers	{n} Katman
 @plural	{n} Object|{n} Objects	{n} Nesne

@@ -758,7 +758,6 @@ font-technology	Variable	Variabili
 	No	No
 	Delete Tab	Elimina tabulazione
 	Delete the brush “{name}”?	Eliminare il pennello “{name}”?
-	Delete these {count} brushes?	Eliminare questi {count} pennelli?
 	Strokes using deleted brushes become plain strokes.	I tracciati che usano pennelli eliminati diventano tracciati semplici.
 	Delete the graphic style “{name}”?	Eliminare lo stile grafico “{name}”?
 	Delete Theme	Elimina tema
@@ -3742,6 +3741,7 @@ imageTrace	Outline	Contorno
 @plural	{n} item|{n} items	{n} elemento|{n} elementi
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabella colori ({n} colore)|Tabella colori ({n} colori)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Eliminare {n} stile grafico?|Eliminare questi {n} stili grafici?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Eliminare {n} pennello?|Eliminare questi {n} pennelli?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Eliminare {n} campione o gruppo?|Eliminare questi {n} campioni e gruppi?
 @plural	{n} Layer|{n} Layers	{n} livello|{n} livelli
 @plural	{n} Object|{n} Objects	{n} oggetto|{n} oggetti

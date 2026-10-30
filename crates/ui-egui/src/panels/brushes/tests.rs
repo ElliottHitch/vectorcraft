@@ -163,6 +163,19 @@ fn assert_delete_dialog(app: &VectorcraftApp, message: &str) {
     assert_eq!(d.str("detail"), "Strokes using deleted brushes become plain strokes.");
 }
 
+#[test]
+fn deleting_five_brushes_uses_polish_many_form() {
+    let previous = crate::i18n::current();
+    let polish = crate::i18n::Lang::from_code("pl").unwrap();
+    crate::i18n::set_current(polish);
+    let mut app = VectorcraftApp::new(Session::new(), Default::default());
+    let names: Vec<String> = (1..=5).map(|n| format!("Brush {n}")).collect();
+    delete(&mut app, &names, false);
+    let message = app.ui.dialog.as_ref().map(|d| d.str("message"));
+    crate::i18n::set_current(previous);
+    assert_eq!(message, Some("Usunąć 5 pędzli?".to_string()));
+}
+
 /// Click the panel menu's item `label` (frames at `time`, `time + 0.5`).
 fn menu_click(ctx: &egui::Context, app: &mut VectorcraftApp, label: &str, time: f64) {
     let out = frame_with(ctx, app, vec![], egui::Modifiers::NONE, time, menu);
