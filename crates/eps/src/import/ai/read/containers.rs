@@ -338,23 +338,26 @@ impl<'a> Reader<'a> {
         }
     }
 
-    /// Drop the object just read when it is an envelope's own mesh: a group on `%_` lines holding
-    /// only gradient meshes. Whether it was dropped.
-    pub(super) fn drop_envelope_mesh(&mut self) -> bool {
-        fn only_meshes(n: &Node) -> bool {
-            match &n.kind {
-                NodeKind::Mesh(_) => true,
-                NodeKind::Group { children, .. } => !children.is_empty() && children.iter().all(|c| only_meshes(c)),
-                _ => false,
-            }
-        }
+    /// Drop the object just read when it is an envelope's own: a group on `%_` lines, before the
+    /// envelope's dictionary. It holds the mesh that shapes the envelope, or, while the envelope's
+    /// contents are being edited, those contents (the mesh then is in the dictionary); either way the
+    /// distorted art follows on plain lines. The source text in the contents stays, hidden, as the
+    /// dictionary's does. Whether it was dropped.
+    pub(super) fn drop_envelope_art(&mut self) -> bool {
         let Some(n) = self.last_object() else { return false };
         let id = n.id;
-        if !matches!(n.kind, NodeKind::Group { .. }) || !only_meshes(n) || !self.hidden_ids.contains(&id) {
+        if !matches!(n.kind, NodeKind::Group { .. }) || !self.hidden_ids.contains(&id) {
             return false;
         }
-        if let Some(f) = self.frames.last_mut() {
-            f.children.pop();
+        let mut slots = vec![];
+        if let Some(f) = self.frames.last_mut()
+            && let Some(group) = f.children.pop()
+        {
+            envelope_text_slots(&group, &mut slots);
+            for mut slot in slots {
+                slot.visible = false;
+                f.children.push(slot);
+            }
         }
         self.hidden_ids.remove(&id);
         self.after_object = false;
