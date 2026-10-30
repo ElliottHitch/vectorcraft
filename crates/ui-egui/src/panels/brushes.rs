@@ -206,14 +206,14 @@ fn run_on(app: &mut VectorcraftApp, id: &str, names: &[String]) {
 
 /// Delete `names` after asking, or immediately when the bottom button was Alt-clicked.
 fn delete(app: &mut VectorcraftApp, names: &[String], now: bool) {
+    if now {
+        run_on(app, "brush.delete", names);
+        return;
+    }
     let params = match names {
         [name] => json!({ "name": name }),
         _ => json!({ "names": names }),
     };
-    if now {
-        app.run("brush.delete", params).ok();
-        return;
-    }
     let message = match names {
         [name] => crate::i18n::fmt(tl!("Delete the brush “{name}”?"), &[("name", name)]),
         _ => crate::i18n::fmt(tl!("Delete these {count} brushes?"), &[("count", &names.len().to_string())]),
