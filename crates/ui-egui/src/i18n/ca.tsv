@@ -5999,6 +5999,9 @@ breakText	Glyphs	Glifs
 	Gap 4	Separació 4
 	Dash 5	Guió 5
 	Gap 5	Separació 5
+@msg	You must choose a side pattern.	Heu de triar un patró lateral.
+@msg	invalid pattern tile choice	opció de mosaic de patró no vàlida
+@msg	no pattern named `{choice}`	no hi ha cap patró anomenat `{choice}`
 	Delete the selected brushes?	Voleu suprimir els pinzells seleccionats?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Hi ha traços que fan servir un o més d’aquests pinzells. Voleu treure els pinzells d’aquests traços i suprimir els pinzells?
 	Remove Strokes	Elimina els traços

@@ -5899,6 +5899,9 @@ breakText	Glyphs	Глифи
 	Gap 4	Разстояние 4
 	Dash 5	Тире 5
 	Gap 5	Разстояние 5
+@msg	You must choose a side pattern.	Трябва да изберете страничен шаблон.
+@msg	invalid pattern tile choice	невалиден избор на плочка за шаблон
+@msg	no pattern named `{choice}`	няма шаблон с име `{choice}`
 	Delete the selected brushes?	Да се изтрият избраните четки?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Щрихи използват една или повече от тези четки. Да се премахнат ли четките от тези щрихи и да се изтрият четките?
 	Remove Strokes	Премахване на щрихи

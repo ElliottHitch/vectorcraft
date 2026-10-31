@@ -5961,6 +5961,9 @@ breakText	Glyphs	Γλύφοι
 	Gap 4	Διάκενο 4
 	Dash 5	Παύλα 5
 	Gap 5	Διάκενο 5
+@msg	You must choose a side pattern.	Πρέπει να επιλέξετε πλευρικό μοτίβο.
+@msg	invalid pattern tile choice	μη έγκυρη επιλογή πλακιδίου μοτίβου
+@msg	no pattern named `{choice}`	δεν υπάρχει μοτίβο με όνομα `{choice}`
 	Delete the selected brushes?	Να διαγραφούν τα επιλεγμένα πινέλα;
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Περιγράμματα χρησιμοποιούν ένα ή περισσότερα από αυτά τα πινέλα. Να αφαιρεθούν τα πινέλα από αυτά τα περιγράμματα και να διαγραφούν τα πινέλα;
 	Remove Strokes	Αφαίρεση περιγραμμάτων

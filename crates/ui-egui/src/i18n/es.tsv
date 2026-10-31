@@ -5951,6 +5951,9 @@ breakText	Glyphs	Glifos
 	Gap 4	Hueco 4
 	Dash 5	Guion 5
 	Gap 5	Hueco 5
+@msg	You must choose a side pattern.	Debe elegir un motivo lateral.
+@msg	invalid pattern tile choice	selección de mosaico de motivo no válida
+@msg	no pattern named `{choice}`	no hay ningún motivo llamado `{choice}`
 	Delete the selected brushes?	¿Eliminar los pinceles seleccionados?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Algunos trazos usan uno o más de estos pinceles. ¿Quitar los pinceles de esos trazos y eliminar los pinceles?
 	Remove Strokes	Quitar trazos

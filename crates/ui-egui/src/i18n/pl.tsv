@@ -5864,6 +5864,9 @@ breakText	Glyphs	Glify
 	Gap 4	Odstęp 4
 	Dash 5	Kreska 5
 	Gap 5	Odstęp 5
+@msg	You must choose a side pattern.	Musisz wybrać wzór boczny.
+@msg	invalid pattern tile choice	nieprawidłowy wybór kafelka wzoru
+@msg	no pattern named `{choice}`	nie ma wzoru o nazwie `{choice}`
 	Delete the selected brushes?	Usunąć zaznaczone pędzle?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Obrysy używają co najmniej jednego z tych pędzli. Zdjąć pędzle z tych obrysów i usunąć pędzle?
 	Remove Strokes	Usuń obrysy

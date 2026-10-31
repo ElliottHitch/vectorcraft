@@ -5591,6 +5591,9 @@ breakText	Glyphs	글리프
 	Gap 4	간격 4
 	Dash 5	대시 5
 	Gap 5	간격 5
+@msg	You must choose a side pattern.	측면 패턴을 선택해야 합니다.
+@msg	invalid pattern tile choice	잘못된 패턴 타일 선택
+@msg	no pattern named `{choice}`	`{choice}` 이름의 패턴이 없습니다
 	Delete the selected brushes?	선택한 브러시를 삭제하시겠습니까?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	선에서 이 브러시 중 하나 이상을 사용합니다. 해당 선에서 브러시를 제거하고 브러시를 삭제하시겠습니까?
 	Remove Strokes	선 제거

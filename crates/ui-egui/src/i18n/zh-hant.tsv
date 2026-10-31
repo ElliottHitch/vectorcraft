@@ -5647,6 +5647,9 @@ breakText	Glyphs	字符
 	Gap 4	間隙 4
 	Dash 5	虛線 5
 	Gap 5	間隙 5
+@msg	You must choose a side pattern.	必須選擇側邊圖樣。
+@msg	invalid pattern tile choice	圖樣拼塊選項無效
+@msg	no pattern named `{choice}`	沒有名為 `{choice}` 的圖樣
 	Delete the selected brushes?	要刪除選取的筆刷嗎？
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	有筆畫使用了其中一個或多個筆刷。要從這些筆畫移除筆刷並刪除筆刷嗎？
 	Remove Strokes	移除筆畫

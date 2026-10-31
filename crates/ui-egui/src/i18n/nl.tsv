@@ -5957,6 +5957,9 @@ breakText	Glyphs	Glyphs
 	Gap 4	Tussenruimte 4
 	Dash 5	Streepje 5
 	Gap 5	Tussenruimte 5
+@msg	You must choose a side pattern.	Kies een zijpatroon.
+@msg	invalid pattern tile choice	ongeldige keuze voor patroontegel
+@msg	no pattern named `{choice}`	geen patroon met de naam `{choice}`
 	Delete the selected brushes?	Geselecteerde kwasten verwijderen?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Contouren gebruiken een of meer van deze kwasten. De kwasten van deze contouren halen en de kwasten verwijderen?
 	Remove Strokes	Contouren verwijderen

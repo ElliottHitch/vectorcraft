@@ -5608,6 +5608,9 @@ breakText	Glyphs	Гліфи
 	Gap 4	Проміжок 4
 	Dash 5	Штрих 5
 	Gap 5	Проміжок 5
+@msg	You must choose a side pattern.	Виберіть бічний візерунок.
+@msg	invalid pattern tile choice	недійсний вибір плитки візерунка
+@msg	no pattern named `{choice}`	візерунка з назвою `{choice}` немає
 	Delete the selected brushes?	Видалити вибрані пензлі?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Обведення використовують один або кілька з цих пензлів. Забрати пензлі з цих обведень і видалити пензлі?
 	Remove Strokes	Забрати обведення
