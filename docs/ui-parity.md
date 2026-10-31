@@ -1,6 +1,6 @@
 # UI and interaction parity
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (files opened from the file manager while VectorCraft runs open in its window on Windows and Linux, #4892) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-11-01 · **Change:** minor (native Save As Version menu, refused-save alert, fixed Contributors table header, freeform point swatch opens its popover: #4931, #4933, #4944, #4953) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -381,6 +381,7 @@ separate. Scores and hours unchanged. [Behavior and command details](development
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-11-01 | minor | VectorCraft Options' Version is a menu of the versions VectorCraft writes, each named by the releases that read it, and an uncompressible version turns Use Compression off (#4931); a save refused before writing shows the Can't save alert with the reason (#4933); About › Contributors' table keeps its header row above the scrolling rows (#4944); the Gradient panel's freeform point swatch opens the point's popover (#4953); scores unchanged |
 | 2026-10-31 | minor | A file opened from the file manager while VectorCraft runs opens as a new tab in that window, which comes to the front, on Windows and Linux (#4892); `--new-instance` opts out; scores unchanged |
 | 2026-10-31 | minor | Object › Path › Smooth: Auto-Smooth takes a shaky line to one smooth curve, and direct-selected anchors smooth only their section; scores unchanged |
 | 2026-10-31 | minor | New Document: More Settings has Save Preset beside the name, as Preset Details does, and saves its settings (#4893); scores and estimates unchanged |

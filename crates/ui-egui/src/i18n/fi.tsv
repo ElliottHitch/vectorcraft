@@ -1513,7 +1513,7 @@ lighting	Light	Valo
 	Color:	Väri:
 	Delete Stop	Poista väripiste
 	Edit Gradient	Muokkaa liukuväriä
-	Edit the selected point's colour in the Color panel	Muokkaa valitun pisteen väriä Väri-paneelissa
+	Edit the point	Muokkaa pistettä
 	Edit the stop	Muokkaa väripistettä
 	Eyedropper: click the art to sample the stop's colour	Pipetti: ota väripisteen väri näytteeksi napsauttamalla kuvitusta
 	Eyedropper: click the art to sample the key color	Pipetti: ota avainväri näytteeksi napsauttamalla kuvitusta
