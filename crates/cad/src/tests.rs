@@ -611,14 +611,44 @@ fn dashes_become_linetypes_and_opacity_transparency() {
 
 #[test]
 fn alter_paths_writes_strokes_as_filled_outlines() {
-    let d = shapes_doc();
-    let out = export(&d, &DxfOptions { alter_paths: true, ..opts(&d) }).unwrap();
-    // Each fill and stroke: its outlines, then its hatch.
     let fill = ["LWPOLYLINE", "HATCH"];
     let rect_stroke = ["LWPOLYLINE", "LWPOLYLINE", "HATCH"];
+    // Strokes a lineweight draws stay lines: the rectangle, the circle and an open arc.
+    let mut d = shapes_doc();
+    let c = Point::new(150.0, 95.0);
+    let k = 20.0 * shapes::KAPPA;
+    let mut arc = vectorcraft_geom::BezPath::new();
+    arc.move_to(Point::new(c.x + 20.0, c.y));
+    arc.curve_to(Point::new(c.x + 20.0, c.y - k), Point::new(c.x + k, c.y - 20.0), Point::new(c.x, c.y - 20.0));
+    let arc = path(&mut d, PathData::from_bezpath(&arc), Paint::None, Paint::solid(Color::BLACK), 1.0);
+    let layer = d.layers[0].id;
+    d.insert(Some(layer), usize::MAX, arc).unwrap();
+    let out = export(&d, &DxfOptions { alter_paths: true, ..opts(&d) }).unwrap();
+    assert_eq!(kinds(&out), [&fill[..], &["LWPOLYLINE", "CIRCLE", "ARC"]].concat());
+    assert!(out.warnings.is_empty(), "{:?}", out.warnings);
+    // R12 polylines carry any width, so its strokes stay lines too.
+    let r12 = export(&d, &DxfOptions { alter_paths: true, version: DxfVersion::R12, ..opts(&d) }).unwrap();
+    assert!(!kinds(&r12).iter().any(|k| k == "HATCH"));
+    assert!(entities(&r12).iter().any(|e| kind(e) == "POLYLINE" && get(e, 40) == Some("2")));
+    // R13 and R14 have no lineweights: every stroke becomes its outline, then its hatch.
+    let d = shapes_doc();
+    let out = export(&d, &DxfOptions { alter_paths: true, version: DxfVersion::R14, ..opts(&d) }).unwrap();
     assert_eq!(kinds(&out), [&fill[..], &rect_stroke, &["CIRCLE", "CIRCLE", "HATCH"]].concat());
     // The rectangle's stroke: an outer and an inner boundary.
     assert_eq!(get(&entities(&out)[4], 91), Some("2"));
+    // A stroke wider than the widest lineweight (2.11 mm) is outlined at its true width.
+    let wide = doc_with(|d| vec![path(d, shapes::rectangle(Rect::new(10.0, 10.0, 110.0, 60.0)), Paint::None, Paint::solid(Color::BLACK), 8.0)]);
+    let out = export(&wide, &DxfOptions { alter_paths: true, ..opts(&wide) }).unwrap();
+    assert_eq!(kinds(&out), rect_stroke);
+    assert!(out.warnings.is_empty(), "{:?}", out.warnings);
+    let lines = export(&wide, &opts(&wide)).unwrap();
+    assert_eq!(kinds(&lines), ["LWPOLYLINE"]);
+    assert!(lines.warnings.iter().any(|w| w.contains("2.11 mm")));
+    // To the hundredth of a millimetre: 6 pt (2.117 mm) is outlined, 5.98 pt (2.110 mm) is a line.
+    for (width, expected) in [(6.0, &rect_stroke[..]), (5.98, &["LWPOLYLINE"][..])] {
+        let d = doc_with(|d| vec![path(d, shapes::rectangle(Rect::new(10.0, 10.0, 110.0, 60.0)), Paint::None, Paint::solid(Color::BLACK), width)]);
+        assert_eq!(kinds(&export(&d, &DxfOptions { alter_paths: true, ..opts(&d) }).unwrap()), expected, "{width} pt");
+    }
     // Preserve Appearance outlines only the strokes a line can't draw.
     let mut d = shapes_doc();
     let rect = d.layers[0].children().and_then(|c| c.first()).map(|n| n.id).unwrap();
@@ -629,6 +659,41 @@ fn alter_paths_writes_strokes_as_filled_outlines() {
     let editable = export(&d, &DxfOptions { preserve: Preserve::Editability, ..opts(&d) }).unwrap();
     assert_eq!(kinds(&editable), ["LWPOLYLINE", "HATCH", "LWPOLYLINE", "CIRCLE"]);
     assert!(editable.warnings.iter().any(|w| w.contains("stroke alignment")));
+    // With Maximize Editability, Alter Paths outlines that stroke and keeps the circle a line.
+    let altered = export(&d, &DxfOptions { preserve: Preserve::Editability, alter_paths: true, ..opts(&d) }).unwrap();
+    assert_eq!(kinds(&altered), [&fill[..], &rect_stroke, &["CIRCLE"]].concat());
+    assert!(altered.warnings.is_empty(), "{:?}", altered.warnings);
+}
+
+#[test]
+fn dashes_that_start_part_way_into_their_pattern_are_outlined() {
+    let dashed = |offset: f64| {
+        doc_with(|d| {
+            let mut n = path(d, shapes::rectangle(Rect::new(10.0, 10.0, 110.0, 60.0)), Paint::None, Paint::solid(Color::BLACK), 1.0);
+            if let Some(st) = n.appearance.stroke_mut() {
+                st.dash = Some(Dash { pattern: vec![6.0, 3.0, 2.0], offset, align_corners: false });
+            }
+            vec![n]
+        })
+    };
+    // A linetype starts at the start of its pattern: an offset of a whole period (the odd
+    // pattern twice) keeps the line, any other offset needs the dashes' outlines and a hatch.
+    for (offset, outlined) in [(0.0, false), (22.0, false), (4.0, true), (11.0, true)] {
+        let d = dashed(offset);
+        let k = kinds(&export(&d, &opts(&d)).unwrap());
+        if outlined {
+            assert!(k.len() > 2 && k.last().is_some_and(|k| k == "HATCH"), "offset {offset}: {k:?}");
+        } else {
+            assert_eq!(k, ["LWPOLYLINE"], "offset {offset}");
+        }
+        let altered = kinds(&export(&d, &DxfOptions { alter_paths: true, ..opts(&d) }).unwrap());
+        assert_eq!(altered, k, "offset {offset}, Alter Paths");
+    }
+    // Maximize Editability keeps the line and its linetype.
+    let d = dashed(4.0);
+    let editable = export(&d, &DxfOptions { preserve: Preserve::Editability, ..opts(&d) }).unwrap();
+    assert_eq!(kinds(&editable), ["LWPOLYLINE"]);
+    assert_eq!(get(&entities(&editable)[0], 6), Some("DASHED1"));
 }
 
 fn text_doc(text: &str, size: f64) -> Document {

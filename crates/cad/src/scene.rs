@@ -273,6 +273,17 @@ const MAX_ENTITIES: u32 = 10_000_000;
 const MAX_COORD: f64 = 1e9;
 const MAX_POINTS: usize = 4_000_000;
 
+/// Do the dashes of `d` start at the start of their pattern, as a linetype's do? A pattern of
+/// odd length repeats twice in its linetype.
+fn starts_with_pattern(d: &Dash) -> bool {
+    if !d.is_dashed() || !d.offset.is_finite() {
+        return true;
+    }
+    let period = d.pattern.iter().sum::<f64>() * if d.pattern.len() % 2 == 1 { 2.0 } else { 1.0 };
+    let phase = d.offset.rem_euclid(period);
+    phase.min(period - phase) <= period * 1e-9
+}
+
 /// `bp` flattened into polygons (each closing implicitly), consecutive repeats dropped.
 fn polygons(bp: &BezPath) -> Vec<Vec<Point>> {
     // Far outside any drawing, a curve flattens to millions of points at this tolerance.
@@ -652,13 +663,27 @@ impl<'a> Scene<'a> {
 
     /// The DXF lineweight nearest to `width` points (scaled with the drawing when asked).
     fn lineweight(&mut self, width: f64) -> i32 {
-        let scale = if self.o.scale_lineweights { self.o.scale } else { 1.0 };
-        let hundredths = width * 2540.0 / 72.0 * scale;
+        let hundredths = self.hundredths(width);
         let max = LINEWEIGHTS[LINEWEIGHTS.len() - 1];
         if hundredths > f64::from(max) + 5.0 {
             self.warn(WIDE_LINES);
         }
         LINEWEIGHTS.into_iter().min_by(|a, b| (f64::from(*a) - hundredths).abs().total_cmp(&(f64::from(*b) - hundredths).abs())).unwrap_or(max)
+    }
+
+    /// `width` points in hundredths of a millimetre, the unit of DXF lineweights (scaled with
+    /// the drawing when asked).
+    fn hundredths(&self, width: f64) -> f64 {
+        let scale = if self.o.scale_lineweights { self.o.scale } else { 1.0 };
+        width * 2540.0 / 72.0 * scale
+    }
+
+    /// Can a CAD line draw a plain stroke `width` points wide in this version? R12 polylines
+    /// carry their width, R13 and R14 have no lineweights, and from 2000 a lineweight holds up
+    /// to 2.11 mm, to the hundredth.
+    fn line_keeps_width(&self, width: f64) -> bool {
+        let v = self.o.version;
+        !v.handles() || (v.r2000() && self.hundredths(width).round() <= f64::from(LINEWEIGHTS[LINEWEIGHTS.len() - 1]))
     }
 
     /// A linetype for dash pattern `d` (one per distinct pattern).
@@ -713,7 +738,11 @@ impl<'a> Scene<'a> {
         }
         let Some(rgb) = self.paint_rgb(&st.paint) else { return };
         let plain = stroke::is_plain(st);
-        if self.o.alter_paths || (appearance && !plain) {
+        // A linetype has no phase: dashes that start part way into their pattern need outlines.
+        let lined = plain && st.dash.as_ref().is_none_or(starts_with_pattern);
+        // Alter Paths for Appearance outlines a stroke only when a line can't draw it.
+        let altered = self.o.alter_paths && !(lined && self.line_keeps_width(st.width));
+        if altered || (appearance && !lined) {
             let region = stroke::outline_region(&PathData::from_bezpath(bp), rule, st);
             let style = self.style(rgb, st.opacity, None, None);
             self.area(&region.to_bezpath(), FillRule::NonZero, &style, true);
