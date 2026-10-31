@@ -5477,7 +5477,10 @@ distance along the plane's normal), so copies, duplicates and pastes stay attach
 `perspectiveSelection` tool, a drag moves the selection within its plane (`perspective.move`; Alt copies), the
 bounding-box handles scale it in plane space (`perspective.transform`; Shift keeps proportions, Alt scales about the
 centre), and `press_key` `5` during a drag switches the move to perpendicular to the plane (press again to switch
-back). `press_key` Escape during a move, a resize or a plane widget drag cancels it and puts the objects and the
+back). Holding Shift during an in-plane move constrains each object's displacement to an axis or 45° diagonal of its
+own plane. `perspective.move` accepts `constrain: true` (default false) and adjusts Snap to Grid along the constrained
+direction on the first object's plane and depth.
+`press_key` Escape during a move, a resize or a plane widget drag cancels it and puts the objects and the
 grid back. The arrow keys nudge a selection in perspective by the keyboard increment (`perspective.nudge`; Shift ×10, Alt
 copies). Object › Transform › Transform Again repeats the last perspective move or scale in plane space.
 
