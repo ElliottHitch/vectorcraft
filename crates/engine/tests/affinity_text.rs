@@ -99,21 +99,32 @@ fn objects_nested_in_text_are_clipped_by_the_type() {
             (tag(b"BFFl"), F::Shared(vec![F::Obj(tag(b"FDsc"), vec![(tag(b"FDeF"), solid(1.0))])])),
         ],
     );
+    // A 4 × 4 RGBA pixel layer of one flat colour (tile state 2: every sample 255).
+    let mut bitmap = vec![(tag(b"Frmt"), F::Enum(0, 0)), (tag(b"BmpW"), F::I32(4)), (tag(b"BmpH"), F::I32(4))];
+    for c in 1..=4 {
+        bitmap.push((tag(&[b'T', b'W', b'i', b'0' + c]), F::I32(1)));
+        bitmap.push((tag(&[b'T', b'H', b'i', b'0' + c]), F::I32(1)));
+        bitmap.push((tag(&[b'S', b't', b'a', b'0' + c]), F::U8s(vec![2])));
+    }
+    let pixels = F::Obj(tag(b"Rstr"), vec![(tag(b"Bitm"), F::Obj(tag(b"DyBm"), bitmap)), (tag(b"Desc"), F::Str("Photo".into()))]);
     let bytes = document_with_children(
         vec![block(utf8("TEXT"), vec![run(4, Some(attrs("Clip", "", 400, false, 40.0)))], &[])],
         false,
         72.0,
         IDENTITY,
-        vec![ellipse],
+        vec![ellipse, pixels],
     );
     let loaded = fileio::load("nested.af", &bytes).unwrap();
     let NodeKind::Layer { children, .. } = &loaded.doc.layers[0].kind else { panic!("{:?}", loaded.doc.layers[0].kind) };
     let NodeKind::Group { children: clipped, clip: true } = &children[0].kind else { panic!("{:?}", children[0].kind) };
-    let [text, inside] = clipped.as_slice() else { panic!("{clipped:?}") };
+    let [text, inside, photo] = clipped.as_slice() else { panic!("{clipped:?}") };
     let NodeKind::Text(t) = &text.kind else { panic!("{:?}", text.kind) };
     assert_eq!(t.runs[0].text, "TEXT");
     assert_eq!(inside.name.as_deref(), Some("Inside"));
     assert!(matches!(inside.kind, NodeKind::Path { clipping: false, .. }), "{:?}", inside.kind);
+    assert_eq!(photo.name.as_deref(), Some("Photo"));
+    let NodeKind::Image(image) = &photo.kind else { panic!("{:?}", photo.kind) };
+    assert_eq!((image.width, image.height), (4, 4));
 }
 
 #[test]
