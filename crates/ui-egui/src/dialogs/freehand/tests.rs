@@ -28,6 +28,14 @@ fn blob_tip_fields_confirm_and_cancel() {
     assert_eq!(app.session.tool_options_of("blobBrush")["roundness"], json!(0.0));
 }
 
+#[test]
+fn the_tip_preview_is_as_flat_as_the_tip_the_brush_draws() {
+    for roundness in [-5.0, 0.0, 0.05, 0.1, 1.0, 50.0, 100.0, 120.0] {
+        let drawn = vectorcraft_tools::draw2::blob_tip(0.0, roundness).as_coeffs()[3] as f32;
+        assert!((blob_tip_short_ratio(roundness) - drawn).abs() < 1e-6, "roundness {roundness}: drawn {drawn}");
+    }
+}
+
 /// The labels the open dialog paints.
 fn painted(app: &mut VectorcraftApp) -> String {
     crate::tests_labels::painted_text(app, |app, ui| super::super::show(app, ui.ctx()))

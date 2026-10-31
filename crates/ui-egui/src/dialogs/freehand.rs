@@ -276,7 +276,7 @@ fn blob_tip_preview(ui: &mut egui::Ui, d: &mut Dialog) {
     let u = egui::vec2(a.cos() as f32, -a.sin() as f32);
     let v = egui::vec2(-u.y, u.x);
     let long = 18.0;
-    let short = long * (d.f64("roundness", 100.0).clamp(0.0, 100.0) as f32 / 100.0).max(0.01);
+    let short = long * blob_tip_short_ratio(d.f64("roundness", 100.0));
     let dab = |center: egui::Pos2, color: egui::Color32| {
         let points = (0..32)
             .map(|i| {
@@ -293,6 +293,12 @@ fn blob_tip_preview(ui: &mut egui::Ui, d: &mut Dialog) {
     for (i, color) in [t.text_dim, t.text, t.text_dim].into_iter().enumerate() {
         dab(egui::pos2(strip + i as f32 * 1.5 * long, center.y), color);
     }
+}
+
+/// The preview tip's short axis as a fraction of its long axis: Roundness in percent, with 0
+/// percent drawn as 0.1 percent, the minimum the brush draws with.
+fn blob_tip_short_ratio(roundness: f64) -> f32 {
+    (roundness.clamp(0.0, 100.0) as f32 / 100.0).max(0.001)
 }
 
 /// OK: set the tool's options.
