@@ -100,11 +100,11 @@ impl Homography {
     }
 
     /// `self` seen through `a`: the map `a ∘ self ∘ a⁻¹` (what `self` becomes when everything it
-    /// maps from and to is moved by `a`). When the product overflows, it is formed from factors
-    /// scaled to a largest entry of 1 and returned divided by the largest magnitude in its `w` row
-    /// (the same map, with a `w` row whose largest entry is 1). `None` when `a` isn't invertible,
-    /// or when the product overflows and the result at that scale has an entry that is not finite
-    /// or is not invertible.
+    /// maps from and to is moved by `a`). When the product overflows, it is formed one factor at a
+    /// time, each partial product scaled to a largest entry of 1, and returned divided by the
+    /// largest magnitude in its `w` row (the same map, with a `w` row whose largest entry is 1).
+    /// `None` when `a` isn't invertible, or when the product overflows and the result at that
+    /// scale has an entry that is not finite or is not invertible.
     pub fn conjugated(&self, a: Affine) -> Option<Self> {
         if a.determinant().abs() < 1e-15 {
             return None;
@@ -114,7 +114,7 @@ impl Homography {
         if c.is_finite() {
             return Some(c);
         }
-        let c = to.normalized()?.then_after(&self.normalized()?).then_after(&from.normalized()?).normalized()?;
+        let c = to.then_after_normalized(&self.normalized()?)?.then_after_normalized(&from)?;
         let k = c.0[2].iter().fold(0.0_f64, |k, v| k.max(v.abs()));
         if k <= 0.0 {
             return None;
@@ -132,6 +132,17 @@ impl Homography {
     fn normalized(&self) -> Option<Self> {
         let k = self.0.iter().flatten().fold(0.0_f64, |k, v| k.max(v.abs()));
         (self.is_finite() && k > 0.0).then(|| Self(self.0.map(|row| row.map(|v| v / k))))
+    }
+
+    /// `self ∘ other` divided by its largest entry magnitude; when that product overflows, it is
+    /// formed from both factors divided by their largest entry magnitudes. `None` when the result
+    /// has an entry that is not finite or every entry is 0.
+    fn then_after_normalized(&self, other: &Self) -> Option<Self> {
+        let c = self.then_after(other);
+        if c.is_finite() {
+            return c.normalized();
+        }
+        self.normalized()?.then_after(&other.normalized()?).normalized()
     }
 
     /// The affine map that matches `self` to first order at `p` (its derivative there), `None`
@@ -267,6 +278,16 @@ mod tests {
         for p in [Point::new(1.0, 2.0), Point::new(-5.0, 0.5)] {
             assert!(c.apply(p).unwrap().distance(Point::new(p.x * 1e10, p.y * 1e10)) < 1e-3);
         }
+        // A scale by 2 seen through a move by 1e308: p goes to 2p - 1e308, though the product's
+        // corner entry is 2 * -1e308 + 1e308 and the moves scaled to a largest entry of 1 leave
+        // their w rows at 1e-308.
+        let two = Homography([[2.0, 0.0, 0.0], [0.0, 2.0, 0.0], [0.0, 0.0, 1.0]]);
+        let c = two.conjugated(Affine::translate((1e308, 0.0))).unwrap();
+        let want = [2.0, 0.0, -1e308, 0.0, 2.0, 0.0, 0.0, 0.0, 1.0];
+        for (v, w) in c.to_array().iter().zip(want) {
+            assert!((v - w).abs() <= 1e-9 * w.abs().max(1.0), "{c:?}");
+        }
+        assert_eq!(Homography::from_array(c.to_array()), Some(c));
         // A move by 1e200 seen through a scale by 1e150 sends every point to about (1e350, 0),
         // which no invertible map of finite numbers draws.
         let far = Homography([[1.0, 0.0, 1e200], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]);
