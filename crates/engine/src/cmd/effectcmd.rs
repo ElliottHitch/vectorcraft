@@ -219,8 +219,9 @@ pub(crate) fn apply(s: &mut Session, p: &Value) -> Result<Value> {
         index = fx.len() - 1;
         true
     })?;
-    // The item the effect landed on in the first object (the active item applies where it fits).
-    let first = ids.first().and_then(|id| s.doc().ok()?.doc.node(*id));
+    // The item the effect landed on in the object whose row the item is (the first selected object
+    // for the active item, which applies where it fits).
+    let first = ids.get(item.anchor(s, &ids)).and_then(|id| s.doc().ok()?.doc.node(*id));
     let landed = first.and_then(|n| item.effects_item(&n.appearance, C).ok().flatten());
     Ok(json!({ "ids": ids_json(&ids), "index": index, "item": landed }))
 }

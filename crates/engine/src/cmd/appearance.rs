@@ -262,7 +262,7 @@ impl ItemTarget {
     /// targets don't share, and any other target, stands for itself in every target.
     pub(crate) fn per_target(self, s: &Session, ids: &[NodeId]) -> Vec<Option<ItemTarget>> {
         let ItemTarget::Item { index, explicit, aligned: true } = self else { return vec![Some(self); ids.len()] };
-        let Some(st) = s.active() else { return vec![Some(self); ids.len()] };
+        let Some(st) = s.active().filter(|_| ids.len() >= 2) else { return vec![Some(self); ids.len()] };
         let k = self.anchor(s, ids);
         let mut order = ids.to_vec();
         order.swap(0, k);

@@ -501,6 +501,16 @@ fn edits_change_the_active_row_of_the_first_selected_object() {
     assert!(matches!(fill_paint(&na, 0), Paint::Gradient(_)), "so does a's equal fill");
     assert_eq!(fill_paint(&nb, 0).color().unwrap().to_hex(), "#ff0000");
     assert!(!matches!(stroke(&nb, 2).paint, Paint::Gradient(_)) && !matches!(stroke(&na, 1).paint, Paint::Gradient(_)));
+    // The effect goes on the equal rows, and the reply names the active row of b.
+    run(&mut s, "appearance.setActiveItem", json!({"index": 2})); // b's stroke, a's row 1
+    let r = run(&mut s, "effect.apply", json!({"effect": "distort.twist"}));
+    assert_eq!(r["item"], 2);
+    let (na, nb) = (node(&s, a), node(&s, b));
+    assert_eq!((stroke(&nb, 2).effects.len(), stroke(&na, 1).effects.len()), (1, 1));
+    // With nothing selected an aligned item is an error, not a crash.
+    run(&mut s, "select.set", json!({"ids": []}));
+    let e = s.execute("effect.remove", &json!({"index": 0, "item": 0, "aligned": true})).unwrap_err().to_string();
+    assert!(!e.contains("internal error"), "{e}");
 }
 
 /// How many steps there are to undo and to redo, and whether the document has unsaved changes.
