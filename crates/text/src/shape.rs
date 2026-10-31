@@ -580,7 +580,7 @@ fn optical_pairs(db: &FontDb, text: &str, glyphs: &mut [SGlyph], runs: &[(Range<
             continue;
         }
         let mut start = i;
-        while start > 0 && glyphs[start - 1].byte == a.byte {
+        while start > 0 && glyphs.get(start - 1).is_some_and(|g| g.byte == a.byte) {
             start -= 1;
         }
         let mut end = i + 1;
@@ -588,15 +588,16 @@ fn optical_pairs(db: &FontDb, text: &str, glyphs: &mut [SGlyph], runs: &[(Range<
             end += 1;
         }
         // A mark may precede its base inside either direction's shaped cluster.
+        let advance = |k: usize| shaped_advances.get(k).copied().unwrap_or(0.0);
         let first_base = glyphs[start..=i]
             .iter()
             .enumerate()
-            .max_by(|(a, _), (b, _)| shaped_advances[start + *a].total_cmp(&shaped_advances[start + *b]))
+            .max_by(|(a, _), (b, _)| advance(start + *a).total_cmp(&advance(start + *b)))
             .map_or(start, |(offset, _)| start + offset);
         let second_base = glyphs[i + 1..=end]
             .iter()
             .enumerate()
-            .max_by(|(a, _), (b, _)| shaped_advances[i + 1 + *a].total_cmp(&shaped_advances[i + 1 + *b]))
+            .max_by(|(a, _), (b, _)| advance(i + 1 + *a).total_cmp(&advance(i + 1 + *b)))
             .map_or(i + 1, |(offset, _)| i + 1 + offset);
         let (left_index, right_index, target, cluster_start, cluster_end) =
             if a.level.is_rtl() { (second_base, first_base, end, i + 1, end) } else { (first_base, second_base, i, start, i) };
