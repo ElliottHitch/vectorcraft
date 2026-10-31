@@ -615,12 +615,16 @@ fn reduce_basic(s: &mut Session, p: &Value) -> Result<Value> {
     // When every object comes out as it was, the document and its undo history stay as they are.
     let before = s.doc()?.doc.clone();
     // The Appearance panel's active row (a row of the first selected object's stack, and in each
-    // other target the row equal to it there), when the command acts on that selection.
-    let active = match s.appearance_item() {
-        Some(index)
-            if p.get("ids").is_none() && p.get("id").is_none() && !targets_contents(p)? && s.doc()?.selection.subjects().first() == ids.first() =>
-        {
-            items_per_target(&before, &ids, &[index], true)
+    // other target the row equal to it there), when the command acts on that selection. The targets
+    // are in paint order, so the first selected object can be any of them.
+    let first = s.doc()?.selection.subjects().first().and_then(|f| ids.iter().position(|id| id == f));
+    let active = match (s.appearance_item(), first) {
+        (Some(index), Some(k)) if p.get("ids").is_none() && p.get("id").is_none() && !targets_contents(p)? => {
+            let mut from = ids.clone();
+            from.swap(0, k);
+            let mut rows = items_per_target(&before, &from, &[index], true);
+            rows.swap(0, k);
+            rows
         }
         _ => vec![Vec::new(); ids.len()],
     };

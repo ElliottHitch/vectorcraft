@@ -444,6 +444,25 @@ fn reduce_to_basic_keeps_the_active_row() {
     assert_eq!(stroke(&n, 1).width, 1.0);
 }
 
+/// The active row is a row of the first selected object even when that object paints above the
+/// others; another object without an equal row keeps its topmost fill.
+#[test]
+fn reduce_to_basic_keeps_the_active_row_of_the_first_selected_object() {
+    let mut s = session();
+    let a = rect(&mut s, 50.0);
+    run(&mut s, "appearance.addFill", json!({}));
+    run(&mut s, "appearance.setItem", json!({"index": 2, "color": "#0000ff"})); // [Fill, Stroke, Fill blue]
+    let b = rect(&mut s, 200.0);
+    run(&mut s, "appearance.addFill", json!({}));
+    run(&mut s, "appearance.setItem", json!({"index": 0, "color": "#00ff00"}));
+    run(&mut s, "appearance.setItem", json!({"index": 2, "color": "#ff0000"})); // [Fill green, Stroke, Fill red]
+    run(&mut s, "select.set", json!({"ids": [b.0, a.0]}));
+    run(&mut s, "appearance.setActiveItem", json!({"index": 0}));
+    run(&mut s, "appearance.reduceToBasic", json!({}));
+    assert_eq!(fill_paint(&node(&s, b), 0).color().unwrap().to_hex(), "#00ff00");
+    assert_eq!(fill_paint(&node(&s, a), 0).color().unwrap().to_hex(), "#0000ff");
+}
+
 /// How many steps there are to undo and to redo, and whether the document has unsaved changes.
 fn history(s: &Session) -> (usize, usize, bool) {
     let st = s.doc().unwrap();
