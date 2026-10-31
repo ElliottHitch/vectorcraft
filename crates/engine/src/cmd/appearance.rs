@@ -71,7 +71,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Reduce to Basic Appearance",
             ["Window", "Appearance"],
             None,
-            "{ids?|id?, target?} keep only the topmost visible fill and stroke, without their own opacity, blend mode or effects (a group keeps no rows it lacked), and drop the object's effects",
+            "{ids?|id?, target?} keep only one visible fill and stroke (without ids: the Appearance panel's active row in place of the topmost one of its kind; else the topmost), without their own opacity, blend mode or effects (a group keeps no rows it lacked), and drop the object's effects",
             has_doc,
             reduce_basic
         ),
@@ -614,11 +614,30 @@ fn reduce_basic(s: &mut Session, p: &Value) -> Result<Value> {
     let ids = require_targets(s, p, "appearance.reduceToBasic")?;
     // When every object comes out as it was, the document and its undo history stay as they are.
     let before = s.doc()?.doc.clone();
+    // The Appearance panel's active row (a row of the first selected object's stack, and in each
+    // other target the row equal to it there), when the command acts on that selection. The targets
+    // are in paint order, so the first selected object can be any of them.
+    let first = s.doc()?.selection.subjects().first().and_then(|f| ids.iter().position(|id| id == f));
+    let active = match (s.appearance_item(), first) {
+        (Some(index), Some(k)) if p.get("ids").is_none() && p.get("id").is_none() && !targets_contents(p)? => {
+            let mut from = ids.clone();
+            from.swap(0, k);
+            let mut rows = items_per_target(&before, &from, &[index], true);
+            rows.swap(0, k);
+            rows
+        }
+        _ => vec![Vec::new(); ids.len()],
+    };
     super::overprint::edit_counted(s, "Reduce to Basic Appearance", |d| {
-        for id in &ids {
+        for (id, at) in ids.iter().zip(&active) {
             if let Some(n) = d.node_mut(*id) {
-                // The topmost visible fill and stroke stay, without their own transparency or effects.
-                let top = |fill: bool| n.appearance.items.iter().rev().find(|i| i.visible() && i.is_fill() == fill).cloned();
+                // The active row stays when it is a visible fill or stroke; otherwise the topmost
+                // visible one of each kind does. Both lose their own transparency and effects.
+                let picked = at.first().and_then(|i| n.appearance.items.get(*i)).filter(|i| i.visible()).cloned();
+                let top = |fill: bool| match &picked {
+                    Some(i) if i.is_fill() == fill => Some(i.clone()),
+                    _ => n.appearance.items.iter().rev().find(|i| i.visible() && i.is_fill() == fill).cloned(),
+                };
                 let (fill, stroke) = (top(true), top(false));
                 // Other objects always keep a fill row (None when there was none); a group only
                 // keeps the rows it had.
