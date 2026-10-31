@@ -974,6 +974,12 @@ font-technology	Variable	Változó
 	Delete Stop	Színátmenet-pont törlése
 	Delete Swatch	Színminta törlése
 	Delete Symbol	Szimbólum törlése
+	Delete the selected symbol?	Törli a kijelölt szimbólumot?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Egy vagy több szimbólum használatban van, és nem törölhető, amíg a példányait ki nem bontja vagy nem törli.
+	Expand Instances	Példányok kibontása
+	Delete Instances	Példányok törlése
+	Yes	Igen
+	No	Nem
 	Delete Tab	Tabulátor törlése
 	Delete the graphic style “{name}”?	Törlöd ezt a grafikai stílust: „{name}”?
 	Delete the library “{name}”?	Törlöd ezt a könyvtárat: „{name}”?

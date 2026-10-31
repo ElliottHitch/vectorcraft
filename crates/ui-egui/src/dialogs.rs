@@ -106,6 +106,7 @@ pub mod spot_colors;
 pub(crate) mod svg_options;
 pub mod swatch_conflict;
 pub mod swatch_options;
+pub mod symbol_delete;
 pub mod symbol_options;
 pub mod symbolism_options;
 mod text_export;
@@ -175,6 +176,8 @@ pub(crate) struct DialogSpec {
     pub confirm: fn(&mut VectorcraftApp, &Dialog) -> DialogResult,
     /// The OK button's label. None: no OK button, Enter does nothing and Cancel reads "Close".
     pub ok: Option<&'static str>,
+    /// The Cancel button's label when it is not "Cancel" ("No"). Only with an `ok`.
+    pub cancel: Option<&'static str>,
     /// An extra button left of Cancel that sets `discard: true` and confirms ("Don't Save").
     pub discard: Option<&'static str>,
     /// A button left of Cancel, as (label, field), that sets `field: true` and confirms, as OK
@@ -217,6 +220,7 @@ impl DialogSpec {
             Ok(Value::Null)
         },
         ok: Some("OK"),
+        cancel: None,
         discard: None,
         alternate: None,
         reset: None,
@@ -371,6 +375,8 @@ registry! {
     ShapeBuilderOptions: [shape_builder_options::KIND] => shape_builder_options::SPEC,
     FlareOptions: [flare_options::KIND] => flare_options::SPEC,
     SymbolOptions: [symbol_options::KIND] => symbol_options::SPEC,
+    DeleteSymbol: [symbol_delete::KIND] => symbol_delete::SPEC,
+    DeleteUsedSymbol: [symbol_delete::USED] => symbol_delete::USED_SPEC,
     SymbolismOptions: [symbolism_options::KIND] => symbolism_options::SPEC,
     PerspectiveGridPresets: [perspective_presets::KIND] => perspective_presets::SPEC,
     PerspectiveGridOptions: [perspective_options::KIND] => perspective_options::SPEC,
@@ -397,6 +403,7 @@ pub fn button_labels() -> Vec<&'static str> {
     let mut v = vec!["Cancel", "Close"];
     for spec in std::iter::once(&DialogSpec::FORM).chain(DialogKind::ALL.iter().map(|k| k.spec())) {
         v.extend(spec.ok);
+        v.extend(spec.cancel);
         v.extend(spec.discard);
         v.extend(spec.alternate.map(|(label, _)| label));
         v.extend(spec.reset.map(|_| "Reset"));
@@ -638,7 +645,7 @@ pub fn show(app: &mut VectorcraftApp, ctx: &egui::Context) {
             let label = if resets {
                 "Reset"
             } else if spec.ok.is_some() {
-                "Cancel"
+                spec.cancel.unwrap_or("Cancel")
             } else {
                 "Close"
             };

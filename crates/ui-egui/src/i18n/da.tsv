@@ -2837,6 +2837,12 @@ theme	Appearance	Udseende
 	Current Symbol	Aktuelt symbol
 	Delete Brush	Slet pensel
 	Delete Symbol	Slet symbol
+	Delete the selected symbol?	Vil du slette det markerede symbol?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Et eller flere af symbolerne er i brug og kan ikke slettes, før deres forekomster er udvidet eller slettet.
+	Expand Instances	Udvid forekomster
+	Delete Instances	Slet forekomster
+	Yes	Ja
+	No	Nej
 	Duplicate Brush	Duplikér pensel
 	Duplicate Symbol	Duplikér symbol
 	Edit Symbol	Redigér symbol

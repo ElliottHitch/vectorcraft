@@ -2958,6 +2958,12 @@ theme	Appearance	Wygląd
 	Current Symbol	Bieżący symbol
 	Delete Brush	Usuń pędzel
 	Delete Symbol	Usuń symbol
+	Delete the selected symbol?	Usunąć zaznaczony symbol?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Co najmniej jeden z symboli jest używany i nie można go usunąć, dopóki jego wystąpienia nie zostaną rozszerzone lub usunięte.
+	Expand Instances	Rozszerz wystąpienia
+	Delete Instances	Usuń wystąpienia
+	Yes	Tak
+	No	Nie
 	Duplicate Brush	Powiel pędzel
 	Duplicate Symbol	Powiel symbol
 	Edit Symbol	Edytuj symbol

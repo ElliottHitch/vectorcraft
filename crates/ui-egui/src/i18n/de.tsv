@@ -729,6 +729,12 @@ font-technology	Variable	Variabel
 	Delete Stop	Farbstopp löschen
 	Delete Swatch	Farbfeld löschen
 	Delete Symbol	Symbol löschen
+	Delete the selected symbol?	Ausgewähltes Symbol löschen?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Mindestens eines der Symbole wird verwendet und kann erst gelöscht werden, wenn seine Instanzen umgewandelt oder gelöscht wurden.
+	Expand Instances	Instanzen umwandeln
+	Delete Instances	Instanzen löschen
+	Yes	Ja
+	No	Nein
 	Delete Tab	Tabulator löschen
 	Delete the graphic style “{name}”?	Grafikstil „{name}“ löschen?
 	Delete Theme	Thema löschen

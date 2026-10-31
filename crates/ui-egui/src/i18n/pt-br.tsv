@@ -663,6 +663,12 @@
 	Delete Stop	Excluir Parada
 	Delete Swatch	Excluir Amostra
 	Delete Symbol	Excluir Símbolo
+	Delete the selected symbol?	Excluir o símbolo selecionado?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Um ou mais símbolos estão em uso e não podem ser excluídos até que suas instâncias sejam expandidas ou excluídas.
+	Expand Instances	Expandir Instâncias
+	Delete Instances	Excluir Instâncias
+	Yes	Sim
+	No	Não
 	Delete Tab	Excluir Parada de Tabulação
 	Delete Theme	Excluir Tema
 	Delete Transparency Flattener Preset	Excluir Predefinido de Achatamento de Transparência

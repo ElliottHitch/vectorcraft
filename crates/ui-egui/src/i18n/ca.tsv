@@ -1052,6 +1052,12 @@
 	Delete Styles	Suprimeix els estils
 	Delete Swatch	Suprimeix la mostra
 	Delete Symbol	Suprimeix el símbol
+	Delete the selected symbol?	Voleu suprimir el símbol seleccionat?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Un o més dels símbols estan en ús i no es poden suprimir fins que se n’expandeixin o se’n suprimeixin les instàncies.
+	Expand Instances	Expandeix les instàncies
+	Delete Instances	Suprimeix les instàncies
+	Yes	Sí
+	No	No
 	Delete Tab	Suprimeix la tabulació
 	Delete the graphic style “{name}”?	Voleu suprimir l’estil gràfic “{name}”?
 	Delete the library “{name}”?	Voleu suprimir la biblioteca “{name}”?

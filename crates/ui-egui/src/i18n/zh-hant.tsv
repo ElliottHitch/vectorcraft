@@ -712,6 +712,12 @@ font-technology	Variable	可變
 	Delete Stop	刪除色標
 	Delete Swatch	刪除色票
 	Delete Symbol	刪除符號
+	Delete the selected symbol?	要刪除選取的符號嗎？
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	一個或多個符號正在使用中，在展開或刪除其範例之前無法刪除。
+	Expand Instances	展開範例
+	Delete Instances	刪除範例
+	Yes	是
+	No	否
 	Delete Tab	刪除定位點
 	Delete the graphic style “{name}”?	要刪除繪圖樣式「{name}」嗎？
 	Delete Theme	刪除主題

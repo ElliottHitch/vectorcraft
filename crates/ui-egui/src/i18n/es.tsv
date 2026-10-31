@@ -750,6 +750,12 @@ font-technology	Variable	Variables
 	Delete Stop	Eliminar parada
 	Delete Swatch	Eliminar muestra
 	Delete Symbol	Eliminar símbolo
+	Delete the selected symbol?	¿Eliminar el símbolo seleccionado?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Uno o más de los símbolos están en uso y no se pueden eliminar hasta que se expandan o eliminen sus instancias.
+	Expand Instances	Expandir instancias
+	Delete Instances	Eliminar instancias
+	Yes	Sí
+	No	No
 	Delete Tab	Eliminar tabulación
 	Delete the graphic style “{name}”?	¿Eliminar el estilo gráfico “{name}”?
 	Delete Theme	Eliminar tema

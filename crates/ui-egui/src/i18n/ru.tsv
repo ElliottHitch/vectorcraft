@@ -748,6 +748,12 @@ font-technology	Variable	Вариативные
 	Delete Stop	Удалить точку перехода
 	Delete Swatch	Удалить образец
 	Delete Symbol	Удалить символ
+	Delete the selected symbol?	Удалить выбранный символ?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Один или несколько символов используются, и их нельзя удалить, пока их экземпляры не будут разобраны или удалены.
+	Expand Instances	Разобрать экземпляры
+	Delete Instances	Удалить экземпляры
+	Yes	Да
+	No	Нет
 	Delete Tab	Удалить табуляцию
 	Delete the graphic style “{name}”?	Удалить графический стиль «{name}»?
 	Delete Theme	Удалить тему
