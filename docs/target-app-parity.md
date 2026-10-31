@@ -1,6 +1,6 @@
 # Parity with Adobe Illustrator
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Object › Rasterize with the CMYK colour model makes a CMYK image, #4882; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (New Document: Save Preset in More Settings, #4893; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
 
 ## Feature submission evidence
 
@@ -19,6 +19,7 @@ Artboard Options forwards the active Artboard tool's Scale Artwork with Artboard
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | New Document: More Settings has the Save Preset button beside the name too, saving its settings (artboard layout included) as a preset (#4893); scores unchanged. |
 | 2026-10-31 | minor | Object › Rasterize in a CMYK document with its CMYK colour model makes a CMYK image of the art's ink amounts (as CMYK exports draw them), so the Properties panel says CMYK and CMYK exports keep its inks; a transparent background becomes the image's opacity mask (#4882); scores unchanged. |
 | 2026-10-31 | minor | Export for Screens is laid out as Illustrator's: Artboards and Assets tabs with a grid or list of thumbnails, Clear Selection and Prefix under them, Create Sub-folders by Scale or Format (on by default), Export PDFs As Single File or Multiple Files (`pdfs`), iOS and Android rows, the format presets in a ☰ menu, and a Selected / files-to-export count; the naming pattern, Layers and Selection pages and folders list stay in `document.exportForScreens` for scripts and MCP; scores unchanged. |
 | 2026-10-31 | minor | Export for Screens is laid out as the reference app's: Artboards and Assets tabs with a grid or list of thumbnails, Clear Selection and Prefix under them, Create Sub-folders by Scale or Format (on by default), Export PDFs As Single File or Multiple Files (`pdfs`), iOS and Android rows, the format presets in a ☰ menu, and a Selected / files-to-export count; the naming pattern, Layers and Selection pages and folders list stay in `document.exportForScreens` for scripts and MCP; scores unchanged. |
