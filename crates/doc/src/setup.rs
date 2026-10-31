@@ -143,34 +143,66 @@ impl Quotes {
     }
 }
 
-/// Document languages and the quote characters each uses (choosing a language in Document Setup
-/// also picks its quotes).
-pub const LANGUAGES: &[(&str, Quotes)] = &[
-    ("English: USA", Quotes::ENGLISH),
-    ("English: UK", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
-    ("German", Quotes { double: ['„', '“'], single: ['‚', '‘'] }),
-    ("German: Swiss", Quotes { double: ['«', '»'], single: ['‹', '›'] }),
-    ("French", Quotes { double: ['«', '»'], single: ['‹', '›'] }),
-    ("Italian", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
-    ("Spanish", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
-    ("Catalan", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
-    ("Portuguese", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
-    ("Dutch", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
-    ("Danish", Quotes { double: ['»', '«'], single: ['›', '‹'] }),
-    ("Swedish", Quotes { double: ['”', '”'], single: ['’', '’'] }),
-    ("Finnish", Quotes { double: ['”', '”'], single: ['’', '’'] }),
-    ("Norwegian", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
-    ("Polish", Quotes { double: ['„', '”'], single: ['‚', '’'] }),
-    ("Czech", Quotes { double: ['„', '“'], single: ['‚', '‘'] }),
-    ("Russian", Quotes { double: ['«', '»'], single: ['„', '“'] }),
-    ("Turkish", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
-    ("Japanese", Quotes { double: ['「', '」'], single: ['『', '』'] }),
-    ("Chinese", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
+/// Document and character languages: the name, the BCP 47 tag text is shaped in (so that fonts use
+/// their language's forms, OpenType `locl`) and the quote characters each uses (choosing a
+/// language in Document Setup also picks its quotes). The first is the default.
+pub const LANGUAGES: &[(&str, &str, Quotes)] = &[
+    ("English: USA", "en-US", Quotes::ENGLISH),
+    ("English: UK", "en-GB", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
+    ("German", "de", Quotes { double: ['„', '“'], single: ['‚', '‘'] }),
+    ("German: Swiss", "de-CH", Quotes { double: ['«', '»'], single: ['‹', '›'] }),
+    ("French", "fr", Quotes { double: ['«', '»'], single: ['‹', '›'] }),
+    ("Italian", "it", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
+    ("Spanish", "es", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
+    ("Catalan", "ca", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
+    ("Portuguese", "pt", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
+    ("Dutch", "nl", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
+    ("Danish", "da", Quotes { double: ['»', '«'], single: ['›', '‹'] }),
+    ("Swedish", "sv", Quotes { double: ['”', '”'], single: ['’', '’'] }),
+    ("Finnish", "fi", Quotes { double: ['”', '”'], single: ['’', '’'] }),
+    ("Norwegian", "nb", Quotes { double: ['«', '»'], single: ['‘', '’'] }),
+    ("Polish", "pl", Quotes { double: ['„', '”'], single: ['‚', '’'] }),
+    ("Czech", "cs", Quotes { double: ['„', '“'], single: ['‚', '‘'] }),
+    ("Russian", "ru", Quotes { double: ['«', '»'], single: ['„', '“'] }),
+    ("Turkish", "tr", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
+    ("Japanese", "ja", Quotes { double: ['「', '」'], single: ['『', '』'] }),
+    ("Chinese", "zh", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
+    ("Hindi", "hi", Quotes::ENGLISH),
+    ("Marathi", "mr", Quotes::ENGLISH),
+    ("Gujarati", "gu", Quotes::ENGLISH),
+    ("Bengali", "bn", Quotes::ENGLISH),
+    ("Punjabi", "pa", Quotes::ENGLISH),
+    ("Tamil", "ta", Quotes::ENGLISH),
+    ("Telugu", "te", Quotes::ENGLISH),
+    ("Kannada", "kn", Quotes::ENGLISH),
+    ("Malayalam", "ml", Quotes::ENGLISH),
+    ("Odia", "or", Quotes::ENGLISH),
+    ("Urdu", "ur", Quotes::ENGLISH),
 ];
 
 /// The quotes of a [`LANGUAGES`] entry (case-insensitive).
 pub fn language_quotes(language: &str) -> Option<Quotes> {
-    LANGUAGES.iter().find(|(l, _)| l.eq_ignore_ascii_case(language)).map(|(_, q)| *q)
+    LANGUAGES.iter().find(|(l, _, _)| l.eq_ignore_ascii_case(language)).map(|(_, _, q)| *q)
+}
+
+/// The [`LANGUAGES`] entry named or tagged `language` (case-insensitive) as a character's
+/// language ([`crate::CharStyle::language`]) stores it: its tag, or `None` for the default (the
+/// first entry); `Err` for a language not in the list.
+pub fn char_language(language: &str) -> Result<Option<&'static str>, String> {
+    let i = LANGUAGES
+        .iter()
+        .position(|(n, t, _)| n.eq_ignore_ascii_case(language) || t.eq_ignore_ascii_case(language))
+        .ok_or_else(|| format!("unknown language `{language}` (one of {})", LANGUAGES.iter().map(|(n, _, _)| *n).collect::<Vec<_>>().join(", ")))?;
+    Ok(LANGUAGES.get(i).filter(|_| i > 0).map(|(_, t, _)| *t))
+}
+
+/// The name of the language a character's stored `language` tag stands for: the default's for
+/// none, `None` for a tag not in [`LANGUAGES`] (from a file).
+pub fn char_language_name(language: Option<&str>) -> Option<&'static str> {
+    match language {
+        None => LANGUAGES.first().map(|(n, _, _)| *n),
+        Some(tag) => LANGUAGES.iter().find(|(_, t, _)| t.eq_ignore_ascii_case(tag)).map(|(n, _, _)| *n),
+    }
 }
 
 /// The transparency flattener preset Document Setup uses unless another is chosen.
@@ -328,6 +360,24 @@ impl DocSetup {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Characters store a language of the list by its tag, the default as none.
+    #[test]
+    fn char_languages_are_stored_by_tag() {
+        assert_eq!(char_language("Turkish"), Ok(Some("tr")));
+        assert_eq!(char_language("MR"), Ok(Some("mr")));
+        assert_eq!(char_language("english: usa"), Ok(None));
+        assert_eq!(char_language("en-US"), Ok(None));
+        assert!(char_language("Klingon").is_err() && char_language("").is_err());
+        assert_eq!(
+            (char_language_name(None), char_language_name(Some("gu")), char_language_name(Some("x-unknown"))),
+            (Some("English: USA"), Some("Gujarati"), None)
+        );
+        // Every entry has a tag of its own, and a name of its own.
+        for (i, (n, t, _)) in LANGUAGES.iter().enumerate() {
+            assert!(LANGUAGES.iter().skip(i + 1).all(|(n2, t2, _)| n2 != n && t2 != t), "{n} {t}");
+        }
+    }
 
     #[test]
     fn quotes_open_and_close_by_context() {

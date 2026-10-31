@@ -5642,4 +5642,14 @@ breakText	Glyphs	Гліфи
 	Set Size of Each	Задати розмір кожного
 @msg	select exactly two objects	виділіть рівно два об’єкти
 @msg	give `width` or `height`	укажіть `width` або `height`
+	Marathi	Маратхі
+	Gujarati	Гуджараті
+	Bengali	Бенгальська
+	Punjabi	Панджабі
+	Tamil	Тамільська
+	Telugu	Телугу
+	Kannada	Каннада
+	Malayalam	Малаялам
+	Odia	Одія
+	Urdu	Урду
 	VectorCraft {release} and later (version {n})	VectorCraft {release} і новіші (версія {n})

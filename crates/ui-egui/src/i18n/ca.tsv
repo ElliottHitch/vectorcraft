@@ -6033,4 +6033,14 @@ breakText	Glyphs	Glifs
 	Set Size of Each	Defineix la mida de cadascun
 @msg	select exactly two objects	selecciona exactament dos objectes
 @msg	give `width` or `height`	indica `width` o `height`
+	Marathi	Marathi
+	Gujarati	Gujarati
+	Bengali	Bengalí
+	Punjabi	Panjabi
+	Tamil	Tàmil
+	Telugu	Telugu
+	Kannada	Kannada
+	Malayalam	Malaiàlam
+	Odia	Oriya
+	Urdu	Urdú
 	VectorCraft {release} and later (version {n})	VectorCraft {release} i posteriors (versió {n})

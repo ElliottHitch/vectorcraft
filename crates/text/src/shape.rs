@@ -715,6 +715,7 @@ fn shapes_alike(a: &CharStyle, b: &CharStyle) -> bool {
         tate_chu_yoko,
         digits,
         no_break,
+        language,
     } = a;
     *font_family == b.font_family
         && *font_style == b.font_style
@@ -731,6 +732,7 @@ fn shapes_alike(a: &CharStyle, b: &CharStyle) -> bool {
         && *tate_chu_yoko == b.tate_chu_yoko
         && *digits == b.digits
         && *no_break == b.no_break
+        && *language == b.language
         && ligatures_suppressed_by(*tracking) == ligatures_suppressed_by(b.tracking)
 }
 
@@ -922,6 +924,12 @@ fn shape_segment(text: &str, context: &Range<usize>, seg: &Segment, feats: &OtFe
 
     // Shape the segment as if all of it were in `st`, with the features `more` on top.
     let shape_in = |st: &CharStyle, more: &[Feature]| {
+        // A BCP 47 tag is short ASCII; anything else (a file may hold anything) is shaped without one.
+        let language = st
+            .language
+            .as_deref()
+            .filter(|l| l.len() <= 35 && l.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'-'))
+            .and_then(|l| l.parse::<harfrust::Language>().ok());
         let mut shaped = Shaped::default();
         let Shaped { raw, proportional, vpal } = &mut shaped;
         let hb_shaped = face.hb().map(|hb| {
@@ -943,6 +951,11 @@ fn shape_segment(text: &str, context: &Range<usize>, seg: &Segment, feats: &OtFe
                 }
                 buf.set_direction(direction);
                 buf.guess_segment_properties();
+                // The characters' language picks the font's forms for it (`locl`: Turkish keeps fi
+                // apart and the dot on its i).
+                if let Some(l) = &language {
+                    buf.set_language(l.clone());
+                }
                 // Harfrust keeps this Unicode context for joining/positional shaping, but does not emit
                 // glyphs for it. This retains context at real style/font segmentation boundaries without
                 // shaping across those boundaries or claiming cross-style ligatures/mark attachment.

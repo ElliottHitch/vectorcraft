@@ -6000,4 +6000,14 @@ breakText	Glyphs	Glifler
 	Set Size of Each	Her Birinin Boyutunu Ayarla
 @msg	select exactly two objects	tam olarak iki nesne seç
 @msg	give `width` or `height`	`width` veya `height` belirt
+	Marathi	Marathi dili
+	Gujarati	Gücerat dili
+	Bengali	Bengalce
+	Punjabi	Pencapça
+	Tamil	Tamilce
+	Telugu	Telugu dili
+	Kannada	Kannada dili
+	Malayalam	Malayalam dili
+	Odia	Oriya dili
+	Urdu	Urduca
 	VectorCraft {release} and later (version {n})	VectorCraft {release} ve sonrası (sürüm {n})

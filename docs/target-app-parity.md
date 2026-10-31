@@ -1,6 +1,6 @@
 # Parity with Adobe Illustrator
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (New Document: Save Preset in More Settings, #4893; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-11-01 · **Change:** minor (Type core: text shaped in its language, a Language per character, Indian languages, #4940 #4946 #4943; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
 
 ## Feature submission evidence
 
@@ -1403,6 +1403,7 @@ dialogs, Preview and Cancel, Zoom to Selection) and `command_sweep`. Commands: `
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-11-01 | minor | Type core: a Language per character (Character panel › Language, `text.setFormat` / `text.setRangeStyle {language}`, character styles), new type in the document's language; text is shaped in its language so fonts use their language forms (OpenType `locl`: Turkish `fi`, #4940, #4946); Hindi, Marathi, Gujarati, Bengali, Punjabi, Tamil, Telugu, Kannada, Malayalam, Odia and Urdu in the language list (#4943); scores unchanged |
 | 2026-10-31 | minor | Selection tools: with Alt held at the press, a Direct Selection marquee selects every path it touches whole and keeps the Group Selection pointer (#4890); a press on a selected object's centre point selects the object whole and a drag from it moves it (#4891); regression tests in `direct/tests.rs`; scores and estimates unchanged. |
 | 2026-10-31 | minor | Arrange Tools add-on (a VectorCraft addition): evidence added; scores unchanged. |
 | 2026-10-31 | minor | Guides and snapping: Snap to Perpendicular and Snap to Tangent apply to an existing line's end dragged with Direct Selection, as the public pages describe for editing existing lines (the end anchor of a straight segment, not mid-line anchors or curved segments); a regression test covers both snaps, both toggles and non-snapping controls (#2530); scores and estimates unchanged. |

@@ -1,11 +1,12 @@
 //! Character panel: font family / style, size, leading, kerning, tracking, vertical and horizontal
 //! scale, baseline shift, character rotation and the All Caps, Small Caps, Superscript, Subscript,
-//! Underline and Strikethrough toggles.
+//! Underline and Strikethrough toggles and the Language menu.
 
 use std::sync::{Mutex, OnceLock};
 
 use egui::{Key, Ui, vec2};
 use serde_json::{Value, json};
+use vectorcraft_doc::setup::{LANGUAGES, char_language_name};
 use vectorcraft_doc::{CharStyle, NodeId, NodeKind};
 use vectorcraft_tools::{Mods, ToolKey};
 
@@ -922,6 +923,17 @@ fn attributes(app: &mut VectorcraftApp, ui: &mut Ui) {
             }
         }
     });
+    // Language: the characters are shaped in it, so that the font uses that language's forms.
+    ui.add_space(4.0);
+    let names: Vec<&str> = LANGUAGES.iter().map(|(n, _, _)| *n).collect();
+    // Mixed: blank; a tag from a file that is not in the list: as it is.
+    let current = shared(app, |s| s.language.clone())
+        .map_or_else(String::new, |l| char_language_name(l.as_deref()).map_or_else(|| l.unwrap_or_default(), str::to_string));
+    widgets::label_row(ui, tl!("Language:"), 64.0, |ui| {
+        if let Some(name) = widgets::dropdown(ui, "ch-language", &current, &names, w - 72.0).and_then(|i| names.get(i)) {
+            format(app, json!({"language": name}));
+        }
+    });
 }
 
 /// The `text.setFormat` params of the Superscript or Subscript toggle `p` for text whose
@@ -1079,11 +1091,13 @@ pub fn menu(app: &mut VectorcraftApp, ui: &mut Ui) {
         ui.add_enabled_ui(has, |ui| {
             ui.menu_button(format!("   {}", tl!("Digits")), |ui| {
                 use vectorcraft_doc::Digits;
+                // The numeral systems, in the digits context: Hindi is also a language.
+                let digits_label = |s| crate::i18n::tr_ctx(crate::i18n::current(), "digits", s);
                 for (label, d, key) in [
                     (tl!("Default"), Digits::Default, "default"),
-                    (tl!("Arabic"), Digits::Arabic, "arabic"),
-                    (tl!("Hindi"), Digits::Hindi, "hindi"),
-                    (tl!("Farsi"), Digits::Farsi, "farsi"),
+                    (digits_label("Arabic"), Digits::Arabic, "arabic"),
+                    (digits_label("Hindi"), Digits::Hindi, "hindi"),
+                    (digits_label("Farsi"), Digits::Farsi, "farsi"),
                 ] {
                     if menu_item(ui, label, true, digits == Some(d)) {
                         format(app, json!({"digits": key}));

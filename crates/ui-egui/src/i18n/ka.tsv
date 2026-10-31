@@ -6032,4 +6032,14 @@ breakText	Glyphs	გლიფები
 	Set Size of Each	თითოეულის ზომის დაყენება
 @msg	select exactly two objects	მონიშნეთ ზუსტად ორი ობიექტი
 @msg	give `width` or `height`	მიუთითეთ `width` ან `height`
+	Marathi	მარათჰი
+	Gujarati	გუჯარათი
+	Bengali	ბენგალური
+	Punjabi	პენჯაბური
+	Tamil	ტამილური
+	Telugu	ტელუგუ
+	Kannada	კანადა
+	Malayalam	მალაიალამური
+	Odia	ორია
+	Urdu	ურდუ
 	VectorCraft {release} and later (version {n})	VectorCraft {release} და უფრო ახალი (ვერსია {n})

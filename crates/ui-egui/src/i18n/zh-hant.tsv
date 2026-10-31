@@ -3299,7 +3299,8 @@ font-script	Japanese	漢字
 	Character Direction	字元方向
 	Digits	數字
 	Arabic	阿拉伯數字
-	Hindi	印地數字
+	Hindi	印地文
+digits	Hindi	印地數字
 	Farsi	波斯數字
 	Proportional Oldstyle	比例舊式數字
 	Pucker & Bloat…	縮攏與膨脹…
@@ -5681,4 +5682,14 @@ breakText	Glyphs	字符
 	Set Size of Each	個別設定大小
 @msg	select exactly two objects	請選取正好兩個物件
 @msg	give `width` or `height`	請提供 `width` 或 `height`
+	Marathi	馬拉地文
+	Gujarati	古吉拉特文
+	Bengali	孟加拉文
+	Punjabi	旁遮普文
+	Tamil	坦米爾文
+	Telugu	泰盧固文
+	Kannada	坎那達文
+	Malayalam	馬來亞拉姆文
+	Odia	歐利亞文
+	Urdu	烏都文
 	VectorCraft {release} and later (version {n})	VectorCraft {release} 及更新版本 (版本 {n})
