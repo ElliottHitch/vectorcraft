@@ -51,6 +51,25 @@ fn visible_yes_and_no_buttons_control_unused_deletion() {
 }
 
 #[test]
+fn yes_asks_again_when_a_stroke_started_using_the_brush() {
+    let mut app = VectorcraftApp::new(Session::new(), Default::default());
+    app.run("file.new", json!({"width": 200, "height": 100})).unwrap();
+    let name = "10 pt. Oval";
+    let ctx = context();
+    ask(&mut app, json!({"names": [name]}), false);
+    let path = NodeId(app.run("shape.rectangle", json!({"x": 10, "y": 10, "width": 60, "height": 40})).unwrap()["id"].as_u64().unwrap());
+    app.run("brush.apply", json!({"name": name})).unwrap();
+    let before = app.session.active().unwrap().history.undo.len();
+    press(&ctx, &mut app, "Yes", 0.0);
+    assert!(app.ui.dialog.as_ref().is_some_and(|d| d.kind == KIND && d.bool("used")), "asks again with Remove Strokes");
+    assert_eq!(app.session.active().unwrap().history.undo.len(), before);
+    let stroke = app.session.active().unwrap().doc.node(path).and_then(|n| n.appearance.stroke()).unwrap();
+    assert_eq!(stroke.brush.as_deref(), Some(name));
+    press(&ctx, &mut app, "Remove Strokes", 1.0);
+    assert!(app.run("brush.get", json!({"name": name})).is_err());
+}
+
+#[test]
 fn visible_remove_strokes_and_cancel_buttons_control_used_deletion() {
     for choice in ["Cancel", "Remove Strokes"] {
         let mut app = VectorcraftApp::new(Session::new(), Default::default());

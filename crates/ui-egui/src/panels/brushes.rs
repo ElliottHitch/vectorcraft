@@ -207,11 +207,9 @@ fn run_on(app: &mut VectorcraftApp, id: &str, names: &[String]) {
 /// Delete `names` after asking: Yes or No when none of them is in use, else Remove Strokes or
 /// Cancel. With `now` (Alt-click on the bottom button), brushes that are not in use go at once.
 fn delete(app: &mut VectorcraftApp, names: &[String], now: bool) {
-    let Ok(unused) = app.run("brush.unused", json!({})) else {
+    let Some(used) = crate::dialogs::brush_delete::used(app, names) else {
         return;
     };
-    let unused = unused.get("names").and_then(Value::as_array).cloned().unwrap_or_default();
-    let used = names.iter().any(|name| !unused.iter().any(|n| n.as_str() == Some(name)));
     if now && !used {
         run_on(app, "brush.delete", names);
         return;

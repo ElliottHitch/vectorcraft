@@ -28,6 +28,21 @@ pub fn ask(app: &mut VectorcraftApp, params: Value, used: bool) {
     app.ui.dialog = Some(Dialog::new(KIND, json!({"params": params, "used": used, "message": message})));
 }
 
+/// Whether a stroke uses one of `names` (`brush.unused`), or `None` when the query fails.
+pub fn used(app: &mut VectorcraftApp, names: &[String]) -> Option<bool> {
+    let unused = app.run("brush.unused", json!({})).ok()?;
+    let unused = unused.get("names").and_then(Value::as_array).cloned().unwrap_or_default();
+    Some(names.iter().any(|name| !unused.iter().any(|n| n.as_str() == Some(name))))
+}
+
+/// The brush names in `brush.delete` params (`name` or `names`).
+fn names(params: &Value) -> Vec<String> {
+    match params.get("name").and_then(Value::as_str) {
+        Some(name) => vec![name.to_string()],
+        None => params.get("names").and_then(Value::as_array).into_iter().flatten().filter_map(Value::as_str).map(str::to_string).collect(),
+    }
+}
+
 fn body(_: &mut VectorcraftApp, ui: &mut egui::Ui, d: &mut Dialog) -> DialogAction {
     let mut action = DialogAction::None;
     ui.horizontal(|ui| {
@@ -50,9 +65,14 @@ fn body(_: &mut VectorcraftApp, ui: &mut egui::Ui, d: &mut Dialog) -> DialogActi
     action
 }
 
-/// Closes before running, so a dialog the command opens stays open.
+/// Closes before running, so a dialog the command opens stays open. Yes on brushes that a stroke
+/// has started to use since the question opened asks again with Remove Strokes and Cancel.
 fn confirm(app: &mut VectorcraftApp, d: &Dialog) -> Result<Value, String> {
     let params = d.fields.get("params").cloned().unwrap_or_else(|| json!({}));
+    if !d.bool("used") && used(app, &names(&params)) == Some(true) {
+        ask(app, params, true);
+        return Ok(json!({}));
+    }
     app.ui.dialog = None;
     app.run("brush.delete", params)
 }
