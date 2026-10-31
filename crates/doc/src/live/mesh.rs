@@ -592,11 +592,18 @@ impl GradientMesh {
 
     /// Which patch and local (u, v) contains `p` (sampled search; `None` outside the mesh).
     pub fn locate(&self, p: Point) -> Option<(usize, usize, f64, f64)> {
+        self.locate_within(p, 0.0)
+    }
+
+    /// As [`Self::locate`], and for a point outside the mesh within `tol` of its outline, the
+    /// patch and local (u, v) of the nearest point of the mesh's edge.
+    pub fn locate_within(&self, p: Point, tol: f64) -> Option<(usize, usize, f64, f64)> {
+        use vectorcraft_geom::kurbo::ParamCurveNearest;
         if !self.is_valid() {
             return None;
         }
         let bp = self.outline().to_bezpath();
-        if bp.winding(p) == 0 {
+        if bp.winding(p) == 0 && !(tol > 0.0 && bp.segments().any(|s| s.nearest(p, 1e-9).distance_sq <= tol * tol)) {
             return None;
         }
         const N: usize = 16;
@@ -721,9 +728,10 @@ impl GradientMesh {
         self.cols += 1;
     }
 
-    /// Mesh tool click: add a row and a column through `p` (inside the mesh). Returns the new point index.
-    pub fn add_lines_at(&mut self, p: Point) -> Option<usize> {
-        let (r, c, u, v) = self.locate(p)?;
+    /// Mesh tool click: add a row and a column through `p` (inside the mesh, or outside within
+    /// `tol` of its edge, through the nearest point of the edge). Returns the new point index.
+    pub fn add_lines_at(&mut self, p: Point, tol: f64) -> Option<usize> {
+        let (r, c, u, v) = self.locate_within(p, tol)?;
         let mut rr = r;
         let mut cc = c;
         let row_new = v > 0.02 && v < 0.98;
