@@ -1,6 +1,6 @@
 # Gaps
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G13: Direct Selection snaps a dragged line end square to straight paths and grazing curves; G13: gradient presets done; G1: Average & Join with a corner or smooth choice, Cmd+Alt+Shift+J, done; estimate unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G4: PDF import finds installed fonts whose PDF names hold hyphens or a composite font's CMap; estimate unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -330,6 +330,7 @@ from G14 and the budget run of G15: **~170–270 h** one agent, ~50–80 h wall 
 - **Improved:** mixed paragraph alignments leave the existing Paragraph/Properties alignment buttons unselected; choosing an alignment still uses the range-aware command. Headless regressions, full integration CI and visual review pass. Other mixed paragraph fields remain; estimate unchanged.
 - **Improved:** Paragraph panel left/right/first-line indents and space before/after show blank when paragraphs in scope differ; uniform values still display and edits apply through `text.setFormat`. Headless regression in `panels/paragraph.rs`; estimate unchanged.
 - **Improved (#1258):** full font names (name ID 4) resolve the face instead of falling back, and Missing Fonts searches recognize the same aliases. Synthetic regressions cover loaded/cataloged fonts, localized names, real-family precedence and variable default faces. Windows font-service activation still needs reporter QA; estimate unchanged.
+- **Improved:** PDF import finds an installed font whose PDF name holds hyphens (`Noto-Sans-Bold`, `Noto-Sans-CJK-JP`) or a composite font's CMap (`SomeFont-Italic-Identity-H`; ISO 32000-1 §9.7.6.1), and names a missing one by the whole name unless a style part follows (`MS-PGothic` is MS PGothic). Synthetic regressions in `crates/pdf/src/tests/import_fidelity.rs`; estimate unchanged.
 - **Done:** Paragraph panel menu › Roman Hanging Punctuation (#2756), per paragraph; estimate unchanged.
 - **Improved:** hanging punctuation (Roman Hanging Punctuation and Optical Margin Alignment) keeps its published amounts when justification scales glyphs, and Standard burasagari counts a hung line start as room; paragraph-level tests with both composers; estimate unchanged.
 - **Done:** Paragraph panel menu › Justification… (#2755): word and letter spacing, glyph scaling (Minimum, Desired,
@@ -675,6 +676,7 @@ trap, and the defaults (0.25 pt, 100%, 40%) are VectorCraft's own, the pages giv
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | G4: PDF import finds an installed font whose PDF name holds hyphens (`Noto-Sans-Bold` is Noto Sans, Bold: the longest part before a hyphen that names an installed family) and a composite font by its CIDFont's name rather than its base name, which ends in the CMap's (`Name-Identity-H`, [ISO 32000-1 §9.7.6.1](https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf)); a missing font is split only before a style part (`Helvetica-BoldOblique`), so it is reported as `MS PGothic`, not `MS`. Estimate unchanged. |
 | 2026-10-31 | minor | G13: Direct Selection snaps the end of an existing straight line, dragged by its end anchor, square to straight paths and grazing curves (Smart Guides › Geometric Guides: Snap to Perpendicular and Snap to Tangent), the case the public Snap to Perpendicular and Snap to Tangent pages add to drawing with the Line Segment and Pen tools (#2530). Scores and estimates unchanged. |
 | 2026-10-31 | minor | G8: a gradient mesh read from a file is budgeted: at most about a million quads per tessellation, and a mesh with more patches than that is malformed (#3592); estimate unchanged. |
 | 2026-10-30 | minor | G9: `.ai`/EPS editing data: a blend takes the transparency (opacity, blend mode, knockout) in its state block after its record, so its steps knock each other out as the page draws them; a user's file comes in 0.6% from its page instead of 1.3%. Scores and estimates unchanged. |
