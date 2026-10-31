@@ -744,8 +744,6 @@ font-technology	Variable	Variabla
 	Yes	Ja
 	No	Nej
 	Delete Tab	Radera tabb
-	Delete the brush “{name}”?	Radera penseln ”{name}”?
-	Strokes using deleted brushes become plain strokes.	Linjer som använder borttagna penslar blir vanliga linjer.
 	Delete the graphic style “{name}”?	Radera grafikstilen ”{name}”?
 	Delete Theme	Radera tema
 	Delete theme	Radera tema
@@ -6063,6 +6061,11 @@ breakText	Glyphs	Glyfer
 	Gap 4	Mellanrum 4
 	Dash 5	Streck 5
 	Gap 5	Mellanrum 5
+	Delete the brush selection?	Radera de valda penslarna?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	En eller flera penslar används och kan inte raderas förrän deras konturer har expanderats eller tagits bort.
+	Remove Strokes	Ta bort konturer
+	Yes	Ja
+	No	Nej
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Ordningsverktyg
 	Arrange in Grid…	Ordna i rutnät…

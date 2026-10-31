@@ -736,8 +736,6 @@ font-technology	Variable	Değişken
 	Yes	Evet
 	No	Hayır
 	Delete Tab	Sekmeyi Sil
-	Delete the brush “{name}”?	“{name}” fırçası silinsin mi?
-	Strokes using deleted brushes become plain strokes.	Silinen fırçaları kullanan konturlar düz konturlara dönüşür.
 	Delete the graphic style “{name}”?	“{name}” grafik stili silinsin mi?
 	Delete Theme	Temayı Sil
 	Delete theme	Temayı sil
@@ -5968,6 +5966,11 @@ breakText	Glyphs	Glifler
 	Gap 4	Boşluk 4
 	Dash 5	Çizgi 5
 	Gap 5	Boşluk 5
+	Delete the brush selection?	Seçili fırçalar silinsin mi?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Bir veya daha fazla fırça kullanılıyor ve konturları genişletilmeden veya kaldırılmadan silinemez.
+	Remove Strokes	Konturları Kaldır
+	Yes	Evet
+	No	Hayır
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Düzenleme Araçları
 	Arrange in Grid…	Izgarada Düzenle…

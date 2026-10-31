@@ -125,7 +125,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Select All Unused",
             [],
             None,
-            "{} → {names: [the brushes no stroke paints with, in library order]} (the Brushes panel selects them): strokes in the art (opacity masks included), symbols, graph designs, pattern tiles and graphic styles count, and so do strokes in the art of a brush that is used",
+            "{} → {names: [the brushes no stroke paints with, in library order]} (the Brushes panel selects them): strokes in the art (opacity masks included), symbols, graph designs, pattern tiles (with the tiles that pattern editing's Cancel puts back) and graphic styles count, and so do strokes in the art of a brush that is used",
             has_doc,
             brush_unused
         ),

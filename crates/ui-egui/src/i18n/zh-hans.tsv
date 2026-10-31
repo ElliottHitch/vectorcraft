@@ -700,8 +700,6 @@
 	Yes	是
 	No	否
 	Delete Tab	删除制表位
-	Delete the brush “{name}”?	要删除画笔“{name}”吗？
-	Strokes using deleted brushes become plain strokes.	使用已删除画笔的描边会变成普通描边。
 	Delete the graphic style “{name}”?	要删除图形样式“{name}”吗？
 	Delete Theme	删除主题
 	Delete theme	删除主题
@@ -5852,6 +5850,11 @@ breakText	Glyphs	字形
 	Gap 4	间隔 4
 	Dash 5	虚线 5
 	Gap 5	间隔 5
+	Delete the brush selection?	删除选中的画笔吗？
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	一个或多个画笔正在使用中，必须先扩展或移除其描边才能删除。
+	Remove Strokes	移除描边
+	Yes	是
+	No	否
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	排列工具
 	Arrange in Grid…	按网格排列…

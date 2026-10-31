@@ -981,8 +981,6 @@ font-technology	Variable	Változó
 	Yes	Igen
 	No	Nem
 	Delete Tab	Tabulátor törlése
-	Delete the brush “{name}”?	Törlöd ezt az ecsetet: „{name}”?
-	Strokes using deleted brushes become plain strokes.	A törölt ecseteket használó körvonalak egyszerű körvonalakká válnak.
 	Delete the graphic style “{name}”?	Törlöd ezt a grafikai stílust: „{name}”?
 	Delete the library “{name}”?	Törlöd ezt a könyvtárat: „{name}”?
 	Delete Theme	Téma törlése
@@ -5997,6 +5995,11 @@ breakText	Glyphs	Glifák
 	Gap 4	Hézag 4
 	Dash 5	Vonal 5
 	Gap 5	Hézag 5
+	Delete the brush selection?	Törlöd a kijelölt ecseteket?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Egy vagy több ecset használatban van, és nem törölhető, amíg a körvonalait ki nem bontod vagy el nem távolítod.
+	Remove Strokes	Körvonalak eltávolítása
+	Yes	Igen
+	No	Nem
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Elrendezőeszközök
 	Arrange in Grid…	Elrendezés rácsba…

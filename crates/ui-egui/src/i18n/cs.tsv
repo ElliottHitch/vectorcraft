@@ -1558,8 +1558,6 @@ lighting	Light	Světlo
 	Reverse Gradient	Obrátit přechod
 	Save to Swatches	Uložit do vzorníku
 	Delete Graphic Style (Alt-click: without asking)	Odstranit grafický styl (Alt+kliknutí: bez dotazu)
-	Delete the brush “{name}”?	Odstranit štětec „{name}“?
-	Strokes using deleted brushes become plain strokes.	Tahy používající odstraněné štětce se změní na běžné tahy.
 	Delete the graphic style “{name}”?	Odstranit grafický styl „{name}“?
 	Delete these {n} graphic styles?	Odstranit tyto grafické styly ({n})?
 	Delete this {n} graphic style?	Odstranit tento grafický styl ({n})?
@@ -6010,6 +6008,11 @@ breakText	Glyphs	Glyfy
 	Gap 4	Mezera 4
 	Dash 5	Čárka 5
 	Gap 5	Mezera 5
+	Delete the brush selection?	Odstranit vybrané štětce?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Jeden nebo více štětců se používá a nelze je odstranit, dokud jejich tahy nebudou rozloženy nebo odebrány.
+	Remove Strokes	Odebrat tahy
+	Yes	Ano
+	No	Ne
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Nástroje uspořádání
 	Arrange in Grid…	Uspořádat do mřížky…

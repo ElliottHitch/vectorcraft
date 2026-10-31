@@ -5931,6 +5931,11 @@ shape	Open	Otvoren
 @msg	`follow` must be "average", "a" or "b"	`follow` mora biti "average", "a" ili "b"
 @msg	the paths have nothing to merge there	putanje tu nemaju šta spojiti
 @msg	the path is locked or hidden	putanja je zaključana ili skrivena
+	Delete the brush selection?	Izbrisati odabrane četkice?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Jedna ili više četkica se koristi i ne mogu se izbrisati dok se njihovi potezi ne prošire ili uklone.
+	Remove Strokes	Ukloni poteze
+	Yes	Da
+	No	Ne
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Alati za raspoređivanje
 	Arrange in Grid…	Rasporedi u mrežu…

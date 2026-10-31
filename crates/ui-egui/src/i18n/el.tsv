@@ -716,8 +716,6 @@ font-technology	Variable	Μεταβλητές
 	Yes	Ναι
 	No	Όχι
 	Delete Tab	Διαγραφή στηλοθέτη
-	Delete the brush “{name}”?	Να διαγραφεί το πινέλο «{name}»;
-	Strokes using deleted brushes become plain strokes.	Οι πινελιές που χρησιμοποιούν διαγραμμένα πινέλα γίνονται απλές πινελιές.
 	Delete the graphic style “{name}”?	Να διαγραφεί το στυλ γραφικών «{name}»;
 	Delete Theme	Διαγραφή θέματος
 	Delete theme	Διαγραφή θέματος
@@ -5963,6 +5961,11 @@ breakText	Glyphs	Γλύφοι
 	Gap 4	Διάκενο 4
 	Dash 5	Παύλα 5
 	Gap 5	Διάκενο 5
+	Delete the brush selection?	Να διαγραφούν τα επιλεγμένα πινέλα;
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Ένα ή περισσότερα πινέλα χρησιμοποιούνται και δεν μπορούν να διαγραφούν μέχρι να επεκταθούν ή να αφαιρεθούν τα περιγράμματά τους.
+	Remove Strokes	Αφαίρεση περιγραμμάτων
+	Yes	Ναι
+	No	Όχι
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Εργαλεία διάταξης
 	Arrange in Grid…	Διάταξη σε πλέγμα…

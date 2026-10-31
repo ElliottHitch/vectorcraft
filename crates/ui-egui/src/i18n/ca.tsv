@@ -1059,8 +1059,6 @@
 	Yes	Sí
 	No	No
 	Delete Tab	Suprimeix la tabulació
-	Delete the brush “{name}”?	Voleu suprimir el pinzell “{name}”?
-	Strokes using deleted brushes become plain strokes.	Els traços que utilitzen pinzells suprimits esdevenen traços normals.
 	Delete the graphic style “{name}”?	Voleu suprimir l’estil gràfic “{name}”?
 	Delete the library “{name}”?	Voleu suprimir la biblioteca “{name}”?
 	Delete Theme	Suprimeix el tema
@@ -6001,6 +5999,11 @@ breakText	Glyphs	Glifs
 	Gap 4	Separació 4
 	Dash 5	Guió 5
 	Gap 5	Separació 5
+	Delete the brush selection?	Voleu suprimir la selecció de pinzells?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Un o més pinzells estan en ús i no es poden suprimir fins que els traços s’expandeixin o s’eliminin.
+	Remove Strokes	Elimina els traços
+	Yes	Sí
+	No	No
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Eines d’organització
 	Arrange in Grid…	Organitza en quadrícula…

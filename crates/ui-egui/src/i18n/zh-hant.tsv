@@ -719,8 +719,6 @@ font-technology	Variable	可變
 	Yes	是
 	No	否
 	Delete Tab	刪除定位點
-	Delete the brush “{name}”?	要刪除筆刷「{name}」嗎？
-	Strokes using deleted brushes become plain strokes.	使用已刪除筆刷的筆畫會變成一般筆畫。
 	Delete the graphic style “{name}”?	要刪除繪圖樣式「{name}」嗎？
 	Delete Theme	刪除主題
 	Delete theme	刪除主題
@@ -5649,6 +5647,11 @@ breakText	Glyphs	字符
 	Gap 4	間隙 4
 	Dash 5	虛線 5
 	Gap 5	間隙 5
+	Delete the brush selection?	要刪除選取的筆刷嗎？
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	一個或多個筆刷正在使用中，必須先擴展或移除其筆畫才能刪除。
+	Remove Strokes	移除筆畫
+	Yes	是
+	No	否
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	排列工具
 	Arrange in Grid…	依格狀排列…

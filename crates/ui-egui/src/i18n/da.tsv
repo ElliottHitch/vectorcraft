@@ -1472,8 +1472,6 @@ lighting	Light	Lys
 	Reverse Gradient	Omvend gradient
 	Save to Swatches	Gem i farveprøver
 	Delete Graphic Style (Alt-click: without asking)	Slet grafisk typografi (Alt-klik: uden at spørge)
-	Delete the brush “{name}”?	Slet penslen »{name}«?
-	Strokes using deleted brushes become plain strokes.	Streger, der bruger slettede pensler, bliver almindelige streger.
 	Delete the graphic style “{name}”?	Slet den grafiske typografi »{name}«?
 	Delete these {n} graphic styles?	Slet disse {n} grafiske typografier?
 	Delete this {n} graphic style?	Slet denne {n} grafiske typografi?
@@ -5915,6 +5913,11 @@ breakText	Glyphs	Glyffer
 	Gap 4	Mellemrum 4
 	Dash 5	Streg 5
 	Gap 5	Mellemrum 5
+	Delete the brush selection?	Slet de valgte pensler?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	En eller flere pensler er i brug og kan ikke slettes, før deres streger er udvidet eller fjernet.
+	Remove Strokes	Fjern streger
+	Yes	Ja
+	No	Nej
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Arrangeringsværktøjer
 	Arrange in Grid…	Arrangér i gitter…

@@ -877,8 +877,6 @@ font-technology	Variable	Biến thiên
 	Yes	Có
 	No	Không
 	Delete Tab	Xóa tab
-	Delete the brush “{name}”?	Xóa cọ “{name}”?
-	Strokes using deleted brushes become plain strokes.	Các nét dùng cọ đã xóa trở thành nét thông thường.
 	Delete the graphic style “{name}”?	Xóa kiểu đồ họa “{name}”?
 	Delete the library “{name}”?	Xóa thư viện “{name}”?
 	Delete Theme	Xóa bộ màu
@@ -5612,6 +5610,11 @@ breakText	Glyphs	Glyph
 	Gap 4	Khoảng hở 4
 	Dash 5	Nét 5
 	Gap 5	Khoảng hở 5
+	Delete the brush selection?	Xóa các cọ đã chọn?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Một hoặc nhiều cọ đang được sử dụng và không thể xóa cho đến khi nét được mở rộng hoặc gỡ bỏ.
+	Remove Strokes	Gỡ nét
+	Yes	Có
+	No	Không
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Công cụ sắp xếp
 	Arrange in Grid…	Sắp xếp theo lưới…

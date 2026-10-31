@@ -204,9 +204,15 @@ fn run_on(app: &mut VectorcraftApp, id: &str, names: &[String]) {
     app.run(id, p).ok();
 }
 
-/// Delete `names` after asking, or immediately when the bottom button was Alt-clicked.
+/// Delete `names` after asking: Yes or No when none of them is in use, else Remove Strokes or
+/// Cancel. With `now` (Alt-click on the bottom button), brushes that are not in use go at once.
 fn delete(app: &mut VectorcraftApp, names: &[String], now: bool) {
-    if now {
+    let Ok(unused) = app.run("brush.unused", json!({})) else {
+        return;
+    };
+    let unused = unused.get("names").and_then(Value::as_array).cloned().unwrap_or_default();
+    let used = names.iter().any(|name| !unused.iter().any(|n| n.as_str() == Some(name)));
+    if now && !used {
         run_on(app, "brush.delete", names);
         return;
     }
@@ -214,11 +220,7 @@ fn delete(app: &mut VectorcraftApp, names: &[String], now: bool) {
         [name] => json!({ "name": name }),
         _ => json!({ "names": names }),
     };
-    let message = match names {
-        [name] => crate::i18n::fmt(tl!("Delete the brush “{name}”?"), &[("name", name)]),
-        _ => crate::i18n::tn(names.len() as u64, "Delete this {n} brush?", "Delete these {n} brushes?"),
-    };
-    crate::dialogs::confirm::ask(app, &message, tl!("Strokes using deleted brushes become plain strokes."), "brush.delete", params);
+    crate::dialogs::brush_delete::ask(app, params, used);
 }
 
 /// The names in `list` in the order the panel shows them: by type in [`KINDS`] order, without the

@@ -1472,8 +1472,6 @@ lighting	Light	Cahaya
 	Reverse Gradient	Balikkan gradien
 	Save to Swatches	Simpan ke swatch
 	Delete Graphic Style (Alt-click: without asking)	Hapus gaya grafis (Alt+klik: tanpa konfirmasi)
-	Delete the brush “{name}”?	Hapus kuas “{name}”?
-	Strokes using deleted brushes become plain strokes.	Goresan yang menggunakan kuas terhapus menjadi goresan biasa.
 	Delete the graphic style “{name}”?	Hapus gaya grafis “{name}”?
 	Delete these {n} graphic styles?	Hapus {n} gaya grafis ini?
 	Delete this {n} graphic style?	Hapus {n} gaya grafis ini?
@@ -5915,6 +5913,11 @@ breakText	Glyphs	Glif
 	Gap 4	Jarak 4
 	Dash 5	Garis 5
 	Gap 5	Jarak 5
+	Delete the brush selection?	Hapus kuas yang dipilih?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Satu atau beberapa kuas sedang digunakan dan tidak dapat dihapus sampai stroke-nya diperluas atau dihapus.
+	Remove Strokes	Hapus Stroke
+	Yes	Ya
+	No	Tidak
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Alat penyusunan
 	Arrange in Grid…	Susun dalam grid…

@@ -362,14 +362,15 @@ fn art_brushes(n: &Node, out: &mut Vec<String>) {
 }
 
 /// The brushes no stroke paints with. Strokes in the art (opacity masks included), symbols, graph
-/// designs, pattern tiles and graphic styles count, and so do the strokes in the art of every brush
-/// that a counted stroke paints with.
+/// designs, pattern tiles and the tiles that pattern editing's Cancel puts back, and graphic styles
+/// count, and so do the strokes in the art of every brush that a counted stroke paints with.
 pub(super) fn brush_unused(s: &mut Session, _: &Value) -> Result<Value> {
     let d = &s.doc()?.doc;
     let lib = brush::library(d);
     let mut todo = vec![];
     let trees = d.layers.iter().chain(d.symbols.iter().map(|s| &s.art)).chain(d.graph_designs.iter().map(|g| &g.art));
-    trees.chain(d.patterns.iter().flat_map(|p| &p.art)).for_each(|n| art_brushes(n, &mut todo));
+    let patterns = d.patterns.iter().chain(d.pattern_edit.iter().filter_map(|pe| pe.original.as_ref()));
+    trees.chain(patterns.flat_map(|p| &p.art)).for_each(|n| art_brushes(n, &mut todo));
     d.graphic_styles.iter().for_each(|g| stroke_brushes(&g.appearance.items, &mut todo));
     let mut used = BTreeSet::new();
     while let Some(name) = todo.pop() {

@@ -1389,8 +1389,6 @@ lighting	Light	სინათლე
 	Reverse Gradient	გრადიენტის შებრუნება
 	Save to Swatches	ფერის ნიმუშებში შენახვა
 	Delete Graphic Style (Alt-click: without asking)	გრაფიკული სტილის წაშლა (Alt-დაწკაპუნებით: დაუკითხავად)
-	Delete the brush “{name}”?	წაიშალოს ფუნჯი „{name}“?
-	Strokes using deleted brushes become plain strokes.	წაშლილი ფუნჯებით დახატული შტრიხები ჩვეულებრივ შტრიხებად იქცევა.
 	Delete the graphic style “{name}”?	წაიშალოს გრაფიკული სტილი „{name}“?
 	Delete these {n} graphic styles?	წაიშალოს ეს გრაფიკული სტილები ({n})?
 	Delete this {n} graphic style?	წაიშალოს ეს გრაფიკული სტილი ({n})?
@@ -6000,6 +5998,11 @@ breakText	Glyphs	გლიფები
 	Gap 4	შუალედი 4
 	Dash 5	ტირე 5
 	Gap 5	შუალედი 5
+	Delete the brush selection?	წაიშალოს არჩეული ფუნჯები?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	ერთი ან მეტი ფუნჯი გამოიყენება და მათი წაშლა შეუძლებელია, სანამ კონტურები არ გაიშლება ან არ მოიხსნება.
+	Remove Strokes	კონტურების მოხსნა
+	Yes	დიახ
+	No	არა
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	განლაგების ხელსაწყოები
 	Arrange in Grid…	ბადეში განლაგება…

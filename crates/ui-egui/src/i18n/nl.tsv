@@ -1486,8 +1486,6 @@ lighting	Light	Licht
 	Reverse Gradient	Verloop omkeren
 	Save to Swatches	Opslaan in stalen
 	Delete Graphic Style (Alt-click: without asking)	Grafische stijl verwijderen (Alt-klik: zonder vragen)
-	Delete the brush “{name}”?	Kwast „{name}” verwijderen?
-	Strokes using deleted brushes become plain strokes.	Lijnen die verwijderde kwasten gebruiken, worden gewone lijnen.
 	Delete the graphic style “{name}”?	De grafische stijl „{name}” verwijderen?
 	Delete these {n} graphic styles?	Deze {n} grafische stijlen verwijderen?
 	Delete this {n} graphic style?	Deze {n} grafische stijl verwijderen?
@@ -5959,6 +5957,11 @@ breakText	Glyphs	Glyphs
 	Gap 4	Tussenruimte 4
 	Dash 5	Streepje 5
 	Gap 5	Tussenruimte 5
+	Delete the brush selection?	Geselecteerde kwasten verwijderen?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Een of meer kwasten zijn in gebruik en kunnen pas worden verwijderd als hun contouren zijn uitgebreid of verwijderd.
+	Remove Strokes	Contouren verwijderen
+	Yes	Ja
+	No	Nee
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Schikgereedschappen
 	Arrange in Grid…	In raster schikken…

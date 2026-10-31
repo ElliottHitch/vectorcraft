@@ -757,8 +757,6 @@ font-technology	Variable	Variabili
 	Yes	Sì
 	No	No
 	Delete Tab	Elimina tabulazione
-	Delete the brush “{name}”?	Eliminare il pennello “{name}”?
-	Strokes using deleted brushes become plain strokes.	I tracciati che usano pennelli eliminati diventano tracciati semplici.
 	Delete the graphic style “{name}”?	Eliminare lo stile grafico “{name}”?
 	Delete Theme	Elimina tema
 	Delete theme	Elimina tema
@@ -5630,6 +5628,11 @@ breakText	Glyphs	Glifi
 	Gap 4	Spazio 4
 	Dash 5	Tratto 5
 	Gap 5	Spazio 5
+	Delete the brush selection?	Eliminare i pennelli selezionati?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Uno o più pennelli sono in uso e non possono essere eliminati finché le tracce non vengono espanse o rimosse.
+	Remove Strokes	Rimuovi tracce
+	Yes	Sì
+	No	No
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Strumenti di disposizione
 	Arrange in Grid…	Disponi in griglia…

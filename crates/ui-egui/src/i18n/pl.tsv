@@ -1472,8 +1472,6 @@ lighting	Light	Światło
 	Reverse Gradient	Odwróć gradient
 	Save to Swatches	Zapisz w próbkach
 	Delete Graphic Style (Alt-click: without asking)	Usuń styl graficzny (kliknięcie z Alt: bez pytania)
-	Delete the brush “{name}”?	Usunąć pędzel „{name}”?
-	Strokes using deleted brushes become plain strokes.	Obrysy używające usuniętych pędzli stają się zwykłymi obrysami.
 	Delete the graphic style “{name}”?	Usunąć styl graficzny „{name}”?
 	Delete these {n} graphic styles?	Usunąć te style graficzne ({n})?
 	Delete this {n} graphic style?	Usunąć ten styl graficzny ({n})?
@@ -5866,6 +5864,11 @@ breakText	Glyphs	Glify
 	Gap 4	Odstęp 4
 	Dash 5	Kreska 5
 	Gap 5	Odstęp 5
+	Delete the brush selection?	Usunąć zaznaczone pędzle?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Co najmniej jeden pędzel jest używany i nie można go usunąć, dopóki jego obrysy nie zostaną rozszerzone lub usunięte.
+	Remove Strokes	Usuń obrysy
+	Yes	Tak
+	No	Nie
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Narzędzia układania
 	Arrange in Grid…	Ułóż w siatce…

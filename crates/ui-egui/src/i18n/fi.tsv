@@ -1532,8 +1532,6 @@ lighting	Light	Valo
 	Reverse Gradient	Käännä liukuväri
 	Save to Swatches	Tallenna värimalleihin
 	Delete Graphic Style (Alt-click: without asking)	Poista grafiikkatyyli (Alt-napsautus: kysymättä)
-	Delete the brush “{name}”?	Poistetaanko sivellin ”{name}”?
-	Strokes using deleted brushes become plain strokes.	Poistettuja siveltimiä käyttävät viivat muuttuvat tavallisiksi viivoiksi.
 	Delete the graphic style “{name}”?	Poistetaanko grafiikkatyyli ”{name}”?
 	Delete these {n} graphic styles?	Poistetaanko nämä {n} grafiikkatyyliä?
 	Delete this {n} graphic style?	Poistetaanko tämä {n} grafiikkatyyli?
@@ -6041,6 +6039,11 @@ breakText	Glyphs	Merkit
 	Gap 4	Väli 4
 	Dash 5	Viiva 5
 	Gap 5	Väli 5
+	Delete the brush selection?	Poistetaanko valitut siveltimet?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Yksi tai useampi sivellin on käytössä eikä niitä voi poistaa ennen kuin niiden viivat on laajennettu tai poistettu.
+	Remove Strokes	Poista viivat
+	Yes	Kyllä
+	No	Ei
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Järjestelytyökalut
 	Arrange in Grid…	Järjestä ruudukkoon…

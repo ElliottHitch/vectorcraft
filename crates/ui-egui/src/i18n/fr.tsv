@@ -759,8 +759,6 @@ font-technology	Variable	Variables
 	Yes	Oui
 	No	Non
 	Delete Tab	Supprimer la tabulation
-	Delete the brush “{name}”?	Supprimer la forme « {name} » ?
-	Strokes using deleted brushes become plain strokes.	Les contours utilisant des formes supprimées deviennent des contours simples.
 	Delete the graphic style “{name}”?	Supprimer le style graphique « {name} » ?
 	Delete Theme	Supprimer le thème
 	Delete theme	Supprimer le thème
@@ -3703,7 +3701,6 @@ imageTrace	Outline	Contour
 @plural	{n} item|{n} items	{n} élément|{n} éléments
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Table des couleurs ({n} couleur)|Table des couleurs ({n} couleurs)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Supprimer {n} style graphique ?|Supprimer ces {n} styles graphiques ?
-@plural	Delete this {n} brush?|Delete these {n} brushes?	Supprimer {n} forme ?|Supprimer ces {n} formes ?
 @plural	{n} Layer|{n} Layers	{n} calque|{n} calques
 @plural	{n} Object|{n} Objects	{n} objet|{n} objets
 @plural	{n} area highlighted|{n} areas highlighted	{n} zone mise en évidence|{n} zones mises en évidence
@@ -6009,6 +6006,11 @@ breakText	Glyphs	Glyphes
 	Gap 4	Écart 4
 	Dash 5	Tiret 5
 	Gap 5	Écart 5
+	Delete the brush selection?	Supprimer les formes sélectionnées ?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Une ou plusieurs formes sont utilisées et ne peuvent pas être supprimées tant que leurs contours ne sont pas décomposés ou supprimés.
+	Remove Strokes	Supprimer les contours
+	Yes	Oui
+	No	Non
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Outils de disposition
 	Arrange in Grid…	Disposer en grille…

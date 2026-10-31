@@ -755,8 +755,6 @@ font-technology	Variable	Вариативные
 	Yes	Да
 	No	Нет
 	Delete Tab	Удалить табуляцию
-	Delete the brush “{name}”?	Удалить кисть «{name}»?
-	Strokes using deleted brushes become plain strokes.	Обводки, использующие удалённые кисти, становятся обычными обводками.
 	Delete the graphic style “{name}”?	Удалить графический стиль «{name}»?
 	Delete Theme	Удалить тему
 	Delete theme	Удалить тему
@@ -5988,6 +5986,11 @@ breakText	Glyphs	Глифы
 	Gap 4	Зазор 4
 	Dash 5	Штрих 5
 	Gap 5	Зазор 5
+	Delete the brush selection?	Удалить выбранные кисти?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Одна или несколько кистей используются и не могут быть удалены, пока их обводки не будут разобраны или убраны.
+	Remove Strokes	Убрать обводки
+	Yes	Да
+	No	Нет
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Инструменты размещения
 	Arrange in Grid…	Разместить по сетке…

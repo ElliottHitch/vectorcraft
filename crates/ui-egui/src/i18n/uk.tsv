@@ -751,8 +751,6 @@ font-technology	Variable	Варіативні
 	Yes	Так
 	No	Ні
 	Delete Tab	Видалити табуляцію
-	Delete the brush “{name}”?	Видалити пензель «{name}»?
-	Strokes using deleted brushes become plain strokes.	Обведення, що використовують видалені пензлі, стають звичайними обведеннями.
 	Delete the graphic style “{name}”?	Видалити графічний стиль «{name}»?
 	Delete Theme	Видалити тему
 	Delete theme	Видалити тему
@@ -5610,6 +5608,11 @@ breakText	Glyphs	Гліфи
 	Gap 4	Проміжок 4
 	Dash 5	Штрих 5
 	Gap 5	Проміжок 5
+	Delete the brush selection?	Видалити вибрані пензлі?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Один або кілька пензлів використовуються і не можуть бути видалені, доки їхні обведення не буде розібрано або забрано.
+	Remove Strokes	Забрати обведення
+	Yes	Так
+	No	Ні
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Інструменти розміщення
 	Arrange in Grid…	Розмістити сіткою…

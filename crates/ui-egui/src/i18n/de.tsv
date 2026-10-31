@@ -736,8 +736,6 @@ font-technology	Variable	Variabel
 	Yes	Ja
 	No	Nein
 	Delete Tab	Tabulator löschen
-	Delete the brush “{name}”?	Pinsel „{name}“ löschen?
-	Strokes using deleted brushes become plain strokes.	Konturen mit gelöschten Pinseln werden zu einfachen Konturen.
 	Delete the graphic style “{name}”?	Grafikstil „{name}“ löschen?
 	Delete Theme	Thema löschen
 	Delete theme	Thema löschen
@@ -5596,6 +5594,11 @@ breakText	Glyphs	Glyphen
 	Gap 4	Lücke 4
 	Dash 5	Strich 5
 	Gap 5	Lücke 5
+	Delete the brush selection?	Ausgewählte Pinsel löschen?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Ein oder mehrere Pinsel werden verwendet und können erst gelöscht werden, wenn ihre Konturen umgewandelt oder entfernt wurden.
+	Remove Strokes	Konturen entfernen
+	Yes	Ja
+	No	Nein
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Anordnungswerkzeuge
 	Arrange in Grid…	In Raster anordnen…

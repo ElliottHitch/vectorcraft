@@ -1299,8 +1299,6 @@ font-technology	Variable	가변
 	Delete Transparency Flattener Preset	투명도 병합 프리셋 삭제
 	Delete Width Point	너비 포인트 삭제
 	Delete Workspace	작업 영역 삭제
-	Delete the brush “{name}”?	브러시 “{name}”을(를) 삭제하시겠습니까?
-	Strokes using deleted brushes become plain strokes.	삭제된 브러시를 사용한 선은 일반 선이 됩니다.
 	Delete the graphic style “{name}”?	그래픽 스타일 “{name}”을(를) 삭제하시겠습니까?
 	Delete theme	테마 삭제
 	Delete this saved preset	저장된 이 프리셋 삭제
@@ -5593,6 +5591,11 @@ breakText	Glyphs	글리프
 	Gap 4	간격 4
 	Dash 5	대시 5
 	Gap 5	간격 5
+	Delete the brush selection?	선택한 브러시를 삭제하시겠습니까?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	하나 이상의 브러시가 사용 중이며 선을 확장하거나 제거할 때까지 삭제할 수 없습니다.
+	Remove Strokes	선 제거
+	Yes	예
+	No	아니요
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	배치 도구
 	Arrange in Grid…	격자로 배치…

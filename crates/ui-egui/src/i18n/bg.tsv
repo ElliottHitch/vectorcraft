@@ -742,8 +742,6 @@ font-technology	Variable	Променливи
 	Yes	Да
 	No	Не
 	Delete Tab	Изтриване на табулация
-	Delete the brush “{name}”?	Да се изтрие четката „{name}“?
-	Strokes using deleted brushes become plain strokes.	Щрихите, които използват изтритите четки, стават обикновени щрихи.
 	Delete the graphic style “{name}”?	Изтриване на графичния стил „{name}“?
 	Delete Theme	Изтриване на тема
 	Delete theme	Изтриване на тема
@@ -5901,6 +5899,11 @@ breakText	Glyphs	Глифи
 	Gap 4	Разстояние 4
 	Dash 5	Тире 5
 	Gap 5	Разстояние 5
+	Delete the brush selection?	Да се изтрият избраните четки?
+	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Една или повече от четките се използват и не могат да бъдат изтрити, докато щрихите им не бъдат разширени или премахнати.
+	Remove Strokes	Премахване на щрихи
+	Yes	Да
+	No	Не
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Инструменти за подреждане
 	Arrange in Grid…	Подреждане в мрежа…
