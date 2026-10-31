@@ -5856,6 +5856,12 @@ anchor	Points:	Точки:
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	Цвет точек из рисунка
+	Basic Character Formats	Основные форматы символов
+	Case	Регистр
+	Kerning	Кернинг
+@msg	{label} must be a number	{label} должно быть числом
+@msg	{label} must be a number of at least 0.1	{label} должно быть числом не меньше 0,1
+@msg	no character style `{name}`	Стиль символов `{name}` не найден
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	Дуплекс…

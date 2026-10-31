@@ -14,6 +14,7 @@ pub mod blend_options;
 mod brush_art_options;
 pub mod brush_delete;
 pub mod brush_options;
+pub mod char_style_options;
 pub mod color_balance;
 pub mod color_guide_options;
 mod color_picker;
@@ -306,6 +307,7 @@ registry! {
     GradientStop: ["gradientStop"] => gradient_stop::SPEC,
     ColorPicker: [color_picker::KIND] => color_picker::SPEC,
     GraphicStyleOptions: [graphic_style_options::KIND] => graphic_style_options::SPEC,
+    CharStyleOptions: [char_style_options::KIND] => char_style_options::SPEC,
     NewTextStyle: [new_text_style::KIND] => new_text_style::SPEC,
     EffectExists: [effect::EXISTS] => effect::EXISTS_SPEC,
     ColorGuideOptions: [color_guide_options::KIND] => color_guide_options::SPEC,

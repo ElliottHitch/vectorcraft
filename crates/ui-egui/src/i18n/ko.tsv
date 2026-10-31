@@ -5460,6 +5460,12 @@ anchor	Points:	포인트:
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	아트워크에서 점 색상 가져오기
+	Basic Character Formats	기본 문자 형식
+	Case	대소문자
+	Kerning	커닝
+@msg	{label} must be a number	{label}은(는) 숫자여야 합니다
+@msg	{label} must be a number of at least 0.1	{label}은(는) 0.1 이상의 숫자여야 합니다
+@msg	no character style `{name}`	문자 스타일 `{name}`을 찾을 수 없습니다
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	이중톤…

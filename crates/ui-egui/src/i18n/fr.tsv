@@ -5876,6 +5876,12 @@ anchor	Points:	Points :
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	Couleur des points d’après l’illustration
+	Basic Character Formats	Formats de caractère de base
+	Case	Casse
+	Kerning	Crénage
+@msg	{label} must be a number	{label} doit être un nombre
+@msg	{label} must be a number of at least 0.1	{label} doit être un nombre d’au moins 0,1
+@msg	no character style `{name}`	Style de caractère `{name}` introuvable
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	Bichromie…

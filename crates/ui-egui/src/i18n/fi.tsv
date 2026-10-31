@@ -5909,6 +5909,12 @@ anchor	Points:	Pisteet:
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	Pisteiden väri kuvituksesta
+	Basic Character Formats	Merkkien perusmuotoilut
+	Case	Kirjainkoko
+	Kerning	Merkkipariväli
+@msg	{label} must be a number	{label} on oltava luku
+@msg	{label} must be a number of at least 0.1	{label} on oltava vähintään 0,1
+@msg	no character style `{name}`	Merkkityyliä `{name}` ei löytynyt
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	Duotone…
