@@ -663,7 +663,6 @@
 	Delete Workspace	Excluir Espaço de Trabalho
 	Delete the graphic style “{name}”?	Excluir o estilo gráfico “{name}”?
 	Delete theme	Excluir tema
-	Delete these {count} swatches and groups?	Excluir estas {count} amostras e grupos?
 	Delete this saved preset	Excluir este predefinido salvo
 	Delete {kind} Style	Excluir Estilo de {kind}
 	Delete “{name}”?	Excluir “{name}”?
@@ -3028,6 +3027,7 @@ imageTrace	Outline	Contorno
 @plural	{n} item|{n} items	{n} item|{n} itens
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabela de Cores ({n} cor)|Tabela de Cores ({n} cores)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Excluir este {n} estilo gráfico?|Excluir estes {n} estilos gráficos?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Excluir esta {n} amostra ou grupo?|Excluir estas {n} amostras e grupos?
 @plural	{n} Layer|{n} Layers	{n} Camada|{n} Camadas
 @plural	{n} Object|{n} Objects	{n} Objeto|{n} Objetos
 @plural	{n} area highlighted|{n} areas highlighted	{n} área realçada|{n} áreas realçadas

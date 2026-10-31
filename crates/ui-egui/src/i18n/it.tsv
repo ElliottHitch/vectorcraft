@@ -747,7 +747,6 @@ font-technology	Variable	Variabili
 	Delete the graphic style “{name}”?	Eliminare lo stile grafico “{name}”?
 	Delete Theme	Elimina tema
 	Delete theme	Elimina tema
-	Delete these {count} swatches and groups?	Eliminare questi {count} campioni e gruppi?
 	Delete these {n} graphic styles?	Eliminare questi {n} stili grafici?
 	Delete this saved preset	Elimina questo preset salvato
 	Delete this {n} graphic style?	Eliminare {n} stile grafico?
@@ -3726,6 +3725,7 @@ imageTrace	Outline	Contorno
 @plural	{n} item|{n} items	{n} elemento|{n} elementi
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabella colori ({n} colore)|Tabella colori ({n} colori)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Eliminare {n} stile grafico?|Eliminare questi {n} stili grafici?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Eliminare {n} campione o gruppo?|Eliminare questi {n} campioni e gruppi?
 @plural	{n} Layer|{n} Layers	{n} livello|{n} livelli
 @plural	{n} Object|{n} Objects	{n} oggetto|{n} oggetti
 @plural	{n} area highlighted|{n} areas highlighted	{n} area evidenziata|{n} aree evidenziate

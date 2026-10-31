@@ -745,7 +745,6 @@ font-technology	Variable	Вариативные
 	Delete the graphic style “{name}”?	Удалить графический стиль «{name}»?
 	Delete Theme	Удалить тему
 	Delete theme	Удалить тему
-	Delete these {count} swatches and groups?	Удалить эти образцы и группы ({count})?
 	Delete these {n} graphic styles?	Удалить эти графические стили ({n})?
 	Delete this saved preset	Удалить этот сохранённый набор
 	Delete this {n} graphic style?	Удалить этот графический стиль ({n})?
@@ -3722,6 +3721,7 @@ imageTrace	Outline	Контур
 @plural	{n} item|{n} items	{n} элемент|{n} элемента|{n} элементов
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Цветовая таблица ({n} цвет)|Цветовая таблица ({n} цвета)|Цветовая таблица ({n} цветов)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Удалить этот графический стиль ({n})?|Удалить эти графические стили ({n})?|Удалить эти графические стили ({n})?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Удалить {n} образец или группу?|Удалить {n} образца и группы?|Удалить {n} образцов и групп?
 @plural	{n} Layer|{n} Layers	{n} слой|{n} слоя|{n} слоёв
 @plural	{n} Object|{n} Objects	{n} объект|{n} объекта|{n} объектов
 @plural	{n} area highlighted|{n} areas highlighted	{n} область выделена|{n} области выделено|{n} областей выделено

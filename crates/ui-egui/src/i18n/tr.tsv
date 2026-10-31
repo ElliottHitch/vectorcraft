@@ -726,7 +726,6 @@ font-technology	Variable	Değişken
 	Delete the graphic style “{name}”?	“{name}” grafik stili silinsin mi?
 	Delete Theme	Temayı Sil
 	Delete theme	Temayı sil
-	Delete these {count} swatches and groups?	Bu {count} renk örnekleri ve grupları silinsin mi?
 	Delete these {n} graphic styles?	Bu {n} grafik stilleri silinsin mi?
 	Delete this saved preset	Bu kayıtlı ön ayarı silin
 	Delete this {n} graphic style?	Bu {n} grafik stili silinsin mi?
@@ -3512,6 +3511,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} öğe
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Renk Tablosu ({n} renk)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Bu {n} grafik stili silinsin mi?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Bu {n} renk örneği ve grup silinsin mi?
 @plural	{n} Layer|{n} Layers	{n} Katman
 @plural	{n} Object|{n} Objects	{n} Nesne
 @plural	{n} area highlighted|{n} areas highlighted	{n} alan vurgulandı

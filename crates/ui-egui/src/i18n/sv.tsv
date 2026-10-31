@@ -734,7 +734,6 @@ font-technology	Variable	Variabla
 	Delete the graphic style “{name}”?	Radera grafikstilen ”{name}”?
 	Delete Theme	Radera tema
 	Delete theme	Radera tema
-	Delete these {count} swatches and groups?	Radera dessa {count} färgrutor och grupper?
 	Delete these {n} graphic styles?	Radera dessa {n} grafikstilar?
 	Delete this saved preset	Radera den här sparade förinställningen
 	Delete this {n} graphic style?	Radera denna {n} grafikstil?
@@ -3618,6 +3617,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} objekt|{n} objekt
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Färgtabell ({n} färg)|Färgtabell ({n} färger)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Radera {n} grafisk stil?|Radera de här {n} grafiska stilarna?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Radera {n} färgruta eller grupp?|Radera dessa {n} färgrutor och grupper?
 @plural	{n} Layer|{n} Layers	{n} lager|{n} lager
 @plural	{n} Object|{n} Objects	{n} objekt|{n} objekt
 @plural	{n} area highlighted|{n} areas highlighted	{n} område framhävt|{n} områden framhävda

@@ -749,7 +749,7 @@ font-technology	Variable	Variables
 	Delete the graphic style “{name}”?	Supprimer le style graphique « {name} » ?
 	Delete Theme	Supprimer le thème
 	Delete theme	Supprimer le thème
-	Delete these {count} swatches and groups?	Supprimer ces {count} nuances et groupes ?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Supprimer {n} nuance ou groupe ?|Supprimer ces {n} nuances et groupes ?
 	Delete these {n} graphic styles?	Supprimer ces {n} styles graphiques ?
 	Delete this saved preset	Supprimer ce paramètre prédéfini enregistré
 	Delete this {n} graphic style?	Supprimer {n} style graphique ?

@@ -1755,7 +1755,6 @@ lighting	Light	Lys
 	Weight:	Vægt:
 	Art using a deleted global swatch keeps its colour.	Grafik, der bruger en slettet global farveprøve, bevarer sin farve.
 	Color Group: {name}	Farvegruppe: {name}
-	Delete these {count} swatches and groups?	Slet disse {count} farveprøver og grupper?
 	Delete “{name}”?	Slet »{name}«?
 	Document Swatches	Dokumentfarveprøver
 	Edit or Apply Color Group	Redigér eller anvend farvegruppe
@@ -3854,6 +3853,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} element|{n} elementer
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Farvetabel ({n} farve)|Farvetabel ({n} farver)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Vil du slette denne {n} grafikstil?|Vil du slette disse {n} grafikstile?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Slet denne {n} farveprøve eller gruppe?|Slet disse {n} farveprøver og grupper?
 @plural	{n} Layer|{n} Layers	{n} lag|{n} lag
 @plural	{n} Object|{n} Objects	{n} objekt|{n} objekter
 @plural	{n} area highlighted|{n} areas highlighted	{n} område fremhævet|{n} områder fremhævet

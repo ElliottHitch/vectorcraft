@@ -868,7 +868,6 @@ font-technology	Variable	Biến thiên
 	Delete the library “{name}”?	Xóa thư viện “{name}”?
 	Delete Theme	Xóa bộ màu
 	Delete theme	Xóa bộ màu
-	Delete these {count} swatches and groups?	Xóa {count} mẫu màu và nhóm này?
 	Delete these {n} graphic styles?	Xóa {n} kiểu đồ họa này?
 	Delete this saved preset	Xóa thiết lập sẵn đã lưu này
 	Delete this {n} graphic style?	Xóa {n} kiểu đồ họa này?
@@ -4084,6 +4083,7 @@ gradient-kind	Radial	Hướng tâm
 imageTrace	Outline	Đường viền
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Bảng màu ({n} màu)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Xóa {n} kiểu đồ họa này?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Xóa {n} mẫu màu và nhóm này?
 @plural	{n} area highlighted|{n} areas highlighted	{n} vùng được tô sáng
 @plural	{n} color|{n} colors	{n} màu
 @plural	{n} fill|{n} fills	{n} tô

@@ -1288,7 +1288,6 @@ font-technology	Variable	가변
 	Delete Workspace	작업 영역 삭제
 	Delete the graphic style “{name}”?	그래픽 스타일 “{name}”을(를) 삭제하시겠습니까?
 	Delete theme	테마 삭제
-	Delete these {count} swatches and groups?	견본과 그룹 {count}개를 삭제하시겠습니까?
 	Delete this saved preset	저장된 이 프리셋 삭제
 	Delete {kind} Style	{kind} 스타일 삭제
 	Delete “{name}”?	“{name}”을(를) 삭제하시겠습니까?
@@ -3698,6 +3697,7 @@ file-filter	Templates	템플릿
 imageTrace	Outline	윤곽선
 @plural	Color Table ({n} color)|Color Table ({n} colors)	색상 표 ({n}색)|색상 표 ({n}색)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	그래픽 스타일 {n}개를 삭제하시겠습니까?|그래픽 스타일 {n}개를 삭제하시겠습니까?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	견본과 그룹 {n}개를 삭제하시겠습니까?
 @plural	{n} Layer|{n} Layers	레이어 {n}개|레이어 {n}개
 @plural	{n} Object|{n} Objects	개체 {n}개|개체 {n}개
 @plural	{n} area highlighted|{n} areas highlighted	강조된 영역 {n}개|강조된 영역 {n}개

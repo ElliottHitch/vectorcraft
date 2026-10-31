@@ -690,7 +690,6 @@
 	Delete the graphic style “{name}”?	要删除图形样式“{name}”吗？
 	Delete Theme	删除主题
 	Delete theme	删除主题
-	Delete these {count} swatches and groups?	要删除这 {count} 个色板和编组吗？
 	Delete these {n} graphic styles?	要删除这 {n} 个图形样式吗？
 	Delete this saved preset	删除此已存储的预设
 	Delete this {n} graphic style?	要删除这 {n} 个图形样式吗？
@@ -3565,6 +3564,7 @@ imageTrace	Outline	轮廓
 @plural	{n} item|{n} items	{n} 个项目
 @plural	Color Table ({n} color)|Color Table ({n} colors)	颜色表 ({n} 色)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	要删除这 {n} 个图形样式吗？
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	要删除这 {n} 个色板和编组吗？
 @plural	{n} Layer|{n} Layers	{n} 个图层
 @plural	{n} Object|{n} Objects	{n} 个对象
 @plural	{n} area highlighted|{n} areas highlighted	已标示 {n} 个区域
