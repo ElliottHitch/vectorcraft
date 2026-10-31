@@ -38,7 +38,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Select Text by Font",
             [],
             None,
-            "{family, style?} select the text objects using the font → {count}",
+            "{family, style?} select the text objects using the font that are not hidden or locked, in a hidden or locked group or layer, or on a locked artboard → {count}",
             has_doc,
             select_font
         ),
@@ -454,16 +454,21 @@ fn select_font(s: &mut Session, p: &Value) -> Result<Value> {
     let style = str_param(p, "style").map(str::to_string);
     let ids = scope(s, false)?;
     let d = &s.doc()?.doc;
+    // Only text the Selection tool can reach: not hidden or locked, in a hidden or locked group
+    // or layer, or on a locked artboard.
+    let editable = d.editable();
     let hits: Vec<NodeId> = ids
         .into_iter()
         .filter(|id| {
-            text(d, *id).is_some_and(|t| {
-                t.runs.iter().any(|r| {
-                    r.style.font_family.eq_ignore_ascii_case(&family) && style.as_ref().is_none_or(|x| r.style.font_style.eq_ignore_ascii_case(x))
+            editable(*id)
+                && text(d, *id).is_some_and(|t| {
+                    t.runs.iter().any(|r| {
+                        r.style.font_family.eq_ignore_ascii_case(&family) && style.as_ref().is_none_or(|x| r.style.font_style.eq_ignore_ascii_case(x))
+                    })
                 })
-            })
         })
         .collect();
+    drop(editable);
     let n = hits.len();
     s.select(|_, sel| sel.set(hits))?;
     Ok(json!({ "count": n }))
@@ -567,6 +572,54 @@ mod tests {
         assert_eq!(fams, ["Source Sans 3", "Source Serif 4"]);
         assert!(s.execute("text.replaceFont", &json!({"from": {"family": "Source Serif 4"}, "to": {"family": "Nope"}})).is_err());
         let _ = a;
+    }
+
+    /// Select Text by Font leaves out hidden and locked text, and text inside a hidden or locked
+    /// group or layer. Text on a visible, unlocked template layer is selected.
+    #[test]
+    fn select_font_skips_hidden_and_locked_text() {
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 200, "height": 200})).unwrap();
+        let text = |s: &mut Session, y: i32, font: &str| {
+            s.execute("text.create", &json!({"x": 10, "y": y, "text": "Serif", "font": font})).unwrap()["id"].as_u64().unwrap()
+        };
+        let mut ids = vec![];
+        for y in [20, 40, 60, 80, 100] {
+            ids.push(text(&mut s, y, "Source Serif 4"));
+        }
+        // Inter is used only by hidden or locked text.
+        let only_hidden = text(&mut s, 120, "Inter");
+        for (id, group, cmd) in [
+            (ids[1], false, "object.hide"),
+            (ids[2], false, "object.lock"),
+            (ids[3], true, "object.hide"),
+            (ids[4], true, "object.lock"),
+            (only_hidden, false, "object.hide"),
+        ] {
+            s.execute("select.set", &json!({"ids": [id]})).unwrap();
+            if group {
+                s.execute("object.group", &json!({})).unwrap();
+            }
+            s.execute(cmd, &json!({})).unwrap();
+        }
+        let mut layer_text = |props: &[Value]| {
+            let layer = s.execute("layer.new", &json!({})).unwrap()["id"].as_u64().unwrap();
+            let id = text(&mut s, 140, "Source Serif 4");
+            for p in props {
+                let mut p = p.clone();
+                p["id"] = json!(layer);
+                s.execute("layer.setProps", &p).unwrap();
+            }
+            id
+        };
+        layer_text(&[json!({"visible": false})]);
+        layer_text(&[json!({"locked": true})]);
+        // Template on locks the layer; unlocking it makes its text selectable again.
+        let template = layer_text(&[json!({"template": true}), json!({"locked": false})]);
+        assert_eq!(s.execute("select.font", &json!({"family": "Source Serif 4"})).unwrap()["count"], 2);
+        assert_eq!(s.doc().unwrap().selection.objects, [NodeId(ids[0]), NodeId(template)]);
+        assert_eq!(s.execute("select.font", &json!({"family": "Inter"})).unwrap()["count"], 0);
+        assert!(s.doc().unwrap().selection.objects.is_empty());
     }
 }
 
