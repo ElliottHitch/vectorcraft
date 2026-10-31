@@ -100,11 +100,11 @@ impl Homography {
     }
 
     /// `self` seen through `a`: the map `a ∘ self ∘ a⁻¹` (what `self` becomes when everything it
-    /// maps from and to is moved by `a`). When the product overflows, it is formed one factor at a
-    /// time, each partial product scaled to a largest entry of 1, and returned divided by the
-    /// largest magnitude in its `w` row (the same map, with a `w` row whose largest entry is 1).
-    /// `None` when `a` isn't invertible, or when the product overflows and the result at that
-    /// scale has an entry that is not finite or is not invertible.
+    /// maps from and to is moved by `a`). When the product overflows, every entry is formed with
+    /// its powers of two kept apart, and the product is returned divided by the largest magnitude
+    /// in its `w` row (the same map, with a `w` row whose largest entry is 1). `None` when `a`
+    /// isn't invertible, or when the product overflows and the result at that scale has an entry
+    /// that is not finite or is not invertible.
     pub fn conjugated(&self, a: Affine) -> Option<Self> {
         if a.determinant().abs() < 1e-15 {
             return None;
@@ -114,35 +114,33 @@ impl Homography {
         if c.is_finite() {
             return Some(c);
         }
-        let c = to.then_after_normalized(&self.normalized()?)?.then_after_normalized(&from)?;
-        let k = c.0[2].iter().fold(0.0_f64, |k, v| k.max(v.abs()));
+        // Each entry of the product is a sum of nine terms to[r][i]·self[i][j]·from[j][k]. Every
+        // factor is split into a mantissa and a power of two, so each term is a mantissa product
+        // and an exponent sum, and the whole product is scaled by one power of two at the end.
+        let split = |h: &Self| h.0.map(|row| row.map(frexp));
+        let (t, s, f) = (split(&to), split(self), split(&from));
+        let term = |r: usize, i: usize, j: usize, k: usize| {
+            let (a, b, c) = (t[r][i], s[i][j], f[j][k]);
+            (a.0 * b.0 * c.0, a.1 + b.1 + c.1)
+        };
+        let ijk = (0..27).map(|n| (n / 9, n / 3 % 3, n % 3));
+        let e = ijk.map(|(i, j, k)| term(2, i, j, k)).filter(|(m, _)| *m != 0.0).map(|(_, e)| e).max()?;
+        let mut c = [[0.0; 3]; 3];
+        for (r, row) in c.iter_mut().enumerate() {
+            for (k, v) in row.iter_mut().enumerate() {
+                *v = (0..9).map(|n| term(r, n / 3, n % 3, k)).map(|(m, x)| ldexp(m, x - e)).sum();
+            }
+        }
+        let k = c[2].iter().fold(0.0_f64, |k, v| k.max(v.abs()));
         if k <= 0.0 {
             return None;
         }
-        let c = Self(c.0.map(|row| row.map(|v| v / k)));
+        let c = Self(c.map(|row| row.map(|v| v / k)));
         (c.is_finite() && c.det().abs() > 1e-15).then_some(c)
     }
 
     fn is_finite(&self) -> bool {
         self.0.iter().flatten().all(|v| v.is_finite())
-    }
-
-    /// `self` divided by its largest entry magnitude, a positive scale that maps every point to
-    /// the same place; `None` when an entry is not finite or every entry is 0.
-    fn normalized(&self) -> Option<Self> {
-        let k = self.0.iter().flatten().fold(0.0_f64, |k, v| k.max(v.abs()));
-        (self.is_finite() && k > 0.0).then(|| Self(self.0.map(|row| row.map(|v| v / k))))
-    }
-
-    /// `self ∘ other` divided by its largest entry magnitude; when that product overflows, it is
-    /// formed from both factors divided by their largest entry magnitudes. `None` when the result
-    /// has an entry that is not finite or every entry is 0.
-    fn then_after_normalized(&self, other: &Self) -> Option<Self> {
-        let c = self.then_after(other);
-        if c.is_finite() {
-            return c.normalized();
-        }
-        self.normalized()?.then_after(&other.normalized()?).normalized()
     }
 
     /// The affine map that matches `self` to first order at `p` (its derivative there), `None`
@@ -169,6 +167,36 @@ impl Homography {
         }
         out
     }
+}
+
+/// `v` as `m·2^e` with `0.5 ≤ |m| < 1`; 0, infinities and NaN come back as `(v, 0)`.
+fn frexp(v: f64) -> (f64, i32) {
+    if v == 0.0 || !v.is_finite() {
+        return (v, 0);
+    }
+    // A subnormal is scaled into the normal range first.
+    let (v, bias) = if v.abs() < f64::MIN_POSITIVE { (v * pow2(64), -64) } else { (v, 0) };
+    let bits = v.to_bits();
+    let e = ((bits >> 52) & 0x7ff) as i32 - 1022;
+    (f64::from_bits((bits & !(0x7ff << 52)) | (1022 << 52)), e + bias)
+}
+
+/// `m·2^e`, multiplied in steps of powers of two that are each within the normal range.
+fn ldexp(mut m: f64, mut e: i32) -> f64 {
+    while e > 1023 && m.is_finite() {
+        m *= pow2(1023);
+        e -= 1023;
+    }
+    while e < -1022 && m != 0.0 {
+        m *= pow2(-1022);
+        e += 1022;
+    }
+    m * pow2(e.clamp(-1022, 1023))
+}
+
+/// `2^e` for `-1022 ≤ e ≤ 1023`.
+fn pow2(e: i32) -> f64 {
+    f64::from_bits(((e + 1023) as u64) << 52)
 }
 
 #[cfg(test)]
@@ -286,6 +314,15 @@ mod tests {
         let want = [2.0, 0.0, -1e308, 0.0, 2.0, 0.0, 0.0, 0.0, 1.0];
         for (v, w) in c.to_array().iter().zip(want) {
             assert!((v - w).abs() <= 1e-9 * w.abs().max(1.0), "{c:?}");
+        }
+        assert_eq!(Homography::from_array(c.to_array()), Some(c));
+        // A scale by (1e160, 1e-160) seen through the same scale is itself, though the product's
+        // first entry is 1e320 and a scale to a largest entry of 1 takes its second to 1e-480.
+        let thin = Homography([[1e160, 0.0, 0.0], [0.0, 1e-160, 0.0], [0.0, 0.0, 1.0]]);
+        assert!(Homography::from_array(thin.to_array()).is_some());
+        let c = thin.conjugated(Affine::scale_non_uniform(1e160, 1e-160)).unwrap();
+        for (v, w) in c.to_array().iter().zip(thin.to_array()) {
+            assert!((v - w).abs() <= 1e-9 * w.abs(), "{c:?}");
         }
         assert_eq!(Homography::from_array(c.to_array()), Some(c));
         // A move by 1e200 seen through a scale by 1e150 sends every point to about (1e350, 0),
