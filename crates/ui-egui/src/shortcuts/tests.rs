@@ -1491,6 +1491,8 @@ fn one_key_shortcuts_use_the_key_of_the_same_keystroke_in_either_order() {
     assert_eq!(typing_presses(&[text("p"), press(Key::V), text("м")]), [None, None, Some(1)]);
     frame(&mut app, vec![text("p"), press(Key::V), text("м")]);
     assert_eq!(app.session.tool_id(), "selection", "the text after the key uses it");
+    // A modifier key press does not type text, so the web text after Shift uses the key after it.
+    assert_eq!(typing_presses(&[press(Key::ShiftLeft), text("З"), press(Key::P)]), [None, Some(2), None]);
     let names = |events: &[egui::Event]| -> Vec<String> {
         shortcut_presses(events, Modifiers::NONE).into_iter().filter_map(|(n, _)| n.into_iter().next()).collect()
     };
