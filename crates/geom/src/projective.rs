@@ -101,8 +101,10 @@ impl Homography {
 
     /// `self` seen through `a`: the map `a ∘ self ∘ a⁻¹` (what `self` becomes when everything it
     /// maps from and to is moved by `a`). When the product overflows, it is formed from factors
-    /// scaled to a largest entry of 1 and returned at that scale (the same map). `None` when `a`
-    /// isn't invertible, or when the product overflows and the scaled result is not invertible.
+    /// scaled to a largest entry of 1 and returned divided by the largest magnitude in its `w` row
+    /// (the same map, with a `w` row whose largest entry is 1). `None` when `a` isn't invertible,
+    /// or when the product overflows and the result at that scale has an entry that is not finite
+    /// or is not invertible.
     pub fn conjugated(&self, a: Affine) -> Option<Self> {
         if a.determinant().abs() < 1e-15 {
             return None;
@@ -113,7 +115,12 @@ impl Homography {
             return Some(c);
         }
         let c = to.normalized()?.then_after(&self.normalized()?).then_after(&from.normalized()?).normalized()?;
-        (c.det().abs() > 1e-15).then_some(c)
+        let k = c.0[2].iter().fold(0.0_f64, |k, v| k.max(v.abs()));
+        if k <= 0.0 {
+            return None;
+        }
+        let c = Self(c.0.map(|row| row.map(|v| v / k)));
+        (c.is_finite() && c.det().abs() > 1e-15).then_some(c)
     }
 
     fn is_finite(&self) -> bool {
@@ -237,11 +244,28 @@ mod tests {
         let big = Homography([[1e307, 0.0, 1e308], [0.0, 1e307, 0.0], [0.0, 0.0, 1e307]]);
         let t = Affine::scale(10.0);
         let c = big.conjugated(t).unwrap();
-        assert!(c.0.iter().flatten().all(|v| v.is_finite() && v.abs() <= 1.0));
+        assert!(c.is_finite());
+        assert_eq!(c.0[2], [0.0, 0.0, 1.0]);
         assert_eq!(Homography::from_array(c.to_array()), Some(c));
         for p in [Point::new(3.0, 7.0), Point::new(-4.0, 1.5)] {
             assert!(c.apply(t * p).unwrap().distance(t * big.apply(p).unwrap()) < 1e-9);
             assert!(c.apply(p).unwrap().distance(p + kurbo::Vec2::new(100.0, 0.0)) < 1e-9);
+        }
+        // A move by 1 scaled by 1e307, seen through a scale by 1e7: a move by 1e7, whose
+        // determinant is 1 at a w row of 1 but 1e-21 at a largest entry of 1.
+        let one = Homography([[1e307, 0.0, 1e307], [0.0, 1e307, 0.0], [0.0, 0.0, 1e307]]);
+        assert!(Homography::from_array(one.to_array()).is_some());
+        let c = one.conjugated(Affine::scale(1e7)).unwrap();
+        assert_eq!(Homography::from_array(c.to_array()), Some(c));
+        let p = Point::new(3.0, -2.0);
+        assert!(c.apply(p).unwrap().distance(p + kurbo::Vec2::new(1e7, 0.0)) < 1e-6);
+        // A scale by 1e10 seen through a scale by 1e10: still a scale by 1e10, which every point
+        // reaches only when w is not left at 1e-10.
+        let wide = Homography([[1e300, 0.0, 0.0], [0.0, 1e300, 0.0], [0.0, 0.0, 1e290]]);
+        let c = wide.conjugated(Affine::scale(1e10)).unwrap();
+        assert_eq!(Homography::from_array(c.to_array()), Some(c));
+        for p in [Point::new(1.0, 2.0), Point::new(-5.0, 0.5)] {
+            assert!(c.apply(p).unwrap().distance(Point::new(p.x * 1e10, p.y * 1e10)) < 1e-3);
         }
         // A move by 1e200 seen through a scale by 1e150 sends every point to about (1e350, 0),
         // which no invertible map of finite numbers draws.
