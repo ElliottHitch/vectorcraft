@@ -1380,7 +1380,8 @@ them again with the key object. When the call changes nothing, it records no und
 Other `object.setProps` calls leave the selection unchanged.
 
 `object.unlockAll` and `object.showAll` unlock or show every locked or hidden object in the document and select
-them → `{count}`. With `scope: "group"` they take only the objects inside the groups that hold the selected objects:
+them → `{count}`. In isolation mode they take only the objects inside the isolated object. With `scope: "group"` they
+take only the objects inside the groups that hold the selected objects:
 for each selected object, the group nearest above it, or the object itself when it is a group. The objects of a
 group inside another such group are counted once. With no selected object in a group, the call returns the error
 "nothing selected is in a group" and changes nothing. `scope: "document"` is the default, and any other value is
@@ -1397,16 +1398,15 @@ object that `select.all` takes and that is neither selected nor holds a selected
 group that holds a selected object it hides the group's other members one by one; a clip group, a compound path or
 another object that holds a selected object stays as it is with its members. The objects of a selected layer count as
 selected. While Lock Guides is on, the guide paths count as selected and stay as they are. The selection stays as it is, and `object.showAll` shows the objects again. With nothing to
-hide it records no undo step. In isolation mode the menu item is disabled, and the command returns the error "exit
-isolation mode first" and changes nothing.
+hide it records no undo step. In isolation mode it hides only unselected objects inside the isolated object.
 
 `object.lock.unselected` (Cmd+Alt+Shift+2; shortcut and command, with no Object › Lock menu item) locks unselected
 artwork in one undo step and returns `{count}`. In a partly selected group, clipping group, or compound path, it locks
 the unselected members and leaves the container and selected members unlocked. It includes unselected guides even
 while Lock Guides is on. Hidden art and art on locked layers stay individually unlocked; a selected layer's artwork
 counts as selected. In ordinary isolation mode it locks only unselected art inside the isolated object. The selection
-stays as it is. `object.unlockAll` unlocks and selects all locked artwork in the document, including art locked before
-this command. With nothing to lock it records no undo step.
+stays as it is. `object.unlockAll` unlocks and selects all locked artwork in the document, or inside the isolated
+object in isolation mode, including art locked before this command. With nothing to lock it records no undo step.
 
 These Select menu commands select only the objects that `select.all` selects and the objects inside them: every
 `select.same.*` and `select.object.*` command except `select.object.slices`, `select.nextAbove`, `select.nextBelow`
@@ -2334,11 +2334,14 @@ and `layerRows`, the rows highlighted in the panel.
   opens no rows for it and scrolls as with the option off. A change made with the panel's own rows, buttons or menu is
   not located, and a change made during a drag is located when the drag ends.
   A document opens with only its top-level layers open; the open rows are saved in the native file and reopen that way.
-- **Lock and Hide in isolation mode**: in isolation mode, Object › Lock's and Object › Hide's items (`object.lock`,
-  `object.lock.above`, `object.lock.otherLayers`, `object.hide`, `object.hide.above`, `object.hide.otherLayers`),
-  `object.unlockAll` and `object.showAll` are off, and a call returns the error "command `object.hide` is not
-  available right now: exit isolation mode first", with the command's own id. Pattern editing mode and opacity mask
-  editing do not count as isolation mode for these commands.
+- **Lock and Hide in isolation mode**: Object › Lock's and Object › Hide's items (`object.lock`, `object.lock.above`,
+  `object.lock.otherLayers`, `object.lock.unselected`, `object.hide`, `object.hide.above`, `object.hide.otherLayers`,
+  `object.hide.unselected`) are on while an object inside the isolated object is selected, and they change only objects
+  inside it. All Artwork Above locks or hides the selected objects as well as the objects above them that overlap them.
+  Other Layers changes nothing in an isolated group, layer or sublayer, returns a count of 0 and records no undo step.
+  `object.unlockAll` and `object.showAll` are on with nothing selected, and they unlock or show and select only the
+  objects inside the isolated object. Pattern editing mode and opacity mask editing do not count as isolation mode for
+  these commands.
 - **Search and filter** (control channel and the app's MCP): the Search All field keeps the rows whose names hold the
   text typed, and `ui.layersFilter {objects?, layers?}` sets the choices of the Filter button beside it. `objects` (By
   Object) takes `paths` (paths and compound paths), `shapes` (live rectangles, ellipses, polygons and lines), `text`,
