@@ -34,6 +34,7 @@ struct Run<'a> {
     override_export: bool,
     destination: &'a str,
     dest_folder: Option<&'a str>,
+    dataset_file_naming: &'a str,
 }
 
 /// Play `commands` on each source file or data set.
@@ -90,10 +91,11 @@ pub(super) fn action_batch(s: &mut Session, p: &Value) -> Result<Value> {
         override_export: bool_or(p, "overrideExport", true),
         destination,
         dest_folder: dest_folder.as_deref(),
+        dataset_file_naming: p.get("datasetFileNaming").map_or("fileDataSetName", |v| v.as_str().unwrap_or("")),
     };
     match source {
         "folder" => batch_folder(s, C, p, override_open, &run),
-        "datasets" => batch_datasets(s, C, &run, p),
+        "datasets" => batch_datasets(s, C, &run),
         _ => Err(bad(C, "`source` must be `folder` or `datasets`")),
     }
 }
@@ -134,7 +136,7 @@ fn batch_folder(s: &mut Session, cmd: &str, p: &Value, override_open: bool, run:
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-fn batch_datasets(s: &mut Session, cmd: &str, run: &Run<'_>, p: &Value) -> Result<Value> {
+fn batch_datasets(s: &mut Session, cmd: &str, run: &Run<'_>) -> Result<Value> {
     let st = s.doc()?;
     let names: Vec<String> = st.doc.variables.datasets.iter().map(|d| d.name.clone()).collect();
     if names.is_empty() {
@@ -144,8 +146,7 @@ fn batch_datasets(s: &mut Session, cmd: &str, run: &Run<'_>, p: &Value) -> Resul
         return Err(bad(cmd, format!("more than {MAX_BATCH_FILES} data sets")));
     }
     let doc_stem = st.path.as_deref().and_then(|p| std::path::Path::new(p).file_stem().and_then(|s| s.to_str())).unwrap_or("Untitled").to_string();
-    let naming = p.get("datasetFileNaming").map_or("fileDataSetName", |v| v.as_str().unwrap_or(""));
-    let stems = dataset_stems(&names, &doc_stem, naming, run)?;
+    let stems = dataset_stems(&names, &doc_stem, run.dataset_file_naming, run)?;
     let steps = filter_steps(run.steps, true, false);
     let run = Run { steps: &steps, ..*run };
     let mut processed = Vec::new();
@@ -690,6 +691,7 @@ mod tests {
             override_export: true,
             destination: "none",
             dest_folder: None,
+            dataset_file_naming: "fileDataSetName",
         };
         let stems = dataset_stems(&names, "source", "fileNumber", &run).unwrap();
         for n in [1, 2, 10, 100, 500] {
@@ -714,6 +716,7 @@ mod tests {
             override_export: true,
             destination: "none",
             dest_folder: None,
+            dataset_file_naming: "fileDataSetName",
         };
         assert_eq!(dataset_stems(&[String::new()], "Untitled", "dataSetName", &run).unwrap(), ["Untitled001"]);
         assert_eq!(dataset_stems(&["   ".to_string()], "Untitled", "dataSetName", &run).unwrap(), ["Untitled001"]);
@@ -780,6 +783,7 @@ mod tests {
             override_export: true,
             destination: "none",
             dest_folder: Some(&folder),
+            dataset_file_naming: "fileDataSetName",
         };
         crate::file_access::confine(Some(&roots), || {
             assert_eq!(dataset_stems(&["Alpha".into()], "source", "dataSetName", &run).unwrap(), ["Alpha"]);
@@ -815,6 +819,7 @@ mod tests {
                 override_export: true,
                 destination: "none",
                 dest_folder: Some(&folder),
+                dataset_file_naming: "fileDataSetName",
             };
             assert_eq!(
                 dataset_stems(&["Alpha".into()], "source", "dataSetName", &run).unwrap_or_else(|e| panic!("{format}: {e}")),
@@ -840,6 +845,7 @@ mod tests {
             override_export: true,
             destination: "none",
             dest_folder: Some(&folder),
+            dataset_file_naming: "fileDataSetName",
         };
         assert_eq!(dataset_stems(&[".".into(), "..".into()], ".", "dataSetName", &run).unwrap(), ["Untitled001", "Untitled002"]);
         assert_eq!(dataset_stems(&["Alpha".into()], "..", "fileNumber", &run).unwrap(), ["Untitled001"]);
