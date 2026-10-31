@@ -301,7 +301,7 @@ fn encode_document(doc: &Document, p: &Value, saving: bool) -> Result<Encoded> {
     let regions: Vec<Rect> = pages.iter().map(|(_, region, _)| *region).collect();
     let expanded = expand_transparent_tile_images(doc, &set.flatten)?;
     let source = expanded.as_ref().unwrap_or(doc);
-    let transparent = source.layers.iter().any(|l| l.shows_transparency());
+    let transparent = source.layers.iter().any(|l| set.flatten.shows_transparency(source, l));
     let flat = flatten_document(source, &set.flatten)?;
     let drawn = flat.as_ref().unwrap_or(source);
     let mut enc = Encoded { warnings, joiner: Some("_"), ..Encoded::default() };

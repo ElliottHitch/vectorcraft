@@ -686,6 +686,12 @@ impl Node {
     /// stroke opacity below 100%, a blend mode, an opacity mask, effects, transparent gradient
     /// stops or a colorized image. Hidden objects show none.
     pub fn shows_transparency(&self) -> bool {
+        self.shows_transparency_with(&|_| true)
+    }
+
+    /// [`Self::shows_transparency`], counting a colorized image by itself only when `colorize`
+    /// accepts it, for files that write some colorized images in their colorize paint (EPS).
+    pub fn shows_transparency_with(&self, colorize: &dyn Fn(&Node) -> bool) -> bool {
         use vectorcraft_color::Paint;
         let see_through = |p: &Paint| matches!(p, Paint::Gradient(g) if g.gradient.stops.iter().any(|s| s.opacity < 1.0));
         let effects = |fx: &[crate::Effect]| fx.iter().any(|e| e.visible);
@@ -693,14 +699,14 @@ impl Node {
             && (self.opacity < 1.0
                 || self.blend != BlendMode::Normal
                 || self.extras().mask.as_ref().is_some_and(|m| !m.disabled)
-                || (matches!(self.kind, NodeKind::Image(_)) && self.extras().colorize.is_some())
+                || (matches!(self.kind, NodeKind::Image(_)) && self.extras().colorize.is_some() && colorize(self))
                 || effects(&self.appearance.effects)
                 || self
                     .appearance
                     .items
                     .iter()
                     .any(|i| i.visible() && (i.opacity() < 1.0 || i.blend() != BlendMode::Normal || see_through(i.paint()) || effects(i.effects())))
-                || self.children().is_some_and(|ch| ch.iter().any(|c| c.shows_transparency())))
+                || self.children().is_some_and(|ch| ch.iter().any(|c| c.shows_transparency_with(colorize))))
     }
 }
 

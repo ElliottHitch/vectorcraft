@@ -546,7 +546,7 @@ fn a_colorized_grayscale_image_pattern_fill_is_expanded() {
     let keys = crate::cmd::flatten::see_through_images(d);
     assert!(keys.is_empty());
     let layer = d.layers[0].id;
-    assert_eq!(crate::cmd::expand::expand_transparent_image_patterns(d, layer, &keys).unwrap(), 1);
+    assert_eq!(crate::cmd::expand::expand_transparent_image_patterns(d, layer, &keys, &|_, _| true).unwrap(), 1);
     let mut patterns = 0;
     let mut tile_images = 0;
     d.walk(|n| {
@@ -688,7 +688,7 @@ fn only_the_transparent_pattern_fill_of_a_leaf_is_expanded() {
     let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
     let keys = crate::cmd::flatten::see_through_images(d);
     let layer = d.layers[0].id;
-    assert_eq!(crate::cmd::expand::expand_transparent_image_patterns(d, layer, &keys).unwrap(), 1);
+    assert_eq!(crate::cmd::expand::expand_transparent_image_patterns(d, layer, &keys, &|_, _| true).unwrap(), 1);
     let mut patterns = vec![];
     let mut images = 0;
     d.walk(|n| {
@@ -745,11 +745,10 @@ fn eps_level3_writes_see_through_pattern_tile_images() {
 }
 
 #[test]
-fn eps_flattens_colorized_pattern_tile_images_and_warns() {
+fn eps_writes_colorized_pattern_tile_images_in_their_colors() {
     let mut s = colorized_pattern_over_blue();
     let before = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
     let r = s.execute("document.exportEps", &json!({"previewFormat": "none", "useArtboards": true, "level": 3})).unwrap();
-    assert!(warnings(&r).iter().any(|w| w.contains("transparency is flattened")), "{:?}", warnings(&r));
     s.execute("document.open", &json!({"name": "p.eps", "dataBase64": r["dataBase64"], "editingData": false})).unwrap();
     let after = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
     for (a, b) in before.iter().zip(after) {
@@ -758,14 +757,31 @@ fn eps_flattens_colorized_pattern_tile_images_and_warns() {
 }
 
 #[test]
-fn eps_warns_for_colorized_image_nested_in_pattern_tile_group() {
+fn flattening_that_keeps_colorize_leaves_colorized_pattern_tile_images_alone() {
+    let s = colorized_pattern_over_blue();
+    let d = &s.doc().unwrap().doc;
+    assert!(crate::cmd::flatten::flatten_document(d, &crate::cmd::FlattenOptions::default()).unwrap().is_some());
+    let o = crate::cmd::FlattenOptions { keeps_colorize: true, ..Default::default() };
+    assert!(crate::cmd::flatten::flatten_document(d, &o).unwrap().is_none(), "the pattern isn't expanded for a colorize paint alone");
+}
+
+#[test]
+fn eps_flattens_colorized_image_in_a_see_through_pattern_tile_group_and_warns() {
     let mut s = colorized_pattern_over_blue();
     let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
     let id = d.alloc_id();
     let art = std::mem::take(&mut d.patterns[0].art);
-    d.patterns[0].art.push(std::sync::Arc::new(vectorcraft_doc::Node::group(id, art)));
+    let mut group = vectorcraft_doc::Node::group(id, art);
+    group.opacity = 0.5;
+    d.patterns[0].art.push(std::sync::Arc::new(group));
+    let before = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
     let r = s.execute("document.exportEps", &json!({"previewFormat": "none", "useArtboards": true, "level": 3})).unwrap();
     assert!(warnings(&r).iter().any(|w| w.contains("transparency is flattened")), "{:?}", warnings(&r));
+    s.execute("document.open", &json!({"name": "p.eps", "dataBase64": r["dataBase64"], "editingData": false})).unwrap();
+    let after = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
+    for (a, b) in before.iter().zip(after) {
+        assert!(a.iter().zip(b).all(|(a, b)| a.abs_diff(b) <= 4), "before {before:?} after {after:?}");
+    }
 }
 
 #[test]

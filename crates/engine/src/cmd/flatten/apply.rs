@@ -74,7 +74,7 @@ pub(super) fn plan(src: &Document, roots: &[NodeId], o: &FlattenOptions, render:
     let mut sc = Scratch { brushes: vectorcraft_brush::library(&baked), doc: baked.clone() };
     let plain: Vec<Node> = art.iter().map(|n| sc.plain(n)).collect();
     let reaches: Vec<Option<Rect>> = plain.iter().map(reach).collect();
-    let see_through: Vec<bool> = plain.iter().map(|n| n.shows_transparency() || o.draws_see_through_image(n)).collect();
+    let see_through: Vec<bool> = plain.iter().map(|n| o.shows_transparency(&baked, n) || o.draws_see_through_image(n)).collect();
     let cmyk = src.color_mode == ColorMode::Cmyk;
     let mut out = Plan { flat: vec![], kept: vec![], transparent: roots.iter().zip(&see_through).filter(|(_, t)| **t).map(|(id, _)| *id).collect() };
     // Baking above stopped early when cancelled; each group is a place to stop (a plan changes nothing).
@@ -298,28 +298,29 @@ pub(crate) fn expand_transparent_tile_images(doc: &Document, o: &FlattenOptions)
         return Ok(None);
     }
     let keys = o.no_transparency.clone().unwrap_or_default();
-    if !crate::cmd::expand::has_transparent_image_patterns(doc, &keys) {
+    let colorize = |d: &Document, n: &Node| o.counts_colorize(d, n);
+    if !crate::cmd::expand::has_transparent_image_patterns(doc, &keys, &colorize) {
         return Ok(None);
     }
     let mut d = doc.clone();
     let layers: Vec<NodeId> = d.layers.iter().map(|l| l.id).collect();
     let mut changed = 0;
     for id in layers {
-        changed += crate::cmd::expand::expand_transparent_image_patterns(&mut d, id, &keys)?;
+        changed += crate::cmd::expand::expand_transparent_image_patterns(&mut d, id, &keys, &colorize)?;
     }
     Ok((changed > 0).then_some(d))
 }
 
 /// `doc` with everything it draws flattened with `o`, as formats without transparency (EPS)
 /// write it: every visible object of the visible layers, locked ones too (a clipping layer's
-/// clipping path stays). Pattern tile images with opacity, blending or colorize are expanded;
-/// see-through tile pixels are expanded when `o.no_transparency` counts them. `None` when nothing
-/// changes.
+/// clipping path stays). Pattern tile images with opacity, blending or a colorize paint that
+/// `o` counts ([`FlattenOptions::counts_colorize`]) are expanded; see-through tile pixels are
+/// expanded when `o.no_transparency` counts them. `None` when nothing changes.
 pub(crate) fn flatten_document(doc: &Document, o: &FlattenOptions) -> Result<Option<Document>> {
     let expanded = expand_transparent_tile_images(doc, o)?;
     let doc = expanded.as_ref().unwrap_or(doc);
     let outlining = o.text_to_outlines || o.strokes_to_outlines || !o.preserve_overprints;
-    if !outlining && !doc.layers.iter().any(|l| l.shows_transparency() || o.draws_see_through_image(l)) {
+    if !outlining && !doc.layers.iter().any(|l| o.shows_transparency(doc, l) || o.draws_see_through_image(l)) {
         return Ok(expanded);
     }
     let mut roots = vec![];

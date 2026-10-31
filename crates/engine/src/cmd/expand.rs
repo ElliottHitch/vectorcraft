@@ -447,27 +447,32 @@ fn expand_pattern_fills(s: &mut Session) -> Result<()> {
 /// Expand the pattern fills under `root` that paint a transparent or colorized image into the tiles they paint
 /// ([`expand_patterns_where`]), so each tile image becomes an object of its own; the other
 /// pattern fills stay. A tile image counts when its key is in `see_through` (it has see-through
-/// pixels), when it has a colorize paint, or when it, a group
+/// pixels), when it has a colorize paint that `colorize` counts, or when it, a group
 /// in the tile art, the fill, the shape or a group the shape is in has opacity or a blending
 /// mode. Returns how many shapes changed.
-pub(crate) fn expand_transparent_image_patterns(d: &mut Document, root: NodeId, see_through: &BTreeSet<String>) -> Result<usize> {
+pub(crate) fn expand_transparent_image_patterns(
+    d: &mut Document,
+    root: NodeId,
+    see_through: &BTreeSet<String>,
+    colorize: &dyn Fn(&Document, &Node) -> bool,
+) -> Result<usize> {
     let (_, n) = replace_leaves(d, root, |d, l| {
         // Most leaves have no pattern fill: skip the ancestry walk for them.
         if !l.appearance.items.iter().any(|i| pattern_fill(d, i).is_some()) {
             return None;
         }
-        expand_patterns_where(d, l, |d, i| transparent_pattern_fill(d, l, i, see_through))
+        expand_patterns_where(d, l, |d, i| transparent_pattern_fill(d, l, i, see_through, colorize))
     })?;
     Ok(n)
 }
 
 /// Whether a path or compound path of `d` has a pattern fill that
-/// [`expand_transparent_image_patterns`] would expand with `see_through`.
-pub(crate) fn has_transparent_image_patterns(d: &Document, see_through: &BTreeSet<String>) -> bool {
+/// [`expand_transparent_image_patterns`] would expand with `see_through` and `colorize`.
+pub(crate) fn has_transparent_image_patterns(d: &Document, see_through: &BTreeSet<String>, colorize: &dyn Fn(&Document, &Node) -> bool) -> bool {
     let mut found = false;
     d.walk(|n| {
         if !found && matches!(n.kind, NodeKind::Path { .. } | NodeKind::Compound { .. }) {
-            found = n.appearance.items.iter().any(|i| transparent_pattern_fill(d, n, i, see_through));
+            found = n.appearance.items.iter().any(|i| transparent_pattern_fill(d, n, i, see_through, colorize));
         }
     });
     found
@@ -475,11 +480,17 @@ pub(crate) fn has_transparent_image_patterns(d: &Document, see_through: &BTreeSe
 
 /// Whether `i`, an item of leaf `l`, is a pattern fill whose tile art holds a transparent image
 /// ([`transparent_image`]), counting the fill's and the shape's opacity and blending mode.
-fn transparent_pattern_fill(d: &Document, l: &Node, i: &AppearanceItem, see_through: &BTreeSet<String>) -> bool {
+fn transparent_pattern_fill(
+    d: &Document,
+    l: &Node,
+    i: &AppearanceItem,
+    see_through: &BTreeSet<String>,
+    colorize: &dyn Fn(&Document, &Node) -> bool,
+) -> bool {
     let Some((f, def, _)) = pattern_fill(d, i) else { return false };
     let shape = d.ancestry(l.id).unwrap_or_default().iter().filter_map(|a| d.node(*a)).any(blended);
     let on = shape || f.opacity < 1.0 || f.blend != BlendMode::Normal;
-    def.art.iter().any(|a| transparent_image(a, see_through, on))
+    def.art.iter().any(|a| transparent_image(d, a, see_through, colorize, on))
 }
 
 /// Whether `n` has opacity or a blending mode of its own.
@@ -487,13 +498,14 @@ fn blended(n: &Node) -> bool {
     n.opacity < 1.0 || n.blend != BlendMode::Normal
 }
 
-/// Whether `n` is or holds an image with see-through pixels (key in `keys`), a colorize paint,
-/// opacity or a blending mode of its own or of a group in `n`, or anywhere when `on`.
-fn transparent_image(n: &Node, keys: &BTreeSet<String>, on: bool) -> bool {
+/// Whether `n` (art of `d`) is or holds an image with see-through pixels (key in `keys`), a
+/// colorize paint that `colorize` counts, opacity or a blending mode of its own or of a group in
+/// `n`, or anywhere when `on`.
+fn transparent_image(d: &Document, n: &Node, keys: &BTreeSet<String>, colorize: &dyn Fn(&Document, &Node) -> bool, on: bool) -> bool {
     let on = on || blended(n);
     match &n.kind {
-        NodeKind::Image(im) => on || keys.contains(&im.key) || n.extras().colorize.is_some(),
-        _ => n.children().is_some_and(|ch| ch.iter().any(|c| transparent_image(c, keys, on))),
+        NodeKind::Image(im) => on || keys.contains(&im.key) || (n.extras().colorize.is_some() && colorize(d, n)),
+        _ => n.children().is_some_and(|ch| ch.iter().any(|c| transparent_image(d, c, keys, colorize, on))),
     }
 }
 
