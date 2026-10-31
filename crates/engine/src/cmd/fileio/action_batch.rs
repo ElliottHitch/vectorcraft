@@ -221,7 +221,7 @@ fn finish_destination(s: &mut Session, run: &Run<'_>, stem: &str, ext: &str, sou
         "folder" => {
             let folder = run.dest_folder.ok_or_else(|| bad("action.batch", "missing destination folder"))?;
             let out_ext = if ext.is_empty() { "vectorcraft" } else { ext };
-            let out = std::path::Path::new(folder).join(format!("{stem}.{out_ext}"));
+            let out = output_path(folder, stem, out_ext).ok_or_else(|| bad("action.batch", "unsafe destination file name"))?;
             let out = out.to_string_lossy().into_owned();
             // When `close` is false (data sets), write a copy so the template keeps its path.
             write_result(s, &out, out_ext, !close)?;
@@ -235,7 +235,8 @@ fn finish_destination(s: &mut Session, run: &Run<'_>, stem: &str, ext: &str, sou
 }
 
 /// Builds the three data set naming forms, replaces unsafe name characters, and adds `-2`, `-3`
-/// suffixes when a stem was used earlier or its output already exists in the destination folder.
+/// suffixes when a stem was used earlier or its output already exists in a folder the batch may
+/// read and write.
 #[cfg(not(target_arch = "wasm32"))]
 fn dataset_stems(names: &[String], doc_stem: &str, naming: &str, run: &Run<'_>) -> Result<Vec<String>> {
     use super::screens::{file_part, safe_file_name};
@@ -243,13 +244,16 @@ fn dataset_stems(names: &[String], doc_stem: &str, naming: &str, run: &Run<'_>) 
     if !matches!(naming, "fileNumber" | "fileDataSetName" | "dataSetName") {
         return Err(bad("action.batch", "`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`"));
     }
+    let doc_stem = safe_file_name(doc_stem);
+    let doc_stem = if doc_stem.is_empty() || matches!(doc_stem.as_str(), "." | "..") { "Untitled" } else { &doc_stem };
     let bases = names.iter().enumerate().map(|(i, name)| {
         let safe = file_part(name);
         let safe_data_set = safe_file_name(&safe);
+        let ordinal = format!("{doc_stem}{:03}", i + 1);
         match naming {
-            "fileNumber" => format!("{doc_stem}{:03}", i + 1),
+            "fileNumber" => ordinal,
             "dataSetName" if !safe_data_set.is_empty() => safe_data_set,
-            "dataSetName" => format!("{doc_stem}{:03}", i + 1),
+            "dataSetName" => ordinal,
             _ => format!("{doc_stem}_{safe}"),
         }
     });
@@ -283,8 +287,15 @@ fn dataset_output_extensions(run: &Run<'_>) -> Vec<String> {
         let writes = (run.override_save && matches!(id, "document.save" | "file.save" | "file.saveAs"))
             || (run.override_export && matches!(id, "document.export" | "document.exportForScreens" | "document.exportSelection"));
         if writes {
-            let ext = step.get("params").and_then(|p| p.get("format")).and_then(Value::as_str).filter(|f| !f.is_empty());
-            extensions.push(ext.map_or_else(|| "vectorcraft".to_string(), format_extension));
+            let format = step.get("params").and_then(|p| p.get("format")).and_then(Value::as_str).filter(|f| !f.is_empty());
+            let ext = match format {
+                Some(format) if super::format(format).is_some() => format_extension(format),
+                Some(_) => continue,
+                None => "vectorcraft".to_string(),
+            };
+            if safe_extension(&ext) {
+                extensions.push(ext);
+            }
         }
     }
     extensions
@@ -293,7 +304,36 @@ fn dataset_output_extensions(run: &Run<'_>) -> Vec<String> {
 #[cfg(not(target_arch = "wasm32"))]
 fn dataset_output_exists(folder: Option<&str>, stem: &str, extensions: &[String]) -> bool {
     let Some(folder) = folder else { return false };
-    extensions.iter().any(|ext| std::path::Path::new(folder).join(format!("{stem}.{ext}")).exists())
+    if super::may_read(folder).is_err() || super::may_write(folder).is_err() {
+        return false;
+    }
+    extensions.iter().any(|ext| {
+        output_path(folder, stem, ext).is_some_and(|path| {
+            let path_text = path.to_string_lossy();
+            super::may_read(&path_text).is_ok() && super::may_write(&path_text).is_ok() && path.exists()
+        })
+    })
+}
+
+/// Returns whether an extension is safe to use in an output file name.
+#[cfg(not(target_arch = "wasm32"))]
+fn safe_extension(ext: &str) -> bool {
+    !ext.is_empty() && !ext.contains(['/', '\\', ':']) && !ext.contains("..")
+}
+
+/// Returns a path inside the destination folder for a safe stem and extension.
+#[cfg(not(target_arch = "wasm32"))]
+fn output_path(folder: &str, stem: &str, ext: &str) -> Option<std::path::PathBuf> {
+    use std::path::Path;
+    if stem.is_empty() || matches!(stem, "." | "..") || stem.contains(['/', '\\']) || !safe_extension(ext) {
+        return None;
+    }
+    let name = format!("{stem}.{ext}");
+    if name.contains(['/', '\\']) {
+        return None;
+    }
+    let path = Path::new(folder).join(name);
+    (path.parent() == Some(Path::new(folder))).then_some(path)
 }
 
 /// Save when the extension is a Save format; otherwise export (PNG, JPEG…).
@@ -341,7 +381,10 @@ fn rewrite_paths(
                 Some(f) => format_extension(f),
                 None => default_ext.to_string(),
             };
-            let file = std::path::Path::new(folder).join(format!("{stem}.{ext}"));
+            if params.get("format").and_then(Value::as_str).filter(|f| !f.is_empty()).is_some_and(|f| super::format(f).is_none()) {
+                return c;
+            }
+            let Some(file) = output_path(folder, stem, &ext) else { return c };
             params.insert("path".into(), json!(file.to_string_lossy()));
             if let Some(o) = c.as_object_mut() {
                 o.insert("params".into(), Value::Object(params));
@@ -719,6 +762,102 @@ mod tests {
         assert_eq!(r["failed"], 0, "{r}");
         assert_eq!(std::fs::read(dest.join("Alpha.svg")).unwrap(), b"keep");
         assert_eq!(file_names(&dest), ["Alpha-2.svg", "Alpha.svg"]);
+    }
+
+    #[test]
+    fn batch_does_not_probe_a_denied_destination() {
+        let allowed = tmp("probe-allowed");
+        let denied = tmp("probe-denied");
+        std::fs::write(denied.join("Alpha.svg"), b"private").unwrap();
+        let roots = crate::file_access::AutomationRoots::new(&[allowed.as_path()], &[allowed.as_path()]).unwrap().unwrap();
+        let steps = [json!({"command": "document.export", "params": {"format": "svg"}})];
+        let folder = denied.to_string_lossy().into_owned();
+        let run = Run {
+            label: "Test",
+            steps: &steps,
+            stop_on_error: true,
+            override_save: true,
+            override_export: true,
+            destination: "none",
+            dest_folder: Some(&folder),
+        };
+        crate::file_access::confine(Some(&roots), || {
+            assert_eq!(dataset_stems(&["Alpha".into()], "source", "dataSetName", &run).unwrap(), ["Alpha"]);
+            let mut s = with_data_sets(&["Alpha"]);
+            let result = s
+                .execute(
+                    "action.batch",
+                    &json!({
+                        "source": "datasets", "datasetFileNaming": "dataSetName", "destination": "none",
+                        "destinationFolder": folder, "overrideExport": true,
+                        "commands": steps,
+                    }),
+                )
+                .unwrap();
+            assert!(!result.to_string().contains("Alpha-2"), "{result}");
+        });
+    }
+
+    #[test]
+    fn batch_does_not_probe_unknown_format_paths() {
+        let root = tmp("probe-format");
+        let folder = root.join("out");
+        std::fs::create_dir_all(&folder).unwrap();
+        std::fs::write(root.join("outside"), b"private").unwrap();
+        for format in ["../outside", "x/../../outside", "..\\..\\outside"] {
+            let steps = [json!({"command": "document.export", "params": {"format": format}})];
+            let folder = folder.to_string_lossy().into_owned();
+            let run = Run {
+                label: "Test",
+                steps: &steps,
+                stop_on_error: true,
+                override_save: true,
+                override_export: true,
+                destination: "none",
+                dest_folder: Some(&folder),
+            };
+            assert_eq!(
+                dataset_stems(&["Alpha".into()], "source", "dataSetName", &run).unwrap_or_else(|e| panic!("{format}: {e}")),
+                ["Alpha"],
+                "{format}"
+            );
+            assert_eq!(rewrite_paths(&steps, false, true, Some(&folder), "Alpha", "vectorcraft"), steps, "{format}");
+        }
+    }
+
+    #[test]
+    fn batch_probe_and_dot_names_stay_in_destination() {
+        let root = tmp("probe-parent");
+        let folder = root.join("out");
+        std::fs::create_dir_all(&folder).unwrap();
+        std::fs::write(root.join("outside.svg"), b"private").unwrap();
+        let folder = folder.to_string_lossy().into_owned();
+        let run = Run {
+            label: "Test",
+            steps: &[],
+            stop_on_error: true,
+            override_save: true,
+            override_export: true,
+            destination: "none",
+            dest_folder: Some(&folder),
+        };
+        assert_eq!(dataset_stems(&[".".into(), "..".into()], ".", "dataSetName", &run).unwrap(), ["Untitled001", "Untitled002"]);
+        assert_eq!(dataset_stems(&["Alpha".into()], "..", "fileNumber", &run).unwrap(), ["Untitled001"]);
+        let output = root.join("named");
+        let mut s = with_data_sets(&[".", ".."]);
+        let r = named_batch(&mut s, &output, Some("dataSetName"));
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(file_names(&output), ["Untitled001.vectorcraft", "Untitled002.vectorcraft"]);
+    }
+
+    #[test]
+    fn batch_probe_rejects_parent_escape() {
+        let root = tmp("probe-parent-only");
+        let folder = root.join("out");
+        std::fs::create_dir_all(&folder).unwrap();
+        std::fs::write(root.join("outside.svg"), b"private").unwrap();
+        let folder = folder.to_string_lossy().into_owned();
+        assert!(!dataset_output_exists(Some(&folder), "../outside", &["svg".into()]));
     }
 
     #[test]

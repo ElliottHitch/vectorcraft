@@ -1629,6 +1629,8 @@ already walks Image Trace. Short agent entry points:
   when it is one of the format's extensions (`.svg` and `SVG` give `.svg`, `.JPEG` gives `.jpeg`),
   and otherwise in the format's first extension (`png8` gives `.png`, `template` gives `.vctemplate`).
   A step without `format` keeps the source file's extension (`.vectorcraft` over data sets).
+  An output already in a destination folder gets the next free `-2`, `-3` suffix only when the batch
+  may read and write that folder.
 - Image Trace: `imageTrace.presets`, `imageTrace.make {id?, preset?, params?, view?}` (or `imageTrace.makeAndExpand`),
   `imageTrace.setView`, `imageTrace.expand`, `imageTrace.release`. A key inside `params` that is not one of the trace
   settings, such as `colours`, is an error that names it and the nearest setting (`colors`), as for a command's own keys.
@@ -2972,9 +2974,9 @@ chosen stem with the output format's extension. An empty data set name under Dat
 document stem plus its three-digit ordinal.
 Batch writes `/`, `\`, `:`, `<`, `>`, `"`, `|`, `?`, `*` and control characters in the data set's name as `-`, and
 adds the next free `-2`, `-3` suffix to a stem already used in the batch or whose generated output path exists in
-the destination folder before the batch starts. Under Data Set Name, VectorCraft also makes Windows device names
-safe (`CON` becomes `CON-`). This is VectorCraft's naming behavior. Caps: 500 files or data sets, 8
-folder levels, 256 steps. An action recorded in the Actions panel leaves the artboard out,
+a destination folder the batch may read and write before it starts. Under Data Set Name, VectorCraft also makes
+Windows device names safe (`CON` becomes `CON-`). This is VectorCraft's naming behavior. Caps: 500
+files or data sets, 8 folder levels, 256 steps. An action recorded in the Actions panel leaves the artboard out,
 and its steps of these commands get the artboard that is active when the action plays. A press with the Selection,
 Direct Selection or Group Selection tool inside an artboard makes that artboard the active one; with the Selection
 tool, a Shift-click on an empty spot inside an artboard makes it active and keeps the selection. Choosing the Artboard
