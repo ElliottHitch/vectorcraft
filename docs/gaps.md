@@ -1,6 +1,6 @@
 # Gaps
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-30 · **Change:** minor (G13: gradient presets done; G1: Average & Join with a corner or smooth choice, Cmd+Alt+Shift+J, done; estimate unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G8: a gradient mesh from a file is budgeted at about a million patches and quads, #3592; estimate unchanged; previously: G13: gradient presets done; G1: Average & Join with a corner or smooth choice, Cmd+Alt+Shift+J, done; estimate unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -224,6 +224,12 @@ from G14 and the budget run of G15: **~170–270 h** one agent, ~50–80 h wall 
   taken whole or not at all, and the walk that counts an art tile's anchors charges the whole budget for a tree it
   cannot finish, so nesting buys no room (#3594). The budget is per brushed stroke, not per document: many strokes
   that each reach it still add up, and a brush inside a symbol is bounded per stroke rather than per instantiation.
+- **Done (2026-10-31):** a gradient mesh is budgeted (#3592). One tessellation makes at most 1,048,576 quads, and a
+  mesh with more patches than that (rows times columns) is malformed, like a point count that doesn't fit, so it draws
+  nothing instead of exhausting memory: a 150 x 150 mesh from a 3 MB file exported at 20x asked for about 23 million
+  quads (2 GB). Below the budget the subdivision per patch gives way a step at a time (a 60 x 60 mesh draws at 16 x 16
+  quads a patch instead of 32 x 32); a small mesh is drawn as finely as before. The command's own cap of 50 rows and
+  columns is unchanged.
 - **Done (2026-10-29):** a blend makes at most 100,000 steps in all, counting the steps of the blends inside its keys
   and steps. Each step between keys that are blends is a copy of one, which makes its own steps when drawn, so step
   counts capped at 1,000 a pair multiplied by nesting: five levels of 15 steps were 1.3 million steps from a 23 KB
@@ -660,6 +666,7 @@ trap, and the defaults (0.25 pt, 100%, 40%) are VectorCraft's own, the pages giv
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | G8: a gradient mesh read from a file is budgeted: at most about a million quads per tessellation, and a mesh with more patches than that is malformed (#3592); estimate unchanged. |
 | 2026-10-30 | minor | G9: `.ai`/EPS editing data: a blend takes the transparency (opacity, blend mode, knockout) in its state block after its record, so its steps knock each other out as the page draws them; a user's file comes in 0.6% from its page instead of 1.3%. Scores and estimates unchanged. |
 | 2026-10-30 | minor | G1: Object › Path › Average & Join… (`path.averageJoin`, Cmd+Alt+Shift+J) moves two open path ends to their midpoint and joins them there, the joined anchor a corner or a smooth point as its dialog's Points choice asks, in one undo step; the "Average and Join in one step" entry is done. Estimate unchanged |
 | 2026-10-30 | minor | G12: Preferences audit (#394): 5 options are stored but not acted on (Open Documents As Tabs, Units › East Asian Type, Hyphenation › Default Language, Scratch Disks, Legacy vector clipboard), each waiting on a subsystem; Highlight Alternate Glyphs, Real-time Drawing and the Devices options act. Estimate unchanged. |
