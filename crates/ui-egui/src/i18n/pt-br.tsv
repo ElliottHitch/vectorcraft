@@ -5798,7 +5798,6 @@ anchor	Points:	Pontos:
 	Dot Color from Art	Cor dos Pontos da Arte
 	Basic Character Formats	Formatos básicos de caracteres
 	Case	Maiúsculas e minúsculas
-	Kerning	Kerning
 @msg	{label} must be a number	{label} deve ser um número
 @msg	{label} must be a number of at least 0.1	{label} deve ser um número de pelo menos 0,1
 @msg	no character style `{name}`	Estilo de caractere `{name}` não encontrado

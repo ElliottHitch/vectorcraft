@@ -5870,7 +5870,6 @@ anchor	Points:	წერტილები:
 	Dot Color from Art	წერტილების ფერი ნახატიდან
 	Basic Character Formats	სიმბოლოს ძირითადი ფორმატები
 	Case	ასოების რეგისტრი
-	Kerning	კერნინგი
 @msg	{label} must be a number	{label} უნდა იყოს რიცხვი
 @msg	{label} must be a number of at least 0.1	{label} უნდა იყოს მინიმუმ 0,1
 @msg	no character style `{name}`	სიმბოლოს სტილი `{name}` ვერ მოიძებნა

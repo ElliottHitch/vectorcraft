@@ -5518,7 +5518,6 @@ anchor	Points:	點：
 	Dot Color from Art	網點顏色取自圖稿
 	Basic Character Formats	基本字元格式
 	Case	大小寫
-	Kerning	字偶間距
 @msg	{label} must be a number	{label} 必須是數字
 @msg	{label} must be a number of at least 0.1	{label} 必須是至少 0.1 的數字
 @msg	no character style `{name}`	找不到字元樣式 `{name}`

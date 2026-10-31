@@ -5880,7 +5880,6 @@ anchor	Points:	Body:
 	Dot Color from Art	Barva bodů podle kresby
 	Basic Character Formats	Základní formáty znaků
 	Case	Velikost písmen
-	Kerning	Vyrovnání párů
 @msg	{label} must be a number	{label} musí být číslo
 @msg	{label} must be a number of at least 0.1	{label} musí být číslo alespoň 0,1
 @msg	no character style `{name}`	styl znaků `{name}` neexistuje

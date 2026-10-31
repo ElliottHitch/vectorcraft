@@ -5823,7 +5823,6 @@ anchor	Points:	Puntos:
 	Dot Color from Art	Color de puntos de la ilustración
 	Basic Character Formats	Formatos básicos de caracteres
 	Case	Mayúsculas y minúsculas
-	Kerning	Interletraje
 @msg	{label} must be a number	{label} debe ser un número
 @msg	{label} must be a number of at least 0.1	{label} debe ser un número de al menos 0,1
 @msg	no character style `{name}`	No existe el estilo de carácter `{name}`

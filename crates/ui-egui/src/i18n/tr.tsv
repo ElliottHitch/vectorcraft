@@ -5838,7 +5838,6 @@ anchor	Points:	Noktalar:
 	Dot Color from Art	Nokta Rengini Sanattan Al
 	Basic Character Formats	Temel karakter biçimleri
 	Case	Büyük küçük harf
-	Kerning	Karakter aralığı
 @msg	{label} must be a number	{label} bir sayı olmalıdır
 @msg	{label} must be a number of at least 0.1	{label} en az 0,1 olan bir sayı olmalıdır
 @msg	no character style `{name}`	`{name}` karakter stili bulunamadı

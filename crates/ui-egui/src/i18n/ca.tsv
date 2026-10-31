@@ -5871,7 +5871,6 @@ anchor	Points:	Punts:
 	Dot Color from Art	Color dels punts de la il·lustració
 	Basic Character Formats	Formats bàsics de caràcters
 	Case	Majúscules i minúscules
-	Kerning	Interlletratge
 @msg	{label} must be a number	{label} ha de ser un nombre
 @msg	{label} must be a number of at least 0.1	{label} ha de ser un nombre de com a mínim 0,1
 @msg	no character style `{name}`	No s'ha trobat l'estil de caràcter `{name}`

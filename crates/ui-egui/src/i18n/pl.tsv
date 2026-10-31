@@ -5735,7 +5735,6 @@ anchor	Points:	Punkty:
 	Dot Color from Art	Kolor kropek z kompozycji
 	Basic Character Formats	Podstawowe formaty znaków
 	Case	Wielkość liter
-	Kerning	Kerning
 @msg	{label} must be a number	{label} musi być liczbą
 @msg	{label} must be a number of at least 0.1	{label} musi być liczbą co najmniej 0,1
 @msg	no character style `{name}`	Nie znaleziono stylu znakowego `{name}`
