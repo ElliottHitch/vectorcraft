@@ -108,7 +108,7 @@ fn ids_json(ids: &[NodeId]) -> Value {
 pub(crate) fn effect_targets(s: &Session, p: &Value, item: ItemTarget, index: usize, cmd: &str) -> Result<Vec<(NodeId, Option<usize>, usize)>> {
     let roots = appearance_targets(s, p)?;
     let d = &s.doc()?.doc;
-    let per = item.per_target(d, &roots);
+    let per = item.per_target(s, &roots);
     let shared = if aligned(p) { shared_stack(d, &roots) } else { None };
     let mut out = Vec::with_capacity(roots.len());
     for (k, (id, item)) in roots.iter().zip(per).enumerate() {
