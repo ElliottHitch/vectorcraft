@@ -29,6 +29,7 @@ mod setup;
 mod strokegradient;
 mod tileedge;
 mod viewraster;
+mod widthzoom;
 
 fn rect_node(d: &mut Document, r: Rect, fill: Paint, stroke: Paint, w: f64) -> Node {
     let id = d.alloc_id();
