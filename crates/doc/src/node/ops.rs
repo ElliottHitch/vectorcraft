@@ -496,8 +496,13 @@ impl Node {
             Arc::make_mut(&mut m.art).transform_scaled(a, sc);
         }
         // The area where an Intertwine member is drawn over the others moves with it.
-        if let Some(area) = self.extras_if_any().and_then(|e| e.intertwine.as_mut()) {
-            area.transform(a);
+        if let Some(e) = self.extras_if_any() {
+            if let Some(area) = e.intertwine.as_mut() {
+                area.transform(a);
+            }
+            for area in &mut e.intertwine_tiers {
+                area.transform(a);
+            }
         }
     }
 

@@ -439,9 +439,11 @@ from G14 and the budget run of G15: **~170–270 h** one agent, ~50–80 h wall 
 
 - **Done:** Object › Intertwine (#1763): Make, Edit and Release; the Intertwine tool highlights the overlap area under
   the pointer, a click swaps which object is on top there, and a path (Shift: a rectangle) drawn around overlaps
-  arranges each one inside it; `object.intertwine.arrange` also brings an object to the front or sends it to the back
-  where three or more overlap. The group renders, saves and exports through its live expansion. Still missing: the
-  right-click Bring Forward / Send Backward menu where three or more objects overlap; adding objects to the group by
+  arranges each one inside it. Where three or more objects overlap, hovering highlights the object nearest to the
+  pointer, and a right-click offers Bring to Front, Bring Forward, Send Backward and Send to Back for it in that area
+  (`object.intertwine.arrange` with `order` front, forward, backward or back;
+  <https://helpx.adobe.com/illustrator/desktop/manage-objects/reshape-transform-objects/create-intertwined-objects.html>).
+  The group renders, saves and exports through its live expansion. Still missing: adding objects to the group by
   dragging them in the Layers panel is untested.
 - **Done (from users' reports):** Object › Create Gradient Mesh on an embedded image turns it into a mesh over its
   rectangle, with the image's transform kept; each point takes the average colour and opacity of the picture around it

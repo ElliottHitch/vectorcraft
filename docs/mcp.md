@@ -1433,6 +1433,19 @@ Group. Construction mode ends when the group was in it.
 outside the bounds the group's original shapes had before the move, in the move's undo step. A shape whose bounds still
 overlap them only moves. The Selection tool sends it at the end of a move in Construction mode.
 
+## Intertwine
+
+`object.intertwine.arrange {id?, at?|area?, order?, member?}` changes the order the objects of an Intertwine group are
+drawn in, in the overlap areas under `at` or enclosed by the polygon `area`. `order` is `toggle` (the default: the
+object right below the top comes to the front), `front`, `forward`, `backward` or `back`. `forward` and `backward` move
+`member` one place up or down among the objects that overlap in that area, and `front` and `back` move it to the top or
+the bottom there; the other objects keep their order. Without `member`, `front` and `forward` move the object right
+below the top, and `back` and `backward` move the top one. The command returns `{count, top}`: the number of areas
+whose order changed and the id of the object now on top in each. A move that changes no area returns
+`{count: 0, top: []}` and records no undo step. With the Intertwine tool, a right-click where three or more objects
+overlap offers Bring to Front, Bring Forward, Send Backward and Send to Back, which run this command for the object
+nearest to the pointer.
+
 ## Global Edit
 
 Select › Start Global Edit is `select.globalEdit {appearance?, size?, artboards?, includeCanvas?}`. With one path,
