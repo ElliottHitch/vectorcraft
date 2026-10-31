@@ -872,7 +872,8 @@ impl<'a> Scene<'a> {
         let pts: Vec<Point> = pts.iter().map(|p| self.pt(*p)).collect();
         let layer = self.layer.clone();
         let h = self.handle();
-        let flags = i64::from(closed);
+        // Bit 128: a linetype runs on through the vertices instead of restarting at each one.
+        let flags = i64::from(closed) | if style.linetype.is_some() { 128 } else { 0 };
         if self.o.version.lwpolyline() {
             self.e.entity("LWPOLYLINE", h, fixed::MODEL_RECORD, &layer, style, "AcDbPolyline");
             self.e.int(90, pts.len() as i64);

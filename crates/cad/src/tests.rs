@@ -696,6 +696,30 @@ fn dashes_that_start_part_way_into_their_pattern_are_outlined() {
     assert_eq!(get(&entities(&editable)[0], 6), Some("DASHED1"));
 }
 
+#[test]
+fn dashed_polylines_continue_their_pattern_around_corners() {
+    let rect = |dash: Option<Dash>| {
+        doc_with(|d| {
+            let mut n = path(d, shapes::rectangle(Rect::new(10.0, 10.0, 110.0, 60.0)), Paint::None, Paint::solid(Color::BLACK), 1.0);
+            if let Some(st) = n.appearance.stroke_mut() {
+                st.dash = dash.clone();
+            }
+            vec![n]
+        })
+    };
+    let flags = |out: &DxfOutput| entities(out).first().and_then(|e| get(e, 70).map(str::to_string));
+    // Group 70 bit 128 makes the linetype run on through the vertices instead of restarting
+    // at each one; a solid polyline keeps only its closed bit.
+    let dashed = rect(Some(Dash { pattern: vec![6.0, 3.0], offset: 0.0, align_corners: false }));
+    for o in [opts(&dashed), DxfOptions { alter_paths: true, ..opts(&dashed) }, DxfOptions { preserve: Preserve::Editability, ..opts(&dashed) }] {
+        assert_eq!(flags(&export(&dashed, &o).unwrap()).as_deref(), Some("129"));
+    }
+    let r12 = export(&dashed, &DxfOptions { version: DxfVersion::R12, ..opts(&dashed) }).unwrap();
+    assert_eq!((kinds(&r12).first().map(String::as_str), flags(&r12).as_deref()), (Some("POLYLINE"), Some("129")));
+    let solid = rect(None);
+    assert_eq!(flags(&export(&solid, &opts(&solid)).unwrap()).as_deref(), Some("1"));
+}
+
 fn text_doc(text: &str, size: f64) -> Document {
     doc_with(|d| {
         let style = CharStyle { size, fill: Paint::solid(Color::rgb(0.0, 0.5, 0.0)), ..CharStyle::default() };
