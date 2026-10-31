@@ -117,6 +117,19 @@ pub(crate) mod accessibility_tests {
         nodes
     }
 
+    /// The widgets that `tabs` presses of Tab give the keyboard focus to, in order. `frame` runs
+    /// one frame of `ctx` with the events it is given.
+    pub(crate) fn tab_stops(ctx: &egui::Context, tabs: usize, mut frame: impl FnMut(Vec<egui::Event>)) -> Vec<egui::Id> {
+        let tab = egui::Event::Key { key: egui::Key::Tab, physical_key: None, pressed: true, repeat: false, modifiers: egui::Modifiers::NONE };
+        let mut stops = vec![];
+        for _ in 0..tabs {
+            frame(vec![tab.clone()]);
+            frame(vec![]);
+            stops.extend(ctx.memory(|m| m.focused()));
+        }
+        stops
+    }
+
     /// The node of `tree` that screen readers name `label`.
     pub(crate) fn named<'a>(tree: &'a [Node], label: &str) -> &'a Node {
         tree.iter().find(|n| n.label() == Some(label)).unwrap_or_else(|| panic!("nothing is named {label:?}"))
