@@ -849,10 +849,9 @@ fn latin(text: &str, physical: Option<Key>) -> String {
 /// For each event, the index of the key press that typed it when it is text: the press right
 /// before it (egui-winit) unless an earlier text took that press, or else the press right after it
 /// (eframe's web build with no text field focused). Modifier key presses type no text. Each press
-/// types at most one text. A text
-/// takes the press after it only when every later text in the same run of alternating texts and
-/// presses has a press after it too; otherwise the text after that press takes it as the press
-/// before it, and this text has none.
+/// types at most one text. A text takes the press after it only when every later text in the same
+/// run of alternating texts and presses has a press after it too; otherwise the text after that
+/// press takes it as the press before it, and this text has none.
 fn typing_presses(events: &[egui::Event]) -> Vec<Option<usize>> {
     let is_press = |k: usize| matches!(events.get(k), Some(egui::Event::Key { key, pressed: true, .. }) if !is_modifier(*key));
     let is_text = |k: usize| matches!(events.get(k), Some(egui::Event::Text(_)));
