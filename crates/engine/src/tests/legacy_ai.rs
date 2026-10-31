@@ -705,6 +705,61 @@ fn only_the_transparent_pattern_fill_of_a_leaf_is_expanded() {
     assert!(images > 0);
 }
 
+/// A pattern fill whose expanded art would hold more objects than the budget stays a pattern fill:
+/// the 32 pt tiles over the 128 pt square are 25 copies of the tile art's 3 objects, which are not
+/// made with a smaller budget, and the clip group around them counts too.
+#[test]
+fn a_transparent_image_pattern_past_the_budget_stays() {
+    let expand = |budget: usize| {
+        let mut s = pattern_over_blue(&checker([0, 200, 0, 255], [255, 255, 255, 0]), 1.0);
+        assert_eq!(s.doc().unwrap().doc.patterns[0].art.iter().map(|a| a.count_with_masks()).sum::<usize>(), 3);
+        let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
+        let keys = crate::cmd::flatten::see_through_images(d);
+        let layer = d.layers[0].id;
+        let before = d.layers[0].count_with_masks();
+        let n = crate::cmd::expand::expand_transparent_image_patterns_within(d, layer, &keys, &|_, _| true, budget).unwrap();
+        // The objects the expansion made, with the square it replaced.
+        (n, images(d).0, d.layers[0].count_with_masks() + 1 - before)
+    };
+    let (n, tiles, made) = expand(usize::MAX);
+    assert_eq!((n, tiles), (1, 25));
+    assert!(made > 75, "{made}");
+    assert_eq!(expand(made), (1, 25, made));
+    assert_eq!(expand(made - 1).0, 0);
+    assert_eq!(expand(74).0, 0);
+}
+
+/// On a shape with two transparent image pattern fills, both expand with a budget their tiles and
+/// the group around them fit, and one expands with one object less.
+#[test]
+fn two_transparent_image_pattern_fills_expand_within_the_budget() {
+    let expand = |budget: usize| {
+        let mut s = pattern_over_blue(&checker([0, 200, 0, 255], [255, 255, 255, 0]), 1.0);
+        let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
+        let mut square = None;
+        d.walk(|n| {
+            if n.appearance.items.iter().any(
+                |i| matches!(i, vectorcraft_doc::appearance::AppearanceItem::Fill(f) if matches!(f.paint, vectorcraft_color::Paint::Pattern { .. })),
+            ) {
+                square = Some(n.id);
+            }
+        });
+        let n = d.node_mut(square.unwrap()).unwrap();
+        assert_eq!(n.appearance.items.len(), 1);
+        let fill = n.appearance.items[0].clone();
+        n.appearance.items.push(fill);
+        let keys = crate::cmd::flatten::see_through_images(d);
+        let layer = d.layers[0].id;
+        let before = d.layers[0].count_with_masks();
+        let n = crate::cmd::expand::expand_transparent_image_patterns_within(d, layer, &keys, &|_, _| true, budget).unwrap();
+        (n, images(d).0, d.layers[0].count_with_masks() + 1 - before)
+    };
+    let (n, tiles, made) = expand(usize::MAX);
+    assert_eq!((n, tiles), (1, 50));
+    assert_eq!(expand(made), (1, 50, made));
+    assert_eq!(expand(made - 1).1, 25);
+}
+
 #[test]
 fn pdf13_flattens_see_through_pattern_tile_images() {
     let mut s = pattern_over_blue(&checker([0, 200, 0, 255], [255, 255, 255, 0]), 1.0);

@@ -453,7 +453,7 @@ fn expand_pattern_fills(s: &mut Session) -> Result<()> {
 /// first ([`expand_live_with_transparent_image_patterns`]). Hidden shapes and shapes in hidden
 /// groups or layers and in template layers stay as they are. A pattern fill in tile art counts
 /// too, down to the [`PATTERN_LEVELS`] the canvas draws, and the tile art the expansion makes is
-/// expanded again for it. Pattern fills stay once the expanded art holds
+/// expanded again for it. A pattern fill stays when its tiles would take the expanded art past
 /// [`MAX_GENERATED`](vectorcraft_doc::live::MAX_GENERATED) objects. Returns how many objects
 /// changed.
 pub(crate) fn expand_transparent_image_patterns(
@@ -462,6 +462,18 @@ pub(crate) fn expand_transparent_image_patterns(
     see_through: &BTreeSet<String>,
     colorize: &dyn Fn(&Document, &Node) -> bool,
 ) -> Result<usize> {
+    expand_transparent_image_patterns_within(d, root, see_through, colorize, vectorcraft_doc::live::MAX_GENERATED)
+}
+
+/// [`expand_transparent_image_patterns`] with the art the pattern fills expand to held to `budget`
+/// objects. Live art expands under its own budget ([`expand_live_with_transparent_image_patterns`]).
+pub(crate) fn expand_transparent_image_patterns_within(
+    d: &mut Document,
+    root: NodeId,
+    see_through: &BTreeSet<String>,
+    colorize: &dyn Fn(&Document, &Node) -> bool,
+    budget: usize,
+) -> Result<usize> {
     let mut changed = 0;
     let made = std::cell::Cell::new(0usize);
     // Each pass brings the patterns in the expanded tiles' art up one level.
@@ -469,15 +481,21 @@ pub(crate) fn expand_transparent_image_patterns(
         let live = expand_live_with_transparent_image_patterns(d, root, see_through, colorize, levels)?;
         let (_, n) = replace_leaves(d, root, |d, l| {
             // Past the budget, and for most leaves, which have no pattern fill, skip the ancestry walk.
-            if made.get() >= vectorcraft_doc::live::MAX_GENERATED || !l.appearance.items.iter().any(|i| pattern_fill(d, i).is_some()) {
+            if made.get() >= budget || !l.appearance.items.iter().any(|i| pattern_fill(d, i).is_some()) {
                 return None;
             }
             // The expanded art would be shown.
             if !d.ancestry(l.id).unwrap_or_default().iter().filter_map(|a| d.node(*a)).all(drawn) {
                 return None;
             }
-            let art = expand_patterns_where(d, l, |d, i| transparent_pattern_fill(d, l, i, see_through, colorize, levels))?;
-            made.set(made.get().saturating_add(art.count()));
+            let which = |d: &Document, i: &AppearanceItem| transparent_pattern_fill(d, l, i, see_through, colorize, levels);
+            let art = expand_patterns_where(d, l, which, budget - made.get())?;
+            // The copies of the shape's other items count too.
+            let count = art.count_with_masks();
+            if count > budget - made.get() {
+                return None;
+            }
+            made.set(made.get() + count);
             Some(art)
         })?;
         if live + n == 0 {
@@ -650,12 +668,12 @@ fn transparent_image(d: &Document, n: &Node, keys: &BTreeSet<String>, colorize: 
 /// ([`pattern_tiles`]). A pattern fill that lays no tile there stays. `None` when no pattern fill
 /// lays a tile.
 fn expand_patterns(d: &mut Document, l: &Node) -> Option<Node> {
-    expand_patterns_where(d, l, |_, _| true)
+    expand_patterns_where(d, l, |_, _| true, usize::MAX)
 }
 
 /// [`expand_patterns`] for only the pattern fills `which` picks: the others stay like the other
-/// items.
-fn expand_patterns_where(d: &mut Document, l: &Node, which: impl Fn(&Document, &AppearanceItem) -> bool) -> Option<Node> {
+/// items, as does a pattern fill whose tiles would take the tiles of `l` past `budget` objects.
+fn expand_patterns_where(d: &mut Document, l: &Node, which: impl Fn(&Document, &AppearanceItem) -> bool, budget: usize) -> Option<Node> {
     if !matches!(l.kind, NodeKind::Path { .. } | NodeKind::Compound { .. })
         || !l.appearance.items.iter().any(|i| pattern_fill(d, i).is_some() && which(d, i))
     {
@@ -668,19 +686,47 @@ fn expand_patterns_where(d: &mut Document, l: &Node, which: impl Fn(&Document, &
     let mut parts = vec![];
     let mut rest = vec![];
     let mut expanded = false;
+    // What `assemble` adds around the tiles when every picked fill expands: a copy of the path for
+    // each run of other items, a group around the parts and one for the path's transparency, and
+    // the path's opacity mask.
+    let (mut copies, mut run, mut picked) = (0usize, false, vec![]);
+    for i in &l.appearance.items {
+        if let Some((f, _, _)) = pattern_fill(d, i).filter(|_| which(d, i)) {
+            run = false;
+            picked.push(f.opacity < 1.0 || f.blend != BlendMode::Normal);
+        } else if i.visible() && !i.paint().is_none() && !run {
+            (copies, run) = (copies + 1, true);
+        }
+    }
+    let group = copies + picked.len() > 1 || !l.appearance.effects.is_empty();
+    // A lone tile group with transparency of its own goes in a group for the path's.
+    let transparency = blended(l) && !group && picked.first().is_some_and(|b| *b);
+    let around = copies.saturating_mul(l.count()) + usize::from(group) + usize::from(transparency) + l.count_with_masks().saturating_sub(l.count());
+    let mut left = budget.saturating_sub(around);
+    // A fill that expands while others follow leaves room for the copy and group that those take
+    // if they don't fit, and once one doesn't fit, the ones after it stay too.
+    let (mut later, mut full) = (picked.len(), false);
     for item in &l.appearance.items {
         let fill = pattern_fill(d, item).filter(|_| which(d, item)).map(|(f, def, xf)| (f, def.clone(), xf));
-        let tiles = fill.and_then(|(f, def, xf)| {
+        later -= usize::from(fill.is_some());
+        let room = if later > 0 { left.saturating_sub(l.count() + 1) } else { left };
+        let tiles = fill.filter(|_| !full).and_then(|(f, def, xf)| {
             let (fl, _, bounds) = fill_shape(l, item, &path, bounds)?;
-            let t = pattern_tiles(d, &def, xf, bounds);
+            let Some(t) = pattern_tiles(d, &def, xf, bounds, room) else {
+                full = true;
+                return None;
+            };
             (!t.is_empty()).then_some((f, fl, t))
         });
-        let Some(art) = tiles.and_then(|(f, fl, t)| tile_art(d, &fl, f, &t)) else {
+        let art = tiles.and_then(|(f, fl, t)| tile_art(d, &fl, f, &t));
+        full |= art.as_ref().is_some_and(|a| a.count_with_masks() > room);
+        let Some(art) = art.filter(|a| a.count_with_masks() <= room) else {
             if item.visible() && !item.paint().is_none() {
                 rest.push(item.clone());
             }
             continue;
         };
+        left -= art.count_with_masks();
         if !rest.is_empty() {
             parts.push(styled_copy(d, l, std::mem::take(&mut rest)));
         }
@@ -707,30 +753,38 @@ fn expand_patterns_where(d: &mut Document, l: &Node, which: impl Fn(&Document, &
 /// not, and when it does more than move art that holds a symbol instance, whose strokes the canvas
 /// draws scaled with the tile and an instance does not scale. Random Transform effects and brushes
 /// that vary at random in the art are baked first ([`seeds_baked`], [`random_brushes_baked`]).
-fn pattern_tiles(d: &mut Document, def: &PatternDef, xf: Affine, bounds: Rect) -> Vec<Node> {
+/// `None` when the tiles would hold more than `budget` objects.
+fn pattern_tiles(d: &mut Document, def: &PatternDef, xf: Affine, bounds: Rect, budget: usize) -> Option<Vec<Node>> {
     if !moves_only(xf) && def.art.iter().any(|a| has_instances(a)) {
-        return vec![];
+        return Some(vec![]);
     }
     let Some(def) = seeds_baked(def) else {
-        return vec![];
+        return Some(vec![]);
     };
     let brushes = vectorcraft_brush::library(d);
     let def = random_brushes_baked(d, &brushes, def);
     let def = &*def;
+    let per_tile = def.art.iter().map(|a| a.count_with_masks()).sum::<usize>();
+    if def.offsets_covering(xf.inverse().transform_rect_bbox(bounds)).len().saturating_mul(per_tile) > budget {
+        return None;
+    }
     let scaling = Scaling { strokes: true, effects: Some(vectorcraft_render::effects::scale_effect), patterns: true, ..Scaling::default() };
     if scales_evenly(xf) && (moves_only(xf) || !def.art.iter().any(|a| has_geometry_effects(a))) {
-        return def.instances_in_with(xf, bounds, scaling);
+        return Some(def.instances_in_with(xf, bounds, scaling));
     }
     if def.art.iter().any(|a| has_unbakeable_effects(a)) {
-        return vec![];
+        return Some(vec![]);
     }
     let placed = Scaling { patterns: true, ..Scaling::default() };
     let mut tiles = def.instances_in_with(Affine::IDENTITY, xf.inverse().transform_rect_bbox(bounds), placed);
+    // Outlined strokes and effects can make more objects than the art had.
+    let mut left = budget;
     for t in &mut tiles {
         *t = prepared(d, &brushes, t);
+        left = left.checked_sub(t.count_with_masks())?;
         place_art(t, xf, scaling);
     }
-    tiles
+    Some(tiles)
 }
 
 /// Pattern `def` with each path in its art (opacity masks included) that has a random Transform
