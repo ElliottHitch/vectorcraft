@@ -601,6 +601,8 @@ fn structured_junk() {
         ("addon.cleanup.breakText", json!({"by": "words", "ids": "all"})),
         ("addon.cleanup.combineText", json!({"ids": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})),
         ("addon.cleanup.combineText", json!({"ids": [-1, 1e308]})),
+        ("addon.cleanup.joinText", json!({"ids": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})),
+        ("addon.cleanup.joinText", json!({"ids": [-1, 1e308, "x"]})),
         ("addon.cleanup.removeBreaks", json!({"kind": "paragraph", "ids": [1, 2, 3, 4, 5, 6, 7, 8, u64::MAX]})),
         ("addon.cleanup.removeBreaks", json!({"kind": 3})),
         ("addon.cleanup.removeBreaks", json!({"kind": "line", "ids": null})),

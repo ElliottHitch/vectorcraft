@@ -5910,6 +5910,7 @@ anchor	Points:	Body:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	Rozdělit text
 	Combine Point Text	Sloučit bodový text
+	Join Point Text	Spojit bodový text
 	Remove Breaks	Odstranit zalomení
 	Split Text at Cursor	Rozdělit text u kurzoru
 	Set Alignment, Keep Position	Nastavit zarovnání, zachovat polohu
@@ -5938,6 +5939,7 @@ breakText	Glyphs	Glyfy
 @msg	Select horizontal point or area type whose text fits	Vyberte vodorovný bodový text nebo text v oblasti, jehož text se vejde
 @msg	Nothing to split at the cursor	U kurzoru není co rozdělit
 @msg	Select two or more one-line point type objects on one baseline to combine	Vyberte dva nebo více jednořádkových objektů bodového textu na jednom účaří, abyste je sloučili
+@msg	Select two or more one-line point type objects to join	Vyberte dva nebo více jednořádkových objektů bodového textu, abyste je spojili
 @msg	No line breaks to remove	Žádná zalomení řádků k odstranění
 @msg	No paragraph breaks to remove	Žádná zalomení odstavců k odstranění
 @msg	Too many breaks to remove at once	Příliš mnoho zalomení k odstranění najednou

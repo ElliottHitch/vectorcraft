@@ -5548,6 +5548,7 @@ anchor	Points:	點：
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	分割文字
 	Combine Point Text	合併點文字
+	Join Point Text	連接點文字
 	Remove Breaks	移除換行
 	Split Text at Cursor	在游標處分割文字
 	Set Alignment, Keep Position	設定對齊並保持位置
@@ -5576,6 +5577,7 @@ breakText	Glyphs	字符
 @msg	Select horizontal point or area type whose text fits	請選取文字能完整容納的橫排點文字或區域文字
 @msg	Nothing to split at the cursor	游標處沒有可分割的內容
 @msg	Select two or more one-line point type objects on one baseline to combine	請選取同一基線上兩個或更多單行點文字物件以合併
+@msg	Select two or more one-line point type objects to join	請選取兩個或更多單行點文字物件以連接
 @msg	No line breaks to remove	沒有要移除的強制換行
 @msg	No paragraph breaks to remove	沒有要移除的段落換行
 @msg	Too many breaks to remove at once	一次要移除的換行過多

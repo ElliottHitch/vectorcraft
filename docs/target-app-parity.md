@@ -1,6 +1,6 @@
 # Parity with Adobe Illustrator
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G13: Direct Selection snaps a dragged line end square to straight paths and grazing curves; Path Precision Tools add-on: Shared Edge Merge Tool; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Artwork Cleanup add-on: Join Point Text, #4826; scores unchanged; previously: G13: Direct Selection snaps a dragged line end square to straight paths and grazing curves; Path Precision Tools add-on: Shared Edge Merge Tool; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
 
 ## Feature submission evidence
 
@@ -19,6 +19,7 @@ Artboard Options forwards the active Artboard tool's Scale Artwork with Artboard
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | Artwork Cleanup add-on: Join Point Text (`addon.cleanup.joinText`) joins stacked one-line point type into one object, a paragraph per line keeping its baseline (#4826); scores unchanged. |
 | 2026-10-31 | minor | Width tool: a stroke with a width profile keeps its shape while the view zooms out; the minimum visible width goes to its widest point instead of scaling the whole profile (#995); scores unchanged. |
 | 2026-10-31 | minor | Patterns: Grid Repeat Options has a Preview checkbox, as the public grid options page lists (#2651); scores unchanged. |
 | 2026-10-31 | minor | Hardening: a gradient mesh read from a file is budgeted at about a million quads, so a huge one no longer exhausts memory when drawn or exported (#3592); scores unchanged. |
@@ -1244,7 +1245,8 @@ alone; Fix All as one step; scopes; rejoin within the gap only) and `addons::cle
 
 The add-on's text tools (2026-10-31) work on the shared text layout: Break Text into lines, paragraphs, words or glyphs
 and Split Text at Cursor make point type pieces placed by the glyph of their first character, Combine Point Text merges
-one-line point type back with every glyph where it was (tracking and spaces, checked against the layout), and Remove
+one-line point type back with every glyph where it was (tracking and spaces, checked against the layout), Join Point
+Text stacks one-line pieces into one object of paragraphs that keep their baselines (#4826), and Remove
 Line / Paragraph Breaks, Set Alignment, Keep Position, Reset Text Transform and Replace Missing Fonts. Tests:
 `cmd::addons::cleanup::text::tests` in `vectorcraft-engine` (glyphs kept in place, styles kept, one undo step,
 refusals), `addons::cleanup::tests` in `vectorcraft-ui-egui` (the submenu and the panel's Text row run them) and

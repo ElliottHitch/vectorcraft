@@ -5888,6 +5888,7 @@ anchor	Points:	Точки:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	Разбить текст
 	Combine Point Text	Объединить текст из точки
+	Join Point Text	Соединить текст из точки
 	Remove Breaks	Удалить разрывы
 	Split Text at Cursor	Разбить текст у курсора
 	Set Alignment, Keep Position	Задать выравнивание, сохранив положение
@@ -5916,6 +5917,7 @@ breakText	Glyphs	Глифы
 @msg	Select horizontal point or area type whose text fits	Выделите горизонтальный текст из точки или в области, текст которого помещается
 @msg	Nothing to split at the cursor	У курсора нечего разбивать
 @msg	Select two or more one-line point type objects on one baseline to combine	Выделите два или более однострочных объекта текста из точки на одной базовой линии, чтобы объединить их
+@msg	Select two or more one-line point type objects to join	Выделите два или более однострочных объекта текста из точки, чтобы соединить их
 @msg	No line breaks to remove	Нет разрывов строк для удаления
 @msg	No paragraph breaks to remove	Нет разрывов абзацев для удаления
 @msg	Too many breaks to remove at once	Слишком много разрывов для удаления за один раз

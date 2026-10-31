@@ -5900,6 +5900,7 @@ anchor	Points:	წერტილები:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	ტექსტის დაყოფა
 	Combine Point Text	წერტილის ტექსტის გაერთიანება
+	Join Point Text	წერტილის ტექსტის შეერთება
 	Remove Breaks	წყვეტების წაშლა
 	Split Text at Cursor	ტექსტის დაყოფა კურსორთან
 	Set Alignment, Keep Position	სწორების დაყენება მდებარეობის შენარჩუნებით
@@ -5928,6 +5929,7 @@ breakText	Glyphs	გლიფები
 @msg	Select horizontal point or area type whose text fits	აირჩიეთ ჰორიზონტალური წერტილის ან არის ტექსტი, რომლის ტექსტიც ეტევა
 @msg	Nothing to split at the cursor	კურსორთან დასაყოფი არაფერია
 @msg	Select two or more one-line point type objects on one baseline to combine	გასაერთიანებლად აირჩიეთ ერთ საბაზისო ხაზზე მდებარე ორი ან მეტი ერთსტრიქონიანი წერტილის ტექსტის ობიექტი
+@msg	Select two or more one-line point type objects to join	შესაერთებლად აირჩიეთ ორი ან მეტი ერთსტრიქონიანი წერტილის ტექსტის ობიექტი
 @msg	No line breaks to remove	წასაშლელი სტრიქონის წყვეტები არ არის
 @msg	No paragraph breaks to remove	წასაშლელი აბზაცის წყვეტები არ არის
 @msg	Too many breaks to remove at once	ერთდროულად წასაშლელად ძალიან ბევრი წყვეტაა

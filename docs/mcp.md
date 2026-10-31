@@ -5773,6 +5773,11 @@ glyph of its first character lands where it was drawn.
   more than 1 em, another look (paint, opacity, effects) or a piece that can't keep its place once joined (a ligature
   forming across the join) starts another object. Each object made takes the place and paint of its leftmost piece. The
   main use is type from a PDF that arrives one glyph per object.
+- `addon.cleanup.joinText {ids?}` (Join Point Text) joins one-line horizontal point type into one point type object,
+  for text that arrives one line or fragment per object. Pieces turned and sheared like the top-left one are read as
+  lines (baselines within 0.4 em), top to bottom; a line's pieces join left to right with a space between them. Each
+  line becomes a left-aligned paragraph whose leading is the distance from the baseline above, so the lines stay where
+  they were. Character styles stay; the object takes the top-left piece's place and paint. Returns `{id, joined, lines}`.
 - `addon.cleanup.removeBreaks {kind, ids?}` removes the forced line breaks (`kind: "line"`) or paragraph returns
   (`"paragraph"`) in the characters selected with a Type tool, else in all the text of the selected type. A break
   between two words becomes a space; merged paragraphs take the first one's paragraph style.

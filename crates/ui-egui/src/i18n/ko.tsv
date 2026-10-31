@@ -5492,6 +5492,7 @@ anchor	Points:	포인트:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	텍스트 나누기
 	Combine Point Text	포인트 문자 결합
+	Join Point Text	포인트 문자 연결
 	Remove Breaks	나누기 제거
 	Split Text at Cursor	커서 위치에서 텍스트 나누기
 	Set Alignment, Keep Position	위치를 유지하며 정렬 설정
@@ -5520,6 +5521,7 @@ breakText	Glyphs	글리프
 @msg	Select horizontal point or area type whose text fits	텍스트가 모두 들어가는 가로 포인트 문자 또는 영역 문자를 선택하십시오
 @msg	Nothing to split at the cursor	커서 위치에서 나눌 내용이 없습니다
 @msg	Select two or more one-line point type objects on one baseline to combine	결합하려면 같은 기준선에 있는 한 줄짜리 포인트 문자 오브젝트를 두 개 이상 선택하십시오
+@msg	Select two or more one-line point type objects to join	연결하려면 한 줄짜리 포인트 문자 오브젝트를 두 개 이상 선택하십시오
 @msg	No line breaks to remove	제거할 강제 줄 바꿈이 없습니다
 @msg	No paragraph breaks to remove	제거할 단락 나누기가 없습니다
 @msg	Too many breaks to remove at once	한 번에 제거할 나누기가 너무 많습니다
