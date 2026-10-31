@@ -6065,6 +6065,7 @@ dependencies = [
  "smithay-clipboard",
  "socket2",
  "vectorcraft-engine",
+ "vectorcraft-render",
  "vectorcraft-text",
  "vectorcraft-ui-egui",
  "wayland-backend",
