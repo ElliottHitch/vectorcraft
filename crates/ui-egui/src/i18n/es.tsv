@@ -5943,3 +5943,15 @@ breakText	Glyphs	Glifos
 	Gap 4	Hueco 4
 	Dash 5	Guion 5
 	Gap 5	Hueco 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Herramientas de organización
+	Arrange in Grid…	Organizar en cuadrícula…
+	Arrange in Grid	Organizar en cuadrícula
+	Swap Objects	Intercambiar objetos
+	Swap Objects and Sizes	Intercambiar objetos y tamaños
+	Replace with Top Object…	Reemplazar por el objeto superior…
+	Replace with Top Object	Reemplazar por el objeto superior
+	Set Size of Each…	Definir el tamaño de cada uno…
+	Set Size of Each	Definir el tamaño de cada uno
+@msg	select exactly two objects	selecciona exactamente dos objetos
+@msg	give `width` or `height`	indica `width` o `height`

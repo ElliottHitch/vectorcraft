@@ -6031,3 +6031,15 @@ breakText	Glyphs	Merkit
 	Gap 4	Väli 4
 	Dash 5	Viiva 5
 	Gap 5	Väli 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Järjestelytyökalut
+	Arrange in Grid…	Järjestä ruudukkoon…
+	Arrange in Grid	Järjestä ruudukkoon
+	Swap Objects	Vaihda objektien paikat
+	Swap Objects and Sizes	Vaihda objektien paikat ja koot
+	Replace with Top Object…	Korvaa ylimmällä objektilla…
+	Replace with Top Object	Korvaa ylimmällä objektilla
+	Set Size of Each…	Aseta kunkin koko…
+	Set Size of Each	Aseta kunkin koko
+@msg	select exactly two objects	valitse täsmälleen kaksi objektia
+@msg	give `width` or `height`	anna `width` tai `height`

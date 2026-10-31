@@ -5920,3 +5920,15 @@ breakText	Glyphs	Glifos
 	Gap 4	Lacuna 4
 	Dash 5	Traço 5
 	Gap 5	Lacuna 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Ferramentas de Organização
+	Arrange in Grid…	Organizar em Grade…
+	Arrange in Grid	Organizar em Grade
+	Swap Objects	Trocar Objetos
+	Swap Objects and Sizes	Trocar Objetos e Tamanhos
+	Replace with Top Object…	Substituir pelo Objeto Superior…
+	Replace with Top Object	Substituir pelo Objeto Superior
+	Set Size of Each…	Definir Tamanho de Cada Um…
+	Set Size of Each	Definir Tamanho de Cada Um
+@msg	select exactly two objects	selecione exatamente dois objetos
+@msg	give `width` or `height`	informe `width` ou `height`

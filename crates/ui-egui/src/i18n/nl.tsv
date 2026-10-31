@@ -5949,3 +5949,15 @@ breakText	Glyphs	Glyphs
 	Gap 4	Tussenruimte 4
 	Dash 5	Streepje 5
 	Gap 5	Tussenruimte 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Schikgereedschappen
+	Arrange in Grid…	In raster schikken…
+	Arrange in Grid	In raster schikken
+	Swap Objects	Objecten omwisselen
+	Swap Objects and Sizes	Objecten en formaten omwisselen
+	Replace with Top Object…	Vervangen door bovenste object…
+	Replace with Top Object	Vervangen door bovenste object
+	Set Size of Each…	Formaat van elk instellen…
+	Set Size of Each	Formaat van elk instellen
+@msg	select exactly two objects	selecteer precies twee objecten
+@msg	give `width` or `height`	geef `width` of `height` op

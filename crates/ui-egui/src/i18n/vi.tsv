@@ -5602,3 +5602,15 @@ breakText	Glyphs	Glyph
 	Gap 4	Khoảng hở 4
 	Dash 5	Nét 5
 	Gap 5	Khoảng hở 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Công cụ sắp xếp
+	Arrange in Grid…	Sắp xếp theo lưới…
+	Arrange in Grid	Sắp xếp theo lưới
+	Swap Objects	Hoán đổi đối tượng
+	Swap Objects and Sizes	Hoán đổi đối tượng và kích thước
+	Replace with Top Object…	Thay bằng đối tượng trên cùng…
+	Replace with Top Object	Thay bằng đối tượng trên cùng
+	Set Size of Each…	Đặt kích thước từng cái…
+	Set Size of Each	Đặt kích thước từng cái
+@msg	select exactly two objects	hãy chọn đúng hai đối tượng
+@msg	give `width` or `height`	hãy cho `width` hoặc `height`

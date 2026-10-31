@@ -5583,3 +5583,15 @@ breakText	Glyphs	글리프
 	Gap 4	간격 4
 	Dash 5	대시 5
 	Gap 5	간격 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	배치 도구
+	Arrange in Grid…	격자로 배치…
+	Arrange in Grid	격자로 배치
+	Swap Objects	개체 맞바꾸기
+	Swap Objects and Sizes	개체와 크기 맞바꾸기
+	Replace with Top Object…	맨 위 개체로 바꾸기…
+	Replace with Top Object	맨 위 개체로 바꾸기
+	Set Size of Each…	각각 크기 설정…
+	Set Size of Each	각각 크기 설정
+@msg	select exactly two objects	개체를 정확히 두 개 선택하세요
+@msg	give `width` or `height`	`width` 또는 `height`를 지정하세요
