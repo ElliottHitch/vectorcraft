@@ -576,7 +576,7 @@ fn character_panel_terms_agree_within_each_catalog() {
     for l in LANGUAGES.iter().filter(|l| !l.source.is_empty()) {
         let (entries, _) = parse_entries(l.source);
         let row = |src: &str| entries.iter().find(|(ctx, s, _)| ctx.is_empty() && s == src).map(|(_, _, tr)| tr.to_lowercase());
-        let kerning = row("Kerning (0 = Auto)").map(|tr| tr.split(" (").next().unwrap_or_default().trim().to_string());
+        let kerning = row("Kerning");
         let leading = row("Leading");
         let tracking = row("Tracking");
         for (a, b) in [(&kerning, &leading), (&kerning, &tracking), (&leading, &tracking)] {

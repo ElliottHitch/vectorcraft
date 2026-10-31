@@ -1614,7 +1614,7 @@ file-filter	Templates	範本
 	Keep the pasted color as a new swatch with a numbered name.	將貼上的顏色保留為新色票，並以編號命名。
 	Keep this row's colors (exclude)	保留此列的顏色 (排除)
 	Keep:	保留：
-	Kerning (0 = Auto)	字距微調 (0 = 自動)
+	Kerning	字距微調
 	Keyboard Increment	鍵盤增量
 	Keyboard Shortcut Conflicts	鍵盤快速鍵衝突
 	Keyboard Shortcut Set	鍵盤快速鍵組
@@ -2228,6 +2228,7 @@ file-filter	Templates	範本
 @msg	choose a folder to export to	請選擇要匯出至的資料夾
 @msg	the selection has no URL (or they differ)	選取範圍沒有 URL (或其 URL 各不相同)
 @msg	select some type first	請先選取一些文字
+@msg	kerning must be a number, "auto", or "optical"	字距微調必須是數字、「auto」或「optical」
 @msg	the selection has no gradient fill	選取範圍沒有漸層填色
 @msg	the selection has no gradient stroke	選取範圍沒有漸層筆畫
 @msg	the selection has no pattern fill	選取範圍沒有圖樣填色
@@ -3047,6 +3048,7 @@ file-filter	Templates	範本
 	Opened with {} note(s): {}	已開啟，附 {} 則附註：{}
 	OpenType	OpenType
 	Open…	開啟…
+	Optical	視覺
 	Optical Margin Alignment	視覺邊界對齊
 	Optimize for fast web view	最佳化以便快速網頁檢視
 	Optimized	最佳化

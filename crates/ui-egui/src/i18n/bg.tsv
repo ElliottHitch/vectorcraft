@@ -1587,7 +1587,7 @@ font-technology	Variable	Променливи
 	Keep the pasted color as a new swatch with a numbered name.	Запазване на поставения цвят като нов образец с номерирано име.
 	Keep this row's colors (exclude)	Запазване на цветовете на този ред (изключване)
 	Keep:	Запазване:
-	Kerning (0 = Auto)	Кернинг (0 = Автоматично)
+	Kerning	Кернинг
 	Keyboard Increment	Стъпка с клавиатурата
 	Keyboard Shortcut Conflicts	Конфликти на клавишни комбинации
 	Keyboard Shortcut Set	Набор клавишни комбинации
@@ -2159,6 +2159,7 @@ font-technology	Variable	Променливи
 	Open the URL in the web browser	Отваряне на URL адреса в уеб браузъра
 	Opened with {} note(s): {}	Отворено с {} бележка(и): {}
 	Open…	Отваряне…
+	Optical	Оптично
 	Optical Margin Alignment	Подравняване по оптично поле
 	Optimize for fast web view	Оптимизиране за бърз уеб преглед
 	Optimized	Оптимизирано
@@ -3761,6 +3762,7 @@ axis	Both	И двете
 	Float Tool Group	Плаваща група инструменти
 @msg	no library `{id}`	няма библиотека `{id}`
 @msg	select some type first	първо изберете текст
+@msg	kerning must be a number, "auto", or "optical"	Кернингът трябва да е число, „auto“ или „optical“
 @msg	{_1} has no {_2} style	{_1} няма стил {_2}
 @msg	a layer couldn't be read	слой не можа да бъде прочетен
 @msg	it has more than one artboard	има повече от една работна област

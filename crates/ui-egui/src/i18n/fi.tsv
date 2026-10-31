@@ -1411,7 +1411,6 @@ lighting	Light	Valo
 	Fractional Widths	Murtolukuleveydet
 	Hide Options	Piilota asetukset
 	Horizontal Scale %	Vaakaskaalaus %
-	Kerning (0 = Auto)	Parivälistys (0 = automaattinen)
 	Leading	Riviväli
 	No Break	Ei katkoa
 	Proportional Metrics	Suhteelliset metriikat
@@ -3453,6 +3452,7 @@ theme	Appearance	Ulkoasu
 	Identify Objects By	Tunnista objektit
 	Include SVG Code	Sisällytä SVG-koodi
 	Italian	Italia
+	Kerning	Parivälistys
 	Keyboard Increment	Näppäimistön lisäys
 	Language Options	Kieliasetukset
 	Large	Suuri
@@ -3481,6 +3481,7 @@ theme	Appearance	Ulkoasu
 	On Paste	Liitettäessä
 	On Screen	Näytöllä
 	Open Documents As Tabs	Avaa asiakirjat välilehtinä
+	Optical	Optinen
 	Options	Asetukset
 	Output All Blacks Accurately	Tulosta kaikki mustat tarkasti
 	Output All Blacks as Rich Black	Tulosta kaikki mustat syvämustina
@@ -4067,6 +4068,7 @@ imageTrace	Outline	Ääriviiva
 @plural	{n} stroke|{n} strokes	{n} viiva|{n} viivaa
 @msg	no library `{id}`	ei kirjastoa `{id}`
 @msg	select some type first	valitse ensin tekstiä
+@msg	kerning must be a number, "auto", or "optical"	Parivälistyksen on oltava luku, ”auto” tai ”optical”
 @msg	the selection has no gradient fill	valinnalla ei ole liukuväritäyttöä
 @msg	the selection has no gradient stroke	valinnalla ei ole liukuväriviivaa
 @msg	the selection has no pattern fill	valinnalla ei ole kuviotäyttöä

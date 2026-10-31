@@ -1351,7 +1351,6 @@ lighting	Light	Lys
 	Fractional Widths	Fraktionerede bredder
 	Hide Options	Skjul indstillinger
 	Horizontal Scale %	Vandret skalering %
-	Kerning (0 = Auto)	Kerning (0 = automatisk)
 	Leading	Linjeafstand
 	No Break	Ingen ombrydning
 	Proportional Metrics	Proportionale metrikker
@@ -3271,6 +3270,7 @@ theme	Appearance	Udseende
 	Identify Objects By	Identificér objekter ud fra
 	Include SVG Code	Medtag SVG-kode
 	Italian	Italiensk
+	Kerning	Kerning
 	Keyboard Increment	Tastaturtrin
 	Language Options	Sprogindstillinger
 	Large	Stor
@@ -3299,6 +3299,7 @@ theme	Appearance	Udseende
 	On Paste	Ved indsættelse
 	On Screen	På skærmen
 	Open Documents As Tabs	Åbn dokumenter som faner
+	Optical	Optisk
 	Options	Indstillinger
 	Output All Blacks Accurately	Udskriv alle sorte nøjagtigt
 	Output All Blacks as Rich Black	Udskriv alle sorte som rich black
@@ -3881,6 +3882,7 @@ imageTrace	Outline	Kontur
 @plural	{n} stroke|{n} strokes	{n} kontur|{n} konturer
 @msg	no library `{id}`	intet bibliotek `{id}`
 @msg	select some type first	markér først noget tekst
+@msg	kerning must be a number, "auto", or "optical"	Kerning skal være et tal, „auto“ eller „optical“
 @msg	{_1} has no {_2} style	{_1} har ingen {_2}-stil
 @msg	a layer couldn't be read	et lag kunne ikke læses
 @msg	it has more than one artboard	den har mere end én tegneflade

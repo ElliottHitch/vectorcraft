@@ -1400,7 +1400,7 @@
 	Keep Plain Text	Manter Texto Simples
 	Keep both sides the same width	Manter os dois lados com a mesma largura
 	Keep this row's colors (exclude)	Manter as cores desta linha (excluir)
-	Kerning (0 = Auto)	Kerning (0 = Automático)
+	Kerning	Kerning
 	Keyboard Increment	Incremento do Teclado
 	Keyboard Shortcut Conflicts	Conflitos de Atalhos de Teclado
 	Keyboard Shortcut Set	Conjunto de Atalhos de Teclado
@@ -1810,6 +1810,7 @@
 	Open password:	Senha de abertura:
 	Open the URL in the web browser	Abra a URL no navegador da web
 	Open…	Abrir…
+	Optical	Óptico
 	Optical Margin Alignment	Alinhamento de Margem Óptica
 	Optimize for fast web view	Otimizar para visualização rápida na web
 	Optimized	Otimizado
@@ -3430,6 +3431,7 @@ axis	Both	Ambos
 	Drag to the window's left edge to dock	Arraste até a borda esquerda da janela para encaixar
 @msg	no library `{id}`	nenhuma biblioteca `{id}`
 @msg	select some type first	selecione algum texto primeiro
+@msg	kerning must be a number, "auto", or "optical"	O kerning deve ser um número, “auto” ou “optical”
 @msg	the selection has no gradient fill	a seleção não tem gradiente de preenchimento
 @msg	the selection has no gradient stroke	a seleção não tem gradiente de traçado
 @msg	the selection has no pattern fill	a seleção não tem padrão de preenchimento

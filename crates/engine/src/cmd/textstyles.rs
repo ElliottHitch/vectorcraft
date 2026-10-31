@@ -152,6 +152,7 @@ pub fn char_attrs(v: &CharStyle) -> Map<String, Value> {
         ("fontAxes", json!(v.font_axes)),
         ("leading", json!(v.leading)),
         ("kerning", json!(v.kerning)),
+        ("opticalKerning", json!(v.optical_kerning)),
         ("features", json!(v.features)),
         ("overprint_fill", json!(v.overprint_fill)),
         ("overprint_stroke", json!(v.overprint_stroke)),

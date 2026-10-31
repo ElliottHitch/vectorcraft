@@ -1644,7 +1644,7 @@ file-filter	Templates	Шаблони
 	Keep the pasted color as a new swatch with a numbered name.	Зберігати вставлений колір як новий зразок із номерним ім’ям.
 	Keep this row's colors (exclude)	Зберегти кольори цього рядка (виключити)
 	Keep:	Зберігати:
-	Kerning (0 = Auto)	Кернінг (0 = авто)
+	Kerning	Кернінг
 	Keyboard Increment	Крок клавіатури
 	Keyboard Shortcut Conflicts	Конфлікти поєднань клавіш
 	Keyboard Shortcut Set	Набір клавіш
@@ -2233,6 +2233,7 @@ file-filter	Templates	Шаблони
 	Open the URL in the web browser	Відкрити URL у веб-браузері
 	Opened with {} note(s): {}	Відкрито із примітками ({}) : {}
 	Open…	Відкрити…
+	Optical	Оптичний
 	Optical Margin Alignment	Оптичне вирівнювання полів
 	Optimize for fast web view	Оптимізувати для швидкого перегляду web
 	Optimized	Оптимізовано
@@ -3867,6 +3868,7 @@ axis	Both	Обидві
 	Float Tool Group	Від’єднати групу інструментів
 @msg	no library `{id}`	немає бібліотеки `{id}`
 @msg	select some type first	спочатку виділіть текст
+@msg	kerning must be a number, "auto", or "optical"	Кернінг має бути числом, «auto» або «optical»
 @msg	the selection has no gradient fill	виділення не має градієнтної заливки
 @msg	the selection has no gradient stroke	виділення не має градієнтного обведення
 @msg	the selection has no pattern fill	виділення не має візерункової заливки

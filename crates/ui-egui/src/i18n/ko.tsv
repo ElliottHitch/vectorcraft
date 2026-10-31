@@ -1909,7 +1909,7 @@ font-technology	Variable	가변
 	Keep Plain Text	일반 텍스트 유지
 	Keep both sides the same width	양쪽 너비를 같게 유지
 	Keep this row's colors (exclude)	이 행의 색상 유지 (제외)
-	Kerning (0 = Auto)	커닝 (0 = 자동)
+	Kerning	커닝
 	Keyboard Increment	키보드 증분
 	Keyboard Shortcut Conflicts	단축키 충돌
 	Keyboard Shortcut Set	단축키 세트
@@ -2337,6 +2337,7 @@ font-technology	Variable	가변
 	Open the URL in the web browser	웹 브라우저에서 URL 열기
 	Optimize for fast web view	빠른 웹 보기용으로 최적화
 	Optimized	최적화됨
+	Optical	광학
 	Options	옵션
 	Options for Selection…	선택 항목 옵션…
 	Options:	옵션:
@@ -4501,6 +4502,7 @@ theme	Appearance	외관
 @msg	choose a folder to export to	내보낼 폴더를 선택하세요
 @msg	the selection has no URL (or they differ)	선택 항목에 URL이 없거나 서로 다릅니다
 @msg	select some type first	먼저 문자를 선택하세요
+@msg	kerning must be a number, "auto", or "optical"	커닝은 숫자, “auto” 또는 “optical”이어야 합니다
 @msg	the selection has no gradient fill	선택 항목에 칠 그레이디언트가 없습니다
 @msg	the selection has no gradient stroke	선택 항목에 선 그레이디언트가 없습니다
 @msg	the selection has no pattern fill	선택 항목에 칠 패턴이 없습니다

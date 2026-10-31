@@ -2046,8 +2046,8 @@
 	Keep visible surfaces only when expanding	Conserva només les superfícies visibles en expandir
 	Keep:	Conserva:
 	Keeps the document editable: VectorCraft reopens the PDF with nothing lost. For files you'll edit again.	Manté el document editable: VectorCraft reobre el PDF sense perdre res. Per a fitxers que editaràs de nou.
-	Kerning (0 = Auto)	Kerning (0 = automàtic)
 	Key Color:	Color clau:
+	Kerning	Kerning
 	Keyboard Increment	Increment de teclat
 	Keyboard Shortcut Conflicts	Conflictes de dreceres de teclat
 	Keyboard Shortcut Set	Conjunt de dreceres de teclat
@@ -2740,6 +2740,7 @@
 	Opens files in other apps	Obre fitxers en altres aplicacions
 	Opens network connections	Obre connexions de xarxa
 	Open…	Obre…
+	Optical	Òptic
 	Optical Margin Alignment	Alineació òptica de marges
 	Optimize for fast web view	Optimitza per a la visualització web ràpida
 	Optimized	Optimitzat
@@ -5354,6 +5355,7 @@
 @msg	select paths or anchor points	selecciona traçats o punts d’ancoratge
 @msg	select paths to join	selecciona traçats per unir
 @msg	select some type first	selecciona text primer
+@msg	kerning must be a number, "auto", or "optical"	El kerning ha de ser un nombre, «auto» o «optical»
 @msg	Select text or click into text with the Type tool to insert glyphs	Selecciona text o fes clic dins del text amb l’eina de text per inserir glifs
 @msg	select the art to export first	selecciona primer la il·lustració que vols exportar
 @msg	select the art to repeat	selecciona la il·lustració que vols repetir
