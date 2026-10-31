@@ -1744,6 +1744,55 @@ fn a_repeated_keys_text_is_no_shortcut_press() {
     assert_eq!(only_text.len(), 1);
 }
 
+/// A shortcut on the backtick key runs whatever character the key types: `"` on Turkish Q,
+/// which egui reports as the backtick key, and `` ` `` on a US layout. A shortcut saved as `~`
+/// is that key's.
+#[test]
+fn a_shortcut_on_the_backtick_key_runs_on_every_layout() {
+    let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default());
+    app.session.execute("file.new", &json!({"width": 200, "height": 200})).unwrap();
+    let recorded = crate::shortcut_editor::chord_from_event(Key::Backtick, Modifiers::NONE).unwrap();
+    assert_eq!(recorded, "~");
+    crate::keymap::set_override(&mut app.ui.shortcut_overrides, "edit.clear", "~");
+    let count = |app: &VectorcraftApp| app.session.doc().unwrap().doc.layers[0].children().map_or(0, |c| c.len());
+    let press = egui::Event::Key { key: Key::Backtick, physical_key: Some(Key::Backtick), pressed: true, repeat: false, modifiers: Modifiers::NONE };
+    for typed in ["\"", "`"] {
+        let id = app.session.execute("shape.rectangle", &json!({"x": 10, "y": 10, "width": 20, "height": 20})).unwrap()["id"].clone();
+        app.session.execute("select.set", &json!({"ids": [id]})).unwrap();
+        assert_eq!(count(&app), 1);
+        frame(&mut app, vec![press.clone(), egui::Event::Text(typed.into())]);
+        assert_eq!(count(&app), 0, "the key typing {typed} runs Edit › Clear");
+    }
+    // A character no key names, typed by a key with no shortcut, runs nothing.
+    let id = app.session.execute("shape.rectangle", &json!({"x": 10, "y": 10, "width": 20, "height": 20})).unwrap()["id"].clone();
+    app.session.execute("select.set", &json!({"ids": [id]})).unwrap();
+    let num2 = egui::Event::Key { key: Key::Num2, physical_key: Some(Key::Num2), pressed: true, repeat: false, modifiers: Modifiers::NONE };
+    frame(&mut app, vec![num2, egui::Event::Text("\"".into())]);
+    assert_eq!(count(&app), 1);
+}
+
+/// eframe's web build with no text field focused sends the text before its key: the key after
+/// the `"` it typed is read when no press comes right before it.
+#[test]
+fn a_shortcut_on_the_backtick_key_runs_when_its_text_comes_first() {
+    let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default());
+    app.session.execute("file.new", &json!({"width": 200, "height": 200})).unwrap();
+    crate::keymap::set_override(&mut app.ui.shortcut_overrides, "edit.clear", "~");
+    let count = |app: &VectorcraftApp| app.session.doc().unwrap().doc.layers[0].children().map_or(0, |c| c.len());
+    let press = egui::Event::Key { key: Key::Backtick, physical_key: Some(Key::Backtick), pressed: true, repeat: false, modifiers: Modifiers::NONE };
+    let select_new = |app: &mut VectorcraftApp| {
+        let id = app.session.execute("shape.rectangle", &json!({"x": 10, "y": 10, "width": 20, "height": 20})).unwrap()["id"].clone();
+        app.session.execute("select.set", &json!({"ids": [id]})).unwrap();
+    };
+    select_new(&mut app);
+    frame(&mut app, vec![egui::Event::Text("\"".into()), press.clone()]);
+    assert_eq!(count(&app), 0, "the key after the text typed it");
+    // An earlier press that is not next to the text does not stand in for its key.
+    select_new(&mut app);
+    frame(&mut app, vec![press, egui::Event::ModifiersChanged(Modifiers::NONE), egui::Event::Text("\"".into())]);
+    assert_eq!(count(&app), 1);
+}
+
 /// Shortcuts reach tools, panels (`window.panel {panel}`) and commands through the keymap,
 /// and a held Cmd+= keeps zooming in.
 #[test]

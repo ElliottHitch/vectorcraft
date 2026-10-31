@@ -68,7 +68,7 @@ pub const BASIC: &[(&str, &[&[&str]])] = &[
 
 pub(crate) fn tip(t: &ToolInfo) -> String {
     match crate::shortcut_editor::tool_shortcut(t.id) {
-        Some(s) => format!("{} ({})", tl!(t.label), s),
+        Some(s) => format!("{} ({})", tl!(t.label), crate::shortcut_editor::as_typed(s)),
         None => tl!(t.label).to_string(),
     }
 }
@@ -694,7 +694,10 @@ const ROW_END: f32 = 18.0;
 /// The name of `tool` in `lang` and its shortcut in brackets, as a flyout row draws them.
 fn row_text(ui: &Ui, lang: crate::i18n::Lang, tool: &ToolInfo, color: Color32) -> RowText {
     let lay = |s: String| ui.painter().layout_no_wrap(s, egui::FontId::proportional(13.0), color);
-    (lay(crate::i18n::tr(lang, tool.label).to_string()), crate::shortcut_editor::tool_shortcut(tool.id).map(|sc| lay(format!("({sc})"))))
+    (
+        lay(crate::i18n::tr(lang, tool.label).to_string()),
+        crate::shortcut_editor::tool_shortcut(tool.id).map(|sc| lay(format!("({})", crate::shortcut_editor::as_typed(sc)))),
+    )
 }
 
 /// The width of a flyout's rows: 250 pt, or what its longest name needs to stay clear of its
