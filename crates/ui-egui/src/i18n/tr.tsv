@@ -3525,6 +3525,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} öğe
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Renk Tablosu ({n} renk)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Bu {n} grafik stili silinsin mi?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Bu {n} fırça silinsin mi?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Bu {n} renk örneği ve grup silinsin mi?
 @plural	{n} Layer|{n} Layers	{n} Katman
 @plural	{n} Object|{n} Objects	{n} Nesne
@@ -5965,6 +5966,9 @@ breakText	Glyphs	Glifler
 	Gap 4	Boşluk 4
 	Dash 5	Çizgi 5
 	Gap 5	Boşluk 5
+	Delete the selected brushes?	Seçili fırçalar silinsin mi?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Konturlar bu fırçalardan birini veya daha fazlasını kullanıyor. Fırçalar bu konturlardan kaldırılsın ve fırçalar silinsin mi?
+	Remove Strokes	Konturları Kaldır
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Düzenleme Araçları
 	Arrange in Grid…	Izgarada Düzenle…

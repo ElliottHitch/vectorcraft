@@ -12,6 +12,7 @@ pub mod action_set_options;
 pub mod artboard_options;
 pub mod blend_options;
 mod brush_art_options;
+pub mod brush_delete;
 pub mod brush_options;
 pub mod color_balance;
 pub mod color_guide_options;
@@ -293,6 +294,7 @@ registry! {
     FindFont: ["findFont"] => DialogSpec::window(crate::find_font::show, |app, _| crate::find_font::confirm(app)),
     SwatchOptions: [swatch_options::KIND] => swatch_options::SPEC,
     Confirm: [confirm::KIND] => confirm::SPEC,
+    BrushDelete: [brush_delete::KIND] => brush_delete::SPEC,
     Message: [confirm::MESSAGE] => confirm::MESSAGE_SPEC,
     Replace: [confirm::REPLACE] => confirm::REPLACE_SPEC,
     NewSwatch: [new_swatch::KIND] => new_swatch::SPEC,

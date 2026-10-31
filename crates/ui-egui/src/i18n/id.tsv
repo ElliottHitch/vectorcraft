@@ -3867,6 +3867,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} item
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabel warna ({n} warna)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Hapus {n} gaya grafis ini?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Hapus {n} kuas ini?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Hapus {n} swatch dan grup ini?
 @plural	{n} Layer|{n} Layers	{n} lapisan
 @plural	{n} Object|{n} Objects	{n} objek
@@ -5912,6 +5913,9 @@ breakText	Glyphs	Glif
 	Gap 4	Jarak 4
 	Dash 5	Garis 5
 	Gap 5	Jarak 5
+	Delete the selected brushes?	Hapus kuas yang dipilih?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Stroke menggunakan satu atau beberapa kuas ini. Lepaskan kuas dari stroke tersebut dan hapus kuasnya?
+	Remove Strokes	Hapus Stroke
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Alat penyusunan
 	Arrange in Grid…	Susun dalam grid…

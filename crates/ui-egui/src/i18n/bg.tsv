@@ -3631,6 +3631,7 @@ imageTrace	Outline	Контур
 @plural	{n} item|{n} items	{n} обект|{n} обекта
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Цветна таблица ({n} цвят)|Цветна таблица ({n} цвята)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Изтриване на този графичен стил ({n})?|Изтриване на тези графични стилове ({n})?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Изтриване на тази четка ({n})?|Изтриване на тези четки ({n})?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Изтриване на този {n} образец или група?|Изтриване на тези {n} образца и групи?
 @plural	{n} Layer|{n} Layers	{n} слой|{n} слоя
 @plural	{n} Object|{n} Objects	{n} обект|{n} обекта
@@ -5898,6 +5899,9 @@ breakText	Glyphs	Глифи
 	Gap 4	Разстояние 4
 	Dash 5	Тире 5
 	Gap 5	Разстояние 5
+	Delete the selected brushes?	Да се изтрият избраните четки?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Щрихи използват една или повече от тези четки. Да се премахнат ли четките от тези щрихи и да се изтрият четките?
+	Remove Strokes	Премахване на щрихи
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Инструменти за подреждане
 	Arrange in Grid…	Подреждане в мрежа…

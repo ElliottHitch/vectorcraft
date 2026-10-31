@@ -2029,6 +2029,7 @@ imageTrace	Outline	Περίγραμμα
 @plural	{n} item|{n} items	{n} στοιχείο|{n} στοιχεία
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Πίνακας χρωμάτων ({n} χρώμα)|Πίνακας χρωμάτων ({n} χρώματα)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Να διαγραφεί αυτό το {n} στυλ γραφικών;|Να διαγραφούν αυτά τα {n} στυλ γραφικών;
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Να διαγραφεί αυτό το {n} πινέλο;|Να διαγραφούν αυτά τα {n} πινέλα;
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Να διαγραφεί αυτό το {n} δείγμα χρώματος ή ομάδα;|Να διαγραφούν αυτά τα {n} δείγματα χρωμάτων και οι ομάδες;
 @plural	{n} Layer|{n} Layers	{n} επίπεδο|{n} επίπεδα
 @plural	{n} Object|{n} Objects	{n} αντικείμενο|{n} αντικείμενα
@@ -5960,6 +5961,9 @@ breakText	Glyphs	Γλύφοι
 	Gap 4	Διάκενο 4
 	Dash 5	Παύλα 5
 	Gap 5	Διάκενο 5
+	Delete the selected brushes?	Να διαγραφούν τα επιλεγμένα πινέλα;
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Περιγράμματα χρησιμοποιούν ένα ή περισσότερα από αυτά τα πινέλα. Να αφαιρεθούν τα πινέλα από αυτά τα περιγράμματα και να διαγραφούν τα πινέλα;
+	Remove Strokes	Αφαίρεση περιγραμμάτων
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Εργαλεία διάταξης
 	Arrange in Grid…	Διάταξη σε πλέγμα…

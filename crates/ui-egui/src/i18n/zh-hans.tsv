@@ -3578,6 +3578,7 @@ imageTrace	Outline	轮廓
 @plural	{n} item|{n} items	{n} 个项目
 @plural	Color Table ({n} color)|Color Table ({n} colors)	颜色表 ({n} 色)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	要删除这 {n} 个图形样式吗？
+@plural	Delete this {n} brush?|Delete these {n} brushes?	要删除这 {n} 个画笔吗？
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	要删除这 {n} 个色板和编组吗？
 @plural	{n} Layer|{n} Layers	{n} 个图层
 @plural	{n} Object|{n} Objects	{n} 个对象
@@ -5849,6 +5850,9 @@ breakText	Glyphs	字形
 	Gap 4	间隔 4
 	Dash 5	虚线 5
 	Gap 5	间隔 5
+	Delete the selected brushes?	删除选中的画笔吗？
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	有描边使用了其中一个或多个画笔。要从这些描边移除画笔并删除画笔吗？
+	Remove Strokes	移除描边
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	排列工具
 	Arrange in Grid…	按网格排列…

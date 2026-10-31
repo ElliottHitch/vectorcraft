@@ -3722,6 +3722,7 @@ file-filter	Templates	テンプレート
 imageTrace	Outline	アウトライン
 @plural	Color Table ({n} color)|Color Table ({n} colors)	カラーテーブル ({n} 色)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	{n} 個のグラフィックスタイルを削除しますか？
+@plural	Delete this {n} brush?|Delete these {n} brushes?	{n} 個のブラシを削除しますか？
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	これら {n} 個のスウォッチとグループを削除しますか？
 @plural	{n} Layer|{n} Layers	{n} レイヤー
 @plural	{n} Object|{n} Objects	{n} オブジェクト
@@ -5693,6 +5694,9 @@ breakText	Glyphs	字形
 	Gap 4	間隔 4
 	Dash 5	線分 5
 	Gap 5	間隔 5
+	Delete the selected brushes?	選択したブラシを削除しますか？
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	これらのブラシの 1 つ以上が線で使われています。それらの線からブラシを外して、ブラシを削除しますか？
+	Remove Strokes	線を削除
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	配置ツール
 	Arrange in Grid…	グリッドに配置…

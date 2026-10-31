@@ -3735,6 +3735,7 @@ imageTrace	Outline	Контур
 @plural	{n} item|{n} items	{n} элемент|{n} элемента|{n} элементов
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Цветовая таблица ({n} цвет)|Цветовая таблица ({n} цвета)|Цветовая таблица ({n} цветов)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Удалить этот графический стиль ({n})?|Удалить эти графические стили ({n})?|Удалить эти графические стили ({n})?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Удалить эту кисть ({n})?|Удалить эти кисти ({n})?|Удалить {n} кистей?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Удалить образцы и группы ({n})?|Удалить {n} образца и группы?|Удалить {n} образцов и групп?
 @plural	{n} Layer|{n} Layers	{n} слой|{n} слоя|{n} слоёв
 @plural	{n} Object|{n} Objects	{n} объект|{n} объекта|{n} объектов
@@ -5985,6 +5986,9 @@ breakText	Glyphs	Глифы
 	Gap 4	Зазор 4
 	Dash 5	Штрих 5
 	Gap 5	Зазор 5
+	Delete the selected brushes?	Удалить выбранные кисти?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Обводки используют одну или несколько из этих кистей. Убрать кисти с этих обводок и удалить кисти?
+	Remove Strokes	Убрать обводки
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Инструменты размещения
 	Arrange in Grid…	Разместить по сетке…

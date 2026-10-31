@@ -3739,6 +3739,7 @@ imageTrace	Outline	Contorno
 @plural	{n} item|{n} items	{n} elemento|{n} elementi
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabella colori ({n} colore)|Tabella colori ({n} colori)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Eliminare {n} stile grafico?|Eliminare questi {n} stili grafici?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Eliminare {n} pennello?|Eliminare questi {n} pennelli?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Eliminare {n} campione o gruppo?|Eliminare questi {n} campioni e gruppi?
 @plural	{n} Layer|{n} Layers	{n} livello|{n} livelli
 @plural	{n} Object|{n} Objects	{n} oggetto|{n} oggetti
@@ -5627,6 +5628,9 @@ breakText	Glyphs	Glifi
 	Gap 4	Spazio 4
 	Dash 5	Tratto 5
 	Gap 5	Spazio 5
+	Delete the selected brushes?	Eliminare i pennelli selezionati?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Alcune tracce usano uno o più di questi pennelli. Rimuovere i pennelli da queste tracce ed eliminare i pennelli?
+	Remove Strokes	Rimuovi tracce
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Strumenti di disposizione
 	Arrange in Grid…	Disponi in griglia…

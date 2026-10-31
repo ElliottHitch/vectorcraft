@@ -4135,6 +4135,7 @@ imageTrace	Outline	Obrys
 @plural	{n} item|{n} items	{n} položka|{n} položky|{n} položek
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabulka barev ({n} barva)|Tabulka barev ({n} barvy)|Tabulka barev ({n} barev)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Odstranit {n} grafický styl?|Odstranit {n} grafické styly?|Odstranit {n} grafických stylů?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Odstranit {n} štětec?|Odstranit {n} štětce?|Odstranit {n} štětců?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Odstranit {n} položku vzorníku nebo skupinu?|Odstranit {n} položky vzorníku a skupiny?|Odstranit {n} položek vzorníku a skupin?
 @plural	{n} Layer|{n} Layers	{n} vrstva|{n} vrstvy|{n} vrstev
 @plural	{n} Object|{n} Objects	{n} objekt|{n} objekty|{n} objektů
@@ -6007,6 +6008,9 @@ breakText	Glyphs	Glyfy
 	Gap 4	Mezera 4
 	Dash 5	Čárka 5
 	Gap 5	Mezera 5
+	Delete the selected brushes?	Odstranit vybrané štětce?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Tahy používají jeden nebo více z těchto štětců. Odebrat štětce z těchto tahů a odstranit štětce?
+	Remove Strokes	Odebrat tahy
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Nástroje uspořádání
 	Arrange in Grid…	Uspořádat do mřížky…

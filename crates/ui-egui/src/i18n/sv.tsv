@@ -3631,6 +3631,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} objekt|{n} objekt
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Färgtabell ({n} färg)|Färgtabell ({n} färger)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Radera {n} grafisk stil?|Radera de här {n} grafiska stilarna?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Radera {n} pensel?|Radera dessa {n} penslar?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Radera {n} färgruta eller grupp?|Radera dessa {n} färgrutor och grupper?
 @plural	{n} Layer|{n} Layers	{n} lager|{n} lager
 @plural	{n} Object|{n} Objects	{n} objekt|{n} objekt
@@ -6060,6 +6061,9 @@ breakText	Glyphs	Glyfer
 	Gap 4	Mellanrum 4
 	Dash 5	Streck 5
 	Gap 5	Mellanrum 5
+	Delete the selected brushes?	Radera de valda penslarna?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Konturer använder en eller flera av de här penslarna. Ta bort penslarna från konturerna och radera penslarna?
+	Remove Strokes	Ta bort konturer
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Ordningsverktyg
 	Arrange in Grid…	Ordna i rutnät…

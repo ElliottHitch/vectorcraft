@@ -3881,6 +3881,7 @@ imageTrace	Outline	Contour
 @plural	{n} item|{n} items	{n} item|{n} items
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Kleurentabel ({n} kleur)|Kleurentabel ({n} kleuren)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Deze {n} grafische stijl verwijderen?|Deze {n} grafische stijlen verwijderen?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Deze {n} kwast verwijderen?|Deze {n} kwasten verwijderen?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Deze {n} staal of groep verwijderen?|Deze {n} stalen en groepen verwijderen?
 @plural	{n} Layer|{n} Layers	{n} laag|{n} lagen
 @plural	{n} Object|{n} Objects	{n} object|{n} objecten
@@ -5956,6 +5957,9 @@ breakText	Glyphs	Glyphs
 	Gap 4	Tussenruimte 4
 	Dash 5	Streepje 5
 	Gap 5	Tussenruimte 5
+	Delete the selected brushes?	Geselecteerde kwasten verwijderen?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Contouren gebruiken een of meer van deze kwasten. De kwasten van deze contouren halen en de kwasten verwijderen?
+	Remove Strokes	Contouren verwijderen
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Schikgereedschappen
 	Arrange in Grid…	In raster schikken…

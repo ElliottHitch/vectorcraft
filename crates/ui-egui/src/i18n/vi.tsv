@@ -4097,6 +4097,7 @@ gradient-kind	Radial	Hướng tâm
 imageTrace	Outline	Đường viền
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Bảng màu ({n} màu)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Xóa {n} kiểu đồ họa này?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Xóa {n} cọ này?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Xóa {n} mẫu màu và nhóm này?
 @plural	{n} area highlighted|{n} areas highlighted	{n} vùng được tô sáng
 @plural	{n} color|{n} colors	{n} màu
@@ -5609,6 +5610,9 @@ breakText	Glyphs	Glyph
 	Gap 4	Khoảng hở 4
 	Dash 5	Nét 5
 	Gap 5	Khoảng hở 5
+	Delete the selected brushes?	Xóa các cọ đã chọn?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Có nét đang dùng một hoặc nhiều cọ này. Gỡ cọ khỏi các nét đó và xóa cọ?
+	Remove Strokes	Gỡ nét
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Công cụ sắp xếp
 	Arrange in Grid…	Sắp xếp theo lưới…

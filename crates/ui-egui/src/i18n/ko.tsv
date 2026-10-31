@@ -3711,6 +3711,7 @@ file-filter	Templates	템플릿
 imageTrace	Outline	윤곽선
 @plural	Color Table ({n} color)|Color Table ({n} colors)	색상 표 ({n}색)|색상 표 ({n}색)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	그래픽 스타일 {n}개를 삭제하시겠습니까?|그래픽 스타일 {n}개를 삭제하시겠습니까?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	브러시 {n}개를 삭제하시겠습니까?|브러시 {n}개를 삭제하시겠습니까?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	견본과 그룹 {n}개를 삭제하시겠습니까?
 @plural	{n} Layer|{n} Layers	레이어 {n}개|레이어 {n}개
 @plural	{n} Object|{n} Objects	개체 {n}개|개체 {n}개
@@ -5590,6 +5591,9 @@ breakText	Glyphs	글리프
 	Gap 4	간격 4
 	Dash 5	대시 5
 	Gap 5	간격 5
+	Delete the selected brushes?	선택한 브러시를 삭제하시겠습니까?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	선에서 이 브러시 중 하나 이상을 사용합니다. 해당 선에서 브러시를 제거하고 브러시를 삭제하시겠습니까?
+	Remove Strokes	선 제거
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	배치 도구
 	Arrange in Grid…	격자로 배치…

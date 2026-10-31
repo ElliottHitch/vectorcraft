@@ -3633,6 +3633,7 @@ font-technology	Variable	ცვლადი
 @plural	{n} item|{n} items	ელემენტი: {n}
 @plural	Color Table ({n} color)|Color Table ({n} colors)	ფერების ცხრილი (ფერი: {n})
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	წაიშალოს გრაფიკული სტილები ({n})?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	წაიშალოს ეს ფუნჯი ({n})?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	წაიშალოს ეს ფერის ნიმუშები და ჯგუფები ({n})?
 @plural	{n} Layer|{n} Layers	შრე: {n}
 @plural	{n} Object|{n} Objects	ობიექტი: {n}
@@ -5997,6 +5998,9 @@ breakText	Glyphs	გლიფები
 	Gap 4	შუალედი 4
 	Dash 5	ტირე 5
 	Gap 5	შუალედი 5
+	Delete the selected brushes?	წაიშალოს არჩეული ფუნჯები?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	კონტურები იყენებს ამ ფუნჯებიდან ერთს ან მეტს. მოიხსნას ფუნჯები ამ კონტურებიდან და წაიშალოს ფუნჯები?
+	Remove Strokes	კონტურების მოხსნა
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	განლაგების ხელსაწყოები
 	Arrange in Grid…	ბადეში განლაგება…

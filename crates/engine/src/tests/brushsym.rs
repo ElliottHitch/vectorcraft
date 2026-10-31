@@ -457,6 +457,31 @@ fn brush_unused_lists_the_brushes_no_stroke_paints_with() {
     assert_eq!(unused(&mut s), ["3 pt. Round", "6 pt. Flat", "Charcoal"]);
 }
 
+/// A stroke in the tile that pattern editing's Cancel puts back counts as a use, as `brush.delete`
+/// clears it there.
+#[test]
+fn brush_unused_counts_pattern_edit_originals() {
+    let mut s = session();
+    let id = rect(&mut s, 10.0, 10.0, 40.0, 20.0);
+    s.execute("brush.apply", &json!({"name": "6 pt. Flat", "ids": [id.0]})).unwrap();
+    let name = s.execute("object.pattern.make", &json!({"ids": [id.0], "edit": false})).unwrap()["name"].clone();
+    s.execute("brush.remove", &json!({"ids": [id.0]})).unwrap();
+    s.execute("object.pattern.edit", &json!({ "name": name })).unwrap();
+    // The tile's copies in the editing layer are selected; only the tile kept for Cancel paints with the brush.
+    s.execute("brush.remove", &json!({})).unwrap();
+    let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
+    let original = d.pattern_edit.as_ref().and_then(|pe| pe.original.as_ref()).expect("pattern edit original");
+    assert_eq!(original.art.first().and_then(|n| n.appearance.stroke()).and_then(|k| k.brush.as_deref()), Some("6 pt. Flat"));
+    for pattern in &mut d.patterns {
+        for art in &mut pattern.art {
+            if let Some(stroke) = std::sync::Arc::make_mut(art).appearance.stroke_mut() {
+                stroke.brush = None;
+            }
+        }
+    }
+    assert!(!unused(&mut s).contains(&"6 pt. Flat".to_string()));
+}
+
 /// A brush counts as used when a stroke paints with it in an opacity mask, a symbol, a graph
 /// design, a pattern tile, a graphic style, or the art of a brush that is used. The art of a brush
 /// that is not used, its own strokes included, does not count.

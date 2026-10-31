@@ -3618,6 +3618,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} Element|{n} Elemente
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Farbtabelle ({n} Farbe)|Farbtabelle ({n} Farben)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Diesen {n} Grafikstil löschen?|Diese {n} Grafikstile löschen?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	Diesen {n} Pinsel löschen?|Diese {n} Pinsel löschen?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	{n} Farbfeld oder Gruppe löschen?|Diese {n} Farbfelder und Gruppen löschen?
 @plural	{n} Layer|{n} Layers	{n} Ebene|{n} Ebenen
 @plural	{n} Object|{n} Objects	{n} Objekt|{n} Objekte
@@ -5593,6 +5594,9 @@ breakText	Glyphs	Glyphen
 	Gap 4	Lücke 4
 	Dash 5	Strich 5
 	Gap 5	Lücke 5
+	Delete the selected brushes?	Ausgewählte Pinsel löschen?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Konturen verwenden einen oder mehrere dieser Pinsel. Pinsel von diesen Konturen entfernen und die Pinsel löschen?
+	Remove Strokes	Konturen entfernen
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Anordnungswerkzeuge
 	Arrange in Grid…	In Raster anordnen…

@@ -4456,6 +4456,7 @@ theme	Appearance	Kinézet
 imageTrace	Outline	Körvonal
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Színtábla ({n} szín)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	{n} grafikai stílus törlése?
+@plural	Delete this {n} brush?|Delete these {n} brushes?	{n} ecset törlése?
 @plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	{n} színminta és csoport törlése?
 @plural	{n} area highlighted|{n} areas highlighted	Kiemelt terület: {n}
 @plural	{n} color|{n} colors	{n} szín
@@ -5994,6 +5995,9 @@ breakText	Glyphs	Glifák
 	Gap 4	Hézag 4
 	Dash 5	Vonal 5
 	Gap 5	Hézag 5
+	Delete the selected brushes?	Törlöd a kijelölt ecseteket?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Körvonalak használnak egyet vagy többet ezek közül az ecsetek közül. Leveszed az ecseteket ezekről a körvonalakról, és törlöd az ecseteket?
+	Remove Strokes	Körvonalak eltávolítása
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Elrendezőeszközök
 	Arrange in Grid…	Elrendezés rácsba…
