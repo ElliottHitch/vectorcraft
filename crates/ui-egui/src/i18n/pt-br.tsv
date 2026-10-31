@@ -5928,8 +5928,8 @@ breakText	Glyphs	Glifos
 	Gap 4	Lacuna 4
 	Dash 5	Traço 5
 	Gap 5	Lacuna 5
-	Delete the brush selection?	Excluir os pincéis selecionados?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Um ou mais pincéis estão em uso e não podem ser excluídos até que seus traçados sejam expandidos ou removidos.
+	Delete the selected brushes?	Excluir os pincéis selecionados?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Traçados usam um ou mais destes pincéis. Remover os pincéis desses traçados e excluir os pincéis?
 	Remove Strokes	Remover Traçados
 	Yes	Sim
 	No	Não

@@ -5899,8 +5899,8 @@ breakText	Glyphs	Глифи
 	Gap 4	Разстояние 4
 	Dash 5	Тире 5
 	Gap 5	Разстояние 5
-	Delete the brush selection?	Да се изтрият избраните четки?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Една или повече от четките се използват и не могат да бъдат изтрити, докато щрихите им не бъдат разширени или премахнати.
+	Delete the selected brushes?	Да се изтрият избраните четки?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Щрихи използват една или повече от тези четки. Да се премахнат ли четките от тези щрихи и да се изтрият четките?
 	Remove Strokes	Премахване на щрихи
 	Yes	Да
 	No	Не

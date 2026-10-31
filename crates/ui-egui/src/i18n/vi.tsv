@@ -5610,8 +5610,8 @@ breakText	Glyphs	Glyph
 	Gap 4	Khoảng hở 4
 	Dash 5	Nét 5
 	Gap 5	Khoảng hở 5
-	Delete the brush selection?	Xóa các cọ đã chọn?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Một hoặc nhiều cọ đang được sử dụng và không thể xóa cho đến khi nét được mở rộng hoặc gỡ bỏ.
+	Delete the selected brushes?	Xóa các cọ đã chọn?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Có nét đang dùng một hoặc nhiều cọ này. Gỡ cọ khỏi các nét đó và xóa cọ?
 	Remove Strokes	Gỡ nét
 	Yes	Có
 	No	Không

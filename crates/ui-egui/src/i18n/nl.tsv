@@ -5957,8 +5957,8 @@ breakText	Glyphs	Glyphs
 	Gap 4	Tussenruimte 4
 	Dash 5	Streepje 5
 	Gap 5	Tussenruimte 5
-	Delete the brush selection?	Geselecteerde kwasten verwijderen?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Een of meer kwasten zijn in gebruik en kunnen pas worden verwijderd als hun contouren zijn uitgebreid of verwijderd.
+	Delete the selected brushes?	Geselecteerde kwasten verwijderen?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Contouren gebruiken een of meer van deze kwasten. De kwasten van deze contouren halen en de kwasten verwijderen?
 	Remove Strokes	Contouren verwijderen
 	Yes	Ja
 	No	Nee

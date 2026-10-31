@@ -5913,8 +5913,8 @@ breakText	Glyphs	Glif
 	Gap 4	Jarak 4
 	Dash 5	Garis 5
 	Gap 5	Jarak 5
-	Delete the brush selection?	Hapus kuas yang dipilih?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Satu atau beberapa kuas sedang digunakan dan tidak dapat dihapus sampai stroke-nya diperluas atau dihapus.
+	Delete the selected brushes?	Hapus kuas yang dipilih?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Stroke menggunakan satu atau beberapa kuas ini. Lepaskan kuas dari stroke tersebut dan hapus kuasnya?
 	Remove Strokes	Hapus Stroke
 	Yes	Ya
 	No	Tidak

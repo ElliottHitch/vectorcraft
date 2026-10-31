@@ -5628,8 +5628,8 @@ breakText	Glyphs	Glifi
 	Gap 4	Spazio 4
 	Dash 5	Tratto 5
 	Gap 5	Spazio 5
-	Delete the brush selection?	Eliminare i pennelli selezionati?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Uno o più pennelli sono in uso e non possono essere eliminati finché le tracce non vengono espanse o rimosse.
+	Delete the selected brushes?	Eliminare i pennelli selezionati?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Alcune tracce usano uno o più di questi pennelli. Rimuovere i pennelli da queste tracce ed eliminare i pennelli?
 	Remove Strokes	Rimuovi tracce
 	Yes	Sì
 	No	No

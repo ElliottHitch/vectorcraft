@@ -5999,8 +5999,8 @@ breakText	Glyphs	Glifs
 	Gap 4	Separació 4
 	Dash 5	Guió 5
 	Gap 5	Separació 5
-	Delete the brush selection?	Voleu suprimir la selecció de pinzells?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Un o més pinzells estan en ús i no es poden suprimir fins que els traços s’expandeixin o s’eliminin.
+	Delete the selected brushes?	Voleu suprimir els pinzells seleccionats?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Hi ha traços que fan servir un o més d’aquests pinzells. Voleu treure els pinzells d’aquests traços i suprimir els pinzells?
 	Remove Strokes	Elimina els traços
 	Yes	Sí
 	No	No

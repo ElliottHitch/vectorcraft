@@ -5961,8 +5961,8 @@ breakText	Glyphs	Γλύφοι
 	Gap 4	Διάκενο 4
 	Dash 5	Παύλα 5
 	Gap 5	Διάκενο 5
-	Delete the brush selection?	Να διαγραφούν τα επιλεγμένα πινέλα;
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Ένα ή περισσότερα πινέλα χρησιμοποιούνται και δεν μπορούν να διαγραφούν μέχρι να επεκταθούν ή να αφαιρεθούν τα περιγράμματά τους.
+	Delete the selected brushes?	Να διαγραφούν τα επιλεγμένα πινέλα;
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Περιγράμματα χρησιμοποιούν ένα ή περισσότερα από αυτά τα πινέλα. Να αφαιρεθούν τα πινέλα από αυτά τα περιγράμματα και να διαγραφούν τα πινέλα;
 	Remove Strokes	Αφαίρεση περιγραμμάτων
 	Yes	Ναι
 	No	Όχι

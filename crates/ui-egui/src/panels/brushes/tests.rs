@@ -160,8 +160,11 @@ fn assert_delete_dialog(app: &VectorcraftApp, message: &str) {
     let d = app.ui.dialog.as_ref().expect("Delete Brush asks first");
     assert_eq!(d.kind, crate::dialogs::brush_delete::KIND);
     assert_eq!(d.str("message"), message);
-    assert_eq!(d.bool("used"), message.starts_with("One or more"));
+    assert_eq!(d.bool("used"), message == IN_USE);
 }
+
+/// The Delete Brush question when a stroke uses one of the brushes.
+const IN_USE: &str = "Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?";
 
 /// Deleting several unused brushes asks one question about the selection, with no count in it.
 #[test]
@@ -226,7 +229,7 @@ fn shift_and_command_clicks_select_brushes_for_delete_and_duplicate() {
     assert_eq!(undo_count(&app), before.1 + 1);
     // The bottom bar's last button, Delete Brush.
     delete_button(&ctx, &mut app, egui::Modifiers::NONE, 5.0);
-    assert_delete_dialog(&app, "One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.");
+    assert_delete_dialog(&app, IN_USE);
     assert_eq!(names(&mut app), [before.0.clone(), copies.to_vec()].concat());
     assert_eq!(brush_of(&app, rect).as_deref(), Some(three[0].as_str()));
     assert_eq!(undo_count(&app), before.1 + 1);
@@ -266,7 +269,7 @@ fn selecting_other_art_ends_the_brush_multi_selection() {
     let out = frame_with(&ctx, &mut app, vec![], egui::Modifiers::NONE, 4.0, show);
     assert_eq!(lit_tiles(&out), [1]);
     menu_click(&ctx, &mut app, "Delete Brush", 5.0);
-    assert_delete_dialog(&app, "One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.");
+    assert_delete_dialog(&app, IN_USE);
     assert!(names(&mut app).contains(&three[1]));
     crate::dialogs::confirm(&mut app).unwrap();
     let left = names(&mut app);
@@ -335,7 +338,7 @@ fn select_all_unused_selects_the_brushes_no_stroke_paints_with() {
     let on: Vec<usize> = (0..tiles.len()).filter(|i| lit(&ctx, &out).contains(&tiles[*i])).collect();
     assert_eq!(on, (0..tiles.len()).filter(|i| *i != 1).collect::<Vec<_>>());
     menu_click(&ctx, &mut app, "Delete Brush", 3.0);
-    assert_delete_dialog(&app, "Delete the brush selection?");
+    assert_delete_dialog(&app, "Delete the selected brushes?");
     assert_eq!(names(&mut app).len(), list.len());
     crate::dialogs::confirm(&mut app).unwrap();
     assert_eq!(names(&mut app), [list[1].0.clone()]);
@@ -352,7 +355,7 @@ fn delete_button_cancel_keeps_selected_brushes_strokes_and_history() {
     let (three, _) = select_three(&ctx, &mut app, rect);
     let before = (names(&mut app), brush_of(&app, rect), undo_count(&app));
     delete_button(&ctx, &mut app, egui::Modifiers::NONE, 3.0);
-    assert_delete_dialog(&app, "One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.");
+    assert_delete_dialog(&app, IN_USE);
     assert_eq!((names(&mut app), brush_of(&app, rect), undo_count(&app)), before);
     crate::dialogs::cancel(&mut app);
     assert!(app.ui.dialog.is_none());
@@ -376,10 +379,10 @@ fn alt_delete_button_asks_when_a_selected_brush_is_used() {
     let (three, _) = select_three(&ctx, &mut app, rect);
     let before = undo_count(&app);
     delete_button(&ctx, &mut app, egui::Modifiers::NONE, 3.0);
-    assert_delete_dialog(&app, "One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.");
+    assert_delete_dialog(&app, IN_USE);
     crate::dialogs::cancel(&mut app);
     delete_button(&ctx, &mut app, egui::Modifiers::ALT, 4.0);
-    assert_delete_dialog(&app, "One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.");
+    assert_delete_dialog(&app, IN_USE);
     crate::dialogs::cancel(&mut app);
     let left = names(&mut app);
     assert!(three.iter().all(|name| left.contains(name)));
@@ -414,7 +417,7 @@ fn menu_delete_used_brush_requires_remove_strokes_or_cancel() {
     let (three, _) = select_three(&ctx, &mut app, rect);
     let before = undo_count(&app);
     menu_click(&ctx, &mut app, "Delete Brush", 3.0);
-    assert_delete_dialog(&app, "One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.");
+    assert_delete_dialog(&app, IN_USE);
     crate::dialogs::cancel(&mut app);
     assert_eq!(undo_count(&app), before);
     assert_eq!(brush_of(&app, rect).as_deref(), Some(three[0].as_str()));

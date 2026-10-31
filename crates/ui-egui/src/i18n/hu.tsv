@@ -5995,8 +5995,8 @@ breakText	Glyphs	Glifák
 	Gap 4	Hézag 4
 	Dash 5	Vonal 5
 	Gap 5	Hézag 5
-	Delete the brush selection?	Törlöd a kijelölt ecseteket?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Egy vagy több ecset használatban van, és nem törölhető, amíg a körvonalait ki nem bontod vagy el nem távolítod.
+	Delete the selected brushes?	Törlöd a kijelölt ecseteket?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Körvonalak használnak egyet vagy többet ezek közül az ecsetek közül. Leveszed az ecseteket ezekről a körvonalakról, és törlöd az ecseteket?
 	Remove Strokes	Körvonalak eltávolítása
 	Yes	Igen
 	No	Nem

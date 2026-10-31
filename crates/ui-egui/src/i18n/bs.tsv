@@ -5931,8 +5931,8 @@ shape	Open	Otvoren
 @msg	`follow` must be "average", "a" or "b"	`follow` mora biti "average", "a" ili "b"
 @msg	the paths have nothing to merge there	putanje tu nemaju šta spojiti
 @msg	the path is locked or hidden	putanja je zaključana ili skrivena
-	Delete the brush selection?	Izbrisati odabrane četkice?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Jedna ili više četkica se koristi i ne mogu se izbrisati dok se njihovi potezi ne prošire ili uklone.
+	Delete the selected brushes?	Izbrisati odabrane četkice?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Potezi koriste jednu ili više ovih četkica. Ukloniti četkice s tih poteza i izbrisati četkice?
 	Remove Strokes	Ukloni poteze
 	Yes	Da
 	No	Ne

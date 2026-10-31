@@ -5951,8 +5951,8 @@ breakText	Glyphs	Glifos
 	Gap 4	Hueco 4
 	Dash 5	Guion 5
 	Gap 5	Hueco 5
-	Delete the brush selection?	¿Eliminar los pinceles seleccionados?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Uno o más pinceles están en uso y no se pueden eliminar hasta expandir o quitar sus trazos.
+	Delete the selected brushes?	¿Eliminar los pinceles seleccionados?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Algunos trazos usan uno o más de estos pinceles. ¿Quitar los pinceles de esos trazos y eliminar los pinceles?
 	Remove Strokes	Quitar trazos
 	Yes	Sí
 	No	No

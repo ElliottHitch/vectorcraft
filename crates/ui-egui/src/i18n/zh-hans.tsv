@@ -5850,8 +5850,8 @@ breakText	Glyphs	字形
 	Gap 4	间隔 4
 	Dash 5	虚线 5
 	Gap 5	间隔 5
-	Delete the brush selection?	删除选中的画笔吗？
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	一个或多个画笔正在使用中，必须先扩展或移除其描边才能删除。
+	Delete the selected brushes?	删除选中的画笔吗？
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	有描边使用了其中一个或多个画笔。要从这些描边移除画笔并删除画笔吗？
 	Remove Strokes	移除描边
 	Yes	是
 	No	否

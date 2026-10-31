@@ -5594,8 +5594,8 @@ breakText	Glyphs	Glyphen
 	Gap 4	Lücke 4
 	Dash 5	Strich 5
 	Gap 5	Lücke 5
-	Delete the brush selection?	Ausgewählte Pinsel löschen?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Ein oder mehrere Pinsel werden verwendet und können erst gelöscht werden, wenn ihre Konturen umgewandelt oder entfernt wurden.
+	Delete the selected brushes?	Ausgewählte Pinsel löschen?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Konturen verwenden einen oder mehrere dieser Pinsel. Pinsel von diesen Konturen entfernen und die Pinsel löschen?
 	Remove Strokes	Konturen entfernen
 	Yes	Ja
 	No	Nein

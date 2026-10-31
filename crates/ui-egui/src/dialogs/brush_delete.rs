@@ -21,9 +21,9 @@ pub(super) const SPEC: DialogSpec =
 /// Ask whether to delete the brushes `params` names (`used`: one of them is in use).
 pub fn ask(app: &mut VectorcraftApp, params: Value, used: bool) {
     let message = if used {
-        tl!("One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.")
+        tl!("Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?")
     } else {
-        tl!("Delete the brush selection?")
+        tl!("Delete the selected brushes?")
     };
     app.ui.dialog = Some(Dialog::new(KIND, json!({"params": params, "used": used, "message": message})));
 }

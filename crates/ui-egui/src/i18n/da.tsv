@@ -5913,8 +5913,8 @@ breakText	Glyphs	Glyffer
 	Gap 4	Mellemrum 4
 	Dash 5	Streg 5
 	Gap 5	Mellemrum 5
-	Delete the brush selection?	Slet de valgte pensler?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	En eller flere pensler er i brug og kan ikke slettes, før deres streger er udvidet eller fjernet.
+	Delete the selected brushes?	Slet de valgte pensler?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Streger bruger en eller flere af disse pensler. Fjern penslerne fra stregerne, og slet penslerne?
 	Remove Strokes	Fjern streger
 	Yes	Ja
 	No	Nej

@@ -5986,8 +5986,8 @@ breakText	Glyphs	Глифы
 	Gap 4	Зазор 4
 	Dash 5	Штрих 5
 	Gap 5	Зазор 5
-	Delete the brush selection?	Удалить выбранные кисти?
-	One or more of the brushes are in use and cannot be deleted until their strokes are expanded or removed.	Одна или несколько кистей используются и не могут быть удалены, пока их обводки не будут разобраны или убраны.
+	Delete the selected brushes?	Удалить выбранные кисти?
+	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Обводки используют одну или несколько из этих кистей. Убрать кисти с этих обводок и удалить кисти?
 	Remove Strokes	Убрать обводки
 	Yes	Да
 	No	Нет
