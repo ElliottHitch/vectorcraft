@@ -2814,7 +2814,7 @@
 	Package created	Empaquetatge creat
 @plural	Packaged {n} file|Packaged {n} files	S’ha empaquetat {n} fitxer|S’han empaquetat {n} fitxers
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	S’ha empaquetat {n} fitxer a {folder}|S’han empaquetat {n} fitxers a {folder}
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	S’ha empaquetat {n} fitxer a {folder} {note}|S’han empaquetat {n} fitxers a {folder} {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	S’ha empaquetat {n} fitxer a {folder} {note}|S’han empaquetat {n} fitxers a {folder} {note}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	S’ha empaquetat {n} fitxer {note}|S’han empaquetat {n} fitxers {note}
 	Packaged {n} file(s){note}	S’han empaquetat {n} fitxers{note}
 	Package…	Empaqueta…
@@ -5260,7 +5260,7 @@
 @msg	Outline Stroke: no stroked paths selected	Contorneja el traç: no hi ha cap traçat amb traç seleccionat
 @msgplural	Packaged {n} file|Packaged {n} files	S’ha empaquetat {n} fitxer|S’han empaquetat {n} fitxers
 @msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	S’ha empaquetat {n} fitxer a {folder}|S’han empaquetat {n} fitxers a {folder}
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	S’ha empaquetat {n} fitxer a {folder} ({note}|S’han empaquetat {n} fitxers a {folder} ({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	S’ha empaquetat {n} fitxer a {folder} ({note})|S’han empaquetat {n} fitxers a {folder} ({note})
 @msgplural	Packaged {n} file {note}|Packaged {n} files {note}	S’ha empaquetat {n} fitxer {note}|S’han empaquetat {n} fitxers {note}
 @msg	Packaged {n} file(s){note}	Empaquetats {n} fitxer(s){note}
 @msg	Packaging {_1}	Empaquetant {_1}

@@ -2095,7 +2095,7 @@ shape	Open	Açık
 	Package	Paket
 	Package collects a saved document with its linked files and fonts.	Paket, kayıtlı bir belgeyi bağlantılı dosyaları ve yazı tipleriyle birlikte toplar.
 	Package created	Paket oluşturuldu
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	{n} dosya {folder} klasörüne paketlendi {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	{n} dosya {folder} klasörüne paketlendi {note}
 	Packaged {n} file(s){note}	Paketlenmiş {n} dosyası/dosyaları{note}
 	Package…	Paket…
 	Page	Sayfa
@@ -3735,7 +3735,7 @@ axis	Both	Her İkisi
 @msg	PDF settings are not an object	PDF ayarları bir nesne değildir
 @msg	PDF security settings are not an object	PDF güvenlik ayarları bir nesne değildir
 @msg	PDF writer error: {0}	PDF yazıcı hatası: {0}
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	{n} dosya {folder} klasörüne paketlendi ({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	{n} dosya {folder} klasörüne paketlendi ({note})
 @msg	Packaged {n} file(s){note}	Paketlenmiş {n} dosyası/dosyaları{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Tarayıcıdaki önizleme için masaüstü uygulaması gerekir (bunun yerine web, dosyaları indirir)
 @msg	Release Guides: no guides	Sürüm Kılavuzları: kılavuz yok

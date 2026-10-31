@@ -2114,7 +2114,7 @@ file-filter	Templates	範本
 @msg	{undecoded} image(s) couldn't be decoded and show as crossed boxes	無法解碼 {undecoded} 張影像：它們顯示為打叉的方框
 @msg	{_1} linked image(s) changed on disk: Update Links shows the new versions	有 {_1} 個連結影像已在磁碟上變更：「更新連結」可顯示新版本
 @msg	pick a colour, gradient or pattern to save as a swatch	請挑選要儲存為色票的顏色、漸層或圖樣
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	已將 {n} 個檔案封裝到 {folder}({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	已將 {n} 個檔案封裝到 {folder}({note})
 @msg	Packaged {n} file(s){note}	已封裝 {n} 個檔案{note}
 @msg	choose a location for the package	請選擇封裝的位置
 @msg	missing `folder`	未提供 `folder`
@@ -3108,7 +3108,7 @@ file-filter	Templates	範本
 	Package	封裝
 	Package collects a saved document with its linked files and fonts.	封裝會將已儲存的文件連同其連結檔案與字體一併收集。
 	Package created	已建立封裝
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	已將 {n} 個檔案封裝於 {folder}{note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	已將 {n} 個檔案封裝於 {folder}{note}
 	Packaged {n} file(s){note}	已封裝 {n} 個檔案{note}
 	Package…	封裝…
 	Page	頁面

@@ -2249,7 +2249,7 @@ lighting	Light	Lys
 	Fonts whose licence doesn't allow embedding are not copied.	Skrifttyper, hvis licens ikke tillader indlejring, kopieres ikke.
 	Package collects a saved document with its linked files and fonts.	Pakning samler et gemt dokument med dets linkede filer og skrifttyper.
 	Package created	Pakke oprettet
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Pakkede {n} fil i {folder} {note}|Pakkede {n} filer i {folder} {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	Pakkede {n} fil i {folder} {note}|Pakkede {n} filer i {folder} {note}
 	Packaged {n} file(s){note}	Pakkede {n} fil(er){note}
 	Relink Linked Files to the Document	Genopret link til dokumentets linkede filer
 	Save the document first?	Gem dokumentet først?
@@ -3953,7 +3953,7 @@ imageTrace	Outline	Kontur
 @msg	PDF settings are not an object	PDF-indstillinger er ikke et objekt
 @msg	PDF security settings are not an object	PDF-sikkerhedsindstillinger er ikke et objekt
 @msg	PDF writer error: {0}	PDF-skriverfejl: {0}
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Pakkede {n} fil i {folder} ({note}|Pakkede {n} filer i {folder} ({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	Pakkede {n} fil i {folder} ({note})|Pakkede {n} filer i {folder} ({note})
 @msg	Packaged {n} file(s){note}	Pakkede {n} fil(er){note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Forhåndsvisning i browser kræver skrivebordsappen (webversionen downloader filer i stedet)
 @msg	Release Guides: no guides	Frigiv hjælpelinjer: ingen hjælpelinjer

@@ -2230,7 +2230,7 @@ file-filter	Templates	Vorlagen
 	Package	Verpacken
 	Package collects a saved document with its linked files and fonts.	„Verpacken“ sammelt ein gespeichertes Dokument mit seinen verknüpften Dateien und Schriften.
 	Package created	Paket erstellt
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	{n} Datei in {folder} verpackt {note}|{n} Dateien in {folder} verpackt {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	{n} Datei in {folder} verpackt {note}|{n} Dateien in {folder} verpackt {note}
 	Packaged {n} file(s){note}	{n} Datei(en) verpackt{note}
 	Package…	Verpacken…
 	Page	Seite
@@ -3848,7 +3848,7 @@ theme	Appearance	Erscheinungsbild
 @msg	PDF settings are not an object	die PDF-Einstellungen sind kein Objekt
 @msg	PDF security settings are not an object	die PDF-Sicherheitseinstellungen sind kein Objekt
 @msg	PDF writer error: {0}	Fehler beim Schreiben der PDF-Datei: {0}
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	{n} Datei in {folder} verpackt ({note}|{n} Dateien in {folder} verpackt ({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	{n} Datei in {folder} verpackt ({note})|{n} Dateien in {folder} verpackt ({note})
 @msg	Packaged {n} file(s){note}	{n} Datei(en) verpackt{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	„Vorschau im Browser“ erfordert die Desktop-App (im Web werden stattdessen Dateien heruntergeladen)
 @msg	Release Guides: no guides	Hilfslinien zurückwandeln: keine Hilfslinien

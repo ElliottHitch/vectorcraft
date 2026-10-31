@@ -3574,7 +3574,7 @@ file-filter	Templates	템플릿
 	Output Black	출력 검정
 	Output White	출력 흰색
 	Output › Mode	출력 › 모드
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	{folder}에 파일 {n}개를 패키지했습니다 {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	{folder}에 파일 {n}개를 패키지했습니다 {note}
 	Packaged {n} file(s){note}	파일 {n}개를 패키지했습니다{note}
 	Page information	페이지 정보
 	Paragraph Style	단락 스타일
@@ -4387,7 +4387,7 @@ theme	Appearance	외관
 @msg	{_1} linked image(s) changed on disk: Update Links shows the new versions	링크된 이미지 {_1}개가 디스크에서 바뀌었습니다: 링크 업데이트를 하면 새 버전이 표시됩니다
 @msg	Updated {_1} linked file(s) changed on disk	디스크에서 바뀐 링크된 파일 {_1}개를 업데이트했습니다
 @msg	pick a colour, gradient or pattern to save as a swatch	견본으로 저장할 색상, 그레이디언트 또는 패턴을 선택하세요
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	{folder}에 파일 {n}개를 패키지했습니다({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	{folder}에 파일 {n}개를 패키지했습니다({note})
 @msg	Packaged {n} file(s){note}	파일 {n}개를 패키지했습니다{note}
 @msg	choose a location for the package	패키지 위치를 선택하세요
 @msg	missing `folder`	`folder`가 없습니다

@@ -2161,7 +2161,7 @@ axis	Both	Και τα δύο
 @msg	PDF settings are not an object	Οι ρυθμίσεις PDF δεν είναι αντικείμενο
 @msg	PDF security settings are not an object	Οι ρυθμίσεις ασφαλείας PDF δεν είναι αντικείμενο
 @msg	PDF writer error: {0}	Σφάλμα εγγραφής PDF: {0}
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Συσκευάστηκε {n} αρχείο στον φάκελο {folder} ({note}|Συσκευάστηκαν {n} αρχεία στον φάκελο {folder} ({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	Συσκευάστηκε {n} αρχείο στον φάκελο {folder} ({note})|Συσκευάστηκαν {n} αρχεία στον φάκελο {folder} ({note})
 @msg	Packaged {n} file(s){note}	Συσκευάστηκαν {n} αρχεία{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Η προεπισκόπηση σε πρόγραμμα περιήγησης απαιτεί την εφαρμογή υπολογιστή (η έκδοση ιστού πραγματοποιεί λήψη αρχείων)
 @msg	Release Guides: no guides	Αποδέσμευση οδηγών: δεν υπάρχουν οδηγοί
@@ -2928,7 +2928,7 @@ theme	Appearance	Εμφάνιση
 	Override Character Color	Παράκαμψη χρώματος χαρακτήρων
 	Package collects a saved document with its linked files and fonts.	Η συσκευασία συγκεντρώνει ένα αποθηκευμένο έγγραφο μαζί με συνδεδεμένα αρχεία και γραμματοσειρές.
 	Package created	Η συσκευασία δημιουργήθηκε
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Συσκευάστηκε {n} αρχείο στον φάκελο {folder} {note}|Συσκευάστηκαν {n} αρχεία στον φάκελο {folder} {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	Συσκευάστηκε {n} αρχείο στον φάκελο {folder} {note}|Συσκευάστηκαν {n} αρχεία στον φάκελο {folder} {note}
 	Packaged {n} file(s){note}	Συσκευάστηκαν {n} αρχεία{note}
 	Page	Σελίδα
 	Page information	Πληροφορίες σελίδας

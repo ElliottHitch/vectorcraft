@@ -183,20 +183,21 @@ fn packaged(app: &mut VectorcraftApp, r: Result<Value, String>, web: bool, later
 }
 
 /// The status bar's line for a package of `n` files written to `folder` (`None`: the web's
-/// download), followed by `note` from [`package_status_note`] when it isn't empty. Each catalog
-/// also has `@msgplural` rows for the English line, shown after a language switch; they find the note
-/// after the folder by its opening `(`, so a folder name with spaces stays whole.
+/// download), with `note` from [`package_status_note`] when it isn't empty. With a note and a
+/// folder, the note comes before the folder and the folder ends the line. Each catalog also has
+/// `@msgplural` rows for the English line, shown after a language switch; the folder takes the rest
+/// of the line after `) in `, so a folder name with spaces or parentheses stays whole.
 pub(super) fn package_status(n: u64, folder: Option<&str>, note: &str) -> String {
     let (one, other) = match (folder.is_some(), note.is_empty()) {
         (false, true) => ("Packaged {n} file", "Packaged {n} files"),
         (false, false) => ("Packaged {n} file {note}", "Packaged {n} files {note}"),
         (true, true) => ("Packaged {n} file in {folder}", "Packaged {n} files in {folder}"),
-        (true, false) => ("Packaged {n} file in {folder} {note}", "Packaged {n} files in {folder} {note}"),
+        (true, false) => ("Packaged {n} file {note} in {folder}", "Packaged {n} files {note} in {folder}"),
     };
     crate::i18n::fmt(&crate::i18n::tn(n, one, other), &[("folder", folder.unwrap_or_default()), ("note", note)])
 }
 
-/// Parenthetical notes after the folder path in a package status (`(2 linked files not found)` …),
+/// Parenthetical notes in a package status (`(2 linked files not found)` …),
 /// joined with spaces and without a leading space (#3494).
 pub(super) fn package_status_note(missing: usize, fonts: &str) -> String {
     let mut parts = Vec::new();

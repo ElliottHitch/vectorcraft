@@ -304,29 +304,43 @@ fn the_missing_links_note_uses_each_count_form() {
 
 /// A package status written in English, for one file or several, with or without a folder and a
 /// note, is translated by every catalog when the status bar shows it after a language switch, in
-/// the form the language's plural rule picks for the count, and a folder whose name has a space
-/// keeps its whole name.
+/// the form the language's plural rule picks for the count, and a folder whose name has a space or
+/// parentheses keeps its whole name, next to one note or two.
 #[test]
 fn an_english_package_status_is_translated_after_a_language_switch() {
     use crate::i18n::{Lang, message};
+    let folders = [None, Some("/out/card Folder"), Some("/out/card (draft) v2")];
+    let notes = ["", "(fonts not copied: Mono)", "(1 linked file not found) (fonts not copied: Mono)"];
     let mut statuses = vec![];
     for n in [1, 3] {
-        for folder in [None, Some("/out/card Folder")] {
-            for note in ["", "(fonts not copied: Mono)"] {
-                statuses.push(package::package_status(n, folder, note));
+        for folder in folders {
+            for note in notes {
+                statuses.push((package::package_status(n, folder, note), folder, note));
             }
         }
     }
-    assert!(statuses.contains(&"Packaged 1 file in /out/card Folder".to_string()), "{statuses:?}");
-    assert!(statuses.contains(&"Packaged 3 files".to_string()), "{statuses:?}");
+    let english: Vec<&str> = statuses.iter().map(|(s, ..)| s.as_str()).collect();
+    assert!(english.contains(&"Packaged 1 file in /out/card Folder"), "{english:?}");
+    assert!(english.contains(&"Packaged 1 file (fonts not copied: Mono) in /out/card (draft) v2"), "{english:?}");
+    assert!(english.contains(&"Packaged 3 files"), "{english:?}");
     for lang in Lang::all().filter(|l| l.code() != "en") {
-        for s in &statuses {
+        for (s, folder, note) in &statuses {
             let shown = message(lang, s);
             assert!(!shown.starts_with("Packaged"), "{}: {shown}", lang.code());
-            // A space in the folder's name stays in the path, with or without a note.
-            assert_eq!(s.contains("/out/card Folder"), shown.contains("/out/card Folder"), "{}: {shown}", lang.code());
+            // The folder stays whole in the translated line, and the note's font is still named.
+            assert!(folder.is_none_or(|f| shown.contains(f)), "{}: {shown}", lang.code());
+            assert_eq!(note.contains("Mono"), shown.contains("Mono"), "{}: {shown}", lang.code());
         }
     }
+    let de = Lang::from_code("de").unwrap();
+    assert_eq!(
+        message(de, &package::package_status(1, Some("/out/card (draft)"), "(fonts not copied: Mono)")),
+        "1 Datei in /out/card (draft) verpackt (fonts not copied: Mono)"
+    );
+    assert_eq!(
+        message(de, &package::package_status(3, Some("/out/card (draft)"), "(1 linked file not found) (fonts not copied: Mono)")),
+        "3 Dateien in /out/card (draft) verpackt (1 linked file not found) (fonts not copied: Mono)"
+    );
     let cs = Lang::from_code("cs").unwrap();
     assert_eq!(message(cs, "Packaged 1 file in /out"), "Zabalen 1 soubor do /out");
     assert_eq!(message(cs, "Packaged 3 files in /out"), "Zabaleny 3 soubory do /out");

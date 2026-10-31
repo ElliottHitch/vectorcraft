@@ -2456,7 +2456,7 @@ lighting	Light	Světlo
 	Fonts whose licence doesn't allow embedding are not copied.	Písma, jejichž licence nepovoluje vkládání, se nekopírují.
 	Package collects a saved document with its linked files and fonts.	Sbalení shromáždí uložený dokument s jeho propojenými soubory a písmy.
 	Package created	Balíček vytvořen
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Zabalen {n} soubor do {folder} {note}|Zabaleny {n} soubory do {folder} {note}|Zabaleno {n} souborů do {folder} {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	Zabalen {n} soubor do {folder} {note}|Zabaleny {n} soubory do {folder} {note}|Zabaleno {n} souborů do {folder} {note}
 	Packaged {n} file(s){note}	Zabaleno souborů: {n}{note}
 	Relink Linked Files to the Document	Znovu propojit propojené soubory s dokumentem
 	Save the document first?	Nejprve uložit dokument?
@@ -4236,7 +4236,7 @@ imageTrace	Outline	Obrys
 @msg	PDF settings are not an object	nastavení PDF nejsou objekt
 @msg	PDF security settings are not an object	nastavení zabezpečení PDF nejsou objekt
 @msg	PDF writer error: {0}	chyba zápisu PDF: {0}
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Zabalen {n} soubor do {folder} ({note}|Zabaleny {n} soubory do {folder} ({note}|Zabaleno {n} souborů do {folder} ({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	Zabalen {n} soubor do {folder} ({note})|Zabaleny {n} soubory do {folder} ({note})|Zabaleno {n} souborů do {folder} ({note})
 @msg	Packaged {n} file(s){note}	Zabaleno souborů: {n}{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Náhled v prohlížeči vyžaduje desktopovou aplikaci (webová verze místo toho stahuje soubory)
 @msg	Release Guides: no guides	Uvolnit vodítka: žádná vodítka

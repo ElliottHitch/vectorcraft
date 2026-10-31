@@ -2272,7 +2272,7 @@ font-technology	Variable	Variables
 	Package	Empaquetar
 	Package collects a saved document with its linked files and fonts.	Empaquetar reúne un documento guardado con sus archivos vinculados y fuentes.
 	Package created	Paquete creado
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Se empaquetó {n} archivo en {folder} {note}|Se empaquetaron {n} archivos en {folder} {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	Se empaquetó {n} archivo en {folder} {note}|Se empaquetaron {n} archivos en {folder} {note}
 	Packaged {n} file(s){note}	Se empaquetaron {n} archivo(s){note}
 	Package…	Empaquetar…
 	Page	Página
@@ -3928,7 +3928,7 @@ axis	Both	Ambos
 @msg	PDF settings are not an object	los ajustes de PDF no son un objeto
 @msg	PDF security settings are not an object	los ajustes de seguridad de PDF no son un objeto
 @msg	PDF writer error: {0}	error del escritor de PDF: {0}
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Se empaquetó {n} archivo en {folder} ({note}|Se empaquetaron {n} archivos en {folder} ({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	Se empaquetó {n} archivo en {folder} ({note})|Se empaquetaron {n} archivos en {folder} ({note})
 @msg	Packaged {n} file(s){note}	Se empaquetaron {n} archivo(s){note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Previsualizar en el navegador requiere la aplicación de escritorio (la versión web descarga los archivos)
 @msg	Release Guides: no guides	Soltar guías: no hay guías

@@ -3585,7 +3585,7 @@ file-filter	Templates	テンプレート
 	Output Black	出力ブラック
 	Output White	出力ホワイト
 	Output › Mode	出力 › モード
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	{folder} に {n} 個のファイルをパッケージしました{note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	{folder} に {n} 個のファイルをパッケージしました{note}
 	Packaged {n} file(s){note}	{n} 個のファイルをパッケージしました{note}
 	Page information	ページ情報
 	Paragraph Style	段落スタイル
@@ -4459,7 +4459,7 @@ swatch	Bright Violet	ビビッドバイオレット
 @msg	{_1} linked image(s) changed on disk: Update Links shows the new versions	{_1} 個のリンク画像がディスク上で変更されました: 「リンクを更新」で新しいバージョンを表示できます
 @msg	Updated {_1} linked file(s) changed on disk	ディスク上で変更された {_1} 個のリンクファイルを更新しました
 @msg	pick a colour, gradient or pattern to save as a swatch	スウォッチとして保存するカラー、グラデーション、またはパターンを選択してください
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	{n} 個のファイルを {folder} にパッケージしました({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	{n} 個のファイルを {folder} にパッケージしました({note})
 @msg	Packaged {n} file(s){note}	{n} 個のファイルをパッケージしました{note}
 @msg	choose a location for the package	パッケージの保存場所を選択してください
 @msg	missing `folder`	`folder` が指定されていません

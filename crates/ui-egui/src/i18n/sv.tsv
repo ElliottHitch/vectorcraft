@@ -2217,7 +2217,7 @@ font-technology	Variable	Variabla
 	Package	Paketera
 	Package collects a saved document with its linked files and fonts.	Paketera samlar ett sparat dokument med dess länkade filer och typsnitt.
 	Package created	Paketet har skapats
-@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Paketerade {n} fil i {folder} {note}|Paketerade {n} filer i {folder} {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	Paketerade {n} fil i {folder} {note}|Paketerade {n} filer i {folder} {note}
 	Packaged {n} file(s){note}	Paketerade {n} fil(er){note}
 	Package…	Paketera…
 	Page	Sida
@@ -3845,7 +3845,7 @@ axis	Both	Båda
 @msg	PDF settings are not an object	PDF-inställningarna är inte ett objekt
 @msg	PDF security settings are not an object	PDF-säkerhetsinställningarna är inte ett objekt
 @msg	PDF writer error: {0}	fel i PDF-skrivaren: {0}
-@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Paketerade {n} fil i {folder} ({note}|Paketerade {n} filer i {folder} ({note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	Paketerade {n} fil i {folder} ({note})|Paketerade {n} filer i {folder} ({note})
 @msg	Packaged {n} file(s){note}	Paketerade {n} fil(er){note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Förhandsgranska i webbläsare kräver skrivbordsappen (webbversionen hämtar filer i stället)
 @msg	Release Guides: no guides	Släpp stödlinjer: inga stödlinjer
