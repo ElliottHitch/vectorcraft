@@ -642,11 +642,14 @@ fn gradient_libraries_are_listed_and_gradient_swatches_rename_and_take_new_gradi
 #[test]
 fn a_library_file_name_is_never_a_windows_device_name() {
     use crate::cmd::swatchlib::library_file_name;
-    for (title, ext) in [("CON", "json"), ("nul", "json"), ("Com1", "acb"), ("LPT9", "ase"), ("aux.", "json")] {
+    for (title, ext) in
+        [("CON", "json"), ("nul", "json"), ("Com1", "acb"), ("LPT9", "ase"), ("aux.", "json"), ("CON.txt", "json"), ("nul.tar.gz", "acb")]
+    {
         let file = library_file_name(title, ext);
         assert!(!crate::file_access::is_device_name(&file), "{title}: {file}");
         assert!(
-            file.ends_with(&format!(".{ext}")) && file.to_ascii_lowercase().contains(&title.trim_end_matches('.').to_ascii_lowercase()),
+            file.ends_with(&format!(".{ext}"))
+                && file.to_ascii_lowercase().starts_with(&title.split('.').next().unwrap_or_default().to_ascii_lowercase()),
             "{title}: {file}"
         );
     }
