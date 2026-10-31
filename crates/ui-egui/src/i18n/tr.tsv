@@ -491,7 +491,7 @@ font-technology	Variable	Değişken
 	Collect in New Layer	Yeni Katmanda Topla
 	Collect Links in a Separate Folder	Bağlantıları Ayrı Bir Klasörde Toplayın
 	Color	Renk
-	Color (, or <)	Renk (, veya <)
+	Color (, or Shift+,)	Renk (, veya Shift+,)
 	Color Adjustments	Renk Ayarlamaları
 	Color bars	Renk çubukları
 	Color blindness – Deuteranopia-type	Renk körlüğü – Döteranopi tipi
@@ -1214,7 +1214,7 @@ font-technology	Variable	Değişken
 	GPL palettes keep solid colours only, as RGB.	GPL paletleri yalnızca düz renkleri RGB olarak tutar.
 	GPU Performance	GPU Performansı
 	Gradient	Degrade
-	Gradient (. or >)	Gradyan (. veya >)
+	Gradient (. or Shift+.)	Gradyan (. veya Shift+.)
 	Gradient across stroke	Kontur boyunca gradyan
 	Gradient along stroke	Kontur boyunca gradyan
 	Gradient and Mesh Resolution:	Gradyan ve Mesh Çözünürlüğü:

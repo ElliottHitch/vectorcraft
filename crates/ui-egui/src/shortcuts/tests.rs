@@ -1184,10 +1184,35 @@ fn plain_and_shifted_paint_keys_run_once_on_us_and_german_like_input() {
         (Key::Colon, Key::Period, Modifiers::SHIFT, ":"),
         (Key::Semicolon, Key::Comma, Modifiers::SHIFT, ";"),
     ] {
+        let journal_before = app.session.journal.len();
         frame(&mut app, press(key, physical_key, mods, typed));
         assert_eq!(crate::panels::current_paints(&app), paints_before, "typing {typed} keeps fill and stroke");
+        assert!(
+            app.session.journal.since(journal_before).iter().all(|(command, _)| !command.starts_with("paint.")),
+            "typing {typed} runs no paint command"
+        );
     }
     assert_eq!(text_and_layers(&mut app, id).0, "Hi,.<>:;");
+}
+
+#[test]
+fn modified_german_like_punctuation_keeps_text_size() {
+    let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default());
+    app.session.execute("file.new", &json!({"width": 200, "height": 200})).unwrap();
+    let id = app.session.execute("text.create", &json!({"x": 20, "y": 50, "text": "Hi", "size": 12})).unwrap()["id"].as_u64().unwrap();
+    app.session.execute("select.set", &json!({"ids": [id]})).unwrap();
+    for (key, physical_key) in [(Key::Colon, Key::Period), (Key::Semicolon, Key::Comma)] {
+        let modifiers = Modifiers::COMMAND | Modifiers::SHIFT;
+        frame(
+            &mut app,
+            vec![
+                egui::Event::ModifiersChanged(modifiers),
+                egui::Event::Key { key, physical_key: Some(physical_key), pressed: true, repeat: false, modifiers },
+            ],
+        );
+        let range = app.session.execute("text.getRange", &json!({"id": id})).unwrap();
+        assert_eq!(range["runs"][0]["style"]["size"], json!(12.0), "{key:?} keeps the text size");
+    }
 }
 
 #[test]
@@ -1205,6 +1230,46 @@ fn explicit_logical_shifted_binding_wins_over_position_alias() {
     );
     assert!(matches!(crate::panels::current_paints(&app).0, vectorcraft_color::Paint::Gradient(_)));
     assert_eq!(app.session.active().unwrap().history.undo.len(), before + 1);
+}
+
+#[test]
+fn resolved_logical_binding_wins_over_position_alias() {
+    for chord in [":", "Shift+;"] {
+        let mut app = remembered_paint_app();
+        crate::keymap::set_override(&mut app.ui.shortcut_overrides, "view.grid", chord);
+        let journal_before = app.session.journal.len();
+        frame(
+            &mut app,
+            vec![
+                egui::Event::ModifiersChanged(Modifiers::SHIFT),
+                egui::Event::Key { key: Key::Colon, physical_key: Some(Key::Period), pressed: true, repeat: false, modifiers: Modifiers::SHIFT },
+                egui::Event::Text(":".into()),
+            ],
+        );
+        assert!(app.ui.view.grid, "{chord} runs Show Grid");
+        assert!(app.session.journal.since(journal_before).iter().all(|(command, _)| !command.starts_with("paint.")), "{chord} runs no paint command");
+    }
+}
+
+#[test]
+fn exact_shifted_logical_binding_wins_over_plain_text_binding() {
+    let mut app = remembered_paint_app();
+    crate::keymap::set_override(&mut app.ui.shortcut_overrides, "view.rulers", ";");
+    crate::keymap::set_override(&mut app.ui.shortcut_overrides, "view.grid", "Shift+;");
+    let rulers_before = app.ui.view.rulers;
+    let grid_before = app.ui.view.grid;
+    let journal_before = app.session.journal.len();
+    frame(
+        &mut app,
+        vec![
+            egui::Event::ModifiersChanged(Modifiers::SHIFT),
+            egui::Event::Key { key: Key::Semicolon, physical_key: Some(Key::Comma), pressed: true, repeat: false, modifiers: Modifiers::SHIFT },
+            egui::Event::Text(";".into()),
+        ],
+    );
+    assert_eq!(app.ui.view.grid, !grid_before, "Shift+; runs Show Grid");
+    assert_eq!(app.ui.view.rulers, rulers_before, "plain ; does not run Show Rulers");
+    assert!(app.session.journal.since(journal_before).iter().all(|(command, _)| !command.starts_with("paint.")), "the press runs no paint command");
 }
 
 #[test]
