@@ -303,7 +303,8 @@ pub(crate) fn expand_transparent_tile_images(doc: &Document, o: &FlattenOptions)
         return Ok(None);
     }
     let mut d = doc.clone();
-    let layers: Vec<NodeId> = d.layers.iter().map(|l| l.id).collect();
+    let layers: Vec<NodeId> =
+        d.layers.iter().filter(|l| l.visible && !matches!(l.kind, NodeKind::Layer { template: true, .. })).map(|l| l.id).collect();
     let mut changed = 0;
     for id in layers {
         changed += crate::cmd::expand::expand_transparent_image_patterns(&mut d, id, &keys, &colorize)?;

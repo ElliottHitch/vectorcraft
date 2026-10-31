@@ -449,33 +449,107 @@ fn expand_pattern_fills(s: &mut Session) -> Result<()> {
 /// pattern fills stay. A tile image counts when its key is in `see_through` (it has see-through
 /// pixels), when it has a colorize paint that `colorize` counts, or when it, a group
 /// in the tile art, the fill, the shape or a group the shape is in has opacity or a blending
-/// mode. Returns how many shapes changed.
+/// mode. Blends, envelopes, repeats and Intertwine groups that hold such a fill are expanded
+/// first ([`expand_live_with_transparent_image_patterns`]). Hidden shapes and shapes in hidden
+/// groups or layers and in template layers stay as they are. Returns how many objects changed.
 pub(crate) fn expand_transparent_image_patterns(
     d: &mut Document,
     root: NodeId,
     see_through: &BTreeSet<String>,
     colorize: &dyn Fn(&Document, &Node) -> bool,
 ) -> Result<usize> {
+    let live = expand_live_with_transparent_image_patterns(d, root, see_through, colorize)?;
     let (_, n) = replace_leaves(d, root, |d, l| {
         // Most leaves have no pattern fill: skip the ancestry walk for them.
         if !l.appearance.items.iter().any(|i| pattern_fill(d, i).is_some()) {
             return None;
         }
+        // The expanded art would be shown.
+        if !d.ancestry(l.id).unwrap_or_default().iter().filter_map(|a| d.node(*a)).all(drawn) {
+            return None;
+        }
         expand_patterns_where(d, l, |d, i| transparent_pattern_fill(d, l, i, see_through, colorize))
     })?;
-    Ok(n)
+    Ok(live + n)
 }
 
-/// Whether a path or compound path of `d` has a pattern fill that
-/// [`expand_transparent_image_patterns`] would expand with `see_through` and `colorize`.
+/// Whether a layer of `d` holds a pattern fill that [`expand_transparent_image_patterns`] would
+/// expand with `see_through` and `colorize` ([`holds_transparent_image_patterns`]).
 pub(crate) fn has_transparent_image_patterns(d: &Document, see_through: &BTreeSet<String>, colorize: &dyn Fn(&Document, &Node) -> bool) -> bool {
-    let mut found = false;
-    d.walk(|n| {
-        if !found && matches!(n.kind, NodeKind::Path { .. } | NodeKind::Compound { .. }) {
-            found = n.appearance.items.iter().any(|i| transparent_pattern_fill(d, n, i, see_through, colorize));
+    d.layers.iter().any(|l| holds_transparent_image_patterns(d, l, see_through, colorize))
+}
+
+/// Whether `n`, art of `d`, is or holds a shown path or compound path (in groups, blends,
+/// envelopes, repeats and Intertwine groups) with a pattern fill that
+/// [`transparent_pattern_fill`] counts. Guides, clipping paths and template layers don't count.
+fn holds_transparent_image_patterns(d: &Document, n: &Node, see_through: &BTreeSet<String>, colorize: &dyn Fn(&Document, &Node) -> bool) -> bool {
+    if !drawn(n) {
+        return false;
+    }
+    match &n.kind {
+        NodeKind::Path { guide: true, .. } | NodeKind::Path { clipping: true, .. } => false,
+        NodeKind::Path { .. } | NodeKind::Compound { .. } => {
+            n.appearance.items.iter().any(|i| transparent_pattern_fill(d, n, i, see_through, colorize))
         }
-    });
-    found
+        _ => n.children().is_some_and(|ch| ch.iter().any(|c| holds_transparent_image_patterns(d, c, see_through, colorize))),
+    }
+}
+
+/// Whether `n` is shown and isn't a template layer.
+fn drawn(n: &Node) -> bool {
+    n.visible && !matches!(n.kind, NodeKind::Layer { template: true, .. })
+}
+
+/// Expand the shown blends, envelopes, repeats and Intertwine groups under `root` that hold a
+/// pattern fill [`holds_transparent_image_patterns`] counts into the art the exporters write for
+/// them ([`expand_live_deep`](vectorcraft_render::effects::expand_live_deep), under one budget for
+/// everything nested in each), so the shapes they draw are leaves. Returns how many were expanded.
+fn expand_live_with_transparent_image_patterns(
+    d: &mut Document,
+    root: NodeId,
+    see_through: &BTreeSet<String>,
+    colorize: &dyn Fn(&Document, &Node) -> bool,
+) -> Result<usize> {
+    fn outermost(d: &Document, n: &Node, see_through: &BTreeSet<String>, colorize: &dyn Fn(&Document, &Node) -> bool, out: &mut Vec<NodeId>) {
+        if !drawn(n) {
+            return;
+        }
+        match &n.kind {
+            NodeKind::Blend { .. } | NodeKind::Envelope { .. } | NodeKind::Repeat(_) | NodeKind::Intertwine { .. } => {
+                if holds_transparent_image_patterns(d, n, see_through, colorize) {
+                    out.push(n.id);
+                }
+            }
+            NodeKind::Group { children, .. } | NodeKind::Layer { children, .. } => {
+                children.iter().for_each(|c| outermost(d, c, see_through, colorize, out));
+            }
+            _ => {}
+        }
+    }
+    /// Fresh ids for everything under `n`: copies of the same art share theirs.
+    fn fresh_ids(d: &mut Document, n: &mut Node) {
+        for c in n.children_mut().into_iter().flatten() {
+            let c = Arc::make_mut(c);
+            c.id = d.alloc_id();
+            fresh_ids(d, c);
+        }
+    }
+    let mut live = vec![];
+    if let Some(n) = d.node(root) {
+        outermost(d, n, see_through, colorize, &mut live);
+    }
+    let mut count = 0;
+    for id in &live {
+        let Some(n) = d.node(*id) else { continue };
+        // Random Transform effects take their seed from the ids: bake them first ([`bake_seeded`]),
+        // and leave the object live when that can't be done.
+        let Some(mut g) = bake_seeded(&vectorcraft_render::effects::expand_live_deep(Some(d), n)) else { continue };
+        g.id = *id;
+        fresh_ids(d, &mut g);
+        *d.node_mut(*id).ok_or(EngineError::NoNode(*id))? = g;
+        count += 1;
+    }
+    Ok(count)
 }
 
 /// Whether `i`, an item of leaf `l`, is a pattern fill whose tile art holds a transparent image

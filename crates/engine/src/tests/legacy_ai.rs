@@ -817,3 +817,63 @@ fn opaque_pattern_tile_images_do_not_change_during_export_flattening() {
     let o = crate::cmd::FlattenOptions { no_transparency: Some(crate::cmd::flatten::see_through_images(d)), ..Default::default() };
     assert!(crate::cmd::flatten::flatten_document(d, &o).unwrap().is_none());
 }
+
+/// The id of the square [`pattern_over_blue`] fills with its pattern.
+fn pattern_square(s: &Session) -> vectorcraft_doc::NodeId {
+    let mut id = None;
+    s.doc().unwrap().doc.walk(|n| {
+        if n.appearance.items.iter().any(|i| matches!(i.paint(), vectorcraft_color::Paint::Pattern { .. })) {
+            id = Some(n.id);
+        }
+    });
+    id.unwrap()
+}
+
+/// PDF 1.3 draws `s` as the canvas draws it at two points of the pattern square.
+fn assert_pdf13_draws_pattern_square_as_canvas(s: &mut Session) {
+    let before = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
+    let r = s.execute("document.exportPdf", &json!({"compatibility": "1.3"})).unwrap();
+    let bytes = vectorcraft_format::base64_decode(r["dataBase64"].as_str().unwrap()).unwrap();
+    let page = vectorcraft_pdf::import(&bytes).unwrap();
+    let after = [colour_at(&page, 72.0, 72.0), colour_at(&page, 88.0, 72.0)];
+    for (a, b) in before.iter().zip(after) {
+        assert!(a.iter().zip(b).all(|(a, b)| a.abs_diff(b) <= 4), "before {before:?} after {after:?}");
+    }
+}
+
+#[test]
+fn pdf13_flattens_colorized_pattern_tile_images_in_a_repeat() {
+    let mut s = colorized_pattern_over_blue();
+    let square = pattern_square(&s);
+    s.execute("object.repeat.grid", &json!({"ids": [square.0]})).unwrap();
+    assert!(s.doc().unwrap().doc.layers[0].count() > 3);
+    let d = &s.doc().unwrap().doc;
+    let mut repeats = 0;
+    d.walk(|n| repeats += usize::from(matches!(n.kind, vectorcraft_doc::NodeKind::Repeat(_))));
+    assert_eq!(repeats, 1);
+    assert!(crate::cmd::flatten::flatten_document(d, &crate::cmd::FlattenOptions::default()).unwrap().is_some());
+    assert_pdf13_draws_pattern_square_as_canvas(&mut s);
+}
+
+#[test]
+fn pdf13_leaves_a_hidden_shape_with_a_colorized_pattern_tile_image_hidden() {
+    let mut s = colorized_pattern_over_blue();
+    let square = pattern_square(&s);
+    std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc).node_mut(square).unwrap().visible = false;
+    assert_pdf13_draws_pattern_square_as_canvas(&mut s);
+}
+
+#[test]
+fn flattening_skips_pattern_tile_images_on_hidden_and_template_layers() {
+    for template in [false, true] {
+        let mut s = colorized_pattern_over_blue();
+        let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
+        let layer = std::sync::Arc::make_mut(&mut d.layers[0]);
+        match &mut layer.kind {
+            vectorcraft_doc::NodeKind::Layer { template: t, .. } if template => *t = true,
+            _ => layer.visible = false,
+        }
+        let d = &s.doc().unwrap().doc;
+        assert!(crate::cmd::flatten::flatten_document(d, &crate::cmd::FlattenOptions::default()).unwrap().is_none(), "template {template}");
+    }
+}
