@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use vectorcraft_color::{Color, Paint};
 use vectorcraft_doc::{Appearance, CharStyle, Dash, Document, ImageBlob, ImageObject, Node, NodeKind, TextObject, Unit};
-use vectorcraft_geom::{Affine, PathData, Point, Rect, shapes};
+use vectorcraft_geom::{Affine, ParamCurve, PathData, Point, Rect, Shape, shapes};
 
 use crate::*;
 
@@ -208,10 +208,129 @@ fn circles_and_circular_arcs_are_native_dxf_entities() {
         assert_eq!((all(&e[1], 10), all(&e[1], 20), all(&e[1], 40)), (vec![120.0], vec![50.0], vec![30.0]), "{version:?}");
         assert_eq!((all(&e[1], 50), all(&e[1], 51)), (vec![0.0], vec![90.0]), "{version:?}");
     }
+}
 
-    // An actual ellipse is not close enough to a circle and remains a spline.
-    let ellipse = doc_with(|d| vec![path(d, shapes::ellipse(Rect::new(20.0, 20.0, 100.0, 60.0)), Paint::None, Paint::solid(Color::BLACK), 1.0)]);
-    assert_eq!(kinds(&export(&ellipse, &opts(&ellipse)).unwrap()), ["SPLINE"]);
+/// The path `p` with `xf` applied.
+fn transformed(p: &PathData, xf: Affine) -> PathData {
+    PathData::from_bezpath(&(xf * p.to_bezpath()))
+}
+
+fn close_to(a: &[f64], b: &[f64], tol: f64) -> bool {
+    a.len() == b.len() && a.iter().zip(b).all(|(x, y)| (x - y).abs() <= tol)
+}
+
+#[test]
+fn ellipses_and_unevenly_scaled_circles_are_native_ellipses() {
+    let circle = shapes::ellipse(Rect::new(20.0, 20.0, 80.0, 80.0));
+    let d = doc_with(|d| {
+        let stroke = || Paint::solid(Color::BLACK);
+        vec![
+            // 80 × 40 pt about (60, 40): DXF center (60, 60), major axis (40, 0), ratio 0.5.
+            path(d, shapes::ellipse(Rect::new(20.0, 20.0, 100.0, 60.0)), Paint::None, stroke(), 1.0),
+            // A 60 pt circle scaled 150% across about (50, 50): 90 × 60 pt, ratio 2/3.
+            path(
+                d,
+                transformed(&circle, Affine::translate((50.0, 50.0)) * Affine::scale_non_uniform(1.5, 1.0) * Affine::translate((-50.0, -50.0))),
+                Paint::None,
+                stroke(),
+                1.0,
+            ),
+            // The first ellipse turned 30° about its center, filled: the outline is the ellipse too.
+            path(
+                d,
+                transformed(&shapes::ellipse(Rect::new(20.0, 20.0, 100.0, 60.0)), Affine::rotate_about(30f64.to_radians(), Point::new(60.0, 40.0))),
+                Paint::solid(Color::BLACK),
+                Paint::None,
+                0.0,
+            ),
+        ]
+    });
+    for version in DxfVersion::ALL.into_iter().filter(|version| *version >= DxfVersion::R13) {
+        let out = export(&d, &DxfOptions { version, ..opts(&d) }).unwrap();
+        let e = entities(&out);
+        assert_eq!(e.iter().map(|x| kind(x)).collect::<Vec<_>>(), ["ELLIPSE", "ELLIPSE", "ELLIPSE", "HATCH"], "{version:?}");
+        let ellipse = |x: &Pairs| (all(x, 10), all(x, 20), all(x, 11), all(x, 21), all(x, 40), all(x, 41), all(x, 42));
+        let (cx, cy, mx, my, ratio, start, end) = ellipse(&e[0]);
+        assert_eq!((cx, cy, mx, my, ratio), (vec![60.0], vec![60.0], vec![40.0], vec![0.0], vec![0.5]), "{version:?}");
+        assert!(close_to(&start, &[0.0], 1e-9) && close_to(&end, &[std::f64::consts::TAU], 1e-12), "{version:?}: a whole turn");
+        let (cx, cy, mx, my, ratio, ..) = ellipse(&e[1]);
+        assert!(close_to(&[cx, cy, mx, my, ratio].concat(), &[50.0, 50.0, 45.0, 0.0, 2.0 / 3.0], 1e-6), "{version:?}: {:?}", e[1]);
+        // Turned 30° counterclockwise on screen, so clockwise with DXF's y up.
+        let (cx, cy, mx, my, ratio, ..) = ellipse(&e[2]);
+        let (cos, sin) = (30f64.to_radians().cos(), 30f64.to_radians().sin());
+        assert!(close_to(&[cx, cy, mx, my, ratio].concat(), &[60.0, 60.0, 40.0 * cos, -40.0 * sin, 0.5], 1e-6), "{version:?}: {:?}", e[2]);
+        assert!(e[0].contains(&(100, "AcDbEllipse".into())), "{version:?}");
+    }
+    // R12 has no ELLIPSE: the curves are flattened polylines.
+    let r12 = kinds(&export(&d, &DxfOptions { version: DxfVersion::R12, ..opts(&d) }).unwrap());
+    assert!(!r12.iter().any(|k| k == "ELLIPSE") && r12.iter().any(|k| k == "POLYLINE"), "{r12:?}");
+    // A thin ellipse keeps its ratio in full (six decimals would write 0.000002).
+    let thin = doc_with(|d| vec![path(d, shapes::ellipse(Rect::new(0.0, 50.0, 200.0, 50.0003)), Paint::None, Paint::solid(Color::BLACK), 1.0)]);
+    let e = entities(&export(&thin, &opts(&thin)).unwrap());
+    assert_eq!(kind(&e[0]), "ELLIPSE");
+    assert!(close_to(&all(&e[0], 40), &[1.5e-6], 1e-10), "{:?}", e[0]);
+}
+
+#[test]
+fn exported_ellipses_read_back_as_the_same_ellipse() {
+    let xf = Affine::rotate_about(30f64.to_radians(), Point::new(60.0, 40.0));
+    let d = doc_with(|d| {
+        vec![path(d, transformed(&shapes::ellipse(Rect::new(20.0, 20.0, 100.0, 60.0)), xf), Paint::None, Paint::solid(Color::BLACK), 1.0)]
+    });
+    let out = export(&d, &opts(&d)).unwrap();
+    assert_eq!(kinds(&out), ["ELLIPSE"]);
+    let o = ImportOptions { unit: Some(Unit::Points), scale: Some(1.0), center: false, ..ImportOptions::default() };
+    let back = import(&out.bytes, &o).unwrap().document;
+    let mut paths = vec![];
+    back.walk(|n| {
+        if let NodeKind::Path { path, .. } = &n.kind {
+            paths.push(path.to_bezpath());
+        }
+    });
+    assert_eq!(paths.len(), 1);
+    assert!(paths[0].elements().last().is_some_and(|el| matches!(el, kurbo::PathEl::ClosePath)), "the ellipse reads back closed");
+    // Every point of the curve read back lies on the 80 × 40 pt ellipse turned 30°, once both are centered.
+    let bp = &paths[0];
+    let found = bp.bounding_box().center();
+    let inverse = xf.inverse();
+    let original = Point::new(60.0, 40.0);
+    for seg in bp.segments() {
+        for i in 0..=16 {
+            let p = seg.eval(f64::from(i) / 16.0) - found.to_vec2() + original.to_vec2();
+            let q = inverse * p;
+            let r = ((q.x - 60.0) / 40.0).hypot((q.y - 40.0) / 20.0);
+            assert!((r - 1.0).abs() < 1e-3, "{p:?} is off the ellipse ({r})");
+        }
+    }
+}
+
+#[test]
+fn closed_four_cubic_shapes_that_are_not_writable_ellipses_stay_splines() {
+    // A rounded square: four cubics through the ellipse's anchors with longer handles.
+    let (c, r, k) = (Point::new(50.0, 50.0), 30.0, 30.0 * 0.8);
+    let mut squircle = vectorcraft_geom::BezPath::new();
+    squircle.move_to(Point::new(c.x + r, c.y));
+    squircle.curve_to(Point::new(c.x + r, c.y - k), Point::new(c.x + k, c.y - r), Point::new(c.x, c.y - r));
+    squircle.curve_to(Point::new(c.x - k, c.y - r), Point::new(c.x - r, c.y - k), Point::new(c.x - r, c.y));
+    squircle.curve_to(Point::new(c.x - r, c.y + k), Point::new(c.x - k, c.y + r), Point::new(c.x, c.y + r));
+    squircle.curve_to(Point::new(c.x + k, c.y + r), Point::new(c.x + r, c.y + k), Point::new(c.x + r, c.y));
+    squircle.close_path();
+    // An egg: one half wider than the other.
+    let egg = shapes::ellipse(Rect::new(110.0, 20.0, 190.0, 60.0)).to_bezpath();
+    let mut els: Vec<kurbo::PathEl> = egg.elements().to_vec();
+    if let Some(kurbo::PathEl::CurveTo(a, b, _)) = els.get_mut(1) {
+        a.x -= 10.0;
+        b.x -= 10.0;
+    }
+    let d = doc_with(|d| {
+        vec![
+            path(d, PathData::from_bezpath(&squircle), Paint::None, Paint::solid(Color::BLACK), 1.0),
+            path(d, PathData::from_bezpath(&kurbo::BezPath::from_vec(els)), Paint::None, Paint::solid(Color::BLACK), 1.0),
+            // An ellipse thinner than the smallest ratio DXF readers take (5e-7 against 1e-6).
+            path(d, shapes::ellipse(Rect::new(0.0, 90.0, 200.0, 90.0001)), Paint::None, Paint::solid(Color::BLACK), 1.0),
+        ]
+    });
+    assert_eq!(kinds(&export(&d, &opts(&d)).unwrap()), ["SPLINE", "SPLINE", "SPLINE"]);
 }
 
 #[test]
