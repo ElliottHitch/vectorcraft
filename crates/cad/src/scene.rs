@@ -740,9 +740,9 @@ impl<'a> Scene<'a> {
         self.e.int(98, 0);
     }
 
-    /// Path `bp` as lines: polylines for straight subpaths (and for curves in R12, flattened),
-    /// cubic splines for curved ones. `width`: the stroke weight, which DXF before 2000 gives
-    /// polylines as a width.
+    /// Path `bp` as lines: a line for an open subpath of one straight segment, polylines for
+    /// other straight subpaths (and for curves in R12, flattened), cubic splines for curved ones.
+    /// `width`: the stroke weight, which DXF before 2000 gives polylines as a width.
     fn lines(&mut self, bp: &BezPath, style: &EntityStyle, width: f64) {
         let v = self.o.version;
         let width = (!v.r2000() && width > 0.0).then_some(width * self.k);
@@ -755,7 +755,11 @@ impl<'a> Scene<'a> {
                 if sub.closed && pts.len() > 2 && pts.last().is_some_and(|p| p.distance(sub.start) <= 1e-9) {
                     pts.pop();
                 }
-                self.polyline(&pts, sub.closed, style, width);
+                // A LINE has no width, so a stroke before 2000 keeps its polyline width.
+                match (sub.closed, width, pts.as_slice()) {
+                    (false, None, &[a, b]) => self.line(a, b, style),
+                    _ => self.polyline(&pts, sub.closed, style, width),
+                }
             } else if (v.handles() || width.is_none()) && self.circular(&sub, style) {
                 // Native circles/arcs are preferred by CAD/CAM software. In R12, however, a
                 // stroked curve must stay on the flattened POLYLINE path so groups 40/41 retain
@@ -776,6 +780,16 @@ impl<'a> Scene<'a> {
                 }
             }
         }
+    }
+
+    /// A line from `a` to `b` (document space).
+    fn line(&mut self, a: Point, b: Point, style: &EntityStyle) {
+        let (a, b) = (self.pt(a), self.pt(b));
+        let layer = self.layer.clone();
+        let h = self.handle();
+        self.e.entity("LINE", h, fixed::MODEL_RECORD, &layer, style, "AcDbLine");
+        self.e.xyz(10, a.x, a.y);
+        self.e.xyz(11, b.x, b.y);
     }
 
     /// A polyline through `pts` (document space): lightweight from R14, else a polyline with a

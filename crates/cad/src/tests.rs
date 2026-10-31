@@ -215,6 +215,45 @@ fn circles_and_circular_arcs_are_native_dxf_entities() {
 }
 
 #[test]
+fn a_lone_straight_segment_is_a_line() {
+    let segment = |closed: bool, extra: Option<Point>| {
+        let mut b = vectorcraft_geom::BezPath::new();
+        b.move_to(Point::new(20.0, 30.0));
+        b.line_to(Point::new(120.0, 70.0));
+        if let Some(p) = extra {
+            b.line_to(p);
+        }
+        if closed {
+            b.close_path();
+        }
+        PathData::from_bezpath(&b)
+    };
+    let d = doc_with(|d| vec![path(d, segment(false, None), Paint::None, Paint::solid(Color::BLACK), 1.0)]);
+    for version in DxfVersion::ALL.into_iter().filter(|v| v.r2000()) {
+        let e = entities(&export(&d, &DxfOptions { version, ..opts(&d) }).unwrap());
+        assert_eq!(e.iter().map(|x| kind(x)).collect::<Vec<_>>(), ["LINE"], "{version:?}");
+        assert_eq!(e[0].iter().rfind(|p| p.0 == 100).map(|p| p.1.as_str()), Some("AcDbLine"), "{version:?}");
+        assert_eq!((all(&e[0], 10), all(&e[0], 20)), (vec![20.0], vec![70.0]), "{version:?}: y up from the artboard's bottom");
+        assert_eq!((all(&e[0], 11), all(&e[0], 21)), (vec![120.0], vec![30.0]), "{version:?}");
+    }
+
+    // Without a width (R12 writes a fill as its outline), R12 writes a LINE too; a stroke weight
+    // before 2000 keeps its polyline width.
+    let filled = doc_with(|d| vec![path(d, segment(false, None), Paint::solid(Color::BLACK), Paint::None, 0.0)]);
+    let r12 = |d: &Document| kinds(&export(d, &DxfOptions { version: DxfVersion::R12, ..opts(d) }).unwrap());
+    assert_eq!(r12(&filled), ["LINE"]);
+    assert_eq!(r12(&d), ["POLYLINE", "VERTEX", "VERTEX", "SEQEND"]);
+    let r14 = entities(&export(&d, &DxfOptions { version: DxfVersion::R14, ..opts(&d) }).unwrap());
+    assert_eq!((kind(&r14[0]), get(&r14[0], 43)), ("LWPOLYLINE", Some("1")));
+
+    // A closed segment and two segments stay polylines.
+    for p in [segment(true, None), segment(false, Some(Point::new(150.0, 20.0)))] {
+        let d = doc_with(|d| vec![path(d, p, Paint::None, Paint::solid(Color::BLACK), 1.0)]);
+        assert_eq!(kinds(&export(&d, &opts(&d)).unwrap()), ["LWPOLYLINE"]);
+    }
+}
+
+#[test]
 fn r12_stroked_circles_keep_polyline_width() {
     let d = doc_with(|d| vec![path(d, shapes::ellipse(Rect::new(20.0, 20.0, 80.0, 80.0)), Paint::None, Paint::solid(Color::BLACK), 3.0)]);
     let out = export(&d, &DxfOptions { version: DxfVersion::R12, ..opts(&d) }).unwrap();
