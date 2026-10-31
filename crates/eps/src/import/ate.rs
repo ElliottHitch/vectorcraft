@@ -235,6 +235,11 @@ fn read(bytes: &[u8]) -> Option<Val> {
     }
 }
 
+/// Most character styles read of a text document, and most styles a run's style is followed
+/// through to the ones they are based on.
+const MAX_SHEETS: usize = 4096;
+const MAX_SHEETS_BASED_ON: usize = 16;
+
 /// Most frames read of one story, and most path segments of a frame.
 const MAX_FRAMES: usize = 4096;
 const MAX_SEGMENTS: usize = 1 << 16;
@@ -309,6 +314,9 @@ pub(super) struct Texts {
     /// The character and paragraph styles a story starts from.
     defaults: Val,
     para_defaults: Val,
+    /// The document's character styles (`[Normal Character Style]` first), each a name, the
+    /// character style it is based on (key 5, an index into these) and its attributes (key 6).
+    char_sheets: Vec<Val>,
     frames: Vec<Val>,
 }
 
@@ -352,6 +360,16 @@ impl Texts {
             fonts,
             defaults: main.get("2")?.clone(),
             para_defaults: main.get("3").cloned().unwrap_or(Val::Dict(BTreeMap::new())),
+            char_sheets: doc
+                .get("0")?
+                .get("5")
+                .and_then(|s| s.get("0"))
+                .map(Val::list)
+                .unwrap_or_default()
+                .iter()
+                .take(MAX_SHEETS)
+                .map(|s| s.get("0").cloned().unwrap_or(Val::Dict(BTreeMap::new())))
+                .collect(),
             frames: doc.get("0")?.get("8")?.get("0")?.list().to_vec(),
         })
     }
@@ -440,8 +458,7 @@ impl Texts {
         let mut runs = vec![];
         for run in s.get("0")?.get("6").map(|p| p.get("0").map(Val::list).unwrap_or_default()).unwrap_or_default() {
             let n = run.get("1").and_then(Val::num)? as usize;
-            let props = run.get("0").and_then(|r| r.get("0")).and_then(|r| r.get("6"));
-            runs.push((n, self.style(props)));
+            runs.push((n, self.style(run.get("0").and_then(|r| r.get("0")))));
         }
         if runs.is_empty() {
             runs.push((text.chars().count(), self.style(None)));
@@ -465,9 +482,19 @@ impl Texts {
         }
     }
 
-    /// A character style: its own keys, else the document's.
-    fn style(&self, s: Option<&Val>) -> Style {
-        let pick = |k: &str| s.and_then(|s| s.get(k)).or_else(|| self.defaults.get(k));
+    /// A run's character style (`run`: its attributes, key 6, and the character style it is based
+    /// on, key 5): its own keys, else those of its character style and the ones that is based on,
+    /// else the document's.
+    fn style(&self, run: Option<&Val>) -> Style {
+        // The run's attributes, then its character style's, then the styles each is based on.
+        let mut chain = vec![];
+        let mut at = run;
+        for _ in 0..=MAX_SHEETS_BASED_ON {
+            let Some(style) = at else { break };
+            chain.extend(style.get("6"));
+            at = style.get("5").and_then(Val::num).filter(|i| i.is_finite() && *i >= 0.0).and_then(|i| self.char_sheets.get(i as usize));
+        }
+        let pick = |k: &str| chain.iter().find_map(|s| s.get(k)).or_else(|| self.defaults.get(k));
         let num = |k: &str| pick(k).and_then(Val::num);
         let on = |k: &str| !matches!(pick(k), Some(Val::Bool(false)));
         let font = num("0").and_then(|i| self.fonts.get(i as usize)).filter(|f| !f.is_empty()).cloned();
@@ -899,8 +926,14 @@ mod tests {
 
     #[test]
     fn right_to_left_paragraphs_swap_left_and_right_alignment() {
-        let texts =
-            Texts { stories: vec![], fonts: vec![], defaults: Val::Dict(BTreeMap::new()), para_defaults: read(b"/33 1").unwrap(), frames: vec![] };
+        let texts = Texts {
+            stories: vec![],
+            fonts: vec![],
+            defaults: Val::Dict(BTreeMap::new()),
+            para_defaults: read(b"/33 1").unwrap(),
+            char_sheets: vec![],
+            frames: vec![],
+        };
         let justify = |own: &[u8]| para_style(&texts.para(Some(&read(own).unwrap())), 1.0).justify;
         // Right to left from the document's defaults, or the paragraph's own.
         assert_eq!(justify(b"/0 0"), Justify::Right);
@@ -915,9 +948,15 @@ mod tests {
     /// dimension's is) lies in a tall box, not a wide one.
     #[test]
     fn point_type_lies_along_its_baseline() {
-        let para =
-            Texts { stories: vec![], fonts: vec![], defaults: Val::Dict(BTreeMap::new()), para_defaults: Val::Dict(BTreeMap::new()), frames: vec![] }
-                .para(None);
+        let para = Texts {
+            stories: vec![],
+            fonts: vec![],
+            defaults: Val::Dict(BTreeMap::new()),
+            para_defaults: Val::Dict(BTreeMap::new()),
+            char_sheets: vec![],
+            frames: vec![],
+        }
+        .para(None);
         let mut s = story(" 80 mm ", &[0.0], &para);
         let size = |s: &Story| s.region((0.0, 0.0), Affine::IDENTITY).map(|r| (r.width(), r.height())).unwrap();
         let (w, h) = size(&s);
@@ -933,8 +972,14 @@ mod tests {
     /// that doesn't say, goes by its letters.
     #[test]
     fn right_to_left_paragraphs_set_their_direction() {
-        let texts =
-            Texts { stories: vec![], fonts: vec![], defaults: Val::Dict(BTreeMap::new()), para_defaults: read(b"/33 1").unwrap(), frames: vec![] };
+        let texts = Texts {
+            stories: vec![],
+            fonts: vec![],
+            defaults: Val::Dict(BTreeMap::new()),
+            para_defaults: read(b"/33 1").unwrap(),
+            char_sheets: vec![],
+            frames: vec![],
+        };
         let direction = |own: &[u8]| para_style(&texts.para(Some(&read(own).unwrap())), 1.0).direction;
         assert_eq!(direction(b"/0 2"), Some(ParaDirection::RightToLeft), "from the document's defaults");
         assert_eq!(direction(b"/0 2 /33 0"), None, "the paragraph's own");
@@ -973,6 +1018,7 @@ mod tests {
             fonts: vec![],
             defaults: Val::Dict(BTreeMap::new()),
             para_defaults: Val::Dict(BTreeMap::new()),
+            char_sheets: vec![],
             frames: vec![read(doc.as_bytes()).unwrap()],
         };
         texts.frame(0)
