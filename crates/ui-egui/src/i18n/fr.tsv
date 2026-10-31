@@ -3680,7 +3680,7 @@ font-technology	Variable	Variables
 @plural	{n} linked file not found|{n} linked files not found	{n} fichier lié introuvable|{n} fichiers liés introuvables
 	fonts not copied: {fonts}	polices non copiées : {fonts}
 @plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	{n} image liée modifiée depuis l’enregistrement de ce document. Afficher la nouvelle version ?|{n} images liées modifiées depuis l’enregistrement de ce document. Afficher les nouvelles versions ?
-@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	{n} image liée modifiée sur le disque. Afficher la nouvelle version ?|{n} images liées modifiées sur le disque. Afficher les nouvelles versions ?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	{n} image liée modifiée sur le disque. Afficher la nouvelle version ?|{n} images liées modifiées sur le disque. Afficher les nouvelles versions ?
 @plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	{n} règle de plus : Exporter l’écrit.|{n} règles de plus : Exporter les écrit toutes.
 @plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{n} objet sans nom omis : nommez-le ou activez Objets sans nom dans le menu du panneau.|{n} objets sans nom omis : nommez-les ou activez Objets sans nom dans le menu du panneau.
 	{effect} is already applied	{effect} est déjà appliqué
