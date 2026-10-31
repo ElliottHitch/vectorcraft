@@ -29,7 +29,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Replace Font",
             [],
             None,
-            "{from: {family, style?}, to: {family (any of its names; stored as the font's own family name), style?}, selectionOnly?} (style omitted: every style of the family / keep the closest style); text that is hidden or locked, in a hidden or locked group or layer, or on a locked artboard keeps its font → {runs, skipped?: the text objects left in the font, warning?}",
+            "{from: {family, style?}, to: {family (any of its names; stored as the font's own family name), style?}, selectionOnly?} (style omitted: every style of the family / keep the closest style); text that is hidden or locked, in a hidden or locked group or layer, or on a locked artboard keeps its font → {runs, skipped?: the text objects left in the font, warning?: text (some text was left in its font, or the style set isn't available: its type is drawn in the family's closest style)}",
             has_doc,
             replace
         ),
@@ -318,6 +318,24 @@ pub(super) fn substitution_warning(d: &Document) -> Option<String> {
 
 /// [`substitution_warning`] for type set in `fonts`.
 pub(super) fn substitution_warning_of(fonts: BTreeSet<UsedFont>) -> Option<String> {
+    substitutions(fonts, ("were written", "was drawn"))
+}
+
+/// The font (family, style, version) of character style `st`.
+pub(super) fn font_of(st: &vectorcraft_doc::CharStyle) -> UsedFont {
+    (st.font_family.clone(), st.font_style.clone(), st.font_version.clone())
+}
+
+/// What `text.create`, `text.setStyle`, `text.setRangeStyle` and `text.replaceFont` say when the
+/// fonts they set type in (`fonts`) don't draw it: the family isn't available (the fallback font
+/// is drawn) or doesn't have that style (its closest style is drawn). `None` when all draw it.
+pub(super) fn set_font_warning(fonts: BTreeSet<UsedFont>) -> Option<String> {
+    substitutions(fonts, ("are drawn", "is drawn"))
+}
+
+/// The warning for type set in `fonts`, with the verbs `written` and `drawn` (an export's are
+/// `were written` and `was drawn`).
+fn substitutions(fonts: BTreeSet<UsedFont>, (written, drawn): (&str, &str)) -> Option<String> {
     let db = vectorcraft_text::FontDb::global();
     let mut missing: Vec<String> = Vec::new();
     let mut styles: BTreeSet<String> = BTreeSet::new();
@@ -325,7 +343,7 @@ pub(super) fn substitution_warning_of(fonts: BTreeSet<UsedFont>) -> Option<Strin
         match db.resolve(&family, &style) {
             None | Some((_, vectorcraft_text::FontMatch::Missing)) => missing.push(family),
             Some((face, vectorcraft_text::FontMatch::Style)) => {
-                styles.insert(format!("{family} {style} was drawn in {} {}", face.family, face.style));
+                styles.insert(format!("{family} {style} {drawn} in {} {}", face.family, face.style));
             }
             Some(_) => {}
         }
@@ -335,14 +353,14 @@ pub(super) fn substitution_warning_of(fonts: BTreeSet<UsedFont>) -> Option<Strin
     let mut parts = Vec::new();
     if !missing.is_empty() {
         parts.push(format!(
-            "fonts that aren't available were written in the fallback font, {}: {} (install them, or replace them with Find Font)",
+            "fonts that aren't available {written} in the fallback font, {}: {} (install them, or replace them with Find Font)",
             vectorcraft_text::FALLBACK_FAMILY,
             missing.join(", ")
         ));
     }
     if !styles.is_empty() {
         parts.push(format!(
-            "font styles that aren't available were written in the closest style: {} (pick a style the family has)",
+            "font styles that aren't available {written} in the closest style: {} (pick a style the family has)",
             styles.into_iter().collect::<Vec<_>>().join(", ")
         ));
     }
@@ -426,6 +444,8 @@ fn replace(s: &mut Session, p: &Value) -> Result<Value> {
         let skipped = other.into_iter().filter(|id| text(d, *id).is_some_and(|t| t.runs.iter().any(|r| matches(&r.style)))).count();
         (ids, skipped)
     };
+    // The fonts the replaced runs are set in, for the warning.
+    let mut set = BTreeSet::new();
     let n = s.edit("Replace Font", |d, _| {
         let mut n = 0;
         for id in &ids {
@@ -443,6 +463,7 @@ fn replace(s: &mut Session, p: &Value) -> Result<Value> {
                     // Another font: none of the old one's versions or Variable Font settings.
                     r.style.font_version = None;
                     r.style.font_axes.clear();
+                    set.insert(font_of(&r.style));
                     changed = true;
                     n += 1;
                 }
@@ -455,9 +476,14 @@ fn replace(s: &mut Session, p: &Value) -> Result<Value> {
         Ok(n)
     })?;
     let mut out = json!({ "runs": n });
+    let mut warnings = Vec::new();
     if skipped > 0 {
         out["skipped"] = json!(skipped);
-        out["warning"] = json!(REPLACE_SKIPPED);
+        warnings.push(REPLACE_SKIPPED.to_string());
+    }
+    warnings.extend(set_font_warning(set));
+    if !warnings.is_empty() {
+        out["warning"] = json!(warnings.join("; "));
     }
     Ok(out)
 }
@@ -749,6 +775,48 @@ mod open_tests {
         let out = s.execute("document.export", &json!({"format": "pdf"})).unwrap();
         let warnings = out["warnings"].to_string();
         assert!(warnings.contains("Source Sans 3 Black Wide was drawn in Source Sans 3"), "{out}");
+    }
+
+    #[test]
+    fn setting_type_in_a_font_it_cant_draw_warns() {
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 200, "height": 200})).unwrap();
+        let warning = |out: &Value| out["warning"].as_str().map(str::to_string);
+        let made = s.execute("text.create", &json!({"x": 10, "y": 20, "text": "Hi", "font": "Source Sans 3", "style": "Black Wide"})).unwrap();
+        assert!(warning(&made).is_some_and(|w| w.contains("Source Sans 3 Black Wide is drawn in Source Sans 3")), "{made}");
+        let gone = s.execute("text.create", &json!({"x": 10, "y": 60, "text": "Gone", "font": "No Such Font Family"})).unwrap();
+        let w = warning(&gone).unwrap_or_default();
+        assert!(w.contains("No Such Font Family") && w.contains(vectorcraft_text::FALLBACK_FAMILY), "{gone}");
+        let plain = s.execute("text.create", &json!({"x": 10, "y": 100, "text": "Fine", "font": "Source Sans 3", "style": "Semibold"})).unwrap();
+        assert_eq!(warning(&plain), None, "{plain}");
+        let id = plain["id"].as_u64().unwrap();
+        let set = s.execute("text.setStyle", &json!({"ids": [id], "style": "Black Wide"})).unwrap();
+        assert!(warning(&set).is_some_and(|w| w.contains("Source Sans 3 Black Wide is drawn in Source Sans 3")), "{set}");
+        let back = s.execute("text.setStyle", &json!({"ids": [id], "style": "Bold"})).unwrap();
+        assert_eq!(warning(&back), None, "{back}");
+        // Only the font the command set: the other objects' substitutes aren't its to report.
+        let size = s.execute("text.setStyle", &json!({"ids": [id], "size": 30})).unwrap();
+        assert_eq!(warning(&size), None, "{size}");
+        // Only the characters the command styles: with "Fi" in Black Wide, styling "ne" doesn't warn.
+        let first = s.execute("text.setRangeStyle", &json!({"id": id, "start": 0, "end": 2, "style": "Black Wide"})).unwrap();
+        assert!(warning(&first).is_some_and(|w| w.contains("Source Sans 3 Black Wide is drawn in Source Sans 3")), "{first}");
+        let rest = s.execute("text.setRangeStyle", &json!({"id": id, "start": 2, "end": 4, "font": "Source Sans 3"})).unwrap();
+        assert_eq!(warning(&rest), None, "{rest}");
+        let range = s.execute("text.setRangeStyle", &json!({"id": id, "start": 0, "end": 2, "font": "No Such Font Family"})).unwrap();
+        assert!(warning(&range).is_some_and(|w| w.contains("No Such Font Family")), "{range}");
+        let replaced = s
+            .execute(
+                "text.replaceFont",
+                &json!({"from": {"family": "No Such Font Family"}, "to": {"family": "Source Sans 3", "style": "Black Wide"}}),
+            )
+            .unwrap();
+        assert!(warning(&replaced).is_some_and(|w| w.contains("Source Sans 3 Black Wide is drawn in Source Sans 3")), "{replaced}");
+        // Empty type: the font set is the one the next characters typed get.
+        let empty = s.execute("text.create", &json!({"x": 10, "y": 140, "text": ""})).unwrap()["id"].as_u64().unwrap();
+        let set = s.execute("text.setStyle", &json!({"ids": [empty], "style": "Black Wide"})).unwrap();
+        assert!(warning(&set).is_some_and(|w| w.contains("Black Wide")), "{set}");
+        let range = s.execute("text.setRangeStyle", &json!({"id": empty, "font": "No Such Font Family"})).unwrap();
+        assert!(warning(&range).is_some_and(|w| w.contains("No Such Font Family")), "{range}");
     }
 
     #[test]
