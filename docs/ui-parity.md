@@ -1,6 +1,6 @@
 # UI and interaction parity
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (New Document: Save Preset in More Settings, #4893; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (files opened from the file manager while VectorCraft runs open in its window on Windows and Linux, #4892) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -359,6 +359,8 @@ re-measure of the panels added since. Slider rails show on Medium Dark (#1808, #
 
 - [x] Compact Color Picker with a distinct header, stacked actions and aligned input groups. #2008; translated action widths, visible warnings, stable mode switching and vertical scrolling in narrow windows; real egui events and two UI scales covered; German and enlarged English renders reviewed locally. Scores unchanged
 
+- [x] A file opened from the file manager (double-click, Open With, a drop on the executable) while VectorCraft runs opens as a new document tab in that window, which comes to the front, on Windows and Linux as on macOS; the second launch exits (#4892). `--new-instance` opts out; runs with `--control` or `VECTORCRAFT_NO_PREFS` start apps of their own as before. Protocol, token, stale-file and hand-over tests in `apps/vectorcraft/src/single_instance.rs`.
+
 ## Highlighted-text Eyedropper (2026-10-21)
 
 Type/Eyedropper switches preserve highlighted characters; sampling changes only their enabled
@@ -379,6 +381,7 @@ separate. Scores and hours unchanged. [Behavior and command details](development
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | A file opened from the file manager while VectorCraft runs opens as a new tab in that window, which comes to the front, on Windows and Linux (#4892); `--new-instance` opts out; scores unchanged |
 | 2026-10-31 | minor | Object › Path › Smooth: Auto-Smooth takes a shaky line to one smooth curve, and direct-selected anchors smooth only their section; scores unchanged |
 | 2026-10-31 | minor | New Document: More Settings has Save Preset beside the name, as Preset Details does, and saves its settings (#4893); scores and estimates unchanged |
 | 2026-10-31 | minor | Export for Screens is laid out as the reference app's: Artboards and Assets tabs with a grid or list of thumbnails, Clear Selection and Prefix under them, Create Sub-folders by Scale or Format (on by default), Export PDFs As Single File or Multiple Files (`pdfs`), iOS and Android rows, the format presets in a ☰ menu, and a Selected / files-to-export count; the naming pattern, Layers and Selection pages and folders list stay in `document.exportForScreens` for scripts and MCP; scores unchanged |
