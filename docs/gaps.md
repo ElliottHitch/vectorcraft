@@ -1,6 +1,6 @@
 # Gaps
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G1: Grid Repeat Options has a Preview checkbox, #2651; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G13: Direct Selection snaps a dragged line end square to straight paths and grazing curves; G13: gradient presets done; G1: Average & Join with a corner or smooth choice, Cmd+Alt+Shift+J, done; estimate unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -465,15 +465,23 @@ from G14 and the budget run of G15: **~170–270 h** one agent, ~50–80 h wall 
   perceptual mix with dither's noise (an image with the noise in SVG and PDF); a stroke has no noise.
 - **Missing (asked for by users, from earlier versions):** radial gradients in Image Trace's
   Gradients option, which traces linear ones only (draft #1849). Inside the estimate below.
-- **Partial (#2530):** tangent snapping to curves and perpendicular snapping to straight target
-  segments for drawn lines. Controls are saved under Preferences › Smart Guides › Geometric Guides
-  and available from Control bar › Snapping; both default to on. Existing-line endpoint editing and
-  other tool cases remain unverified. [Public source](https://helpx.adobe.com/illustrator/desktop/measure-and-align/plot-and-measure/snap-to-perpendicular.html).
+- **Done (#2530):** tangent snapping to curves and perpendicular snapping to straight target
+  segments, as the public [perpendicular](https://helpx.adobe.com/illustrator/desktop/measure-and-align/plot-and-measure/snap-to-perpendicular.html)
+  and [tangent](https://helpx.adobe.com/illustrator/desktop/measure-and-align/plot-and-measure/snap-to-tangent.html)
+  pages describe, for the Line Segment and Pen tools' new lines and for existing lines: dragging the end
+  anchor of an open path's straight segment with Direct Selection lands it square to
+  another straight path (the foot of the perpendicular from the segment's other end) or grazing a curve, with
+  the "perpendicular" or "tangent" label (and the square-corner mark) Smart Guides show for drawn lines. As
+  the pages say, only line endpoints snap: the middle anchor of a path, the end of a curved segment, a closed
+  path's anchor, several anchors dragged together and Shift-constrained drags (which keep their angle step) do
+  not, and a curve is never a perpendicular target. Controls are saved under Preferences › Smart Guides ›
+  Geometric Guides and available from Control bar › Snapping; both default to on. Tests:
+  `dragged_line_ends_snap_perpendicular_to_segments_and_tangent_to_curves` in `crates/tools/src/direct/tests.rs`.
 - **Done (2026-10-30):** gradient presets (30.0): the Gradient panel's Presets menu applies one of the
   built-in gradient libraries' presets (by theme) or a saved one to the gradient behind the active proxy, keeping
   its placement, as one undo step; the panel menu saves the gradient as a preset (kept with the preferences) and
   deletes saved ones; `gradient.presets.*` commands.
-- **Missing:** remaining tangent/perpendicular snapping cases and the consolidated
+- **Missing:** the consolidated
   snapping options (30.0); artboard colors in exports and print, and managing artboards from the canvas other
   than locking and unlocking them from the Artboard tool's right-click menu (30.0); the Blend panel with ease
   in/out and separate colour acceleration (30.7);
@@ -667,6 +675,7 @@ trap, and the defaults (0.25 pt, 100%, 40%) are VectorCraft's own, the pages giv
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | G13: Direct Selection snaps the end of an existing straight line, dragged by its end anchor, square to straight paths and grazing curves (Smart Guides › Geometric Guides: Snap to Perpendicular and Snap to Tangent), the case the public Snap to Perpendicular and Snap to Tangent pages add to drawing with the Line Segment and Pen tools (#2530). Scores and estimates unchanged. |
 | 2026-10-31 | minor | G8: a gradient mesh read from a file is budgeted: at most about a million quads per tessellation, and a mesh with more patches than that is malformed (#3592); estimate unchanged. |
 | 2026-10-30 | minor | G9: `.ai`/EPS editing data: a blend takes the transparency (opacity, blend mode, knockout) in its state block after its record, so its steps knock each other out as the page draws them; a user's file comes in 0.6% from its page instead of 1.3%. Scores and estimates unchanged. |
 | 2026-10-30 | minor | G1: Object › Path › Average & Join… (`path.averageJoin`, Cmd+Alt+Shift+J) moves two open path ends to their midpoint and joins them there, the joined anchor a corner or a smooth point as its dialog's Points choice asks, in one undo step; the "Average and Join in one step" entry is done. Estimate unchanged |
