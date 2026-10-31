@@ -5511,6 +5511,7 @@ anchor	Points:	Điểm:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	Tách văn bản
 	Combine Point Text	Kết hợp chữ điểm
+	Join Point Text	Nối chữ điểm
 	Remove Breaks	Xóa ngắt
 	Split Text at Cursor	Tách văn bản tại con trỏ
 	Set Alignment, Keep Position	Đặt căn lề, giữ vị trí
@@ -5539,6 +5540,7 @@ breakText	Glyphs	Glyph
 @msg	Select horizontal point or area type whose text fits	Chọn chữ điểm hoặc chữ vùng nằm ngang có văn bản vừa khung
 @msg	Nothing to split at the cursor	Không có gì để tách tại con trỏ
 @msg	Select two or more one-line point type objects on one baseline to combine	Chọn hai đối tượng chữ điểm một dòng trở lên trên cùng một đường cơ sở để kết hợp
+@msg	Select two or more one-line point type objects to join	Chọn hai đối tượng chữ điểm một dòng trở lên để nối
 @msg	No line breaks to remove	Không có xuống dòng nào để xóa
 @msg	No paragraph breaks to remove	Không có ngắt đoạn nào để xóa
 @msg	Too many breaks to remove at once	Quá nhiều ngắt để xóa cùng lúc

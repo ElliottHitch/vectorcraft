@@ -5862,6 +5862,7 @@ anchor	Points:	Σημεία:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	Διαίρεση κειμένου
 	Combine Point Text	Συνδυασμός κειμένου σημείου
+	Join Point Text	Ένωση κειμένου σημείου
 	Remove Breaks	Αφαίρεση αλλαγών
 	Split Text at Cursor	Διαίρεση κειμένου στον δρομέα
 	Set Alignment, Keep Position	Ορισμός στοίχισης με διατήρηση θέσης
@@ -5890,6 +5891,7 @@ breakText	Glyphs	Γλύφοι
 @msg	Select horizontal point or area type whose text fits	Επιλέξτε οριζόντιο κείμενο σημείου ή περιοχής του οποίου το κείμενο χωράει
 @msg	Nothing to split at the cursor	Δεν υπάρχει τίποτα για διαίρεση στον δρομέα
 @msg	Select two or more one-line point type objects on one baseline to combine	Επιλέξτε δύο ή περισσότερα μονογραμμικά αντικείμενα κειμένου σημείου στην ίδια γραμμή βάσης για να τα συνδυάσετε
+@msg	Select two or more one-line point type objects to join	Επιλέξτε δύο ή περισσότερα μονογραμμικά αντικείμενα κειμένου σημείου για να τα ενώσετε
 @msg	No line breaks to remove	Δεν υπάρχουν αλλαγές γραμμής για αφαίρεση
 @msg	No paragraph breaks to remove	Δεν υπάρχουν αλλαγές παραγράφου για αφαίρεση
 @msg	Too many breaks to remove at once	Πάρα πολλές αλλαγές για αφαίρεση ταυτόχρονα

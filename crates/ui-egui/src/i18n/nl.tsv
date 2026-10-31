@@ -5859,6 +5859,7 @@ anchor	Points:	Punten:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	Tekst splitsen
 	Combine Point Text	Punttekst combineren
+	Join Point Text	Punttekst samenvoegen
 	Remove Breaks	Einden verwijderen
 	Split Text at Cursor	Tekst splitsen bij cursor
 	Set Alignment, Keep Position	Uitlijning instellen, positie behouden
@@ -5887,6 +5888,7 @@ breakText	Glyphs	Glyphs
 @msg	Select horizontal point or area type whose text fits	Selecteer horizontale punt- of vlaktekst waarvan de tekst past
 @msg	Nothing to split at the cursor	Niets te splitsen bij de cursor
 @msg	Select two or more one-line point type objects on one baseline to combine	Selecteer twee of meer punttekstobjecten van één regel op één basislijn om ze te combineren
+@msg	Select two or more one-line point type objects to join	Selecteer twee of meer punttekstobjecten van één regel om ze samen te voegen
 @msg	No line breaks to remove	Geen regeleinden om te verwijderen
 @msg	No paragraph breaks to remove	Geen alinea-einden om te verwijderen
 @msg	Too many breaks to remove at once	Te veel einden om in één keer te verwijderen

@@ -5941,6 +5941,7 @@ anchor	Points:	Pisteet:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	Jaa teksti
 	Combine Point Text	Yhdistä pisteteksti
+	Join Point Text	Liitä pisteteksti
 	Remove Breaks	Poista vaihdot
 	Split Text at Cursor	Jaa teksti kohdistimen kohdalta
 	Set Alignment, Keep Position	Aseta tasaus, säilytä sijainti
@@ -5969,6 +5970,7 @@ breakText	Glyphs	Merkit
 @msg	Select horizontal point or area type whose text fits	Valitse vaakasuora piste- tai alueteksti, jonka teksti mahtuu
 @msg	Nothing to split at the cursor	Kohdistimen kohdalla ei ole jaettavaa
 @msg	Select two or more one-line point type objects on one baseline to combine	Valitse kaksi tai useampia yksirivisiä pistetekstiobjekteja samalla perusviivalla yhdistääksesi ne
+@msg	Select two or more one-line point type objects to join	Valitse kaksi tai useampia yksirivisiä pistetekstiobjekteja liittääksesi ne
 @msg	No line breaks to remove	Ei poistettavia rivinvaihtoja
 @msg	No paragraph breaks to remove	Ei poistettavia kappaleenvaihtoja
 @msg	Too many breaks to remove at once	Liian monta vaihtoa poistettavaksi kerralla

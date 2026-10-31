@@ -5765,6 +5765,7 @@ anchor	Points:	Punkty:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	Podziel tekst
 	Combine Point Text	Połącz tekst punktowy
+	Join Point Text	Złącz tekst punktowy
 	Remove Breaks	Usuń podziały
 	Split Text at Cursor	Podziel tekst w miejscu kursora
 	Set Alignment, Keep Position	Ustaw wyrównanie, zachowaj położenie
@@ -5793,6 +5794,7 @@ breakText	Glyphs	Glify
 @msg	Select horizontal point or area type whose text fits	Zaznacz poziomy tekst punktowy lub akapitowy, którego tekst się mieści
 @msg	Nothing to split at the cursor	Nie ma nic do podzielenia w miejscu kursora
 @msg	Select two or more one-line point type objects on one baseline to combine	Zaznacz co najmniej dwa jednowierszowe obiekty tekstu punktowego na jednej linii bazowej, aby je połączyć
+@msg	Select two or more one-line point type objects to join	Zaznacz co najmniej dwa jednowierszowe obiekty tekstu punktowego, aby je złączyć
 @msg	No line breaks to remove	Brak podziałów wiersza do usunięcia
 @msg	No paragraph breaks to remove	Brak podziałów akapitu do usunięcia
 @msg	Too many breaks to remove at once	Zbyt wiele podziałów do usunięcia naraz

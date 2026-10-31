@@ -5963,6 +5963,7 @@ shape	Open	Öppen
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	Dela upp text
 	Combine Point Text	Kombinera punkttext
+	Join Point Text	Sammanfoga punkttext
 	Remove Breaks	Ta bort brytningar
 	Split Text at Cursor	Dela text vid markören
 	Set Alignment, Keep Position	Ställ in justering, behåll position
@@ -5991,6 +5992,7 @@ breakText	Glyphs	Glyfer
 @msg	Select horizontal point or area type whose text fits	Markera vågrät punkt- eller områdestext vars text får plats
 @msg	Nothing to split at the cursor	Inget att dela vid markören
 @msg	Select two or more one-line point type objects on one baseline to combine	Markera två eller fler enradiga punkttextobjekt på samma baslinje för att kombinera dem
+@msg	Select two or more one-line point type objects to join	Markera två eller fler enradiga punkttextobjekt för att sammanfoga dem
 @msg	No line breaks to remove	Inga radbrytningar att ta bort
 @msg	No paragraph breaks to remove	Inga styckebrytningar att ta bort
 @msg	Too many breaks to remove at once	För många brytningar att ta bort på en gång

@@ -5815,6 +5815,7 @@ anchor	Points:	Titik:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	Pisahkan teks
 	Combine Point Text	Gabungkan teks titik
+	Join Point Text	Satukan teks titik
 	Remove Breaks	Hapus pemisah
 	Split Text at Cursor	Pisahkan teks di kursor
 	Set Alignment, Keep Position	Atur perataan, pertahankan posisi
@@ -5843,6 +5844,7 @@ breakText	Glyphs	Glif
 @msg	Select horizontal point or area type whose text fits	Pilih teks titik atau teks area horizontal yang teksnya muat
 @msg	Nothing to split at the cursor	Tidak ada yang dapat dipisahkan di kursor
 @msg	Select two or more one-line point type objects on one baseline to combine	Pilih dua atau lebih objek teks titik satu baris pada satu garis dasar untuk menggabungkannya
+@msg	Select two or more one-line point type objects to join	Pilih dua atau lebih objek teks titik satu baris untuk menyatukannya
 @msg	No line breaks to remove	Tidak ada putus baris untuk dihapus
 @msg	No paragraph breaks to remove	Tidak ada putus paragraf untuk dihapus
 @msg	Too many breaks to remove at once	Terlalu banyak pemisah untuk dihapus sekaligus

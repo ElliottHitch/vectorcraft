@@ -5595,6 +5595,7 @@ anchor	Points:	ポイント:
 # Artwork Cleanup add-on: its text tools (Object › Plug-ins › Artwork Cleanup and the panel's Text row) and their messages.
 	Break Text	テキストを分割
 	Combine Point Text	ポイント文字を結合
+	Join Point Text	ポイント文字を連結
 	Remove Breaks	改行を削除
 	Split Text at Cursor	カーソル位置でテキストを分割
 	Set Alignment, Keep Position	位置を保って行揃えを設定
@@ -5623,6 +5624,7 @@ breakText	Glyphs	字形
 @msg	Select horizontal point or area type whose text fits	テキストが収まっている横組みのポイント文字またはエリア内文字を選択してください
 @msg	Nothing to split at the cursor	カーソル位置で分割するものがありません
 @msg	Select two or more one-line point type objects on one baseline to combine	結合するには、同じベースライン上にある 1 行のポイント文字オブジェクトを 2 つ以上選択してください
+@msg	Select two or more one-line point type objects to join	連結するには、1 行のポイント文字オブジェクトを 2 つ以上選択してください
 @msg	No line breaks to remove	削除する強制改行がありません
 @msg	No paragraph breaks to remove	削除する段落の区切りがありません
 @msg	Too many breaks to remove at once	一度に削除する改行が多すぎます
