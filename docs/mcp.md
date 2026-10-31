@@ -3987,8 +3987,9 @@ each file deflated, or stored when deflating does not make it smaller.
 A row is `{format, scale?}` where `scale` is a factor (`2`, `"2x"`), a pixel width (`"100w"` or `width: 100`), a
 height (`"100h"`) or a resolution (`"72ppi"`); raster rows name their files `@2x`, `@100w`… unless `suffix` says
 otherwise. `fullDocument` writes one file per row instead (a PDF of every artboard, other formats the bounds of all
-art), `includeBleed` grows each artboard by the document's bleed, `subfolders` puts each row's files in a sub-folder
-(its size or format, or its own `folder`), `preset: "mobile"` or `"density"` (Android-style ldpi…xxxhdpi
+art), `includeBleed` grows each artboard by the document's bleed, `pdfs: "single"` (Export PDFs As › Single file)
+writes the artboards a PDF row exports as the pages of one PDF named after the document, `subfolders` puts each
+row's files in a sub-folder (its size or format, or its own `folder`; `folders: "format"` sorts by format instead), `preset: "mobile"` or `"density"` (Android-style ldpi…xxxhdpi
 sub-folders) replaces the rows, and `settings: {png: {…}, jpg: {…}, svg: {…}, pdf: {preset}}` gives every row of a
 format its options. On every platform, `/`, `\`, `:`, `<`, `>`, `"`, `|`, `?`, `*` and control characters from a
 prefix, a suffix, a name pattern or an item's name become `-` in file and folder names, a folder name ends without

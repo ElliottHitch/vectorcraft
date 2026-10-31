@@ -1,6 +1,6 @@
 # UI and interaction parity
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Properties: Blend Options in Quick Actions for one selected blend with any tool, #4817; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Export for Screens laid out as Illustrator's; previously: Properties: Blend Options in Quick Actions for one selected blend with any tool, #4817; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -376,6 +376,7 @@ separate. Scores and hours unchanged. [Behavior and command details](development
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | Export for Screens is laid out as Illustrator's: Artboards and Assets tabs with a grid or list of thumbnails, Clear Selection and Prefix under them, Create Sub-folders by Scale or Format (on by default), Export PDFs As Single File or Multiple Files (`pdfs`), iOS and Android rows, the format presets in a ☰ menu, and a Selected / files-to-export count; the naming pattern, Layers and Selection pages and folders list stay in `document.exportForScreens` for scripts and MCP; scores unchanged |
 | 2026-10-31 | minor | Properties: Quick Actions has Blend Options for one selected blend with any tool, not only the Blend tool, as the blending page describes (#4817); scores unchanged |
 | 2026-10-31 | minor | Smart guides and snapping: Snap to Perpendicular and Snap to Tangent for an existing line's end dragged with Direct Selection (#2530), so the tangent and perpendicular row is done; scores and estimates unchanged |
 | 2026-10-31 | minor | Grid Repeat Options has a Preview checkbox (#2651); scores and estimates unchanged |
