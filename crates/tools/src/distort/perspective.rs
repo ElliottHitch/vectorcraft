@@ -74,6 +74,14 @@ impl Plane {
     pub const ALL: [Plane; 3] = [Plane::Left, Plane::Right, Plane::Ground];
 }
 
+/// Return the nearest 45-degree direction of `delta` in plane space, counted from the plane's x axis,
+/// and `delta` projected onto that direction.
+pub fn constrain_move_delta(delta: Vec2) -> (Vec2, Vec2) {
+    let angle = (delta.y.atan2(delta.x) / std::f64::consts::FRAC_PI_4).round() * std::f64::consts::FRAC_PI_4;
+    let direction = Vec2::new(angle.cos(), angle.sin());
+    (direction, direction * (delta.x * direction.x + delta.y * direction.y))
+}
+
 /// Plane Switching widget: (plane, face quad) list and the "no plane" circle (centre, radius).
 pub type WidgetGeom = (Vec<(Plane, [Point; 4])>, (Point, f64));
 
@@ -1247,14 +1255,35 @@ mod tests {
                 let acts = t.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y).with_mods(Mods { shift: true, ..Default::default() }));
                 let Some(Action::Preview(cmd, v)) = acts.last() else { panic!("{acts:?}") };
                 assert_eq!(cmd, "perspective.move");
-                let endpoint = Point::new(v["to"][0].as_f64().unwrap(), v["to"][1].as_f64().unwrap());
-                let delta = hi.apply(endpoint).unwrap() - start;
+                assert_eq!(v["to"], json!([to.x, to.y]));
+                let raw_delta = hi.apply(to).unwrap() - start;
+                let delta = constrain_move_delta(raw_delta).1;
                 assert!((delta - expected).hypot() < 1e-6, "{plane:?}: {delta:?} != {expected:?}");
-                let direction = expected / expected.hypot();
-                let sent = Vec2::new(v["constrain"][0].as_f64().unwrap(), v["constrain"][1].as_f64().unwrap());
-                assert!((sent - direction).hypot() < 1e-12, "{plane:?}: {sent:?} != {direction:?}");
+                assert_eq!(v["constrain"], json!(true));
             }
         }
+    }
+
+    #[test]
+    fn selection_shift_preview_sends_raw_pointer_and_boolean_constraint() {
+        let (mut d, id) = doc_with_rect();
+        grid(2).store(&mut d);
+        set_attachment(d.node_mut(id).unwrap(), Plane::Right, 0.0);
+        let mut selection = Selection::default();
+        selection.add(id);
+        let p = paint();
+        let c = cx(&d, &selection, &p);
+        let h = PerspectiveGrid::current(&d).homography(Plane::Right).unwrap();
+        let from = d.node(id).unwrap().geometric_bounds().unwrap().center();
+        let start = h.inverse().unwrap().apply(from).unwrap();
+        let to = h.apply(start + Vec2::new(60.0, 12.0)).unwrap();
+        let mut tool = PerspectiveSelectionTool::default();
+        tool.pointer(&c, &PointerEvent::new(PointerKind::Down, from.x, from.y));
+        let actions = tool.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y).with_mods(Mods { shift: true, ..Default::default() }));
+        let Some(Action::Preview(command, params)) = actions.last() else { panic!("{actions:?}") };
+        assert_eq!(command, "perspective.move");
+        assert_eq!(params["to"], json!([to.x, to.y]));
+        assert_eq!(params["constrain"], json!(true));
     }
 
     #[test]
@@ -1279,8 +1308,8 @@ mod tests {
             t.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y).with_mods(Mods { shift: true, alt: true, ..Default::default() }));
         let Some(Action::Preview(_, snapped)) = shifted.last() else { panic!("{shifted:?}") };
         assert_eq!(snapped["copy"], json!(true));
-        assert_eq!(snapped["constrain"], json!([1.0, 0.0]));
-        assert_ne!(snapped["to"], raw["to"]);
+        assert_eq!(snapped["constrain"], json!(true));
+        assert_eq!(snapped["to"], raw["to"]);
         let perpendicular = t.key(&c, ToolKey::Digit(5), Mods { shift: true, alt: true, ..Default::default() });
         let Some(Action::Preview(_, depth)) = perpendicular.last() else { panic!("{perpendicular:?}") };
         assert_eq!(depth["to"], raw["to"]);

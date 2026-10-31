@@ -197,18 +197,67 @@ fn constrained_move_command_stays_on_axis_with_grid_snap() {
     let start = bounds_of(&before).center();
     let from = h.apply(start).unwrap();
     let to = h.apply(start + Vec2::new(80.0, 0.0)).unwrap();
-    s.execute("perspective.move", &json!({"ids": [id.0], "from": [from.x, from.y], "to": [to.x, to.y], "constrain": [1.0, 0.0]})).unwrap();
+    s.execute("perspective.move", &json!({"ids": [id.0], "from": [from.x, from.y], "to": [to.x, to.y], "constrain": true})).unwrap();
     for (a, b) in before.iter().zip(plane_pts(&s, id, Plane::Right, 0.0)) {
         assert!((b.y - a.y).abs() < 1e-6, "constrained command left axis: {a:?} to {b:?}");
     }
 }
 
 #[test]
-fn constrained_move_rejects_invalid_direction() {
+fn diagonal_shift_snap_lands_an_edge_on_a_gridline() {
     let (mut s, id) = near_gridline_session();
-    for direction in [json!([0.0, 0.0]), json!([1.0]), json!([1.0, "bad"]), json!([null, 1.0])] {
+    let g = grid(&s);
+    let before = plane_pts(&s, id, Plane::Right, 0.0);
+    let b = bounds_of(&before);
+    let (raw, correction) = (1..200)
+        .map(|n| {
+            let raw = Vec2::new(n as f64 * g.cell * 0.05, n as f64 * g.cell * 0.05);
+            (raw, g.snap_offset(b, raw) - raw)
+        })
+        .find(|(_, fix)| fix.x.abs() < 1e-9 && fix.y.abs() > 1e-6)
+        .unwrap();
+    let h = g.homography(Plane::Right).unwrap();
+    let start = b.center();
+    let from = h.apply(start).unwrap();
+    let to = h.apply(start + raw).unwrap();
+    s.execute("perspective.move", &json!({"ids": [id.0], "from": [from.x, from.y], "to": [to.x, to.y], "constrain": true})).unwrap();
+    let after = plane_pts(&s, id, Plane::Right, 0.0);
+    let delta = after[0] - before[0];
+    assert!((delta.x - delta.y).abs() < 1e-6, "{delta:?}");
+    let edge = [b.y0 + delta.y, b.y1 + delta.y];
+    assert!(edge.iter().any(|y| ((y / g.cell).round() * g.cell - y).abs() < 1e-6), "{edge:?}, correction {correction:?}");
+}
+
+#[test]
+fn constrained_move_uses_each_objects_plane() {
+    let (mut s, right) = persp_session();
+    let left_result = s.execute("shape.rectangle", &json!({"x": 240, "y": 380, "width": 60, "height": 60})).unwrap();
+    let left = NodeId(left_result["id"].as_u64().unwrap());
+    s.execute("perspective.attach", &json!({"ids": [left.0], "plane": "left"})).unwrap();
+    let right_before = plane_pts(&s, right, Plane::Right, 0.0);
+    let left_before = plane_pts(&s, left, Plane::Left, 0.0);
+    let from = grid(&s).homography(Plane::Right).unwrap().apply(bounds_of(&right_before).center()).unwrap();
+    let to = from + Vec2::new(70.0, 30.0);
+    let g = grid(&s);
+    for plane in [Plane::Right, Plane::Left] {
+        let raw = g.plane_delta(plane, 0.0, from, to).unwrap();
+        assert!(raw.x.abs() > 1e-3 && raw.y.abs() > 1e-3 && (raw.x.abs() - raw.y.abs()).abs() > 1e-3, "raw {plane:?}: {raw:?}");
+    }
+    s.execute("perspective.move", &json!({"ids": [right.0, left.0], "from": [from.x, from.y], "to": [to.x, to.y], "constrain": true, "snap": false}))
+        .unwrap();
+    for (id, plane, before) in [(right, Plane::Right, right_before), (left, Plane::Left, left_before)] {
+        let after = plane_pts(&s, id, plane, 0.0);
+        let delta = after[0] - before[0];
+        assert!(delta.x.abs() < 1e-6 || delta.y.abs() < 1e-6 || (delta.x.abs() - delta.y.abs()).abs() < 1e-6, "{plane:?}: {delta:?}");
+    }
+}
+
+#[test]
+fn constrained_move_rejects_non_boolean_switch() {
+    let (mut s, id) = near_gridline_session();
+    for direction in [json!([0.0, 0.0]), json!([1.0]), json!(1), json!("true")] {
         let error = s.execute("perspective.move", &json!({"ids": [id.0], "from": [1.0, 1.0], "to": [2.0, 2.0], "constrain": direction})).unwrap_err();
-        assert!(error.to_string().contains("constrain must be two finite numbers, not both zero"), "{error}");
+        assert!(error.to_string().contains("`constrain` must be true or false"), "{error}");
     }
 }
 

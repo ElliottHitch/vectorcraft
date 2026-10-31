@@ -169,34 +169,27 @@ impl PerspectiveSelectionTool {
         let at = ids.first().and_then(|id| g.attachment_of(cx.doc, *id)).or((g.plane != Plane::None).then_some((g.plane, g.offset(g.plane))));
         let constrained = if *shift && !*perp {
             at.and_then(|(plane, depth)| {
-                let h = g.homography_at(plane, depth)?;
-                let hi = h.inverse()?;
-                let start = hi.apply(*from)?;
-                let delta = hi.apply(*last)? - start;
-                let angle = (delta.y.atan2(delta.x) / std::f64::consts::FRAC_PI_4).round() * std::f64::consts::FRAC_PI_4;
-                let direction = Vec2::new(angle.cos(), angle.sin());
-                let distance = delta.x * direction.x + delta.y * direction.y;
-                h.apply(start + direction * distance).filter(|p| p.x.is_finite() && p.y.is_finite()).map(|to| (to, direction))
+                let delta = g.plane_delta(plane, depth, *from, *last)?;
+                Some(super::constrain_move_delta(delta).1)
             })
         } else {
             None
         };
-        let to = if let Some((to, _)) = constrained { to } else { *last };
-        let mut v = json!({"ids": crate::json_ids(ids), "from": [from.x, from.y], "to": [to.x, to.y], "copy": copy, "perpendicular": perp});
-        if let Some((_, direction)) = constrained {
-            v["constrain"] = json!([direction.x, direction.y]);
+        let mut v = json!({"ids": crate::json_ids(ids), "from": [from.x, from.y], "to": [last.x, last.y], "copy": copy, "perpendicular": perp});
+        if *shift && !*perp {
+            v["constrain"] = json!(true);
         }
         if g.plane != Plane::None {
             v["plane"] = json!(g.plane.id());
         }
         self.measure = at.and_then(|(pl, depth)| {
             let text = if *perp {
-                format!("dZ: {}", cx.len(g.depth_at(pl, depth, *from, to)? - depth))
+                format!("dZ: {}", cx.len(g.depth_at(pl, depth, *from, *last)? - depth))
             } else {
-                let d = g.plane_delta(pl, depth, *from, to)?;
+                let d = constrained.unwrap_or(g.plane_delta(pl, depth, *from, *last)?);
                 cx.offset_label(d.x, d.y)
             };
-            Some((to, text))
+            Some((*last, text))
         });
         Some(Action::Preview("perspective.move".into(), v))
     }
