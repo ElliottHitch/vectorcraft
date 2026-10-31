@@ -323,6 +323,27 @@ fn the_shape_properties_popup_edits_the_shape() {
     assert_eq!(sides(&app), 6);
 }
 
+/// The popup stays open while a polygon's Corner dropdown is open, so a corner type can be picked
+/// from it.
+#[test]
+fn the_shape_properties_popup_keeps_its_corner_dropdown() {
+    let mut app = app();
+    app.run("tool.select", json!({"tool": "selection"})).unwrap();
+    let polygon = id(app.run("shape.polygon", json!({"cx": 100, "cy": 100, "radius": 40, "sides": 6})).unwrap());
+    select(&mut app, &[polygon]);
+    let (ctx, texts) = click_lock_slot(&mut app);
+    let click = |app: &mut VectorcraftApp, p: Pos2| {
+        let press = |pressed| Event::PointerButton { pos: p, button: PointerButton::Primary, pressed, modifiers: Default::default() };
+        frame(app, &ctx, vec![Event::PointerMoved(p), press(true), press(false)]);
+        frame(app, &ctx, vec![])
+    };
+    let texts = click(&mut app, at(&texts, "Round"));
+    assert!(has(&texts, "Polygon Properties:") && has(&texts, "Chamfer"), "the popup and its dropdown: {texts:?}");
+    click(&mut app, at(&texts, "Chamfer"));
+    let vectorcraft_doc::LiveShape::Polygon { kinds, .. } = live(&app, polygon) else { panic!("not a polygon") };
+    assert!(!kinds.is_empty() && kinds.iter().all(|k| *k == vectorcraft_geom::shapes::CornerKind::Chamfer), "{kinds:?}");
+}
+
 /// Every other selection keeps Lock: a plain closed path, a star (a plain path), a path with live
 /// corners, a group and several objects. The Direct Selection tool keeps it for a basic shape.
 #[test]

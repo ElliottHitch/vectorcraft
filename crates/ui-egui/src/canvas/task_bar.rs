@@ -267,9 +267,10 @@ pub(super) fn task_bar(app: &mut VectorcraftApp, ui: &mut Ui, xf: &Xf) {
                         if let Some(shape) = &shape
                             && let NodeKind::Path { live: Some(live), .. } = &shape.kind
                         {
-                            // The shape's properties in a popup that stays open while its fields are edited.
+                            // The shape's properties in a popover that stays open while its fields and
+                            // its Corner dropdown are used.
                             let props = widgets::icon_button(ui, "shapes", tl!("Shape Properties"), false, 30.0);
-                            egui::Popup::menu(&props).close_behavior(egui::PopupCloseBehavior::CloseOnClickOutside).show(|ui| {
+                            widgets::popover(&props, props.clicked(), |ui| {
                                 ui.set_min_width(250.0);
                                 crate::panels::transform::live_shape_rows(app, ui, shape, live, "task-bar-shape", true);
                             });
