@@ -735,6 +735,12 @@ font-technology	Variable	Променливи
 	Delete Stop	Изтриване на репер
 	Delete Swatch	Изтриване на образец
 	Delete Symbol	Изтриване на символ
+	Delete the selected symbol?	Да се изтрие ли избраният символ?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Един или повече от символите се използват и не могат да бъдат изтрити, докато екземплярите им не бъдат разширени или изтрити.
+	Expand Instances	Разширяване на екземплярите
+	Delete Instances	Изтриване на екземплярите
+	Yes	Да
+	No	Не
 	Delete Tab	Изтриване на табулация
 	Delete the graphic style “{name}”?	Изтриване на графичния стил „{name}“?
 	Delete Theme	Изтриване на тема

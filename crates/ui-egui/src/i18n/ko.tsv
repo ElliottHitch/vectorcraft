@@ -1288,6 +1288,12 @@ font-technology	Variable	가변
 	Delete Stop	정지점 삭제
 	Delete Swatch	견본 삭제
 	Delete Symbol	심볼 삭제
+	Delete the selected symbol?	선택한 심볼을 삭제하시겠습니까?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	하나 이상의 심볼이 사용 중이므로 인스턴스를 확장하거나 삭제하기 전에는 삭제할 수 없습니다.
+	Expand Instances	인스턴스 확장
+	Delete Instances	인스턴스 삭제
+	Yes	예
+	No	아니요
 	Delete Tab	탭 삭제
 	Delete Theme	테마 삭제
 	Delete Transparency Flattener Preset	투명도 병합 프리셋 삭제

@@ -870,6 +870,12 @@ font-technology	Variable	Biến thiên
 	Delete Stop	Xóa điểm dừng
 	Delete Swatch	Xóa mẫu màu
 	Delete Symbol	Xóa ký hiệu
+	Delete the selected symbol?	Xóa ký hiệu đã chọn?
+	One or more of the symbols are in use and cannot be deleted until their instances are expanded or deleted.	Một hoặc nhiều ký hiệu đang được sử dụng và không thể xóa cho đến khi các thực thể của chúng được mở rộng hoặc xóa.
+	Expand Instances	Mở rộng thực thể
+	Delete Instances	Xóa thực thể
+	Yes	Có
+	No	Không
 	Delete Tab	Xóa tab
 	Delete the graphic style “{name}”?	Xóa kiểu đồ họa “{name}”?
 	Delete the library “{name}”?	Xóa thư viện “{name}”?
