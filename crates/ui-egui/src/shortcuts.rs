@@ -358,15 +358,18 @@ fn single_key_shortcuts(app: &mut VectorcraftApp, ctx: &egui::Context) {
     // Single-key tool shortcuts (no Cmd/Ctrl/Alt). With a layout without Latin letters (Persian,
     // Arabic, Russian, Greek…) the key's position stands in for what it types (#793).
     let events: Vec<(String, Modifiers)> = ctx.input(|i| {
-        let mut physical = None;
+        let typed_by = typing_presses(&i.events);
         i.events
             .iter()
-            .filter_map(|e| match e {
-                egui::Event::Key { physical_key, pressed: true, .. } => {
-                    physical = *physical_key;
-                    None
+            .zip(typed_by)
+            .filter_map(|(e, by)| match e {
+                egui::Event::Text(t) => {
+                    let physical = match by.and_then(|k| i.events.get(k)) {
+                        Some(egui::Event::Key { physical_key, .. }) => *physical_key,
+                        _ => None,
+                    };
+                    Some((latin(t, physical), i.modifiers))
                 }
-                egui::Event::Text(t) => Some((latin(t, physical), i.modifiers)),
                 _ => None,
             })
             .collect()
@@ -843,18 +846,39 @@ fn latin(text: &str, physical: Option<Key>) -> String {
     }
 }
 
+/// For each event, the index of the key press that typed it when it is text: the press right
+/// before it (egui-winit) unless an earlier text took that press, or else the press right after it
+/// (eframe's web build with no text field focused). Each press types at most one text.
+fn typing_presses(events: &[egui::Event]) -> Vec<Option<usize>> {
+    let is_press = |k: usize| matches!(events.get(k), Some(egui::Event::Key { pressed: true, .. }));
+    let mut taken = None;
+    events
+        .iter()
+        .enumerate()
+        .map(|(j, e)| {
+            if !matches!(e, egui::Event::Text(_)) {
+                return None;
+            }
+            let before = j.checked_sub(1).filter(|&k| is_press(k) && taken != Some(k));
+            let by = before.or_else(|| Some(j + 1).filter(|&k| is_press(k)));
+            taken = by.or(taken);
+            by
+        })
+        .collect()
+}
+
 /// Each new press's shortcut names, first match first, and the letter it types, without Cmd, Ctrl
 /// or Alt. A text-only press counts as well (Shift+~ arrives as the text `~` with Shift), unless
-/// the key that typed it repeated. A text's key is the press right before it (egui-winit) or,
-/// failing that, right after it (eframe's web build with no text field focused). Text reads its
-/// key's modifiers, or the latest modifier change (`held` before any), and tries its key's own
-/// name first.
+/// the key that typed it repeated. A text's key is the one `typing_presses` pairs it with. Text
+/// reads its key's modifiers, or the latest modifier change (`held` before any), and tries its
+/// key's own name first.
 fn shortcut_presses(events: &[egui::Event], held: Modifiers) -> Vec<(Vec<String>, Option<char>)> {
     let key_name = |key: &Key, m: &Modifiers| if m.shift { format!("Shift+{}", key.name()) } else { key.name().to_string() };
     let press_at = |j: Option<usize>| match j.and_then(|j| events.get(j)) {
         Some(egui::Event::Key { key, pressed: true, repeat, modifiers, .. }) => Some((*repeat, *modifiers, key_name(key, modifiers))),
         _ => None,
     };
+    let typed_by = typing_presses(events);
     let mut latest = held;
     events
         .iter()
@@ -868,8 +892,8 @@ fn shortcut_presses(events: &[egui::Event], held: Modifiers) -> Vec<(Vec<String>
                 Some((vec![key_name(key, modifiers)], letter_of(*key)))
             }
             egui::Event::Text(t) => {
-                let typed_by = press_at(j.checked_sub(1)).or_else(|| press_at(Some(j + 1)));
-                let (repeated, mods, key_name) = typed_by.map_or((false, latest, None), |(r, m, n)| (r, m, Some(n)));
+                let (repeated, mods, key_name) =
+                    press_at(typed_by.get(j).copied().flatten()).map_or((false, latest, None), |(r, m, n)| (r, m, Some(n)));
                 if repeated || mods.command || mods.alt || mods.ctrl {
                     return None;
                 }

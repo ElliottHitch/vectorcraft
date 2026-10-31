@@ -1470,6 +1470,31 @@ fn one_key_shortcuts_follow_the_key_on_layouts_without_latin_letters() {
     assert_eq!(app.session.tool_id(), "directSelection", "AZERTY: the letter typed");
 }
 
+/// The web build sends a keystroke's text before its key press: the one-key shortcut on a layout
+/// without Latin letters still goes by the key of the same keystroke, and two keystrokes in one
+/// frame each use their own key, in either order.
+#[test]
+fn one_key_shortcuts_use_the_key_of_the_same_keystroke_in_either_order() {
+    let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default());
+    app.session.execute("file.new", &json!({"width": 200, "height": 200})).unwrap();
+    let press = |key| egui::Event::Key { key, physical_key: Some(key), pressed: true, repeat: false, modifiers: Modifiers::NONE };
+    let text = |t: &str| egui::Event::Text(t.into());
+    frame(&mut app, vec![text("з"), press(Key::P)]);
+    assert_eq!(app.session.tool_id(), "pen", "text before its key");
+    frame(&mut app, vec![text("м"), press(Key::V), text("з"), press(Key::P)]);
+    assert_eq!(app.session.tool_id(), "pen", "the second text uses the second key");
+    app.select_tool("pen");
+    frame(&mut app, vec![press(Key::P), text("з"), press(Key::V), text("м")]);
+    assert_eq!(app.session.tool_id(), "selection", "key before its text");
+    let names = |events: &[egui::Event]| -> Vec<String> {
+        shortcut_presses(events, Modifiers::NONE).into_iter().filter_map(|(n, _)| n.into_iter().next()).collect()
+    };
+    let web = names(&[text("м"), press(Key::V), text("з"), press(Key::P)]);
+    assert_eq!(web, ["V", "V", "P", "P"], "each text tries its own key's name first");
+    let desktop = names(&[press(Key::V), text("м"), press(Key::P), text("з")]);
+    assert_eq!(desktop, ["V", "V", "P", "P"]);
+}
+
 #[test]
 fn plus_typed_any_way_zooms_in() {
     assert_eq!(parse("Cmd++"), parse("Cmd+="), "`+` and `=` are one chord key");
