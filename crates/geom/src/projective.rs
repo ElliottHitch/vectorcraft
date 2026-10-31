@@ -100,14 +100,31 @@ impl Homography {
     }
 
     /// `self` seen through `a`: the map `a ∘ self ∘ a⁻¹` (what `self` becomes when everything it
-    /// maps from and to is moved by `a`). `None` when `a` isn't invertible or the result has an
-    /// entry that is not finite.
+    /// maps from and to is moved by `a`). When the product overflows, it is formed from factors
+    /// scaled to a largest entry of 1 and returned at that scale (the same map). `None` when `a`
+    /// isn't invertible, or when the product overflows and the scaled result is not invertible.
     pub fn conjugated(&self, a: Affine) -> Option<Self> {
         if a.determinant().abs() < 1e-15 {
             return None;
         }
-        let c = Self::from_affine(a).then_after(self).then_after(&Self::from_affine(a.inverse()));
-        c.0.iter().flatten().all(|v| v.is_finite()).then_some(c)
+        let (to, from) = (Self::from_affine(a), Self::from_affine(a.inverse()));
+        let c = to.then_after(self).then_after(&from);
+        if c.is_finite() {
+            return Some(c);
+        }
+        let c = to.normalized()?.then_after(&self.normalized()?).then_after(&from.normalized()?).normalized()?;
+        (c.det().abs() > 1e-15).then_some(c)
+    }
+
+    fn is_finite(&self) -> bool {
+        self.0.iter().flatten().all(|v| v.is_finite())
+    }
+
+    /// `self` divided by its largest entry magnitude, a positive scale that maps every point to
+    /// the same place; `None` when an entry is not finite or every entry is 0.
+    fn normalized(&self) -> Option<Self> {
+        let k = self.0.iter().flatten().fold(0.0_f64, |k, v| k.max(v.abs()));
+        (self.is_finite() && k > 0.0).then(|| Self(self.0.map(|row| row.map(|v| v / k))))
     }
 
     /// The affine map that matches `self` to first order at `p` (its derivative there), `None`
@@ -214,10 +231,25 @@ mod tests {
     }
 
     #[test]
-    fn a_conjugate_that_overflows_is_none() {
+    fn a_conjugate_that_overflows_is_scaled_down() {
+        // A move by 10, scaled by 1e307: seen through a scale by 10 it moves by 100, but the
+        // product's corner entry is 1e309.
+        let big = Homography([[1e307, 0.0, 1e308], [0.0, 1e307, 0.0], [0.0, 0.0, 1e307]]);
+        let t = Affine::scale(10.0);
+        let c = big.conjugated(t).unwrap();
+        assert!(c.0.iter().flatten().all(|v| v.is_finite() && v.abs() <= 1.0));
+        assert_eq!(Homography::from_array(c.to_array()), Some(c));
+        for p in [Point::new(3.0, 7.0), Point::new(-4.0, 1.5)] {
+            assert!(c.apply(t * p).unwrap().distance(t * big.apply(p).unwrap()) < 1e-9);
+            assert!(c.apply(p).unwrap().distance(p + kurbo::Vec2::new(100.0, 0.0)) < 1e-9);
+        }
+        // A move by 1e200 seen through a scale by 1e150 sends every point to about (1e350, 0),
+        // which no invertible map of finite numbers draws.
         let far = Homography([[1.0, 0.0, 1e200], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]);
         assert_eq!(far.conjugated(Affine::scale(1e150)), None);
         assert!(far.conjugated(Affine::scale(2.0)).is_some());
+        // A product that does not overflow is kept as it is.
+        assert_eq!(far.conjugated(Affine::scale(2.0)).unwrap().0[0][2], 2e200);
     }
 
     #[test]
