@@ -6383,6 +6383,7 @@ dependencies = [
  "psd",
  "serde_json",
  "tiff",
+ "unicode-general-category",
  "vectorcraft-brush",
  "vectorcraft-color",
  "vectorcraft-doc",
