@@ -12,7 +12,7 @@ use vectorcraft_doc::Document;
 use vectorcraft_eps::{EpsOptions, Level, Overprint, Preview, Raster};
 use vectorcraft_geom::{Point, Rect};
 
-use super::super::flatten::{FlattenOptions, expand_transparent_tile_images, flatten_document};
+use super::super::flatten::{FlattenOptions, expand_transparent_tile_images, flatten_expanded};
 use super::super::{CommandSpec, EngineError, Result, Session, bad, bool_or, cmd, has_doc, str_param};
 use super::{ArtboardPick, Encoded, FormatOption};
 
@@ -302,7 +302,7 @@ fn encode_document(doc: &Document, p: &Value, saving: bool) -> Result<Encoded> {
     let expanded = expand_transparent_tile_images(doc, &set.flatten)?;
     let source = expanded.as_ref().unwrap_or(doc);
     let transparent = source.layers.iter().any(|l| set.flatten.shows_transparency(source, l));
-    let flat = flatten_document(source, &set.flatten)?;
+    let flat = flatten_expanded(source, &set.flatten)?;
     let drawn = flat.as_ref().unwrap_or(source);
     let mut enc = Encoded { warnings, joiner: Some("_"), ..Encoded::default() };
     if transparent && (flat.is_some() || expanded.is_some()) {

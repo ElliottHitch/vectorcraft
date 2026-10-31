@@ -820,6 +820,15 @@ fn flattening_that_keeps_colorize_leaves_colorized_pattern_tile_images_alone() {
     assert!(crate::cmd::flatten::flatten_document(d, &o).unwrap().is_none(), "the pattern isn't expanded for a colorize paint alone");
 }
 
+/// EPS export expands pattern tile images once: flattening the expanded
+/// document leaves the patterns the expansion kept, past its object limit, as they are.
+#[test]
+fn flattening_an_expanded_document_does_not_expand_patterns_again() {
+    let s = colorized_pattern_over_blue();
+    let d = &s.doc().unwrap().doc;
+    assert!(crate::cmd::flatten::flatten_expanded(d, &crate::cmd::FlattenOptions::default()).unwrap().is_none());
+}
+
 #[test]
 fn eps_flattens_colorized_image_in_a_see_through_pattern_tile_group_and_warns() {
     let mut s = colorized_pattern_over_blue();

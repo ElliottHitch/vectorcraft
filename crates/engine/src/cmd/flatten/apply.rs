@@ -292,16 +292,21 @@ pub(super) fn opaque(n: &mut Node) {
     }
 }
 
+/// Whether `doc` has pattern fills whose image tiles need transparency flattening with `o`
+/// ([`expand_transparent_tile_images`]).
+pub(crate) fn has_transparent_tile_images(doc: &Document, o: &FlattenOptions) -> bool {
+    let keys = o.no_transparency.clone().unwrap_or_default();
+    let colorize = |d: &Document, n: &Node| o.counts_colorize(d, n);
+    !doc.patterns.is_empty() && crate::cmd::expand::has_transparent_image_patterns(doc, &keys, &colorize)
+}
+
 /// Expand pattern fills whose image tiles need transparency flattening.
 pub(crate) fn expand_transparent_tile_images(doc: &Document, o: &FlattenOptions) -> Result<Option<Document>> {
-    if doc.patterns.is_empty() {
+    if !has_transparent_tile_images(doc, o) {
         return Ok(None);
     }
     let keys = o.no_transparency.clone().unwrap_or_default();
     let colorize = |d: &Document, n: &Node| o.counts_colorize(d, n);
-    if !crate::cmd::expand::has_transparent_image_patterns(doc, &keys, &colorize) {
-        return Ok(None);
-    }
     let mut d = doc.clone();
     let layers: Vec<NodeId> =
         d.layers.iter().filter(|l| l.visible && !matches!(l.kind, NodeKind::Layer { template: true, .. })).map(|l| l.id).collect();
@@ -319,10 +324,15 @@ pub(crate) fn expand_transparent_tile_images(doc: &Document, o: &FlattenOptions)
 /// expanded when `o.no_transparency` counts them. `None` when nothing changes.
 pub(crate) fn flatten_document(doc: &Document, o: &FlattenOptions) -> Result<Option<Document>> {
     let expanded = expand_transparent_tile_images(doc, o)?;
-    let doc = expanded.as_ref().unwrap_or(doc);
+    Ok(flatten_expanded(expanded.as_ref().unwrap_or(doc), o)?.or(expanded))
+}
+
+/// [`flatten_document`] for `doc` whose pattern tile images were expanded already
+/// ([`expand_transparent_tile_images`]).
+pub(crate) fn flatten_expanded(doc: &Document, o: &FlattenOptions) -> Result<Option<Document>> {
     let outlining = o.text_to_outlines || o.strokes_to_outlines || !o.preserve_overprints;
     if !outlining && !doc.layers.iter().any(|l| o.shows_transparency(doc, l) || o.draws_see_through_image(l)) {
-        return Ok(expanded);
+        return Ok(None);
     }
     let mut roots = vec![];
     for l in doc.layers.iter().filter(|l| l.visible && !matches!(l.kind, NodeKind::Layer { template: true, .. })) {
@@ -331,7 +341,7 @@ pub(crate) fn flatten_document(doc: &Document, o: &FlattenOptions) -> Result<Opt
     }
     let plan = plan(doc, &roots, o, true)?;
     if plan.flat.is_empty() && !plan.kept.iter().any(|id| doc.node(*id).is_some_and(|n| kept_work(n, o))) {
-        return Ok(expanded);
+        return Ok(None);
     }
     let mut d = doc.clone();
     apply(&mut d, &mut vectorcraft_doc::Selection::default(), plan, o)?;
