@@ -115,7 +115,7 @@ pub fn show(app: &mut VectorcraftApp, ctx: &egui::Context) {
             for (i, e) in matches.iter().enumerate() {
                 let resp = ui.add(
                     egui::Button::new(e.shown.as_str())
-                        .shortcut_text(menus::pretty_shortcut(&e.shortcut))
+                        .shortcut_text(menus::shown_shortcut(&e.shortcut))
                         .min_size(egui::vec2(500.0, 24.0))
                         .selected(i == sel),
                 );

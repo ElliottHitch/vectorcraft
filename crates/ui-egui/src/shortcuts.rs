@@ -169,6 +169,7 @@ pub fn handle(app: &mut VectorcraftApp, ctx: &egui::Context) {
     if !crate::take_frame_once(&mut app.shortcuts_frames, frame) {
         return;
     }
+    ctx.input(|i| crate::shortcut_editor::note_backtick_text(&i.events));
     if !(ctx.input(|input| input.focused) || app.forwarded_frame && ctx.viewport_id() == egui::ViewportId::ROOT) {
         crate::ime::controls_without_editor(app, ctx);
         return;
@@ -357,25 +358,26 @@ fn remember_escape_pair(ctx: &egui::Context, key: Key, escape_pair: Option<bool>
 fn single_key_shortcuts(app: &mut VectorcraftApp, ctx: &egui::Context) {
     // Single-key tool shortcuts (no Cmd/Ctrl/Alt). With a layout without Latin letters (Persian,
     // Arabic, Russian, Greek…) the key's position stands in for what it types (#793).
-    let events: Vec<(String, Modifiers)> = ctx.input(|i| {
+    // A text's key is the press that typed it ([`typing_presses`]).
+    let events: Vec<(String, Modifiers, Option<Key>)> = ctx.input(|i| {
         let typed_by = typing_presses(&i.events);
         i.events
             .iter()
             .zip(typed_by)
             .filter_map(|(e, by)| match e {
                 egui::Event::Text(t) => {
-                    let physical = match by.and_then(|k| i.events.get(k)) {
-                        Some(egui::Event::Key { physical_key, .. }) => *physical_key,
-                        _ => None,
+                    let (physical, key) = match by.and_then(|k| i.events.get(k)) {
+                        Some(egui::Event::Key { key, physical_key, .. }) => (*physical_key, Some(*key)),
+                        _ => (None, None),
                     };
-                    Some((latin(t, physical), i.modifiers))
+                    Some((latin(t, physical), i.modifiers, key))
                 }
                 _ => None,
             })
             .collect()
     });
     let keymap = crate::shortcut_editor::current();
-    for (text, m) in events {
+    for (text, m, pressed) in events {
         if m.command || m.alt || m.ctrl {
             continue;
         }
@@ -384,11 +386,15 @@ fn single_key_shortcuts(app: &mut VectorcraftApp, ctx: &egui::Context) {
         // A shifted punctuation character can also be written with its Shift (the Curvature tool's
         // Shift+~ arrives as `~`).
         let shifted = m.shift.then(|| format!("Shift+{text}"));
-        let hits: Vec<CommandRef> = [Some(key), Some(text), shifted]
-            .into_iter()
-            .flatten()
-            .filter_map(|t| crate::keymap::vc_chord(&t).and_then(|c| crate::keymap::lookup(&keymap.keymap, &c)))
-            .collect();
+        let mut chords: Vec<craft_keymap::Chord> =
+            [Some(key), Some(text), shifted].into_iter().flatten().filter_map(|t| crate::keymap::vc_chord(&t)).collect();
+        // A character no chord names (`"`, which the backtick key types on Turkish Q) is read as
+        // the key that typed it, as the Keyboard Shortcuts editor records that press.
+        if chords.is_empty() {
+            let typed_by = pressed.and_then(|k| crate::shortcut_editor::chord_from_event(k, Modifiers { shift: m.shift, ..Modifiers::NONE }));
+            chords.extend(typed_by.and_then(|t| crate::keymap::vc_chord(&t)));
+        }
+        let hits: Vec<CommandRef> = chords.iter().filter_map(|c| crate::keymap::lookup(&keymap.keymap, c)).collect();
         // Single-key command shortcuts (X, Shift+X, D, /, Shift+D, F, Shift+F by default) before
         // tools.
         let Some(hit) = hits.iter().find(|c| !c.id.starts_with("tool:")).or(hits.first()) else { continue };
