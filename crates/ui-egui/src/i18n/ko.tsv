@@ -4472,6 +4472,7 @@ theme	Appearance	외관
 @msg	no such perspective grid preset	해당 원근 격자 프리셋이 없습니다
 @msg	no such recent file	해당 최근 파일이 없습니다
 @msg	no such recent font	해당 최근 글꼴이 없습니다
+@msg	some text is hidden or locked, so its font wasn't replaced	일부 텍스트가 숨겨져 있거나 잠겨 있어 해당 글꼴을 바꾸지 않았습니다
 @msg	no such saved selection	해당 저장된 선택 영역이 없습니다
 @msg	no such user library	해당 사용자 라이브러리가 없습니다
 @msg	no such view	해당 보기가 없습니다

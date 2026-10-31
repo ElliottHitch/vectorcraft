@@ -4091,6 +4091,7 @@ axis	Both	И двете
 @msg	no such perspective grid preset	няма такава предварителна настройка за перспективна мрежа
 @msg	no such recent file	няма такъв скорошен файл
 @msg	no such recent font	няма такъв скорошен шрифт
+@msg	some text is hidden or locked, so its font wasn't replaced	част от текста е скрит или заключен, затова шрифтът му не беше заменен
 @msg	no such saved selection	няма такава запазена селекция
 @msg	no such segment	няма такъв сегмент
 @msg	no such spine point	няма такава точка от оста

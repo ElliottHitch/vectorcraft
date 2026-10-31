@@ -4261,6 +4261,7 @@ imageTrace	Outline	轮廓
 @msg	no such perspective grid preset	没有此透视网格预设
 @msg	no such recent file	没有此最近使用的文件
 @msg	no such recent font	没有此最近使用的字体
+@msg	some text is hidden or locked, so its font wasn't replaced	部分文字已隐藏或锁定，因此其字体未被替换
 @msg	no such saved selection	没有此已保存的选区
 @msg	no such user library	没有此用户库
 @msg	no such view	没有此视图

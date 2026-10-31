@@ -3983,6 +3983,7 @@ axis	Both	Her İkisi
 @msg	no such perspective grid preset	böyle bir perspektif ızgarası ön ayarı yok
 @msg	no such recent file	böyle yeni bir dosya yok
 @msg	no such recent font	böyle yeni bir yazı tipi yok
+@msg	some text is hidden or locked, so its font wasn't replaced	bazı metinler gizli veya kilitli olduğundan yazı tipleri değiştirilmedi
 @msg	no such saved selection	böyle kayıtlı bir seçim yok
 @msg	no such segment	öyle bir bölüm yok
 @msg	no such subpath	böyle bir alt yol yok

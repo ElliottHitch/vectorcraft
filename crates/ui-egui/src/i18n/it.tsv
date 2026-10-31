@@ -4250,6 +4250,7 @@ axis	Both	Entrambi
 @msg	no such perspective grid preset	preset di griglia prospettica inesistente
 @msg	no such recent file	file recente inesistente
 @msg	no such recent font	font recente inesistente
+@msg	some text is hidden or locked, so its font wasn't replaced	parte del testo è nascosta o bloccata, quindi il suo font non è stato sostituito
 @msg	no such saved selection	selezione salvata inesistente
 @msg	no such segment	segmento inesistente
 @msg	no such spine point	punto della dorsale inesistente

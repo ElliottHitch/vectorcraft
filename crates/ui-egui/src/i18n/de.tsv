@@ -4131,6 +4131,7 @@ theme	Appearance	Erscheinungsbild
 @msg	no such perspective grid preset	keine solche Vorgabe für Perspektivenraster
 @msg	no such recent file	keine solche zuletzt geöffnete Datei
 @msg	no such recent font	keine solche zuletzt verwendete Schrift
+@msg	some text is hidden or locked, so its font wasn't replaced	einige Texte sind ausgeblendet oder gesperrt, daher wurde ihre Schrift nicht ersetzt
 @msg	no such saved selection	keine solche gespeicherte Auswahl
 @msg	no such segment	kein solches Segment
 @msg	no such spine point	kein solcher Achsenpunkt

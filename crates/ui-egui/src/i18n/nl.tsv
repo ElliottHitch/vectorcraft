@@ -4211,6 +4211,7 @@ imageTrace	Outline	Contour
 @msg	no such perspective grid preset	perspectiefrastervoorinstelling bestaat niet
 @msg	no such recent file	recent bestand bestaat niet
 @msg	no such recent font	recent lettertype bestaat niet
+@msg	some text is hidden or locked, so its font wasn't replaced	een deel van de tekst is verborgen of vergrendeld, dus het lettertype ervan is niet vervangen
 @msg	no such saved selection	opgeslagen selectie bestaat niet
 @msg	no such segment	segment bestaat niet
 @msg	no such subpath	subpad bestaat niet

@@ -3986,6 +3986,7 @@ font-technology	Variable	ცვლადი
 @msg	no such perspective grid preset	პერსპექტივის ბადის ასეთი პრესეტი არ არის
 @msg	no such recent file	ასეთი ბოლოს გახსნილი ფაილი არ არის
 @msg	no such recent font	ასეთი ბოლოდროინდელი შრიფტი არ არის
+@msg	some text is hidden or locked, so its font wasn't replaced	ზოგიერთი ტექსტი დამალული ან ჩაკეტილია, ამიტომ მისი შრიფტი არ შეიცვალა
 @msg	no such saved selection	ასეთი შენახული მონიშვნა არ არის
 @msg	no such segment	ასეთი სეგმენტი არ არის
 @msg	no such subpath	ასეთი ქვეტრაექტორია არ არის

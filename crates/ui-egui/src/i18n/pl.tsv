@@ -4341,6 +4341,7 @@ imageTrace	Outline	Kontur
 @msg	no such perspective grid preset	brak takiego ustawienia siatki perspektywy
 @msg	no such recent file	brak takiego ostatniego pliku
 @msg	no such recent font	brak takiej ostatniej czcionki
+@msg	some text is hidden or locked, so its font wasn't replaced	część tekstu jest ukryta lub zablokowana, więc jego czcionka nie została zastąpiona
 @msg	no such saved selection	brak takiego zapisanego zaznaczenia
 @msg	no such segment	brak takiego segmentu
 @msg	no such spine point	brak takiego punktu grzbietu

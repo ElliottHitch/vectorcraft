@@ -4121,6 +4121,7 @@ axis	Both	Båda
 @msg	no such perspective grid preset	förinställningen för perspektivrutnät finns inte
 @msg	no such recent file	den senaste filen finns inte
 @msg	no such recent font	det senaste typsnittet finns inte
+@msg	some text is hidden or locked, so its font wasn't replaced	en del text är dold eller låst, så dess typsnitt ersattes inte
 @msg	no such saved selection	den sparade markeringen finns inte
 @msg	no such segment	segmentet finns inte
 @msg	no such spine point	ryggradspunkten finns inte

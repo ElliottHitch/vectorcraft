@@ -4426,6 +4426,7 @@ imageTrace	Outline	Ääriviiva
 @msg	no such perspective grid preset	perspektiiviruudukon esiasetusta ei ole
 @msg	no such recent file	viimeisintä tiedostoa ei ole
 @msg	no such recent font	viimeisintä fonttia ei ole
+@msg	some text is hidden or locked, so its font wasn't replaced	osa tekstistä on piilotettu tai lukittu, joten sen fonttia ei korvattu
 @msg	no such saved selection	tallennettua valintaa ei ole
 @msg	no such segment	segmenttiä ei ole
 @msg	no such spine point	selkärangan pistettä ei ole

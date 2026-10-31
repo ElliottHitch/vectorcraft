@@ -4480,6 +4480,7 @@ imageTrace	Outline	Obris
 @msg	no such perspective grid preset	nema takvog predloška mreže perspektive
 @msg	no such recent file	nema takve nedavne datoteke
 @msg	no such recent font	nema takvog nedavnog fonta
+@msg	some text is hidden or locked, so its font wasn't replaced	dio teksta je skriven ili zaključan, pa njegov font nije zamijenjen
 @msg	no such saved selection	nema takvog sačuvanog odabira
 @msg	no such segment	nema takvog segmenta
 @msg	no such spine point	nema takve tačke kičme
