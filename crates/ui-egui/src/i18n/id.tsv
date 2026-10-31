@@ -1755,7 +1755,6 @@ lighting	Light	Cahaya
 	Weight:	Ketebalan:
 	Art using a deleted global swatch keeps its colour.	Karya seni yang memakai swatch global terhapus tetap mempertahankan warnanya.
 	Color Group: {name}	Grup warna: {name}
-	Delete these {count} swatches and groups?	Hapus {count} swatch dan grup ini?
 	Delete “{name}”?	Hapus “{name}”?
 	Document Swatches	Swatch dokumen
 	Edit or Apply Color Group	Edit atau terapkan grup warna
@@ -3854,6 +3853,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} item
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabel warna ({n} warna)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Hapus {n} gaya grafis ini?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Hapus {n} swatch dan grup ini?
 @plural	{n} Layer|{n} Layers	{n} lapisan
 @plural	{n} Object|{n} Objects	{n} objek
 @plural	{n} area highlighted|{n} areas highlighted	{n} area disorot

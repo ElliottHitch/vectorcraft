@@ -1297,7 +1297,6 @@ font-technology	Variable	バリアブル
 	Delete Workspace	ワークスペースを削除
 	Delete the graphic style “{name}”?	グラフィックスタイル「{name}」を削除しますか？
 	Delete theme	テーマを削除
-	Delete these {count} swatches and groups?	これら {count} 個のスウォッチとグループを削除しますか？
 	Delete this saved preset	この保存済みプリセットを削除
 	Delete {kind} Style	{kind}スタイルを削除
 	Delete “{name}”?	「{name}」を削除しますか？
@@ -3709,6 +3708,7 @@ file-filter	Templates	テンプレート
 imageTrace	Outline	アウトライン
 @plural	Color Table ({n} color)|Color Table ({n} colors)	カラーテーブル ({n} 色)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	{n} 個のグラフィックスタイルを削除しますか？
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	これら {n} 個のスウォッチとグループを削除しますか？
 @plural	{n} Layer|{n} Layers	{n} レイヤー
 @plural	{n} Object|{n} Objects	{n} オブジェクト
 @plural	{n} area highlighted|{n} areas highlighted	{n} 個の範囲を強調表示

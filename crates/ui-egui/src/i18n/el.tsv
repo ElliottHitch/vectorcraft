@@ -706,7 +706,6 @@ font-technology	Variable	Μεταβλητές
 	Delete the graphic style “{name}”?	Να διαγραφεί το στυλ γραφικών «{name}»;
 	Delete Theme	Διαγραφή θέματος
 	Delete theme	Διαγραφή θέματος
-	Delete these {count} swatches and groups?	Να διαγραφούν αυτά τα {count} δείγματα χρωμάτων και οι ομάδες;
 	Delete these {n} graphic styles?	Να διαγραφούν αυτά τα {n} στυλ γραφικών;
 	Delete this saved preset	Διαγραφή αυτής της αποθηκευμένης προεπιλογής
 	Delete this {n} graphic style?	Να διαγραφεί αυτό το {n} στυλ γραφικών;
@@ -2017,6 +2016,7 @@ imageTrace	Outline	Περίγραμμα
 @plural	{n} item|{n} items	{n} στοιχείο|{n} στοιχεία
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Πίνακας χρωμάτων ({n} χρώμα)|Πίνακας χρωμάτων ({n} χρώματα)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Να διαγραφεί αυτό το {n} στυλ γραφικών;|Να διαγραφούν αυτά τα {n} στυλ γραφικών;
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Να διαγραφεί αυτό το {n} δείγμα χρώματος ή ομάδα;|Να διαγραφούν αυτά τα {n} δείγματα χρωμάτων και οι ομάδες;
 @plural	{n} Layer|{n} Layers	{n} επίπεδο|{n} επίπεδα
 @plural	{n} Object|{n} Objects	{n} αντικείμενο|{n} αντικείμενα
 @plural	{n} area highlighted|{n} areas highlighted	{n} περιοχή επισημάνθηκε|{n} περιοχές επισημάνθηκαν

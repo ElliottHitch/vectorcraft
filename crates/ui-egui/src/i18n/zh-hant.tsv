@@ -709,7 +709,6 @@ font-technology	Variable	可變
 	Delete the graphic style “{name}”?	要刪除繪圖樣式「{name}」嗎？
 	Delete Theme	刪除主題
 	Delete theme	刪除主題
-	Delete these {count} swatches and groups?	要刪除這 {count} 個色票和群組嗎？
 	Delete these {n} graphic styles?	要刪除這 {n} 個繪圖樣式嗎？
 	Delete this saved preset	刪除此已儲存的預設集
 	Delete this {n} graphic style?	要刪除這 {n} 個繪圖樣式嗎？
@@ -4542,6 +4541,7 @@ imageTrace	Outline	輪廓
 @plural	{n} item|{n} items	{n} 個項目
 @plural	Color Table ({n} color)|Color Table ({n} colors)	色彩表 ({n} 色)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	要刪除這 {n} 個繪圖樣式嗎？
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	要刪除這 {n} 個色票和群組嗎？
 @plural	{n} Layer|{n} Layers	{n} 個圖層
 @plural	{n} Object|{n} Objects	{n} 個物件
 @plural	{n} area highlighted|{n} areas highlighted	已標示 {n} 個區域

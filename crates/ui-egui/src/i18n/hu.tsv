@@ -972,7 +972,6 @@ font-technology	Variable	Változó
 	Delete the library “{name}”?	Törlöd ezt a könyvtárat: „{name}”?
 	Delete Theme	Téma törlése
 	Delete theme	Téma törlése
-	Delete these {count} swatches and groups?	{count} színminta és csoport törlése?
 	Delete these {n} graphic styles?	{n} grafikai stílus törlése?
 	Delete this saved preset	A mentett előbeállítás törlése
 	Delete this {n} graphic style?	{n} grafikai stílus törlése?
@@ -4443,6 +4442,7 @@ theme	Appearance	Kinézet
 imageTrace	Outline	Körvonal
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Színtábla ({n} szín)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	{n} grafikai stílus törlése?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	{n} színminta és csoport törlése?
 @plural	{n} area highlighted|{n} areas highlighted	Kiemelt terület: {n}
 @plural	{n} color|{n} colors	{n} szín
 @plural	{n} fill|{n} fills	{n} kitöltés

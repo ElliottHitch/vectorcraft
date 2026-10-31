@@ -1944,7 +1944,6 @@ lighting	Light	Světlo
 	Weight:	Tloušťka:
 	Art using a deleted global swatch keeps its colour.	Kresba, která používá odstraněnou globální položku vzorníku, si barvu ponechá.
 	Color Group: {name}	Skupina barev: {name}
-	Delete these {count} swatches and groups?	Odstranit tyto položky vzorníku a skupiny ({count})?
 	Delete “{name}”?	Odstranit „{name}“?
 	Document Swatches	Vzorník dokumentu
 	Edit or Apply Color Group	Upravit nebo použít skupinu barev
@@ -4122,6 +4121,7 @@ imageTrace	Outline	Obrys
 @plural	{n} item|{n} items	{n} položka|{n} položky|{n} položek
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabulka barev ({n} barva)|Tabulka barev ({n} barvy)|Tabulka barev ({n} barev)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Odstranit {n} grafický styl?|Odstranit {n} grafické styly?|Odstranit {n} grafických stylů?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Odstranit {n} položku vzorníku nebo skupinu?|Odstranit {n} položky vzorníku a skupiny?|Odstranit {n} položek vzorníku a skupin?
 @plural	{n} Layer|{n} Layers	{n} vrstva|{n} vrstvy|{n} vrstev
 @plural	{n} Object|{n} Objects	{n} objekt|{n} objekty|{n} objektů
 @plural	{n} area highlighted|{n} areas highlighted	Zvýrazněna {n} oblast|Zvýrazněny {n} oblasti|Zvýrazněno {n} oblastí

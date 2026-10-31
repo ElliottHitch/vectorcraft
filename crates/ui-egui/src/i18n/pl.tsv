@@ -1864,7 +1864,6 @@ lighting	Light	Światło
 	Weight:	Grubość:
 	Art using a deleted global swatch keeps its colour.	Kompozycja używająca usuniętej próbki globalnej zachowa swój kolor.
 	Color Group: {name}	Grupa kolorów: {name}
-	Delete these {count} swatches and groups?	Usunąć te próbki i grupy ({count})?
 	Delete “{name}”?	Usunąć „{name}”?
 	Document Swatches	Próbki dokumentu
 	Edit or Apply Color Group	Edytuj lub zastosuj grupę kolorów
@@ -3948,6 +3947,7 @@ imageTrace	Outline	Kontur
 @plural	{n} item|{n} items	{n} element|{n} elementy|{n} elementów
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tablica kolorów ({n} kolor)|Tablica kolorów ({n} kolory)|Tablica kolorów ({n} kolorów)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Usunąć {n} styl graficzny?|Usunąć {n} style graficzne?|Usunąć {n} stylów graficznych?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Usunąć {n} próbkę lub grupę?|Usunąć {n} próbki i grupy?|Usunąć {n} próbek i grup?
 @plural	{n} Layer|{n} Layers	{n} warstwa|{n} warstwy|{n} warstw
 @plural	{n} Object|{n} Objects	{n} obiekt|{n} obiekty|{n} obiektów
 @plural	{n} area highlighted|{n} areas highlighted	Wyróżniono {n} obszar|Wyróżniono {n} obszary|Wyróżniono {n} obszarów

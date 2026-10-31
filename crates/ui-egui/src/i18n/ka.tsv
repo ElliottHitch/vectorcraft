@@ -1658,7 +1658,6 @@ lighting	Light	სინათლე
 	Weight:	სისქე:
 	Art using a deleted global swatch keeps its colour.	წაშლილი გლობალური ფერის ნიმუშის მქონე ნახატი თავის ფერს ინარჩუნებს.
 	Color Group: {name}	ფერთა ჯგუფი: {name}
-	Delete these {count} swatches and groups?	წაიშალოს ეს ფერის ნიმუშები და ჯგუფები ({count})?
 	Delete “{name}”?	წაიშალოს „{name}“?
 	Document Swatches	დოკუმენტის ფერის ნიმუშები
 	Edit or Apply Color Group	ფერთა ჯგუფის რედაქტირება ან გამოყენება
@@ -3620,6 +3619,7 @@ font-technology	Variable	ცვლადი
 @plural	{n} item|{n} items	ელემენტი: {n}
 @plural	Color Table ({n} color)|Color Table ({n} colors)	ფერების ცხრილი (ფერი: {n})
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	წაიშალოს გრაფიკული სტილები ({n})?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	წაიშალოს ეს ფერის ნიმუშები და ჯგუფები ({n})?
 @plural	{n} Layer|{n} Layers	შრე: {n}
 @plural	{n} Object|{n} Objects	ობიექტი: {n}
 @plural	{n} area highlighted|{n} areas highlighted	გამოკვეთილი არე: {n}

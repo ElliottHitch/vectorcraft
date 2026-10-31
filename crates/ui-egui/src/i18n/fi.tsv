@@ -1906,7 +1906,6 @@ lighting	Light	Valo
 	Weight:	Paksuus:
 	Art using a deleted global swatch keeps its colour.	Poistettua globaalia värimallia käyttävä kuvitus säilyttää värinsä.
 	Color Group: {name}	Väriryhmä: {name}
-	Delete these {count} swatches and groups?	Poistetaanko nämä {count} värimallia ja ryhmää?
 	Delete “{name}”?	Poistetaanko ”{name}”?
 	Document Swatches	Asiakirjan värimallit
 	Edit or Apply Color Group	Muokkaa tai käytä väriryhmää
@@ -4040,6 +4039,7 @@ imageTrace	Outline	Ääriviiva
 @plural	{n} item|{n} items	{n} kohde|{n} kohdetta
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Väritaulukko ({n} väri)|Väritaulukko ({n} väriä)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Poistetaanko tämä {n} grafiikkatyyli?|Poistetaanko nämä {n} grafiikkatyyliä?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Poistetaanko tämä {n} värimalli tai ryhmä?|Poistetaanko nämä {n} värimallia ja ryhmää?
 @plural	{n} Layer|{n} Layers	{n} taso|{n} tasoa
 @plural	{n} Object|{n} Objects	{n} objekti|{n} objektia
 @plural	{n} area highlighted|{n} areas highlighted	{n} alue korostettu|{n} aluetta korostettu
