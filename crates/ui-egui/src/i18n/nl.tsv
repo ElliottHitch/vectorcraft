@@ -2836,32 +2836,32 @@ theme	Appearance	Vormgeving
 	Remove Asset	Asset verwijderen
 	Rename Asset	Asset hernoemen
 	Fill Rule	Vulregel
-	Apply Brush	Kwast toepassen
+	Apply Brush	Penseel toepassen
 	Break Link to Symbol	Koppeling met symbool verbreken
-	Brush Definition	Kwastdefinitie
-	Brush Options…	Kwastopties…
-	Current Brush	Huidige kwast
-	Current Symbol	Huidige symbool
-	Delete Brush	Kwast verwijderen
+	Brush Definition	Penseeldefinitie
+	Brush Options…	Penseelopties…
+	Current Brush	Huidig penseel
+	Current Symbol	Huidig symbool
+	Delete Brush	Penseel verwijderen
 	Delete Symbol	Symbool verwijderen
-	Duplicate Brush	Kwast dupliceren
+	Duplicate Brush	Penseel dupliceren
 	Duplicate Symbol	Symbool dupliceren
 	Edit Symbol	Symbool bewerken
-	Expand Brush Strokes	Kwaststreken omzetten
-	New Brush…	Nieuwe kwast…
-	New Brush	Nieuwe kwast
+	Expand Brush Strokes	Penseelstreken omzetten
+	New Brush…	Nieuw penseel…
+	New Brush	Nieuw penseel
 	Calligraphic Brush	Kalligrafisch penseel
 	Scatter Brush	Verspreidingspenseel
 	Art Brush	Artpenseel
 	Bristle Brush	Borstelpenseel
 	Pattern Brush	Patroonpenseel
 	Select art to make a scatter, art or pattern brush.	Selecteer illustratie om een verspreidings-, art- of patroonpenseel te maken.
-	Brush Art	Kwastillustratie
+	Brush Art	Penseelillustratie
 	New Symbol	Nieuw symbool
 	New Symbol…	Nieuw symbool…
 	Place Symbol Instance	Symboolexemplaar plaatsen
 	Redefine Symbol	Symbool opnieuw definiëren
-	Remove Brush Stroke	Kwaststreek verwijderen
+	Remove Brush Stroke	Penseelstreek verwijderen
 	Replace Symbol	Symbool vervangen
 	Select All Instances	Alle exemplaren selecteren
 	Symbol Sprayer	Symboolspuit
@@ -2937,7 +2937,7 @@ theme	Appearance	Vormgeving
 	Saved Selections	Opgeslagen selecties
 	Select Guides	Hulplijnen selecteren
 	Move Guide to Layer	Hulplijn naar laag verplaatsen
-	Blob Brush	BLOB-kwast
+	Blob Brush	Blob-penseel
 	Convert Anchor Point	Ankerpunt omzetten
 	Curvature	Kromming
 	Delete Anchor Point	Ankerpunt verwijderen
@@ -3420,7 +3420,7 @@ theme	Appearance	Vormgeving
 	Delete Swatch	Kleurstaal verwijderen
 	Duplicate Swatch	Kleurstaal dupliceren
 	Merge Swatches	Kleurstalen samenvoegen
-	Move Brush	Kwast verplaatsen
+	Move Brush	Penseel verplaatsen
 	Move Swatch	Kleurstaal verplaatsen
 	New Color Group	Nieuwe kleurgroep
 	New Swatch	Nieuw kleurstaal
