@@ -1,6 +1,6 @@
 # UI and interaction parity
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Direct Selection snaps a dragged line end square to straight paths and grazing curves; Path Precision Tools add-on: Shared Edge Merge Tool; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Properties: Blend Options in Quick Actions for one selected blend with any tool, #4817; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -293,7 +293,7 @@ next unit in the order a right-click on a ruler lists them, from Feet back to Po
 | Toolbar without group labels by default, one or two columns; All Tools drawer by flyout group with shortcuts, its menu (Reset, Basic, Advanced) and Show section | done | #1751; a preference brings the labels back; `toolbar.show` sets the Fill/Stroke, Coloring, Draw Mode and Screen Mode controls |
 | Actions panel: a clicked action stays selected for Play Current Selection and Delete Selection | partial | #1853 (part of #1629); editing actions and action shortcuts remain |
 | Actions panel: Create New Set (bottom bar, ≡ › New Set…) names a new set and Set Options… renames the current one; a click on a set's name makes it current and a recording goes into the current set ([helpx: Automation with actions](https://helpx.adobe.com/illustrator/using/automation-actions.html)) | partial | #3712; the New Action dialog (name, set menu, shortcut, colour), dragging actions between sets and deleting a set remain |
-| Properties panel per context (every selection type's Quick Actions) | partial | one clip group: Edit Clipping Path and Edit Contents, at the top of the panel rather than in Quick Actions (G1); the overview's additional controls ([Properties panel overview](https://helpx.adobe.com/illustrator/desktop/get-started/learn-the-basics/properties-panel-overview.html)): Blend Options (one blend, Blend tool) and Merge Live Paint (a Live Paint group with more) in Quick Actions, the Width Profile list (Width tool or a variable-width stroke) and an applied effect's Delete icon in Appearance, Corner and Corner Radius for corners selected with Direct Selection; Variable Font was already there |
+| Properties panel per context (every selection type's Quick Actions) | partial | one clip group: Edit Clipping Path and Edit Contents, at the top of the panel rather than in Quick Actions (G1); the overview's additional controls ([Properties panel overview](https://helpx.adobe.com/illustrator/desktop/get-started/learn-the-basics/properties-panel-overview.html)): Blend Options (one blend selected, with any tool, #4817) and Merge Live Paint (a Live Paint group with more) in Quick Actions, the Width Profile list (Width tool or a variable-width stroke) and an applied effect's Delete icon in Appearance, Corner and Corner Radius for corners selected with Direct Selection; Variable Font was already there |
 | Select › Start Global Edit / Stop Global Edit; Properties › Quick Actions with the Global Edit Options popover (Match: Appearance, Size; On Artboards: All Artboards or a range, Include Objects On Canvas; Result(s)); Escape stops it; the matched objects are highlighted in their layer colour while it runs | partial | #3521, `select.globalEdit` / `select.globalEditOptions`, `crates/engine/src/tests/globaledit.rs`; paths, compound paths and symbol instances; the Control panel's copy of the options, Shift-click to leave a match out, highlighting matches before the start and similar groups remain ([public source](https://helpx.adobe.com/illustrator/desktop/manage-objects/edit-objects/edit-similar-objects.html)) |
 | Contextual task bar | done | |
 | Control bar with Transform and Stroke popovers | done | |
@@ -376,6 +376,7 @@ separate. Scores and hours unchanged. [Behavior and command details](development
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | Properties: Quick Actions has Blend Options for one selected blend with any tool, not only the Blend tool, as the blending page describes (#4817); scores unchanged |
 | 2026-10-31 | minor | Smart guides and snapping: Snap to Perpendicular and Snap to Tangent for an existing line's end dragged with Direct Selection (#2530), so the tangent and perpendicular row is done; scores and estimates unchanged |
 | 2026-10-31 | minor | Grid Repeat Options has a Preview checkbox (#2651); scores and estimates unchanged |
 | 2026-10-31 | minor | Path Precision Tools add-on: the Shared Edge Merge Tool and Keep Shared Points Together; scores and estimates unchanged |
