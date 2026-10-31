@@ -6008,6 +6008,9 @@ breakText	Glyphs	Glyfy
 	Gap 4	Mezera 4
 	Dash 5	Čárka 5
 	Gap 5	Mezera 5
+@msg	You must choose a side pattern.	Musíte zvolit boční vzorek.
+@msg	invalid pattern tile choice	neplatná volba dlaždice vzorku
+@msg	no pattern named `{choice}`	vzorek s názvem `{choice}` neexistuje
 	Delete the selected brushes?	Odstranit vybrané štětce?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Tahy používají jeden nebo více z těchto štětců. Odebrat štětce z těchto tahů a odstranit štětce?
 	Remove Strokes	Odebrat tahy

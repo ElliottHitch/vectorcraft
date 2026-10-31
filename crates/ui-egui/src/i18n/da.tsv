@@ -5913,6 +5913,9 @@ breakText	Glyphs	Glyffer
 	Gap 4	Mellemrum 4
 	Dash 5	Streg 5
 	Gap 5	Mellemrum 5
+@msg	You must choose a side pattern.	Du skal vælge et sidemønster.
+@msg	invalid pattern tile choice	ugyldigt valg af mønsterflise
+@msg	no pattern named `{choice}`	intet mønster med navnet `{choice}`
 	Delete the selected brushes?	Slet de valgte pensler?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Streger bruger en eller flere af disse pensler. Fjern penslerne fra stregerne, og slet penslerne?
 	Remove Strokes	Fjern streger

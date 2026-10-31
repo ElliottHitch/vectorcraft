@@ -5610,6 +5610,9 @@ breakText	Glyphs	Glyph
 	Gap 4	Khoảng hở 4
 	Dash 5	Nét 5
 	Gap 5	Khoảng hở 5
+@msg	You must choose a side pattern.	Bạn phải chọn mẫu bên.
+@msg	invalid pattern tile choice	lựa chọn ô mẫu không hợp lệ
+@msg	no pattern named `{choice}`	không có mẫu tên `{choice}`
 	Delete the selected brushes?	Xóa các cọ đã chọn?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Có nét đang dùng một hoặc nhiều cọ này. Gỡ cọ khỏi các nét đó và xóa cọ?
 	Remove Strokes	Gỡ nét

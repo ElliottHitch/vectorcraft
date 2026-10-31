@@ -5594,6 +5594,9 @@ breakText	Glyphs	Glyphen
 	Gap 4	Lücke 4
 	Dash 5	Strich 5
 	Gap 5	Lücke 5
+@msg	You must choose a side pattern.	Sie müssen ein Seitenmuster auswählen.
+@msg	invalid pattern tile choice	ungültige Auswahl einer Musterkachel
+@msg	no pattern named `{choice}`	kein Muster mit dem Namen `{choice}`
 	Delete the selected brushes?	Ausgewählte Pinsel löschen?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Konturen verwenden einen oder mehrere dieser Pinsel. Pinsel von diesen Konturen entfernen und die Pinsel löschen?
 	Remove Strokes	Konturen entfernen

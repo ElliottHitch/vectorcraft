@@ -5928,6 +5928,9 @@ breakText	Glyphs	Glifos
 	Gap 4	Lacuna 4
 	Dash 5	Traço 5
 	Gap 5	Lacuna 5
+@msg	You must choose a side pattern.	Você deve escolher um padrão lateral.
+@msg	invalid pattern tile choice	escolha inválida de ladrilho de padrão
+@msg	no pattern named `{choice}`	não há padrão chamado `{choice}`
 	Delete the selected brushes?	Excluir os pincéis selecionados?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Traçados usam um ou mais destes pincéis. Remover os pincéis desses traçados e excluir os pincéis?
 	Remove Strokes	Remover Traçados

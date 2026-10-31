@@ -5995,6 +5995,9 @@ breakText	Glyphs	Glifák
 	Gap 4	Hézag 4
 	Dash 5	Vonal 5
 	Gap 5	Hézag 5
+@msg	You must choose a side pattern.	Válasszon oldalsó mintát.
+@msg	invalid pattern tile choice	érvénytelen mintacsempe-választás
+@msg	no pattern named `{choice}`	nincs `{choice}` nevű minta
 	Delete the selected brushes?	Törlöd a kijelölt ecseteket?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Körvonalak használnak egyet vagy többet ezek közül az ecsetek közül. Leveszed az ecseteket ezekről a körvonalakról, és törlöd az ecseteket?
 	Remove Strokes	Körvonalak eltávolítása

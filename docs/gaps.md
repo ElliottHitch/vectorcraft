@@ -536,13 +536,11 @@ from G14 and the budget run of G15: **~170–270 h** one agent, ~50–80 h wall 
   dragging one onto the Brushes panel adds it; Save Brushes / Save Brush Library writes the document's brushes
   as a `.vectorcraft` library into the user library folder (listed under User Defined) or a file
   (`brush.libraries`, `brush.addFromLibrary`, `brush.saveLibrary`, `brush.loadLibrary`).
-- **Missing:** the Art brush's Overlap, auto-generated Pattern brush corners, new tile art in Pattern Brush
-  Options; more built-in brush, symbol and graphic-style libraries (original, generated in code, never
-  Adobe's); dynamic symbols; Global Edit of similar groups (edits to an object inside a group reaching the
-  matching objects of similar groups, [public source](https://helpx.adobe.com/illustrator/desktop/manage-objects/edit-objects/edit-groups-with-similar-objects.html)),
+- **Missing:** the Art brush's Overlap; more built-in brush, symbol and graphic-style libraries (original,
+  generated in code, never Adobe's); dynamic symbols; Global Edit of similar groups (edits to an object inside a
+  group reaching the matching objects of similar groups, [public source](https://helpx.adobe.com/illustrator/desktop/manage-objects/edit-objects/edit-groups-with-similar-objects.html)),
   rotated copies as matches, Shift-click to leave a match out and highlighting matches before the start;
   drawing the 9-slice guides on the canvas in symbol edit mode and scaling by them.
-  Options; more built-in brush and symbol libraries (original, never Adobe's); dynamic symbols; Start Global Edit; drawing the 9-slice guides on the canvas in symbol edit mode and scaling by them.
 - **Estimate:** 15–26 h.
 
 ## G3 3D and Materials
