@@ -6971,10 +6971,10 @@ fn the_task_bar_recolors_coloured_art() {
     assert!(app.ui.dialog.is_none(), "no Recolor button without colours");
 }
 
-/// The Contextual Task Bar's Lock button is off in isolation mode, as Object › Lock › Selection
-/// is: a click locks nothing and shows no error. Outside isolation mode it locks the selection.
+/// The Contextual Task Bar's Lock button locks the selected member in isolation mode and the
+/// selected group outside isolation mode.
 #[test]
-fn the_task_bar_lock_button_is_off_in_isolation_mode() {
+fn the_task_bar_lock_button_locks_selected_art_in_isolation_mode() {
     let mut app = VectorcraftApp::new(Session::new(), Default::default());
     app.session.execute("file.new", &json!({"width": 400, "height": 300})).unwrap();
     // Plain paths: a basic shape shows its properties in Lock's place.
@@ -6983,6 +6983,9 @@ fn the_task_bar_lock_button_is_off_in_isolation_mode() {
     let a = app.session.execute("path.create", &square(150.0)).unwrap()["id"].clone();
     let b = app.session.execute("path.create", &square(210.0)).unwrap()["id"].clone();
     app.session.execute("select.set", &json!({"ids": [a.clone(), b]})).unwrap();
+    let a = app.session.execute("shape.rectangle", &json!({"x": 150, "y": 130, "width": 40, "height": 40})).unwrap()["id"].clone();
+    let b = app.session.execute("shape.rectangle", &json!({"x": 210, "y": 130, "width": 40, "height": 40})).unwrap()["id"].clone();
+    app.session.execute("select.set", &json!({"ids": [a.clone(), b.clone()]})).unwrap();
     let g = app.session.execute("object.group", &json!({})).unwrap()["id"].clone();
     app.select_tool("selection");
     let ctx = egui::Context::default();
@@ -7003,7 +7006,8 @@ fn the_task_bar_lock_button_is_off_in_isolation_mode() {
     app.session.execute("object.isolate", &json!({"id": g.clone()})).unwrap();
     app.session.execute("select.set", &json!({"ids": [a.clone()]})).unwrap();
     click_lock(&mut app);
-    assert!(!locked(&app, &a), "nothing is locked in isolation mode");
+    assert!(locked(&app, &a), "the selected member is locked in isolation mode");
+    assert!(!locked(&app, &b), "the other member stays unlocked");
     assert_eq!(app.ui.status, "", "no error");
     app.session.execute("object.exitIsolation", &json!({})).unwrap();
     app.session.execute("select.set", &json!({"ids": [g.clone()]})).unwrap();
