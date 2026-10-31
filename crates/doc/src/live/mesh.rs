@@ -603,6 +603,9 @@ impl GradientMesh {
         }
         let bp = self.outline().to_bezpath();
         if bp.winding(p) == 0 {
+            if tol.is_nan() || tol <= 0.0 {
+                return None;
+            }
             return self.nearest_edge(p).filter(|e| e.0 <= tol * tol).map(|(_, r, c, u, v)| (r, c, u, v));
         }
         const N: usize = 16;
