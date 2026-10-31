@@ -2458,6 +2458,15 @@ font-technology	Variable	Variables
 	Arabic	Árabes
 	Hindi	Hindi
 	Farsi	Farsi
+digits	Devanagari	Devanagari
+digits	Bengali	Bengalí
+digits	Gurmukhi	Gurmukhi
+digits	Gujarati	Guyaratí
+digits	Odia	Oriya
+digits	Tamil	Tamil
+digits	Telugu	Telugu
+digits	Kannada	Canarés
+digits	Malayalam	Malayálam
 	Proportional Oldstyle	Estilo antiguo proporcional
 	Pucker & Bloat…	Fruncir y engordar…
 	Pucker Tool	Herramienta Fruncir
@@ -5575,7 +5584,7 @@ axis	Y Axis	Eje Y
 	Include Objects On Canvas	Incluir objetos en el lienzo
 	Result(s): {count}	Resultado(s): {count}
 @msg	select one object	seleccione un objeto
-@msg	Global Edit works on paths, compound paths and symbol instances	La edición global funciona con trazados, trazados compuestos e instancias de símbolos
+@msg	Global Edit works on paths, compound paths, symbol instances and groups of them	La edición global funciona con trazados, trazados compuestos, instancias de símbolos y grupos de ellos
 @msg	no similar objects found (rotated or reflected copies are not matched); change the Global Edit Options and try again	no se encontraron objetos similares (las copias giradas o reflejadas no coinciden); cambie las opciones de edición global e inténtelo de nuevo
 @msg	`artboards`: all or a range such as 1, 3-5, not {v}	`artboards`: all o un intervalo como 1, 3-5, no {v}
 	Add to Symbols	Agregar a símbolos
@@ -5985,6 +5994,29 @@ breakText	Glyphs	Glifos
 	Set Size of Each	Definir el tamaño de cada uno
 @msg	select exactly two objects	selecciona exactamente dos objetos
 @msg	give `width` or `height`	indica `width` o `height`
+# Arrange Tools add-on: Group Overlapping Objects.
+	Group Overlapping Objects	Agrupar objetos superpuestos
+@msg	too many objects selected (at most 20000)	demasiados objetos seleccionados (como máximo 20000)
+# Path Precision Tools add-on: Divide into Dashes.
+	Divide into Dashes…	Dividir en guiones…
+	Divide into Dashes	Dividir en guiones
+	Dash:	Guion:
+	Gap:	Separación:
+	Fit to Corners and Ends	Ajustar a esquinas y extremos
+	Remove Gaps	Quitar separaciones
+@msg	that makes too many pieces (at most 100000): make the dashes longer	eso da demasiados trozos (como máximo 100000): alargue los guiones
+@msg	select paths, or segments, to divide	seleccione trazados o segmentos para dividir
+# Document Tools add-on (Object › Plug-ins › Document Tools): Save a Timestamped Copy.
+	Document Tools	Herramientas de documento
+	Save a Timestamped Copy	Guardar una copia con fecha y hora
+@msg	there is no clock here	aquí no hay reloj
+@msg	there is no clock here: give `time` (Unix seconds)	aquí no hay reloj: indique `time` (segundos Unix)
+@msg	the document has never been saved: give `folder`	el documento nunca se ha guardado: indique `folder`
+@msg	every numbered name for the copy is taken	todos los nombres numerados para la copia están ocupados
+# Document Tools add-on: New Symbols from Layers and Convert Layers to Symbols.
+	New Symbols from Layers	Nuevos símbolos a partir de capas
+	Convert Layers to Symbols	Convertir capas en símbolos
+@msg	{id} is no top-level layer	{id} no es una capa de nivel superior
 	Marathi	Maratí
 	Gujarati	Guyaratí
 	Bengali	Bengalí

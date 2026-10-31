@@ -1450,22 +1450,28 @@ nearest to the pointer.
 
 Select › Start Global Edit is `select.globalEdit {appearance?, size?, artboards?, includeCanvas?}`. With one path,
 compound path or symbol instance selected, it finds the objects of the same shape (moved or scaled copies; not rotated
-ones), among those `select.all` would take and the objects in their groups, and returns
-`{active: true, count, ids}`, the selected object first. `appearance` also asks for the same fill and stroke, `size`
-for the same width and height; `artboards` is `"all"` or a range such as `"1, 3-5"`, and `includeCanvas: false`
-leaves out the objects on no artboard. Missing params come from `select.globalEditOptions` (the Global Edit Options,
-kept for the session; it returns them with `count`, the objects a start would take now). The selection stays the
-one object. Until the next `select.globalEdit` (Stop Global Edit, `{active: false}`), what an edit of a selected match
-changed is given to the other matches, in the same undo step, and nothing else. A changed outline or anchors go to
-each match in proportion to its size. A changed opacity or blending, and each changed setting of a fill or stroke
-(paint, weight, opacity, blending, effects…), are copied as they are to the match's fill or stroke of the same kind
-and rank; its other fills and strokes, and their unchanged settings, stay its own (a stroke weight change leaves the
-fills). A stroke weight set on the selected match is given as it is, and resizing the outline in proportion never
-scales a match's stroke weight. Hidden or locked matches are left as they are. A fill or stroke added or removed is
-added or removed on the matches whose fills and strokes lay in the same order; the others, and any other change to the
-list, take the whole list. Whenever the document is put back (Undo, Redo, a cancelled drag or scrub), the matches it no
-longer has leave the Global Edit, which ends when fewer than two are left. An edit that would take any match past the
-canvas fails with the coordinates-out-of-range error and changes nothing. Nothing of it is saved.
+ones), among those `select.all` would take and the objects in their groups, and returns `{active: true, count, ids}`,
+the selected object first (at most 10,000). With a group of such objects selected (nested groups and clipping paths
+included; not type or images), it finds the groups like it: as many objects, in the same order, each of the same
+shape, lying the same way relative to each other (the group moved or scaled as a whole). `appearance` also asks for
+the same fill and stroke (for groups, of each object in them), `size` for the same width and height; `artboards` is
+`"all"` or a range such as `"1, 3-5"`, and `includeCanvas: false` leaves out the objects on no artboard. Missing
+params come from `select.globalEditOptions` (the Global Edit Options, kept for the session; it returns them with
+`count`, the objects a start would take now). The selection stays the one object. Until the next `select.globalEdit`
+(Stop Global Edit, `{active: false}`), what an edit of a selected match changed is given to the other matches, in the
+same undo step, and nothing else. A changed outline or anchors go to each match in proportion to its size. A changed
+opacity or blending, and each changed setting of a fill or stroke (paint, weight, opacity, blending, effects…), are
+copied as they are to the match's fill or stroke of the same kind and rank; its other fills and strokes, and their
+unchanged settings, stay its own (a stroke weight change leaves the fills). A stroke weight set on the selected match
+is given as it is, and resizing the outline in proportion never scales a match's stroke weight. Hidden or locked
+matches are left as they are. A fill or stroke added or removed is added or removed on the matches whose fills and
+strokes lay in the same order; the others, and any other change to the list, take the whole list. In groups, an edit
+made to an object inside one of them (selected on its own) is given by the same rules to the object at its place in
+each of the others, whose hidden or locked objects are left as they are; when the group gains or loses objects, each
+other group takes its objects at that level, keeping its own ids in order. Whenever the document is put back (Undo,
+Redo, a cancelled drag or scrub), the matches it no longer has leave the Global Edit, which ends when fewer than two
+are left. An edit that would take any match past the canvas fails with the coordinates-out-of-range error and changes
+nothing. Nothing of it is saved.
 
 ## Saved selections
 
@@ -5022,11 +5028,14 @@ command is one undo step.
 
 ## Digits
 
-`text.setFormat {digits: "default"|"arabic"|"hindi"|"farsi"}` (the selected type, or `ids`) and `text.setRangeStyle {id,
-start, end, digits}` (a range) set the numeral system the characters' digits are drawn in, as the Character panel menu's
-Digits does with the Middle Eastern (Indic) options shown: `arabic` draws every digit as the Western 0–9, `hindi` as the
-Arabic-Indic ٠–٩ (U+0660–U+0669) and `farsi` as the Eastern Arabic-Indic ۰–۹ (U+06F0–U+06F9), whichever of the three sets
-was typed; `default` leaves each digit as typed. The text keeps the digits that were typed (`text.getRange`, search,
+`text.setFormat {digits: "default"|"arabic"|"hindi"|"farsi"|"devanagari"|"bengali"|"gurmukhi"|"gujarati"|"odia"|"tamil"|"telugu"|"kannada"|"malayalam"}`
+(the selected type, or `ids`) and `text.setRangeStyle {id, start, end, digits}` (a range) set the numeral system the
+characters' digits are drawn in, as the Character panel menu's Digits does with the Middle Eastern (Indic) options shown:
+`arabic` draws every digit as the Western 0–9, `hindi` as the Arabic-Indic ٠–٩ (U+0660–U+0669) and `farsi` as the Eastern
+Arabic-Indic ۰–۹ (U+06F0–U+06F9), whichever of the three sets was typed; the Indic ones draw them as their script's own
+digits (#4942): `devanagari` ०–९ (U+0966–U+096F), `bengali` ০–৯ (U+09E6), `gurmukhi` ੦–੯ (U+0A66), `gujarati` ૦–૯
+(U+0AE6), `odia` ୦–୯ (U+0B66), `tamil` ௦–௯ (U+0BE6), `telugu` ౦–౯ (U+0C66), `kannada` ೦–೯ (U+0CE6) and `malayalam` ൦–൯
+(U+0D66); `default` leaves each digit as typed. Any other value is refused. The text keeps the digits that were typed (`text.getRange`, search,
 the caret and selection are unchanged); only the glyphs change, as with All Caps, and SVG export writes the digits as drawn.
 A digit the font lacks comes from a fallback font. Default and saved only when set. One undo step.
 
@@ -5966,6 +5975,16 @@ Commands:
 - `addon.pathtools.crossings {cut?, selfCrossings?, ids?}` adds anchors where the selected paths cross one another (and
   where each crosses itself, with `selfCrossings`), or with `cut` also cuts them there: a path of one subpath becomes a
   path per piece. Paths that meet at a shared anchor don't cross there; at most 10,000 segments at once.
+- `addon.pathtools.divideDashes {dash?, gap?, fit?, removeGaps?}` cuts the selected paths into separate open paths
+  along the curve, each `dash` long (0.01 to 1,000,000 pt, 10 by default) with `gap` between them (0 to 1,000,000 pt,
+  0 by default: the pieces touch), every piece keeping the path's appearance, as one undo step. The gap pieces are left
+  out unless `removeGaps` is false. With direct-selected segments (or anchors) only those runs are divided, the
+  pattern running on across segments that follow one another; the rest of such a path stays as pieces of its own.
+  With `fit`, every run between corners and ends holds a whole number of dashes, all stretched or squeezed alike so it
+  starts and ends on a dash (a closed path with no corner holds whole periods); otherwise the lengths are exact and the
+  last piece of each run is what is left. The pieces are selected; more than 100,000 is refused. → `{ids, dashes}`.
+  Divide into Dashes… opens a dialog (`ui.menuDialog {command}`, kind `divideDashes`) whose fields are these
+  parameters, with Preview.
 - `addon.pathtools.cornerSet {ids?, anchors?, items?, radius, kind?}` cuts live corners, the ones Direct Selection's
   corner widgets and the Corners dialog edit, as one undo step. `ids` (default: the selection) are the paths and
   `anchors` the anchor indices of each path's outline with no corners cut; without `anchors`, a path's direct-selected
@@ -6251,6 +6270,7 @@ as `object.setBounds` measures them (Use Preview Bounds), except Arrange in Grid
 | `addon.arrange.swap` | `size` (false); `scaleStrokes` (the Scale Strokes & Effects preference) | Swaps the bounds centres of exactly two selected objects (off otherwise); with `size`, each also takes the other's width and height. |
 | `addon.arrange.replace` | `fit`: `keep`, `bounds` (the replaced object's width and height), `proportional` (fits inside them) (`keep`); `scaleStrokes`; `keep` (false) | Puts a copy of the topmost selected object centred on each of the other selected objects, in that object's place in the stacking order; the replaced objects are deleted unless `keep` (the copy then goes right above each). Needs two objects or more; the copies are selected. → `{ids}` |
 | `addon.arrange.size` | `width`, `height` pt, 0.001…1000000 (at least one); `proportional` (false: a side not given stays; true: it follows the given one in proportion); `reference` 0…8 (4, the centre); `scaleStrokes` | Gives every selected object that width and height, keeping its reference point in place (the 9-point grid row by row from the top-left). |
+| `addon.arrange.groupOverlapping` | none | Groups the selected objects (at most 20000) wherever their visual bounds overlap or touch, chains included: when A overlaps B and B overlaps C, all three go in one group. Only objects in the same layer or group are grouped together; objects that overlap nothing stay as they are. Each new group goes where its frontmost member was in the stacking order, and the groups and the objects left alone stay selected; with nothing overlapping it makes no step. Needs two objects or more. → `{groups: [id…], grouped}` (how many objects went into groups) |
 
 Zoom to Selection is the UI command `addon.arrange.zoomSelection {}` (remote mode only): it zooms and centres the
 active view so the selection's visual bounds fill the window with a margin, as `view.fitArtboard` fits the artboard,
@@ -6262,4 +6282,34 @@ command's parameters, with Preview; Set Size of Each's `__width` and `__height` 
 {"name":"run_command","arguments":{"command":"addon.arrange.grid","params":{"columns":4,"gapX":12,"gapY":12}}}
 {"name":"run_command","arguments":{"command":"addon.arrange.replace","params":{"fit":"proportional"}}}
 {"name":"run_command","arguments":{"command":"addon.arrange.size","params":{"width":72,"proportional":true}}}
+```
+
+## Document Tools add-on
+
+Document Tools is a built-in add-on for whole-document chores: its commands are `addon.document.*`, and in the desktop
+app it lives in Object › Plug-ins › Document Tools.
+
+`addon.document.saveTimestampedCopy {folder?, format?, time?}` writes a copy of the document named
+`<name>_YYYY-MM-DD_HH-MM.<ext>`, with `-2`, `-3`… added when that name is taken. The date and time are `time` (Unix
+seconds; now by default) in UTC. The copy goes in the document's own folder, or in `folder`, which a document never
+saved needs (the desktop app asks for one with the folder picker); `format` is a save format (`vectorcraft`, `pdf`,
+`svg`, `svgz`, `ai`, `eps`; the document's own by default). It is written as `file.saveCopy` writes, inside the
+automation roots in force: the document keeps its path, title and modified state, and no undo step is made. The
+command is off where there is no clock (the web). → `{path, format, bytes, warnings}`
+
+```json
+{"name":"run_command","arguments":{"command":"addon.document.saveTimestampedCopy","params":{}}}
+{"name":"run_command","arguments":{"command":"addon.document.saveTimestampedCopy","params":{"folder":"/Users/me/Versions","format":"pdf"}}}
+```
+
+`addon.document.symbolsFromLayers {layers?, replace?}` makes one symbol of each top-level layer's art, as `symbol.new`
+makes one (registration in the centre), named after the layer with a number added when a symbol has that name, as
+one undo step. `layers` lists layer ids (top-level layers only; anything else is refused); by default it takes the
+layers highlighted in the Layers panel when two or more are, else every layer. With `replace` (Convert Layers to
+Symbols in the menu) each layer's art is replaced by an instance of its symbol at the same place and size, the
+instances are selected, and locked layers are skipped. Layers with no art are skipped too; with nothing to make
+there is no step. → `{symbols: [name…], ids: [instance id…], skipped: [{layer, name, reason: "empty" | "locked"}…]}`
+
+```json
+{"name":"run_command","arguments":{"command":"addon.document.symbolsFromLayers","params":{"replace":true}}}
 ```

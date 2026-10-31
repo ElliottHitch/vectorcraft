@@ -1252,6 +1252,15 @@ font-technology	Variable	Biến thiên
 	Eyedropper: click the art to sample the stop's colour	Ống hút màu: bấm vào tác phẩm để lấy mẫu màu điểm dừng
 	Eyedropper: click the art to sample the key color	Ống hút màu: bấm vào tác phẩm để lấy mẫu màu chủ
 	Farsi	Farsi
+digits	Devanagari	Devanagari
+digits	Bengali	Bengali
+digits	Gurmukhi	Gurmukhi
+digits	Gujarati	Gujarati
+digits	Odia	Odia
+digits	Tamil	Tamil
+digits	Telugu	Telugu
+digits	Kannada	Kannada
+digits	Malayalam	Malayalam
 	Favorites	Yêu thích
 	Feather…	Làm mờ dần…
 	Feet	Feet
@@ -5232,7 +5241,7 @@ axis	Y Axis	Trục Y
 	Include Objects On Canvas	Bao gồm đối tượng trên vùng vẽ
 	Result(s): {count}	Kết quả: {count}
 @msg	select one object	hãy chọn một đối tượng
-@msg	Global Edit works on paths, compound paths and symbol instances	Chỉnh sửa toàn cục hoạt động trên đường dẫn, đường dẫn phức hợp và phiên bản biểu tượng
+@msg	Global Edit works on paths, compound paths, symbol instances and groups of them	Chỉnh sửa toàn cục hoạt động trên đường dẫn, đường dẫn phức hợp, phiên bản biểu tượng và nhóm của chúng
 @msg	no similar objects found (rotated or reflected copies are not matched); change the Global Edit Options and try again	không tìm thấy đối tượng tương tự (các bản sao đã xoay hoặc lật không được tính); hãy thay đổi tùy chọn chỉnh sửa toàn cục rồi thử lại
 @msg	`artboards`: all or a range such as 1, 3-5, not {v}	`artboards`: all hoặc một phạm vi như 1, 3-5, không phải {v}
 	Add to Symbols	Thêm vào ký hiệu
@@ -5645,6 +5654,29 @@ breakText	Glyphs	Glyph
 	Set Size of Each	Đặt kích thước từng cái
 @msg	select exactly two objects	hãy chọn đúng hai đối tượng
 @msg	give `width` or `height`	hãy cho `width` hoặc `height`
+# Arrange Tools add-on: Group Overlapping Objects.
+	Group Overlapping Objects	Nhóm các đối tượng chồng lên nhau
+@msg	too many objects selected (at most 20000)	chọn quá nhiều đối tượng (tối đa 20000)
+# Path Precision Tools add-on: Divide into Dashes.
+	Divide into Dashes…	Chia thành nét đứt…
+	Divide into Dashes	Chia thành nét đứt
+	Dash:	Gạch ngang:
+	Gap:	Khoảng hở:
+	Fit to Corners and Ends	Khớp với góc và đầu mút
+	Remove Gaps	Gỡ các khoảng hở
+@msg	that makes too many pieces (at most 100000): make the dashes longer	như vậy tạo ra quá nhiều mảnh (tối đa 100000): hãy kéo dài nét
+@msg	select paths, or segments, to divide	chọn các đường dẫn hoặc đoạn để chia
+# Document Tools add-on (Object › Plug-ins › Document Tools): Save a Timestamped Copy.
+	Document Tools	Công cụ tài liệu
+	Save a Timestamped Copy	Lưu bản sao có ngày giờ
+@msg	there is no clock here	ở đây không có đồng hồ
+@msg	there is no clock here: give `time` (Unix seconds)	ở đây không có đồng hồ: hãy cho `time` (giây Unix)
+@msg	the document has never been saved: give `folder`	tài liệu chưa từng được lưu: hãy cho `folder`
+@msg	every numbered name for the copy is taken	mọi tên đánh số cho bản sao đều đã dùng
+# Document Tools add-on: New Symbols from Layers and Convert Layers to Symbols.
+	New Symbols from Layers	Ký hiệu mới từ các lớp
+	Convert Layers to Symbols	Chuyển các lớp thành ký hiệu
+@msg	{id} is no top-level layer	{id} không phải là lớp cấp cao nhất
 	Marathi	Tiếng Marathi
 	Gujarati	Tiếng Gujarati
 	Bengali	Tiếng Bengali

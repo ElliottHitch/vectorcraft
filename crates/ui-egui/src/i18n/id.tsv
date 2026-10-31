@@ -1359,6 +1359,15 @@ lighting	Light	Cahaya
 	Arabic	Arab
 	Hindi	Hindi
 	Farsi	Farsi
+digits	Devanagari	Dewanagari
+digits	Bengali	Bengali
+digits	Gurmukhi	Gurmukhi
+digits	Gujarati	Gujarati
+digits	Odia	Oriya
+digits	Tamil	Tamil
+digits	Telugu	Telugu
+digits	Kannada	Kannada
+digits	Malayalam	Malayalam
 	Reset Panel	Setel ulang panel
 	Roman Baseline	Baseline Romawi
 	Select a text object to edit its character attributes.	Pilih objek teks untuk mengedit atribut karakternya.
@@ -5548,6 +5557,7 @@ axis	Y Axis	Sumbu Y
 	Create New Set	Buat set baru
 	Stop Global Edit	Hentikan edit global
 	Global Edit Options	Opsi edit global
+@msg	Global Edit works on paths, compound paths, symbol instances and groups of them	Edit global berfungsi pada jalur, jalur gabungan, instans simbol, dan grupnya
 	Match	Cocokkan
 	On Artboards	Di artboard
 	All Artboards	Semua artboard
@@ -5940,6 +5950,29 @@ breakText	Glyphs	Glif
 	Set Size of Each	Atur ukuran masing-masing
 @msg	select exactly two objects	pilih tepat dua objek
 @msg	give `width` or `height`	berikan `width` atau `height`
+# Arrange Tools add-on: Group Overlapping Objects.
+	Group Overlapping Objects	Grupkan objek yang tumpang tindih
+@msg	too many objects selected (at most 20000)	terlalu banyak objek dipilih (paling banyak 20000)
+# Path Precision Tools add-on: Divide into Dashes.
+	Divide into Dashes…	Bagi menjadi garis putus…
+	Divide into Dashes	Bagi menjadi garis putus
+	Dash:	Tanda pisah:
+	Gap:	Celah:
+	Fit to Corners and Ends	Paskan ke sudut dan ujung
+	Remove Gaps	Hapus celah
+@msg	that makes too many pieces (at most 100000): make the dashes longer	itu menghasilkan terlalu banyak potongan (paling banyak 100000): perpanjang garisnya
+@msg	select paths, or segments, to divide	pilih jalur atau segmen yang akan dibagi
+# Document Tools add-on (Object › Plug-ins › Document Tools): Save a Timestamped Copy.
+	Document Tools	Alat dokumen
+	Save a Timestamped Copy	Simpan salinan bercap waktu
+@msg	there is no clock here	tidak ada jam di sini
+@msg	there is no clock here: give `time` (Unix seconds)	tidak ada jam di sini: berikan `time` (detik Unix)
+@msg	the document has never been saved: give `folder`	dokumen belum pernah disimpan: berikan `folder`
+@msg	every numbered name for the copy is taken	semua nama bernomor untuk salinan sudah dipakai
+# Document Tools add-on: New Symbols from Layers and Convert Layers to Symbols.
+	New Symbols from Layers	Simbol baru dari lapisan
+	Convert Layers to Symbols	Ubah lapisan menjadi simbol
+@msg	{id} is no top-level layer	{id} bukan lapisan tingkat atas
 	Marathi	Marathi
 	Gujarati	Gujarati
 	Bengali	Bengali

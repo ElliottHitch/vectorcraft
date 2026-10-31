@@ -2489,6 +2489,15 @@ mark-style	Japanese	Giapponese
 	Arabic	Arabe
 	Hindi	Hindi
 	Farsi	Farsi
+digits	Devanagari	Devanagari
+digits	Bengali	Bengalese
+digits	Gurmukhi	Gurmukhi
+digits	Gujarati	Gujarati
+digits	Odia	Odia
+digits	Tamil	Tamil
+digits	Telugu	Telugu
+digits	Kannada	Kannada
+digits	Malayalam	Malayalam
 	Proportional Oldstyle	Proporzionali stile antico
 	Pucker & Bloat…	Contrai e gonfia…
 	Pucker Tool	Strumento Contrai
@@ -5249,7 +5258,7 @@ axis	Y Axis	Asse Y
 	Include Objects On Canvas	Includi oggetti sulla tela
 	Result(s): {count}	Risultati: {count}
 @msg	select one object	selezionate un oggetto
-@msg	Global Edit works on paths, compound paths and symbol instances	La modifica globale funziona su tracciati, tracciati composti e istanze di simboli
+@msg	Global Edit works on paths, compound paths, symbol instances and groups of them	La modifica globale funziona su tracciati, tracciati composti, istanze di simboli e gruppi di essi
 @msg	no similar objects found (rotated or reflected copies are not matched); change the Global Edit Options and try again	nessun oggetto simile trovato (le copie ruotate o riflesse non vengono riconosciute); cambiate le opzioni di modifica globale e riprovate
 @msg	`artboards`: all or a range such as 1, 3-5, not {v}	`artboards`: all o un intervallo come 1, 3-5, non {v}
 	Add to Symbols	Aggiungi ai simboli
@@ -5662,6 +5671,29 @@ breakText	Glyphs	Glifi
 	Set Size of Each	Imposta dimensione di ciascuno
 @msg	select exactly two objects	seleziona esattamente due oggetti
 @msg	give `width` or `height`	indica `width` o `height`
+# Arrange Tools add-on: Group Overlapping Objects.
+	Group Overlapping Objects	Raggruppa oggetti sovrapposti
+@msg	too many objects selected (at most 20000)	troppi oggetti selezionati (al massimo 20000)
+# Path Precision Tools add-on: Divide into Dashes.
+	Divide into Dashes…	Dividi in trattini…
+	Divide into Dashes	Dividi in trattini
+	Dash:	Trattino:
+	Gap:	Distanza:
+	Fit to Corners and Ends	Adatta ad angoli ed estremità
+	Remove Gaps	Rimuovi le distanze
+@msg	that makes too many pieces (at most 100000): make the dashes longer	così si ottengono troppi pezzi (al massimo 100000): allunga i trattini
+@msg	select paths, or segments, to divide	seleziona tracciati o segmenti da dividere
+# Document Tools add-on (Object › Plug-ins › Document Tools): Save a Timestamped Copy.
+	Document Tools	Strumenti documento
+	Save a Timestamped Copy	Salva una copia con data e ora
+@msg	there is no clock here	qui non c’è un orologio
+@msg	there is no clock here: give `time` (Unix seconds)	qui non c’è un orologio: indica `time` (secondi Unix)
+@msg	the document has never been saved: give `folder`	il documento non è mai stato salvato: indica `folder`
+@msg	every numbered name for the copy is taken	tutti i nomi numerati per la copia sono già usati
+# Document Tools add-on: New Symbols from Layers and Convert Layers to Symbols.
+	New Symbols from Layers	Nuovi simboli dai livelli
+	Convert Layers to Symbols	Converti livelli in simboli
+@msg	{id} is no top-level layer	{id} non è un livello di primo livello
 	Marathi	Marathi
 	Gujarati	Gujarati
 	Bengali	Bengalese

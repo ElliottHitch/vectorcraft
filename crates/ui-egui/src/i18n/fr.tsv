@@ -2456,6 +2456,15 @@ font-technology	Variable	Variables
 	Arabic	Arabes
 	Hindi	Hindi
 	Farsi	Farsi
+digits	Devanagari	Dévanagari
+digits	Bengali	Bengali
+digits	Gurmukhi	Gurmukhi
+digits	Gujarati	Goudjarati
+digits	Odia	Odia
+digits	Tamil	Tamoul
+digits	Telugu	Télougou
+digits	Kannada	Kannada
+digits	Malayalam	Malayalam
 	Proportional Oldstyle	Elzévirien proportionnel
 	Pucker & Bloat…	Contraction et dilatation…
 	Pucker Tool	Outil Contraction
@@ -5631,7 +5640,7 @@ axis	Y Axis	Axe Y
 	Include Objects On Canvas	Inclure les objets sur la toile
 	Result(s): {count}	Résultat(s) : {count}
 @msg	select one object	sélectionnez un seul objet
-@msg	Global Edit works on paths, compound paths and symbol instances	La modification globale s’applique aux tracés, aux tracés transparents et aux occurrences de symboles
+@msg	Global Edit works on paths, compound paths, symbol instances and groups of them	La modification globale s’applique aux tracés, aux tracés transparents, aux occurrences de symboles et aux groupes de ces objets
 @msg	no similar objects found (rotated or reflected copies are not matched); change the Global Edit Options and try again	aucun objet similaire trouvé (les copies pivotées ou symétriques ne sont pas reconnues) ; modifiez les options de modification globale et réessayez
 @msg	`artboards`: all or a range such as 1, 3-5, not {v}	`artboards` : all ou une plage telle que 1, 3-5, et non {v}
 	Add to Symbols	Ajouter aux symboles
@@ -6040,6 +6049,29 @@ breakText	Glyphs	Glyphes
 	Set Size of Each	Définir la taille de chaque objet
 @msg	select exactly two objects	sélectionnez exactement deux objets
 @msg	give `width` or `height`	indiquez `width` ou `height`
+# Arrange Tools add-on: Group Overlapping Objects.
+	Group Overlapping Objects	Grouper les objets qui se chevauchent
+@msg	too many objects selected (at most 20000)	trop d’objets sélectionnés (20000 au plus)
+# Path Precision Tools add-on: Divide into Dashes.
+	Divide into Dashes…	Diviser en tirets…
+	Divide into Dashes	Diviser en tirets
+	Dash:	Tiret :
+	Gap:	Écart :
+	Fit to Corners and Ends	Ajuster aux angles et aux extrémités
+	Remove Gaps	Supprimer les écarts
+@msg	that makes too many pieces (at most 100000): make the dashes longer	cela donne trop de morceaux (100000 au plus) : allongez les tirets
+@msg	select paths, or segments, to divide	sélectionnez des tracés ou des segments à diviser
+# Document Tools add-on (Object › Plug-ins › Document Tools): Save a Timestamped Copy.
+	Document Tools	Outils de document
+	Save a Timestamped Copy	Enregistrer une copie horodatée
+@msg	there is no clock here	il n’y a pas d’horloge ici
+@msg	there is no clock here: give `time` (Unix seconds)	il n’y a pas d’horloge ici : indiquez `time` (secondes Unix)
+@msg	the document has never been saved: give `folder`	le document n’a jamais été enregistré : indiquez `folder`
+@msg	every numbered name for the copy is taken	tous les noms numérotés pour la copie sont pris
+# Document Tools add-on: New Symbols from Layers and Convert Layers to Symbols.
+	New Symbols from Layers	Nouveaux symboles à partir des calques
+	Convert Layers to Symbols	Convertir les calques en symboles
+@msg	{id} is no top-level layer	{id} n’est pas un calque de premier niveau
 	Marathi	Marathi
 	Gujarati	Goudjarati
 	Bengali	Bengali
