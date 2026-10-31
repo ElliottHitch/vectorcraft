@@ -6042,8 +6042,6 @@ breakText	Glyphs	Merkit
 	Delete the selected brushes?	Poistetaanko valitut siveltimet?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Viivat käyttävät yhtä tai useampaa näistä siveltimistä. Irrotetaanko siveltimet näistä viivoista ja poistetaanko siveltimet?
 	Remove Strokes	Poista viivat
-	Yes	Kyllä
-	No	Ei
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Järjestelytyökalut
 	Arrange in Grid…	Järjestä ruudukkoon…

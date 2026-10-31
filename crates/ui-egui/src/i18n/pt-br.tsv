@@ -5931,8 +5931,6 @@ breakText	Glyphs	Glifos
 	Delete the selected brushes?	Excluir os pincéis selecionados?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Traçados usam um ou mais destes pincéis. Remover os pincéis desses traçados e excluir os pincéis?
 	Remove Strokes	Remover Traçados
-	Yes	Sim
-	No	Não
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Ferramentas de Organização
 	Arrange in Grid…	Organizar em Grade…

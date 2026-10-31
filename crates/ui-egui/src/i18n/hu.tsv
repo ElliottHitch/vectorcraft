@@ -5998,8 +5998,6 @@ breakText	Glyphs	Glifák
 	Delete the selected brushes?	Törlöd a kijelölt ecseteket?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Körvonalak használnak egyet vagy többet ezek közül az ecsetek közül. Leveszed az ecseteket ezekről a körvonalakról, és törlöd az ecseteket?
 	Remove Strokes	Körvonalak eltávolítása
-	Yes	Igen
-	No	Nem
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Elrendezőeszközök
 	Arrange in Grid…	Elrendezés rácsba…

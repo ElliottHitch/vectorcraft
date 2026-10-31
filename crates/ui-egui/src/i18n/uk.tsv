@@ -5611,8 +5611,6 @@ breakText	Glyphs	Гліфи
 	Delete the selected brushes?	Видалити вибрані пензлі?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Обведення використовують один або кілька з цих пензлів. Забрати пензлі з цих обведень і видалити пензлі?
 	Remove Strokes	Забрати обведення
-	Yes	Так
-	No	Ні
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Інструменти розміщення
 	Arrange in Grid…	Розмістити сіткою…

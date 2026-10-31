@@ -5916,8 +5916,6 @@ breakText	Glyphs	Glyffer
 	Delete the selected brushes?	Slet de valgte pensler?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Streger bruger en eller flere af disse pensler. Fjern penslerne fra stregerne, og slet penslerne?
 	Remove Strokes	Fjern streger
-	Yes	Ja
-	No	Nej
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Arrangeringsværktøjer
 	Arrange in Grid…	Arrangér i gitter…

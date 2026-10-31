@@ -6001,8 +6001,6 @@ breakText	Glyphs	გლიფები
 	Delete the selected brushes?	წაიშალოს არჩეული ფუნჯები?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	კონტურები იყენებს ამ ფუნჯებიდან ერთს ან მეტს. მოიხსნას ფუნჯები ამ კონტურებიდან და წაიშალოს ფუნჯები?
 	Remove Strokes	კონტურების მოხსნა
-	Yes	დიახ
-	No	არა
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	განლაგების ხელსაწყოები
 	Arrange in Grid…	ბადეში განლაგება…

@@ -6064,8 +6064,6 @@ breakText	Glyphs	Glyfer
 	Delete the selected brushes?	Radera de valda penslarna?
 	Strokes use one or more of these brushes. Take the brushes off those strokes and delete the brushes?	Konturer använder en eller flera av de här penslarna. Ta bort penslarna från konturerna och radera penslarna?
 	Remove Strokes	Ta bort konturer
-	Yes	Ja
-	No	Nej
 # Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
 	Arrange Tools	Ordningsverktyg
 	Arrange in Grid…	Ordna i rutnät…
