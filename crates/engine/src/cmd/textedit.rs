@@ -39,7 +39,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Character",
             [],
             None,
-            "{id? (default: the one selected type object), start?: byte, end?: byte (default: all text), font?, style?, size?: pt, leading?: pt|\"auto\", tracking?, kerning?: 1/1000 em|\"auto\"|\"optical\", baselineShift?: pt, hScale?: %, vScale?: %, rotation?: deg, fill?: colour|\"none\", stroke?: colour|\"none\", keepModel?: bool (fill and stroke, as paint.setFill), strokeWidth?: pt, strokeOptions?: {weight?, cap?, join?, miterLimit?, align?, dash?, dashOffset?, alignDashes?} (as stroke.set: the character stroke), underline?, strikethrough?, allCaps?: bool, smallCaps?: bool, position?: \"normal\"|\"superscript\"|\"subscript\" (sizes from Document Setup), features?: [\"dlig\", \"-liga\", …], charAlign?: \"romanBaseline\"|\"emBoxTop\"|\"emBoxCenter\"|\"emBoxBottom\"|\"icfTop\"|\"icfBottom\", proportionalMetrics?: bool (full-width glyphs on the font's proportional widths: `palt` in horizontal type, `vpal` in vertical type), tateChuYoko?: bool (Character panel menu › Tate-chu-yoko, with Show East Asian Options: in vertical type those characters stand side by side across one em of the column; kept on the characters and ignored in horizontal type), noBreak?: bool (Character panel menu › No Break: these characters stay on one line, including across a space inside the run), charDirection?: \"default\"|\"leftToRight\"|\"rightToLeft\" (Character panel menu › Character Direction: the characters are set left to right or right to left inside their paragraph, as a Unicode bidi embedding; default: as the bidi algorithm sets them), digits?: \"default\"|\"arabic\"|\"hindi\"|\"farsi\" (Character panel menu › Digits: the numeral system every digit is drawn in, whatever was typed), fontAxes?: {\"wght\": 650, …} (Character panel › Variable Font: the setting of each variation axis named, in the axis's units and clamped to its range; null: back to the style's own setting; other axes keep theirs; tags the font has no axis for are left out; a font or style change clears them; text.fontList {family, style} lists the axes)} style a character range (size/leading/baselineShift are document points and hScale includes the object transform; runs are split at the range ends) → {id, runs, warning?: text (the font or style set isn't available: its type is drawn in the fallback font or the family's closest style)}",
+            "{id? (default: the one selected type object), start?: byte, end?: byte (default: all text), font?, style?, size?: pt, leading?: pt|\"auto\", tracking?, kerning?: 1/1000 em|\"auto\"|\"optical\", baselineShift?: pt, hScale?: %, vScale?: %, rotation?: deg, fill?: colour|\"none\", stroke?: colour|\"none\", keepModel?: bool (fill and stroke, as paint.setFill), strokeWidth?: pt, strokeOptions?: {weight?, cap?, join?, miterLimit?, align?, dash?, dashOffset?, alignDashes?} (as stroke.set: the character stroke), underline?, strikethrough?, allCaps?: bool, smallCaps?: bool, position?: \"normal\"|\"superscript\"|\"subscript\" (sizes from Document Setup), features?: [\"dlig\", \"-liga\", …], charAlign?: \"romanBaseline\"|\"emBoxTop\"|\"emBoxCenter\"|\"emBoxBottom\"|\"icfTop\"|\"icfBottom\", proportionalMetrics?: bool (full-width glyphs on the font's proportional widths: `palt` in horizontal type, `vpal` in vertical type), tateChuYoko?: bool (Character panel menu › Tate-chu-yoko, with Show East Asian Options: in vertical type those characters stand side by side across one em of the column; kept on the characters and ignored in horizontal type), noBreak?: bool (Character panel menu › No Break: these characters stay on one line, including across a space inside the run), charDirection?: \"default\"|\"leftToRight\"|\"rightToLeft\" (Character panel menu › Character Direction: the characters are set left to right or right to left inside their paragraph, as a Unicode bidi embedding; default: as the bidi algorithm sets them), digits?: \"default\"|\"arabic\"|\"hindi\"|\"farsi\" (Character panel menu › Digits: the numeral system every digit is drawn in, whatever was typed), language?: name|tag (Character panel › Language: one of Document Setup's languages by name or BCP 47 tag, case-insensitive, such as \"Turkish\" or \"tr\"; the characters are shaped in it, so the font uses that language's forms (OpenType `locl`); saved as the tag, English: USA, the default, as none; new type takes the document's language), fontAxes?: {\"wght\": 650, …} (Character panel › Variable Font: the setting of each variation axis named, in the axis's units and clamped to its range; null: back to the style's own setting; other axes keep theirs; tags the font has no axis for are left out; a font or style change clears them; text.fontList {family, style} lists the axes)} style a character range (size/leading/baselineShift are document points and hScale includes the object transform; runs are split at the range ends) → {id, runs, warning?: text (the font or style set isn't available: its type is drawn in the fallback font or the family's closest style)}",
             has_doc,
             set_range_style
         ),
@@ -321,6 +321,8 @@ pub(crate) struct CharChange {
     tate_chu_yoko: Option<bool>,
     no_break: Option<bool>,
     digits: Option<vectorcraft_doc::Digits>,
+    /// The language to set: a tag, or `None` for the default.
+    language: Option<Option<String>>,
     font_axes: Option<AxisChange>,
 }
 
@@ -348,6 +350,15 @@ pub(crate) fn digits_param(p: &Value, cmd: &str) -> Result<Option<vectorcraft_do
         Some("farsi") => Digits::Farsi,
         _ => return Err(bad(cmd, "`digits` must be \"default\", \"arabic\", \"hindi\" or \"farsi\"")),
     }))
+}
+
+/// `language: name|tag` (one of Document Setup's languages, case-insensitive) → the language to
+/// set ([`vectorcraft_doc::CharStyle::language`]: `None` inside for the default).
+pub(crate) fn language_param(p: &Value, cmd: &str) -> Result<Option<Option<String>>> {
+    let Some(v) = p.get("language").filter(|v| !v.is_null()) else { return Ok(None) };
+    let l = v.as_str().ok_or_else(|| bad(cmd, "`language` must be a language name or tag, such as \"Turkish\" or \"tr\""))?;
+    let tag = vectorcraft_doc::setup::char_language(l).map_err(|e| bad(cmd, e))?;
+    Ok(Some(tag.map(str::to_string)))
 }
 
 /// Variable Font settings to change: by axis tag, a value in the axis's units, or `None` to go
@@ -507,6 +518,7 @@ impl CharChange {
             tate_chu_yoko: flag("tateChuYoko"),
             no_break: flag("noBreak"),
             digits: digits_param(p, cmd)?,
+            language: language_param(p, cmd)?,
             font_axes: font_axes_param(p, cmd)?,
         };
         if c.size.is_some_and(|v| v <= 0.0) {
@@ -552,6 +564,7 @@ impl CharChange {
             && self.tate_chu_yoko.is_none()
             && self.no_break.is_none()
             && self.digits.is_none()
+            && self.language.is_none()
             && self.font_axes.is_none()
     }
 
@@ -654,6 +667,9 @@ impl CharChange {
         }
         if let Some(v) = self.digits {
             st.digits = v;
+        }
+        if let Some(v) = &self.language {
+            st.language.clone_from(v);
         }
     }
 }

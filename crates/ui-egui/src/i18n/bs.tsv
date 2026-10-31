@@ -5960,4 +5960,14 @@ shape	Open	Otvoren
 	Set Size of Each	Postavi veličinu svakog
 @msg	select exactly two objects	odaberite tačno dva objekta
 @msg	give `width` or `height`	zadajte `width` ili `height`
+	Marathi	Marathi
+	Gujarati	Gudžarati
+	Bengali	Bengalski
+	Punjabi	Pandžapski
+	Tamil	Tamilski
+	Telugu	Telugu
+	Kannada	Kanada
+	Malayalam	Malajalam
+	Odia	Odija
+	Urdu	Urdu
 	VectorCraft {release} and later (version {n})	VectorCraft {release} i novije (verzija {n})

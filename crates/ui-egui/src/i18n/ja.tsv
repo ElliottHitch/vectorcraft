@@ -46,7 +46,8 @@ font-technology	Variable	バリアブル
 	Character Direction	文字の方向
 	Digits	数字
 	Arabic	アラビア数字
-	Hindi	ヒンディー数字
+	Hindi	ヒンディー語
+digits	Hindi	ヒンディー数字
 	Farsi	ペルシャ数字
 	Favorites	お気に入り
 	Flip	反転
@@ -5728,4 +5729,14 @@ breakText	Glyphs	字形
 	Set Size of Each	個別にサイズを設定
 @msg	select exactly two objects	オブジェクトをちょうど 2 つ選択してください
 @msg	give `width` or `height`	`width` または `height` を指定してください
+	Marathi	マラーティー語
+	Gujarati	グジャラート語
+	Bengali	ベンガル語
+	Punjabi	パンジャブ語
+	Tamil	タミル語
+	Telugu	テルグ語
+	Kannada	カンナダ語
+	Malayalam	マラヤーラム語
+	Odia	オディア語
+	Urdu	ウルドゥー語
 	VectorCraft {release} and later (version {n})	VectorCraft {release} 以降 (バージョン {n})

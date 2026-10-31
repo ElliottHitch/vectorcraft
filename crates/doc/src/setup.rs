@@ -167,6 +167,17 @@ pub const LANGUAGES: &[(&str, &str, Quotes)] = &[
     ("Turkish", "tr", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
     ("Japanese", "ja", Quotes { double: ['「', '」'], single: ['『', '』'] }),
     ("Chinese", "zh", Quotes { double: ['“', '”'], single: ['‘', '’'] }),
+    ("Hindi", "hi", Quotes::ENGLISH),
+    ("Marathi", "mr", Quotes::ENGLISH),
+    ("Gujarati", "gu", Quotes::ENGLISH),
+    ("Bengali", "bn", Quotes::ENGLISH),
+    ("Punjabi", "pa", Quotes::ENGLISH),
+    ("Tamil", "ta", Quotes::ENGLISH),
+    ("Telugu", "te", Quotes::ENGLISH),
+    ("Kannada", "kn", Quotes::ENGLISH),
+    ("Malayalam", "ml", Quotes::ENGLISH),
+    ("Odia", "or", Quotes::ENGLISH),
+    ("Urdu", "ur", Quotes::ENGLISH),
 ];
 
 /// The quotes of a [`LANGUAGES`] entry (case-insensitive).
@@ -354,13 +365,13 @@ mod tests {
     #[test]
     fn char_languages_are_stored_by_tag() {
         assert_eq!(char_language("Turkish"), Ok(Some("tr")));
-        assert_eq!(char_language("TR"), Ok(Some("tr")));
+        assert_eq!(char_language("MR"), Ok(Some("mr")));
         assert_eq!(char_language("english: usa"), Ok(None));
         assert_eq!(char_language("en-US"), Ok(None));
         assert!(char_language("Klingon").is_err() && char_language("").is_err());
         assert_eq!(
-            (char_language_name(None), char_language_name(Some("de")), char_language_name(Some("x-unknown"))),
-            (Some("English: USA"), Some("German"), None)
+            (char_language_name(None), char_language_name(Some("gu")), char_language_name(Some("x-unknown"))),
+            (Some("English: USA"), Some("Gujarati"), None)
         );
         // Every entry has a tag of its own, and a name of its own.
         for (i, (n, t, _)) in LANGUAGES.iter().enumerate() {

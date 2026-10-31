@@ -5034,6 +5034,21 @@ A digit the font lacks comes from a fallback font. Default and saved only when s
 {"name":"run_command","arguments":{"command":"text.setFormat","params":{"digits":"hindi"}}}
 ```
 
+## Language
+
+`text.setFormat {language}` (the selected type, or `ids`) and `text.setRangeStyle {id, start, end, language}` (a range)
+set the language of the characters, as the Character panel's Language menu does: one of Document Setup's languages
+(`document.setup {language}`), by name or BCP 47 tag, case-insensitive (`"Turkish"` or `"tr"`, `"Marathi"` or `"mr"`).
+An unknown language is an error. The characters are shaped in it, so the font uses that language's forms (OpenType
+`locl`): in Turkish, Source Serif 4 keeps `fi` as two letters and the dot on the i, where English makes the fi ligature.
+Runs are saved with the tag, and English: USA, the default, as no language, so files without languages load and save
+as before. New type takes the document's language. Character styles captured from type carry it, and `charStyle.new` /
+`charStyle.setAttrs` take `attrs: {language}` the same way. One undo step.
+
+```json
+{"name":"run_command","arguments":{"command":"text.setFormat","params":{"language":"Turkish"}}}
+```
+
 ## Touch Type
 
 The Touch Type tool (`touchType`, Shift+T) changes one character at a time. A click on a character of a type object

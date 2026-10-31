@@ -6073,4 +6073,14 @@ breakText	Glyphs	Merkit
 	Set Size of Each	Aseta kunkin koko
 @msg	select exactly two objects	valitse täsmälleen kaksi objektia
 @msg	give `width` or `height`	anna `width` tai `height`
+	Marathi	Marathi
+	Gujarati	Gudžarati
+	Bengali	Bengali
+	Punjabi	Pandžabi
+	Tamil	Tamili
+	Telugu	Telugu
+	Kannada	Kannada
+	Malayalam	Malajalam
+	Odia	Orija
+	Urdu	Urdu
 	VectorCraft {release} and later (version {n})	VectorCraft {release} ja uudemmat (versio {n})

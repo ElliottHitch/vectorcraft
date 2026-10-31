@@ -5995,4 +5995,14 @@ breakText	Glyphs	Γλύφοι
 	Set Size of Each	Ορισμός μεγέθους καθενός
 @msg	select exactly two objects	επιλέξτε ακριβώς δύο αντικείμενα
 @msg	give `width` or `height`	δώστε `width` ή `height`
+	Marathi	Μαραθικά
+	Gujarati	Γκουγιαράτι
+	Bengali	Βεγγαλικά
+	Punjabi	Παντζαπικά
+	Tamil	Ταμιλικά
+	Telugu	Τελούγκου
+	Kannada	Κανάντα
+	Malayalam	Μαλαγιάλαμ
+	Odia	Όντια
+	Urdu	Ούρντου
 	VectorCraft {release} and later (version {n})	VectorCraft {release} και νεότερες (έκδοση {n})

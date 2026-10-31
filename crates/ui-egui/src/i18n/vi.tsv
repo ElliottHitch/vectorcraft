@@ -1624,7 +1624,8 @@ file-filter	Templates	Mẫu
 	Highlight Substituted Fonts	Đánh dấu phông thay thế
 	Highlight Substituted Glyphs	Đánh dấu Glyph bị thay thế
 	Highlight Variable	Đánh dấu biến
-	Hindi	Hindi
+	Hindi	Tiếng Hindi
+digits	Hindi	Hindi
 	History	Lịch sử
 	History Options…	Tùy chọn lịch sử…
 	Step Backward	Lùi một bước
@@ -5644,4 +5645,14 @@ breakText	Glyphs	Glyph
 	Set Size of Each	Đặt kích thước từng cái
 @msg	select exactly two objects	hãy chọn đúng hai đối tượng
 @msg	give `width` or `height`	hãy cho `width` hoặc `height`
+	Marathi	Tiếng Marathi
+	Gujarati	Tiếng Gujarati
+	Bengali	Tiếng Bengali
+	Punjabi	Tiếng Punjab
+	Tamil	Tiếng Tamil
+	Telugu	Tiếng Telugu
+	Kannada	Tiếng Kannada
+	Malayalam	Tiếng Malayalam
+	Odia	Tiếng Odia
+	Urdu	Tiếng Urdu
 	VectorCraft {release} and later (version {n})	VectorCraft {release} trở lên (phiên bản {n})

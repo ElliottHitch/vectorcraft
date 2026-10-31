@@ -6095,4 +6095,14 @@ breakText	Glyphs	Glyfer
 	Set Size of Each	Ange storlek för vart och ett
 @msg	select exactly two objects	markera exakt två objekt
 @msg	give `width` or `height`	ange `width` eller `height`
+	Marathi	Marathi
+	Gujarati	Gujarati
+	Bengali	Bengali
+	Punjabi	Punjabi
+	Tamil	Tamil
+	Telugu	Telugu
+	Kannada	Kannada
+	Malayalam	Malayalam
+	Odia	Oriya
+	Urdu	Urdu
 	VectorCraft {release} and later (version {n})	VectorCraft {release} och senare (version {n})

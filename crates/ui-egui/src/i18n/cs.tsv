@@ -1442,7 +1442,8 @@ lighting	Light	Světlo
 	Character Direction	Směr znaků
 	Digits	Číslice
 	Arabic	Arabské
-	Hindi	Hindské
+	Hindi	Hindština
+digits	Hindi	Hindské
 	Farsi	Perské
 	Reset Panel	Obnovit panel
 	Roman Baseline	Latinková účaří
@@ -6042,4 +6043,14 @@ breakText	Glyphs	Glyfy
 	Set Size of Each	Nastavit velikost jednotlivě
 @msg	select exactly two objects	vyberte právě dva objekty
 @msg	give `width` or `height`	zadejte `width` nebo `height`
+	Marathi	Maráthština
+	Gujarati	Gudžarátština
+	Bengali	Bengálština
+	Punjabi	Paňdžábština
+	Tamil	Tamilština
+	Telugu	Telugština
+	Kannada	Kannadština
+	Malayalam	Malajálamština
+	Odia	Urijština
+	Urdu	Urdština
 	VectorCraft {release} and later (version {n})	VectorCraft {release} a novější (verze {n})

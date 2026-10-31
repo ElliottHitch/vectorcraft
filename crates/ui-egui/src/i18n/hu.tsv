@@ -6029,4 +6029,14 @@ breakText	Glyphs	Glifák
 	Set Size of Each	Egyenkénti méret beállítása
 @msg	select exactly two objects	jelölj ki pontosan két objektumot
 @msg	give `width` or `height`	add meg a `width` vagy a `height` értéket
+	Marathi	Maráthi
+	Gujarati	Gudzsaráti
+	Bengali	Bengáli
+	Punjabi	Pandzsábi
+	Tamil	Tamil
+	Telugu	Telugu
+	Kannada	Kannada
+	Malayalam	Malajálam
+	Odia	Odia
+	Urdu	Urdu
 	VectorCraft {release} and later (version {n})	VectorCraft {release} és újabb (verzió: {n})
