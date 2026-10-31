@@ -1903,7 +1903,8 @@ fn the_flattener_and_3d_sliders_step_with_the_arrow_keys() {
 /// The Blob Brush Tool Options' tip preview is the Angle slider for screen readers, with the Angle
 /// as its value. A click in it points the Angle at the pointer and gives it the focus, its arrow
 /// keys then step the Angle by one degree (ten with Shift) within -180° to 180°, Shift+Tab leaves
-/// it for the Roundness field and Tab comes back to it, and a drag still sets the Angle.
+/// it for the Roundness field and Tab comes back to it, and a drag still sets the Angle and gives
+/// it the focus.
 #[test]
 fn the_blob_brush_tip_preview_is_a_named_slider_with_arrow_keys() {
     use egui::Key::{ArrowDown, ArrowLeft, ArrowRight, ArrowUp, End, Home, Tab};
@@ -1949,8 +1950,11 @@ fn the_blob_brush_tip_preview_is_a_named_slider_with_arrow_keys() {
     f.key(&mut app, Tab, M::NONE);
     f.key(&mut app, ArrowRight, M::NONE);
     assert_eq!(angle(&app), -178.0, "Tab comes back to the preview");
+    f.key(&mut app, Tab, M::SHIFT);
     f.drag(&mut app, center + egui::vec2(20.0, 0.0), egui::vec2(0.0, 20.0));
     assert_eq!(angle(&app), -45.0, "the drag ends down to the right");
+    f.key(&mut app, ArrowRight, M::NONE);
+    assert_eq!(angle(&app), -44.0, "the drag gives the preview the focus");
 }
 
 #[test]
