@@ -4,9 +4,10 @@
 //! selection and the paint defaults (`appearance.copyFrom`); Alt-click: the selection's attributes
 //! onto the clicked object (`reverse`); Shift+Alt-click: add the clicked object's appearance to the
 //! selection's (`append`). Shift-click: sample only the colour under the cursor into the active
-//! fill/stroke (`paint.sampleColor`; in a CMYK document an RGB color is stored as CMYK). Clicking
-//! an image samples its pixels (averaged over the options' raster sample size; a CMYK image gives
-//! its ink amounts).
+//! fill/stroke (`paint.sampleColor`; in a CMYK document an RGB color is stored as CMYK): a
+//! gradient's color at that point, a pattern's tile art there (after the pattern's transform), or
+//! a gradient mesh's interpolated patch color. Clicking an image samples its pixels (averaged over
+//! the options' raster sample size; a CMYK image gives its ink amounts).
 //!
 //! The Gradient panel's eyedropper sets the `stop` option (the tool to return to): the next click
 //! samples the colour under the cursor into the selected gradient stop (`paint.sampleColor
@@ -17,9 +18,10 @@
 
 use serde_json::{Value, json};
 use vectorcraft_color::{Color, Paint};
-use vectorcraft_doc::hit::{HitKind, hit_test, hit_test_visible};
-use vectorcraft_doc::{Node, NodeKind};
-use vectorcraft_geom::Point;
+use vectorcraft_doc::hit::{HitKind, HitOptions, hit_test, hit_test_visible};
+use vectorcraft_doc::{Document, Node, NodeKind};
+use vectorcraft_geom::hit::fill_contains;
+use vectorcraft_geom::{Affine, Point, Rect};
 
 use super::paint_owner;
 use crate::params::color_json;
@@ -49,18 +51,83 @@ pub fn paint_color_at(paint: &Paint, bounds: Option<vectorcraft_geom::Rect>, p: 
     }
 }
 
+/// How many patterns and symbols deep a sample follows art inside art (tile art painted with a
+/// pattern, a symbol whose art holds an instance of another): as deep as a document draws.
+const MAX_NESTING: usize = vectorcraft_doc::depth::MAX_DRAWN_DEPTH;
+
+/// Most tiles of one pattern a sample looks at, front to back, for art that paints the point.
+const MAX_TILES: usize = 1_000;
+
+/// The Eyedropper's hit options: a click inside a fill or among characters samples it too,
+/// whatever Object and Type Object Selection by Path Only say.
+fn sample_options(cx: &ToolContext) -> HitOptions {
+    HitOptions { path_only: false, type_path_only: false, ..cx.hit_options() }
+}
+
 /// The visible object under `p`, using the Eyedropper's source selection rules.
 pub(crate) fn sample_source(cx: &ToolContext, p: Point) -> Option<(vectorcraft_doc::NodeId, HitKind)> {
-    let opts = vectorcraft_doc::hit::HitOptions { path_only: false, type_path_only: false, ..cx.hit_options() };
-    let h = hit_test_visible(cx.doc, p, opts)?;
+    let h = hit_test_visible(cx.doc, p, sample_options(cx))?;
     Some((paint_owner(cx.doc, h.leaf), h.kind))
 }
 
-/// The visible color under `p`, including image pixels and intermediate gradient colors.
+/// The visible color under `p`, including image pixels, pattern tiles, mesh colors and
+/// intermediate gradient colors.
 pub(crate) fn sample_color_at(cx: &ToolContext, p: Point) -> Option<Color> {
-    let (id, kind) = sample_source(cx, p)?;
-    let n = cx.doc.node(id)?;
-    if matches!(n.kind, NodeKind::Image(_)) { image_color_at(cx, n, p) } else { paint_sample(n, kind == HitKind::Stroke, p) }
+    color_under(cx, cx.doc, p, sample_options(cx), 0)
+}
+
+/// The color the front-most object of `doc` hit at `p` with `opts` shows there. Where a stroke
+/// gives no color at `p` (a gap between its pattern's tiles), the object's own fill there does;
+/// an object that gives none at all is passed over for the ones below it.
+fn color_under(cx: &ToolContext, doc: &Document, p: Point, opts: HitOptions, depth: usize) -> Option<Color> {
+    let mut rest: Option<Document> = None;
+    loop {
+        let d = rest.as_ref().unwrap_or(doc);
+        let h = hit_test_visible(d, p, opts)?;
+        let id = paint_owner(d, h.leaf);
+        let n = d.node(id)?;
+        let on_stroke = h.kind == HitKind::Stroke;
+        let fill = || if on_stroke && fill_covers(n, p) { node_color_at(cx, d, n, false, p, depth) } else { None };
+        if let Some(c) = node_color_at(cx, d, n, on_stroke, p, depth).or_else(fill) {
+            return Some(c);
+        }
+        rest.get_or_insert_with(|| doc.clone()).remove(id).ok()?;
+    }
+}
+
+/// Whether the fill of path or compound path `n` covers `p`.
+fn fill_covers(n: &Node, p: Point) -> bool {
+    match &n.kind {
+        NodeKind::Path { path, rule, .. } => fill_contains(&path.to_bezpath(), *rule, p),
+        NodeKind::Compound { rule, .. } => n.stroke_path().is_some_and(|bp| fill_contains(&bp, *rule, p)),
+        _ => false,
+    }
+}
+
+/// The color `n` (in `doc`) shows at `p`: an image's pixels, a mesh's interpolated patch color, a
+/// symbol instance's art, or the color of its fill (or its stroke, when the stroke was hit or there
+/// is no fill) there. `depth` counts the patterns and symbols the sample is already inside.
+fn node_color_at(cx: &ToolContext, doc: &Document, n: &Node, on_stroke: bool, p: Point, depth: usize) -> Option<Color> {
+    match &n.kind {
+        NodeKind::Image(_) => image_color_at(cx, doc, n, p),
+        NodeKind::Mesh(m) => {
+            let (r, c, u, v) = m.locate(p)?;
+            Some(m.color_at(r, c, u, v).0)
+        }
+        NodeKind::SymbolInstance { symbol, xf } => {
+            symbol_color_at(cx, doc, symbol, *xf, p, depth).or_else(|| paint_sample(cx, doc, n, on_stroke, p, depth))
+        }
+        _ => paint_sample(cx, doc, n, on_stroke, p, depth),
+    }
+}
+
+/// The color the art of symbol `name` of `doc`, placed in the document by `xf`, shows at `p`.
+fn symbol_color_at(cx: &ToolContext, doc: &Document, name: &str, xf: Affine, p: Point, depth: usize) -> Option<Color> {
+    if xf.determinant().abs() < 1e-12 {
+        return None;
+    }
+    let sym = doc.symbols.iter().find(|s| s.name == name)?;
+    art_color_at(cx, doc, [(*sym.art).clone()], xf.inverse() * p, depth)
 }
 
 /// Whether the source has fill or stroke paint for an attribute sample.
@@ -69,24 +136,82 @@ pub(crate) fn has_sampleable_paint(cx: &ToolContext, id: vectorcraft_doc::NodeId
 }
 
 /// The colour of `n`'s fill (or its stroke, when the stroke was hit or there is no fill) at `p`,
-/// sampled in the paint's own space (text space for type runs) and box.
-fn paint_sample(n: &Node, on_stroke: bool, p: Point) -> Option<Color> {
+/// sampled in the paint's own space (text space for type runs) and box. A pattern gives the color
+/// of its tile art at `p` ([`pattern_color_at`]).
+fn paint_sample(cx: &ToolContext, doc: &Document, n: &Node, on_stroke: bool, p: Point, depth: usize) -> Option<Color> {
     let fill_none = n.proxy_paint(false, None).is_none_or(|(p, ..)| p.is_none());
     let (paint, to_doc, bounds) = n.proxy_paint(on_stroke || fill_none, None)?;
+    if let Paint::Pattern { pattern, xf } = paint {
+        return pattern_color_at(cx, doc, pattern, to_doc * *xf, p, depth);
+    }
     let p = if to_doc.determinant().abs() > 1e-12 { to_doc.inverse() * p } else { p };
     paint_color_at(paint, Some(bounds), p)
 }
 
-/// The color of image `n`'s pixels at `p`, averaged over the raster sample size: a CMYK image's
-/// ink amounts as they are, other images' sRGB pixels in the working RGB space (the color that
-/// shows as that pixel).
-fn image_color_at(cx: &ToolContext, n: &Node, p: Point) -> Option<Color> {
+/// The color pattern `name` of `doc`, placed in the document by `xf`, shows at `p`: the color of
+/// the front-most tile art there. A point the tiles leave empty has no color.
+fn pattern_color_at(cx: &ToolContext, doc: &Document, name: &str, xf: Affine, p: Point, depth: usize) -> Option<Color> {
+    if xf.determinant().abs() < 1e-12 {
+        return None;
+    }
+    let def = doc.patterns.iter().find(|d| d.name == name)?;
+    // Sampled in pattern space, one tile at a time from the front, among the tiles whose art reaches
+    // the point (or meets it at an edge). The art moves by whole tiles, and the patterns it is
+    // painted with move with it.
+    let q = xf.inverse() * p;
+    let near = Rect::from_points(q, q).inflate(1e-6, 1e-6);
+    let bounds: Vec<Option<Rect>> = def.art.iter().map(|a| a.visual_bounds()).collect();
+    let reaches = |m: Affine| bounds.iter().any(|b| b.is_none_or(|b| m.transform_rect_bbox(b).inflate(1e-6, 1e-6).contains(q)));
+    let scaling = vectorcraft_doc::Scaling { patterns: true, ..Default::default() };
+    def.offsets_covering(near).into_iter().rev().map(|o| def.instance_xf(o)).filter(|m| reaches(*m)).take(MAX_TILES).find_map(|m| {
+        let art = def.art.iter().map(|a| {
+            let mut n = (**a).clone();
+            vectorcraft_doc::pattern::place_art(&mut n, m, scaling);
+            n
+        });
+        art_color_at(cx, doc, art, q, depth)
+    })
+}
+
+/// The color the front-most of `art` (in paint order, in the space of `p`) shows at `p`, sampled
+/// as [`node_color_at`] samples an object. The art is hit in a scratch document with the images,
+/// symbols and patterns of `doc`, with no tolerance around outlines and strokes: only what it
+/// paints at `p` counts.
+fn art_color_at(cx: &ToolContext, doc: &Document, art: impl IntoIterator<Item = Node>, p: Point, depth: usize) -> Option<Color> {
+    if depth >= MAX_NESTING {
+        return None;
+    }
+    let mut scratch = Document::new(1.0, 1.0);
+    scratch.images = doc.images.clone();
+    scratch.symbols = doc.symbols.clone();
+    scratch.patterns = doc.patterns.clone();
+    let layer = scratch.layers.first()?.id;
+    for mut n in art {
+        renumber(&mut scratch, &mut n);
+        scratch.insert(Some(layer), usize::MAX, n).ok()?;
+    }
+    let opts = HitOptions { scope: None, tol: 0.0, outline: false, ..sample_options(cx) };
+    color_under(cx, &scratch, p, opts, depth + 1)
+}
+
+/// Gives `n` and everything in it new ids from `doc` (pattern instances all have id 0).
+fn renumber(doc: &mut Document, n: &mut Node) {
+    n.id = doc.alloc_id();
+    for c in n.children_mut().into_iter().flatten() {
+        renumber(doc, std::sync::Arc::make_mut(c));
+    }
+}
+
+/// The color of image `n`'s pixels (in `doc`) at `p`, averaged over the raster sample size: a CMYK
+/// image's ink amounts as they are, other images' sRGB pixels in the working RGB space (the color
+/// that shows as that pixel).
+fn image_color_at(cx: &ToolContext, doc: &Document, n: &Node, p: Point) -> Option<Color> {
     let NodeKind::Image(im) = &n.kind else { return None };
     if im.xf.determinant().abs() < 1e-12 {
         return None;
     }
     let px = im.xf.inverse() * p;
-    let blob = cx.doc.images.get(&im.key)?;
+    let blob = doc.images.get(&im.key)?;
     let object = (im.width, im.height);
     if let Some(inks) = blob.sample_cmyk_object(px.x, px.y, object, cx.raster_sample) {
         let [c, m, y, k] = inks.map(|v| f32::from(v) / 255.0);
@@ -106,9 +231,7 @@ impl Tool for EyedropperTool {
         if ev.kind != PointerKind::Down {
             return vec![];
         }
-        // A click inside a fill or among characters samples it too, whatever Object and Type
-        // Object Selection by Path Only say.
-        let opts = vectorcraft_doc::hit::HitOptions { path_only: false, type_path_only: false, ..cx.hit_options() };
+        let opts = sample_options(cx);
         if self.brush_key_color {
             let Some(c) = sample_color_at(cx, ev.pos) else { return vec![] };
             let back = self.stop.clone().unwrap_or_else(|| "selection".to_string());
@@ -124,7 +247,7 @@ impl Tool for EyedropperTool {
         } else {
             sample_source(cx, ev.pos)
         };
-        let Some((src, kind)) = source else { return vec![] };
+        let Some((src, _)) = source else { return vec![] };
         let Some(n) = cx.doc.node(src) else { return vec![] };
         if ev.mods.alt && stop.is_none() {
             let how = if ev.mods.shift { "append" } else { "reverse" };
@@ -134,8 +257,7 @@ impl Tool for EyedropperTool {
         if !(ev.mods.shift || stop.is_some() || image) {
             return vec![Action::Exec("appearance.copyFrom".into(), json!({ "source": src.0 }))];
         }
-        let sampled = if image { image_color_at(cx, n, ev.pos) } else { paint_sample(n, kind == HitKind::Stroke, ev.pos) };
-        let Some(c) = sampled else { return vec![] };
+        let Some(c) = sample_color_at(cx, ev.pos) else { return vec![] };
         let color = color_json(&c);
         let Some((back, i)) = stop else { return vec![Action::Exec("paint.sampleColor".into(), json!({ "color": color }))] };
         let out = vec![Action::Exec("paint.sampleColor".into(), json!({ "color": color, "stop": i })), Action::SwitchTool(back.clone())];
@@ -387,6 +509,157 @@ mod tests {
             vec![Action::Exec("paint.sampleColor".into(), ink([13, 26, 39, 179]))],
             "3 x 3 average of both pixels"
         );
+    }
+
+    /// An unstroked rectangle filled with `fill`, with id 0 (as pattern and symbol art is).
+    fn filled_rect(r: vectorcraft_geom::Rect, fill: Paint) -> std::sync::Arc<Node> {
+        let mut a = vectorcraft_doc::Appearance::default();
+        a.set_fill(fill);
+        std::sync::Arc::new(Node::path(vectorcraft_doc::NodeId(0), vectorcraft_geom::shapes::rectangle(r), a))
+    }
+
+    /// [`doc_with_rect`] plus the pattern "Halves": a 20 × 10 tile, red on its left half and blue
+    /// on its right half.
+    fn doc_with_halves() -> (vectorcraft_doc::Document, vectorcraft_doc::NodeId) {
+        use vectorcraft_geom::Rect;
+        let (mut d, id) = doc_with_rect();
+        let (red, blue) = (Paint::solid(Color::rgb(1.0, 0.0, 0.0)), Paint::solid(Color::rgb(0.0, 0.0, 1.0)));
+        let mut def = vectorcraft_doc::PatternDef::new(
+            "Halves",
+            vec![filled_rect(Rect::new(0.0, 0.0, 10.0, 10.0), red), filled_rect(Rect::new(10.0, 0.0, 20.0, 10.0), blue)],
+        );
+        def.tile = Rect::new(0.0, 0.0, 20.0, 10.0);
+        d.patterns.push(def);
+        (d, id)
+    }
+
+    /// Shift-click on a pattern fill samples the color of the tile art under the cursor, where the
+    /// pattern's own transform puts it, however small the tiles are.
+    #[test]
+    fn shift_click_samples_the_pattern_tile_under_the_cursor() {
+        use vectorcraft_geom::Affine;
+        let (mut d, id) = doc_with_halves();
+        d.node_mut(id).unwrap().appearance.set_fill(Paint::Pattern { pattern: "Halves".into(), xf: Affine::translate((5.0, 0.0)) });
+        let (s, p) = (Selection::default(), paint());
+        let shift = Mods { shift: true, ..Default::default() };
+        let at = |d: &vectorcraft_doc::Document, x: f64| {
+            EyedropperTool::default().pointer(&cx(d, &s, &p), &PointerEvent::new(PointerKind::Down, x, 155.0).with_mods(shift))
+        };
+        // Pattern space x 128 (8 into a tile), then x 137 (17 into a tile).
+        assert_eq!(sampled_hex(&at(&d, 133.0)), "#ff0000");
+        assert_eq!(sampled_hex(&at(&d, 142.0)), "#0000ff");
+        assert_eq!(crate::xform::eyedropper::sample_color_at(&cx(&d, &s, &p), Point::new(142.0, 155.0)).map(|c| c.to_hex()), Some("#0000ff".into()));
+        // Art 300 pt wide on a 1 pt tile: about 90,000 tiles reach every point.
+        let mut wide = vectorcraft_doc::PatternDef::new(
+            "Wide",
+            vec![filled_rect(vectorcraft_geom::Rect::new(0.0, 0.0, 300.0, 300.0), Paint::solid(Color::rgb(0.0, 1.0, 0.0)))],
+        );
+        wide.tile = vectorcraft_geom::Rect::new(0.0, 0.0, 1.0, 1.0);
+        let mut wide_doc = d.clone();
+        wide_doc.patterns.push(wide);
+        wide_doc.node_mut(id).unwrap().appearance.set_fill(vectorcraft_doc::pattern::pattern_paint("Wide"));
+        assert_eq!(sampled_hex(&at(&wide_doc, 142.0)), "#00ff00");
+        // Pattern space x 140, on the edge between two tiles.
+        let edge = sampled_hex(&at(&d, 145.0));
+        assert!(edge == "#ff0000" || edge == "#0000ff", "{edge}");
+        // Tiles 0.2 × 0.1 pt, 0.05 pt down: pattern space y 15495, x 15005 (5 into a tile), then
+        // x 15015 (15 into a tile).
+        let tiny = Affine::translate((0.0, 0.05)) * Affine::scale(0.01);
+        d.node_mut(id).unwrap().appearance.set_fill(Paint::Pattern { pattern: "Halves".into(), xf: tiny });
+        assert_eq!(sampled_hex(&at(&d, 150.05)), "#ff0000");
+        assert_eq!(sampled_hex(&at(&d, 150.15)), "#0000ff");
+    }
+
+    /// Tile art painted with another pattern is sampled where that tile draws it: the inner
+    /// pattern moves with each tile. A symbol instance is sampled from its symbol's art.
+    #[test]
+    fn shift_click_samples_patterns_and_symbols_inside_art() {
+        use vectorcraft_geom::{Affine, Rect};
+        let (mut d, id) = doc_with_halves();
+        // A 30 pt tile filled with "Halves": every other tile starts halfway through a "Halves" tile.
+        let mut outer = vectorcraft_doc::PatternDef::new(
+            "Outer",
+            vec![filled_rect(Rect::new(0.0, 0.0, 30.0, 10.0), vectorcraft_doc::pattern::pattern_paint("Halves"))],
+        );
+        outer.tile = Rect::new(0.0, 0.0, 30.0, 10.0);
+        d.patterns.push(outer);
+        d.node_mut(id).unwrap().appearance.set_fill(vectorcraft_doc::pattern::pattern_paint("Outer"));
+        let (s, p) = (Selection::default(), paint());
+        let shift = Mods { shift: true, ..Default::default() };
+        // The tile at x 150 draws "Halves" from x 150: x 165 is 15 into it.
+        let a = EyedropperTool::default().pointer(&cx(&d, &s, &p), &PointerEvent::new(PointerKind::Down, 165.0, 155.0).with_mods(shift));
+        assert_eq!(sampled_hex(&a), "#0000ff");
+        // A symbol of a green square, placed at (300, 300) and doubled.
+        d.symbols.push(vectorcraft_doc::Symbol {
+            name: "Green".into(),
+            art: filled_rect(Rect::new(0.0, 0.0, 10.0, 10.0), Paint::solid(Color::rgb(0.0, 1.0, 0.0))),
+        });
+        let l = d.layers[0].id;
+        let inst = d.alloc_id();
+        let kind = NodeKind::SymbolInstance { symbol: "Green".into(), xf: Affine::translate((300.0, 300.0)) * Affine::scale(2.0) };
+        d.insert(Some(l), usize::MAX, Node::new(inst, kind)).unwrap();
+        let a = EyedropperTool::default().pointer(&cx(&d, &s, &p), &PointerEvent::new(PointerKind::Down, 310.0, 310.0).with_mods(shift));
+        assert_eq!(sampled_hex(&a), "#00ff00");
+    }
+
+    /// A gap between a pattern's tile art shows what lies below it, in the document and in the tile
+    /// art of another pattern.
+    #[test]
+    fn a_gap_in_a_pattern_samples_what_lies_below() {
+        use vectorcraft_doc::pattern::pattern_paint;
+        use vectorcraft_geom::Rect;
+        // The white rectangle (100, 100)–(200, 200), under one filled with red 10 pt squares 20 pt apart.
+        let (mut d, _) = doc_with_rect();
+        let mut gappy =
+            vectorcraft_doc::PatternDef::new("Gappy", vec![filled_rect(Rect::new(0.0, 0.0, 10.0, 10.0), Paint::solid(Color::rgb(1.0, 0.0, 0.0)))]);
+        gappy.tile = Rect::new(0.0, 0.0, 20.0, 10.0);
+        d.patterns.push(gappy);
+        let (l, top) = (d.layers[0].id, d.alloc_id());
+        let mut over = (*filled_rect(Rect::new(100.0, 100.0, 200.0, 200.0), pattern_paint("Gappy"))).clone();
+        over.id = top;
+        d.insert(Some(l), usize::MAX, over).unwrap();
+        let (s, p) = (Selection::default(), paint());
+        let shift = Mods { shift: true, ..Default::default() };
+        let at = |d: &vectorcraft_doc::Document, x: f64| {
+            sampled_hex(&EyedropperTool::default().pointer(&cx(d, &s, &p), &PointerEvent::new(PointerKind::Down, x, 155.0).with_mods(shift)))
+        };
+        // x 125 is 5 into a tile, on a red square; x 133 is 13 into one, between them.
+        assert_eq!((at(&d, 125.0), at(&d, 133.0)), ("#ff0000".to_string(), "#ffffff".to_string()));
+        // Tile art: a green rectangle behind one filled with "Gappy".
+        let green = Paint::solid(Color::rgb(0.0, 1.0, 0.0));
+        let mut lined = vectorcraft_doc::PatternDef::new(
+            "Lined",
+            vec![filled_rect(Rect::new(0.0, 0.0, 20.0, 10.0), green), filled_rect(Rect::new(0.0, 0.0, 20.0, 10.0), pattern_paint("Gappy"))],
+        );
+        lined.tile = Rect::new(0.0, 0.0, 20.0, 10.0);
+        d.patterns.push(lined);
+        d.node_mut(top).unwrap().appearance.set_fill(pattern_paint("Lined"));
+        assert_eq!((at(&d, 125.0), at(&d, 133.0)), ("#ff0000".to_string(), "#00ff00".to_string()));
+        // A blue fill under a 20 pt stroke of "Gappy", 5 pt left: x 107 is 12 into a tile, in a gap
+        // of the stroke over the fill.
+        let shape = &mut d.node_mut(top).unwrap().appearance;
+        shape.set_fill(Paint::solid(Color::rgb(0.0, 0.0, 1.0)));
+        shape.set_stroke(Paint::Pattern { pattern: "Gappy".into(), xf: vectorcraft_geom::Affine::translate((-5.0, 0.0)) });
+        shape.stroke_mut().unwrap().width = 20.0;
+        assert_eq!((at(&d, 103.0), at(&d, 107.0)), ("#ff0000".to_string(), "#0000ff".to_string()));
+    }
+
+    /// Shift-click on a gradient mesh samples the patch color interpolated at the cursor.
+    #[test]
+    fn shift_click_samples_the_mesh_color_under_the_cursor() {
+        use vectorcraft_doc::{Document, GradientMesh};
+        let mut d = Document::new(500.0, 500.0);
+        let l = d.layers[0].id;
+        let id = d.alloc_id();
+        // Black on the left edge, white on the right edge.
+        let mesh = GradientMesh::from_surface(1, 1, &|u, v| Point::new(100.0 + 100.0 * u, 100.0 + 100.0 * v), &|u, _| {
+            if u < 0.5 { Color::rgb(0.0, 0.0, 0.0) } else { Color::rgb(1.0, 1.0, 1.0) }
+        });
+        d.insert(Some(l), 0, Node::new(id, NodeKind::Mesh(mesh))).unwrap();
+        let (s, p) = (Selection::default(), paint());
+        let shift = Mods { shift: true, ..Default::default() };
+        let a = EyedropperTool::default().pointer(&cx(&d, &s, &p), &PointerEvent::new(PointerKind::Down, 125.0, 150.0).with_mods(shift));
+        assert_eq!(sampled_hex(&a), "#404040");
     }
 
     #[test]
