@@ -40,7 +40,8 @@ impl Homography {
         [m[0][0], m[0][1], m[0][2], m[1][0], m[1][1], m[1][2], m[2][0], m[2][1], m[2][2]]
     }
 
-    /// Map a point; `None` when it lands on or beyond the horizon (w ≤ 0).
+    /// Map a point; `None` when it lands on or beyond the horizon (w ≤ 0), or when it does not map
+    /// to a finite page point.
     pub fn apply(&self, p: Point) -> Option<Point> {
         let m = &self.0;
         let x = m[0][0] * p.x + m[0][1] * p.y + m[0][2];
@@ -49,7 +50,8 @@ impl Homography {
         if w <= 1e-9 || !x.is_finite() || !y.is_finite() {
             return None;
         }
-        Some(Point::new(x / w, y / w))
+        let q = Point::new(x / w, y / w);
+        q.is_finite().then_some(q)
     }
 
     pub fn det(&self) -> f64 {
@@ -58,7 +60,8 @@ impl Homography {
             + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0])
     }
 
-    /// Inverse.
+    /// Inverse; `None` when the map is not invertible or its inverse has an entry that is not
+    /// finite.
     pub fn inverse(&self) -> Option<Self> {
         let m = &self.0;
         let d = self.det();
@@ -77,6 +80,9 @@ impl Homography {
                 out[r][k] = v / d;
             }
         }
+        if out.iter().flatten().any(|v| !v.is_finite()) {
+            return None;
+        }
         // H⁻¹·(x, y, 1) = (u, v, 1)/w_H, so points in front of the camera keep w > 0.
         Some(Self(out))
     }
@@ -94,16 +100,18 @@ impl Homography {
     }
 
     /// `self` seen through `a`: the map `a ∘ self ∘ a⁻¹` (what `self` becomes when everything it
-    /// maps from and to is moved by `a`). `None` when `a` isn't invertible.
+    /// maps from and to is moved by `a`). `None` when `a` isn't invertible or the result has an
+    /// entry that is not finite.
     pub fn conjugated(&self, a: Affine) -> Option<Self> {
         if a.determinant().abs() < 1e-15 {
             return None;
         }
-        Some(Self::from_affine(a).then_after(self).then_after(&Self::from_affine(a.inverse())))
+        let c = Self::from_affine(a).then_after(self).then_after(&Self::from_affine(a.inverse()));
+        c.0.iter().flatten().all(|v| v.is_finite()).then_some(c)
     }
 
     /// The affine map that matches `self` to first order at `p` (its derivative there), `None`
-    /// beyond the horizon.
+    /// beyond the horizon or when the derivative is not finite.
     pub fn affine_at(&self, p: Point) -> Option<Affine> {
         let m = &self.0;
         let w = m[2][0] * p.x + m[2][1] * p.y + m[2][2];
@@ -111,7 +119,8 @@ impl Homography {
         // d(x/w) = (dx − (x/w)·dw) / w, and the same for y.
         let j = |r: usize, c: usize| (m[r][c] - [q.x, q.y][r] * m[2][c]) / w;
         let lin = Affine::new([j(0, 0), j(1, 0), j(0, 1), j(1, 1), 0.0, 0.0]);
-        Some(Affine::translate(q.to_vec2()) * lin * Affine::translate(-p.to_vec2()))
+        let out = Affine::translate(q.to_vec2()) * lin * Affine::translate(-p.to_vec2());
+        out.is_finite().then_some(out)
     }
 
     /// The bounding box of the image of `r` (lines stay lines: its corners bound it), `None` when
@@ -173,6 +182,42 @@ mod tests {
             let exact = h().apply(p + d).unwrap();
             assert!((a * (p + d)).distance(exact) < 1e-7, "{d:?}");
         }
+    }
+
+    #[test]
+    fn a_point_that_overflows_maps_to_nothing() {
+        // w = 1e-8 is in front of the horizon, but 1e305 / 1e-8 overflows.
+        let near = Homography([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1e-8]]);
+        assert_eq!(near.apply(Point::new(1e305, 0.0)), None);
+        assert_eq!(near.apply(Point::new(0.0, -1e305)), None);
+        assert_eq!(near.map_rect_bbox(Rect::new(0.0, 0.0, 1e305, 1.0)), None);
+        assert!(near.apply(Point::new(2.0, 3.0)).unwrap().distance(Point::new(2e8, 3e8)) < 1e-6);
+        // A NaN w is not caught by the horizon test.
+        let nan = Homography([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, f64::NAN]]);
+        assert_eq!(nan.apply(Point::new(1.0, 1.0)), None);
+    }
+
+    #[test]
+    fn an_inverse_that_overflows_is_none() {
+        let big = Homography([[1e300, 0.0, 0.0], [0.0, 1e300, 0.0], [0.0, 0.0, 1e-310]]);
+        assert_eq!(big.inverse(), None);
+        assert!(h().inverse().is_some());
+    }
+
+    #[test]
+    fn a_derivative_that_overflows_is_none() {
+        // The point maps to 1e300, but the derivative there is 1e302 / 1e-8.
+        let steep = Homography([[1e302, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1e-8]]);
+        let p = Point::new(1e-10, 0.0);
+        assert!(steep.apply(p).is_some());
+        assert_eq!(steep.affine_at(p), None);
+    }
+
+    #[test]
+    fn a_conjugate_that_overflows_is_none() {
+        let far = Homography([[1.0, 0.0, 1e200], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]);
+        assert_eq!(far.conjugated(Affine::scale(1e150)), None);
+        assert!(far.conjugated(Affine::scale(2.0)).is_some());
     }
 
     #[test]
