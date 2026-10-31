@@ -1188,12 +1188,12 @@ lighting	Light	Svjetlo
 	 to set spacing and orientation	 za postavljanje razmaka i orijentacije
 	Apply	Primijeni
 	Change Screen Mode (F)	Promijeni način prikaza ekrana (F)
-	Color (,)	Boja (,)
+	Color (, or Shift+,)	Boja (, ili Shift+,)
 	Draw Behind	Crtaj iza
 	Draw Inside	Crtaj unutra
 	Draw Normal	Crtaj normalno
 	Expand:	Proširi:
-	Gradient (.)	Gradijent (.)
+	Gradient (. or Shift+.)	Gradijent (. ili Shift+.)
 	H:	V:
 	Modify	Izmijeni
 	Navigate	Navigacija
