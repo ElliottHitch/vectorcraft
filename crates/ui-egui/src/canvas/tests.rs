@@ -6839,7 +6839,8 @@ fn the_task_bar_shows_a_stroke_chip_beside_fill() {
     let mut out = ctx.run_ui(raw, |ui| show(&mut app, ui));
     out.textures_delta.clear();
     let bar = task_bar_rect(&ctx).expect("the task bar shows");
-    // Right to left: the frame's margin, More Options, Lock, Recolor, then Stroke and Fill.
+    // Right to left: the frame's margin, More Options, Shape Properties (Lock's place), Recolor,
+    // then Stroke and Fill.
     let stroke_x = bar.right() - 8.0 - 3.0 * (30.0 + 6.0) - 13.0;
     let fill_x = stroke_x - 26.0 - 6.0;
     let blue = Color32::from_rgb(0x22, 0x44, 0xcc);
@@ -6896,7 +6897,8 @@ fn the_task_bar_chips_follow_the_proxies_and_show_swatches_anywhere() {
         out.textures_delta.clear();
         out.shapes
     };
-    // Right to left: the frame's margin, More Options, Lock, Recolor, then Stroke and Fill.
+    // Right to left: the frame's margin, More Options, Shape Properties (Lock's place), Recolor,
+    // then Stroke and Fill.
     let stroke_x = |bar: egui::Rect| bar.right() - 8.0 - 3.0 * (30.0 + 6.0) - 13.0;
     let chip_with = |shapes: &[egui::epaint::ClippedShape], bar: egui::Rect, x: f32, color: Color32| {
         shapes.iter().any(|c| match &c.shape {
@@ -6948,7 +6950,7 @@ fn the_task_bar_recolors_coloured_art() {
         frame(app, &ctx, vec![]);
         frame(app, &ctx, vec![]);
         let bar = task_bar_rect(&ctx).expect("the task bar shows");
-        // Right to left: the frame's margin, More Options, Lock, then Recolor.
+        // Right to left: the frame's margin, More Options, Shape Properties (Lock's place), then Recolor.
         let at = pos2(bar.right() - 8.0 - 30.0 - 6.0 - 30.0 - 6.0 - 15.0, bar.center().y);
         let button = |pressed| egui::Event::PointerButton { pos: at, button: egui::PointerButton::Primary, pressed, modifiers: Default::default() };
         frame(app, &ctx, vec![egui::Event::PointerMoved(at)]);
@@ -6975,8 +6977,11 @@ fn the_task_bar_recolors_coloured_art() {
 fn the_task_bar_lock_button_is_off_in_isolation_mode() {
     let mut app = VectorcraftApp::new(Session::new(), Default::default());
     app.session.execute("file.new", &json!({"width": 400, "height": 300})).unwrap();
-    let a = app.session.execute("shape.rectangle", &json!({"x": 150, "y": 130, "width": 40, "height": 40})).unwrap()["id"].clone();
-    let b = app.session.execute("shape.rectangle", &json!({"x": 210, "y": 130, "width": 40, "height": 40})).unwrap()["id"].clone();
+    // Plain paths: a basic shape shows its properties in Lock's place.
+    let square =
+        |x: f64| json!({"anchors": [{"x": x, "y": 130}, {"x": x + 40.0, "y": 130}, {"x": x + 40.0, "y": 170}, {"x": x, "y": 170}], "closed": true});
+    let a = app.session.execute("path.create", &square(150.0)).unwrap()["id"].clone();
+    let b = app.session.execute("path.create", &square(210.0)).unwrap()["id"].clone();
     app.session.execute("select.set", &json!({"ids": [a.clone(), b]})).unwrap();
     let g = app.session.execute("object.group", &json!({})).unwrap()["id"].clone();
     app.select_tool("selection");
