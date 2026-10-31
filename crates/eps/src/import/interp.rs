@@ -333,14 +333,14 @@ impl<'a> Interp<'a> {
         self.spend(1)
     }
 
-    /// Count `ops` operations' worth of work against [`MAX_OPS`]: what an operator that costs
-    /// far more than one operation (laying out type) does in a loop has to end too.
     /// Charge for work on `n` bytes or objects in one operator: one operation per 256, as `search`
     /// charges per 64 bytes, so a loop of big copies runs out of the budget.
     fn spend_bytes(&mut self, n: usize) -> Res {
         self.spend((n / 256) as u64)
     }
 
+    /// Count `ops` operations' worth of work against [`MAX_OPS`]: what an operator that costs
+    /// far more than one operation (laying out type) does in a loop has to end too.
     pub fn spend(&mut self, ops: u64) -> Res {
         self.ops = self.ops.saturating_add(ops);
         if self.ops > MAX_OPS {
