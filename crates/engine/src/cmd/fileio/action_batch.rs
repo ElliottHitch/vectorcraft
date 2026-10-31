@@ -326,11 +326,11 @@ fn safe_extension(ext: &str) -> bool {
 #[cfg(not(target_arch = "wasm32"))]
 fn output_path(folder: &str, stem: &str, ext: &str) -> Option<std::path::PathBuf> {
     use std::path::Path;
-    if stem.is_empty() || matches!(stem, "." | "..") || stem.contains(['/', '\\']) || !safe_extension(ext) {
+    if stem.is_empty() || matches!(stem, "." | "..") || stem.contains(std::path::is_separator) || !safe_extension(ext) {
         return None;
     }
     let name = format!("{stem}.{ext}");
-    if name.contains(['/', '\\']) {
+    if name.contains(std::path::is_separator) {
         return None;
     }
     let path = Path::new(folder).join(name);
@@ -509,6 +509,74 @@ mod tests {
         assert_eq!(r["failed"], 0);
         assert!(dest.join("a.svg").is_file(), "a.svg written");
         assert!(dest.join("b.svg").is_file(), "b.svg written");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn batch_folder_keeps_backslash_in_source_file_name() {
+        let src = tmp("backslash-src");
+        let dest = tmp("backslash-dest");
+        write_svg(&src, "a\\b.svg", "#f00");
+        let mut s = Session::new();
+        let r = s
+            .execute(
+                "action.batch",
+                &json!({
+                    "source": "folder",
+                    "folder": src.to_string_lossy(),
+                    "destination": "folder",
+                    "destinationFolder": dest.to_string_lossy(),
+                    "stopOnError": true,
+                    "commands": [{"command": "object.unlockAll", "params": {}}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(r["count"], 1, "{r}");
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(r["stopped"], false, "{r}");
+        assert!(dest.join("a\\b.svg").is_file(), "{r}");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn batch_folder_override_export_keeps_backslash_in_source_file_name() {
+        let src = tmp("backslash-export-src");
+        let dest = tmp("backslash-export-dest");
+        write_svg(&src, "a\\b.svg", "#f00");
+        let mut s = Session::new();
+        let r = s
+            .execute(
+                "action.batch",
+                &json!({
+                    "source": "folder",
+                    "folder": src.to_string_lossy(),
+                    "destination": "folder",
+                    "destinationFolder": dest.to_string_lossy(),
+                    "stopOnError": true,
+                    "commands": [{"command": "document.export", "params": {"format": "svg"}}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(r["count"], 1, "{r}");
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(r["stopped"], false, "{r}");
+        assert_eq!(file_names(&dest), ["a\\b.svg"], "{r}");
+    }
+
+    #[test]
+    fn output_path_accepts_only_platform_file_name_separators() {
+        let folder = tmp("output-path");
+        let folder = folder.to_string_lossy();
+        let backslash = output_path(&folder, "a\\b", "svg");
+        #[cfg(windows)]
+        assert!(backslash.is_none());
+        #[cfg(not(windows))]
+        assert_eq!(backslash, Some(std::path::Path::new(folder.as_ref()).join("a\\b.svg")));
+        for stem in ["a/b", ".", "..", ""] {
+            assert!(output_path(&folder, stem, "svg").is_none(), "{stem:?}");
+        }
+        #[cfg(windows)]
+        assert_eq!(std::path::Path::new("a\\b.svg").file_stem(), Some(std::ffi::OsStr::new("b")));
     }
 
     #[test]
