@@ -2711,9 +2711,10 @@ the dialog on those settings next time.
 
 `object.path.smooth` smooths the selected paths (or the objects in `ids`), compound path members included, as one undo
 step. `level` is the Smooth slider's, a whole number from 0 (minimum smoothing: the path stays within 0.1% of its longer
-side) to 100 (maximum smoothing); `auto: true` (Auto-Smooth) uses level 50, the default. Each path is refitted with
-curves within 0.1% to 2.5% of its longer side, keeping a corner only where it turns back on itself, so jags and kinks
-become curves; a refit never has more anchor points than the path had, so a shape whose corners the tolerance can't
+side) to 100 (maximum smoothing); `auto: true` (Auto-Smooth) uses level 50, the default. Each path is smoothed along
+its length (by up to 5% of its longer side; none at level 0) and refitted with curves within 0.1% to 2.5% of it,
+keeping a corner only where it turns back on itself, so bumps, jags and kinks become one curve; with anchor points or
+segments of a path direct-selected (and no `ids`), only the sections between them are smoothed, as Simplify does. A refit never has more anchor points than the path had, so a shape whose corners the tolerance can't
 round, such as a rectangle, stays as it is. Closed paths stay closed and open paths keep their end points. The reply has the anchor counts `before` and `after` and the `level` used:
 
 ```json
