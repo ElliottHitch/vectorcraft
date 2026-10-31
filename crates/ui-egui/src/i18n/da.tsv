@@ -624,7 +624,7 @@
 	1 Layer	1 lag
 	Libraries	Biblioteker
 	Links	Links
-	{count} linked image(s) changed on disk. Show the new versions?	{count} linket billede(r) er ændret på disken. Vis de nye versioner?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	{n} linket billede er ændret på disken. Vis den nye version?|{n} linkede billeder er ændret på disken. Vis de nye versioner?
 	Update Changed Links	Opdatér ændrede links
 @msg	Updated {_1} linked file(s) changed on disk	Opdaterede {_1} linket fil(er) ændret på disken
 	Magic Wand	Magisk tryllestav
@@ -1419,8 +1419,8 @@ lighting	Light	Lys
 	Select objects to see their CSS, or Generate CSS for the whole document.	Markér objekter for at se deres CSS, eller generér CSS for hele dokumentet.
 	The selected objects have no CSS of their own (see below).	De markerede objekter har ingen egen CSS (se nedenfor).
 	Units: {units}	Enheder: {units}
-	{count} more rules: Export writes every one.	{count} flere regler: Eksport skriver hver enkelt.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{count} unavngivne objekter udeladt: giv dem navne, eller aktivér Unavngivne objekter i panelmenuen.
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	{n} regel mere: Eksport skriver den.|{n} flere regler: Eksport skriver hver enkelt.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{n} unavngivet objekt udeladt: giv det et navn, eller aktivér Unavngivne objekter i panelmenuen.|{n} unavngivne objekter udeladt: giv dem navne, eller aktivér Unavngivne objekter i panelmenuen.
 	All Categories	Alle kategorier
 	Repeat Objects	Gentagelsesobjekter
 	Save…	Gem…
@@ -2196,19 +2196,21 @@ lighting	Light	Lys
 	Stop	Stop
 	Searching…	Søger…
 	Not found	Ikke fundet
-	{folders} folder(s) and {files} file(s) searched	{folders} mappe(r) og {files} fil(er) gennemsøgt
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	{count} mappe(r) sprunget over, f.eks. andre apps' og systemets mapper samt skjulte mapper
-	{count} folder(s) or file(s) couldn't be read	{count} mappe(r) eller fil(er) kunne ikke læses
+	{folders} and {files} searched	{folders} og {files} gennemsøgt
+@plural	{n} folder|{n} folders	{n} mappe|{n} mapper
+@plural	{n} file|{n} files	{n} fil|{n} filer
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	{n} mappe sprunget over, f.eks. andre apps' og systemets mapper samt skjulte mapper|{n} mapper sprunget over, f.eks. andre apps' og systemets mapper samt skjulte mapper
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	{n} mappe eller fil kunne ikke læses|{n} mapper eller filer kunne ikke læses
 	The search stopped at its limit: search a smaller folder.	Søgningen stoppede ved sin grænse: søg i en mindre mappe.
 	Copy only fonts you own or are licensed to install.	Kopiér kun skrifttyper, du ejer eller har licens til at installere.
 	VectorCraft copies the fonts to {folder}.	VectorCraft kopierer skrifttyperne til {folder}.
-	Apply to All ({count} more missing)	Anvend på alle ({count} flere mangler)
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Anvend på alle ({n} mere mangler)|Anvend på alle ({n} flere mangler)
 	Ignore	Ignorér
 	Linked File Not Found	Linket fil blev ikke fundet
 	Replace it with another file, or ignore it: its images keep showing the preview saved with the document.	Erstat den med en anden fil, eller ignorér den: dens billeder viser stadig den forhåndsvisning, der er gemt sammen med dokumentet.
 	Replace…	Erstat…
 	Update Modified Links	Opdatér ændrede links
-	{count} linked image(s) changed since this document was saved. Show the new versions?	{count} linkede billede(r) er ændret, siden dette dokument blev gemt. Vis de nye versioner?
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	{n} linket billede er ændret, siden dette dokument blev gemt. Vis den nye version?|{n} linkede billeder er ændret, siden dette dokument blev gemt. Vis de nye versioner?
 	Dialog	Dialog
 	Convert Process to Global	Konvertér procesfarve til global
 	Create From:	Opret ud fra:
@@ -2247,12 +2249,12 @@ lighting	Light	Lys
 	Fonts whose licence doesn't allow embedding are not copied.	Skrifttyper, hvis licens ikke tillader indlejring, kopieres ikke.
 	Package collects a saved document with its linked files and fonts.	Pakning samler et gemt dokument med dets linkede filer og skrifttyper.
 	Package created	Pakke oprettet
-	Packaged {n} file(s) in {folder} {note}	Pakkede {n} fil(er) i {folder}{note}
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Pakkede {n} fil i {folder} {note}|Pakkede {n} filer i {folder} {note}
 	Packaged {n} file(s){note}	Pakkede {n} fil(er){note}
 	Relink Linked Files to the Document	Genopret link til dokumentets linkede filer
 	Save the document first?	Gem dokumentet først?
-	{count} file(s) in {folder} {note}. Show the package folder?	{count} fil(er) i {folder}{note}. Vis pakkemappen?
-	{count} linked file(s) not found	{count} linkede fil(er) ikke fundet
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{n} fil i {folder} {note}. Vis pakkemappen?|{n} filer i {folder} {note}. Vis pakkemappen?
+@plural	{n} linked file not found|{n} linked files not found	{n} linket fil ikke fundet|{n} linkede filer ikke fundet
 	fonts not copied: {fonts}	skrifttyper ikke kopieret: {fonts}
 	Built-in presets are read-only: New… starts an editable copy.	Indbyggede forudindstillinger er skrivebeskyttede: Ny… starter en redigerbar kopi.
 	1 {unit} on the artboard stands for {real} {unit} in the scene.	1 {unit} på tegnebrættet svarer til {real} {unit} i scenen.
@@ -5520,10 +5522,10 @@ axis	Y Axis	Y-akse
 @msg	Packaged {n} file(s) in {folder}	Pakkede {n} fil(er) i {folder}
 @msg	Packaged {n} file(s) {note}	Pakkede {n} fil(er) {note}
 @msg	Packaged {n} file(s)	Pakkede {n} fil(er)
-	Packaged {n} file(s)	Pakkede {n} fil(er)
-	Packaged {n} file(s) in {folder}	Pakkede {n} fil(er) i {folder}
-	Packaged {n} file(s) {note}	Pakkede {n} fil(er) {note}
-	{count} file(s) in {folder}. Show the package folder?	{count} fil(er) i {folder}. Vis pakkemappen?
+@plural	Packaged {n} file|Packaged {n} files	Pakkede {n} fil|Pakkede {n} filer
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Pakkede {n} fil i {folder}|Pakkede {n} filer i {folder}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	Pakkede {n} fil {note}|Pakkede {n} filer {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	{n} fil i {folder}. Vis pakkemappen?|{n} filer i {folder}. Vis pakkemappen?
 	Clockwise	Med uret
 	Dither	Dither
 	Fine noise hides banding in the gradient fill	Fin støj skjuler striber i gradientfyldet

@@ -662,7 +662,7 @@
 	1 Layer	1 sloj
 	Libraries	Biblioteke
 	Links	Veze
-	{count} linked image(s) changed on disk. Show the new versions?	Povezanih slika promijenjenih na disku: {count}. Prikazati nove verzije?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	Povezanih slika promijenjenih na disku: {n}. Prikazati nove verzije?|Povezanih slika promijenjenih na disku: {n}. Prikazati nove verzije?|Povezanih slika promijenjenih na disku: {n}. Prikazati nove verzije?
 	Update Changed Links	Ažuriraj promijenjene veze
 @msg	Updated {_1} linked file(s) changed on disk	Ažurirano povezanih datoteka promijenjenih na disku: {_1}
 	Magic Wand	Čarobni štapić
@@ -1482,8 +1482,8 @@ lighting	Light	Svjetlo
 	Select objects to see their CSS, or Generate CSS for the whole document.	Odaberite objekte da vidite njihov CSS ili Generiši CSS za cijeli dokument.
 	The selected objects have no CSS of their own (see below).	Odabrani objekti nemaju vlastiti CSS (vidi ispod).
 	Units: {units}	Jedinice: {units}
-	{count} more rules: Export writes every one.	Još pravila: {count}; izvoz zapisuje svako.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	Izostavljeno neimenovanih objekata: {count}; imenujte ih ili uključite Neimenovani objekti u meniju panela.
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	Još pravila: {n}; izvoz zapisuje svako.|Još pravila: {n}; izvoz zapisuje svako.|Još pravila: {n}; izvoz zapisuje svako.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	Izostavljeno neimenovanih objekata: {n}; imenujte ih ili uključite Neimenovani objekti u meniju panela.|Izostavljeno neimenovanih objekata: {n}; imenujte ih ili uključite Neimenovani objekti u meniju panela.|Izostavljeno neimenovanih objekata: {n}; imenujte ih ili uključite Neimenovani objekti u meniju panela.
 	All Categories	Sve kategorije
 	Repeat Objects	Ponovi objekte
 	Save…	Sačuvaj…
@@ -2376,19 +2376,21 @@ lighting	Light	Svjetlo
 	Stop	Zaustavi
 	Searching…	Pretraga…
 	Not found	Nije pronađeno
-	{folders} folder(s) and {files} file(s) searched	Pretraženo foldera: {folders}, datoteka: {files}
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	Preskočeno foldera: {count}, npr. foldera drugih aplikacija, sistemskih i skrivenih
-	{count} folder(s) or file(s) couldn't be read	Foldera ili datoteka koje nije moguće pročitati: {count}
+	{folders} and {files} searched	Pretraženo: {folders}, {files}
+@plural	{n} folder|{n} folders	{n} folder|{n} foldera|{n} foldera
+@plural	{n} file|{n} files	{n} datoteka|{n} datoteke|{n} datoteka
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Preskočeno foldera: {n}, npr. foldera drugih aplikacija, sistemskih i skrivenih|Preskočeno foldera: {n}, npr. foldera drugih aplikacija, sistemskih i skrivenih|Preskočeno foldera: {n}, npr. foldera drugih aplikacija, sistemskih i skrivenih
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	Foldera ili datoteka koje nije moguće pročitati: {n}|Foldera ili datoteka koje nije moguće pročitati: {n}|Foldera ili datoteka koje nije moguće pročitati: {n}
 	The search stopped at its limit: search a smaller folder.	Pretraga se zaustavila na svom ograničenju: pretražite manji folder.
 	Copy only fonts you own or are licensed to install.	Kopirajte samo fontove koje posjedujete ili imate licencu za instaliranje.
 	VectorCraft copies the fonts to {folder}.	VectorCraft kopira fontove u {folder}.
-	Apply to All ({count} more missing)	Primijeni na sve (još {count} nedostaje)
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Primijeni na sve (još {n} nedostaje)|Primijeni na sve (još {n} nedostaju)|Primijeni na sve (još {n} nedostaje)
 	Ignore	Zanemari
 	Linked File Not Found	Povezana datoteka nije pronađena
 	Replace it with another file, or ignore it: its images keep showing the preview saved with the document.	Zamijenite je drugom datotekom ili je zanemarite: njene slike i dalje prikazuju pregled sačuvan s dokumentom.
 	Replace…	Zamijeni…
 	Update Modified Links	Ažuriraj izmijenjene veze
-	{count} linked image(s) changed since this document was saved. Show the new versions?	Povezanih slika promijenjenih otkako je dokument sačuvan: {count}. Prikazati nove verzije?
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	Povezanih slika promijenjenih otkako je dokument sačuvan: {n}. Prikazati nove verzije?|Povezanih slika promijenjenih otkako je dokument sačuvan: {n}. Prikazati nove verzije?|Povezanih slika promijenjenih otkako je dokument sačuvan: {n}. Prikazati nove verzije?
 	Dialog	Dijalog
 	Convert Process to Global	Pretvori procesne u globalne
 	Create From:	Kreiraj iz:
@@ -2427,12 +2429,12 @@ lighting	Light	Svjetlo
 	Fonts whose licence doesn't allow embedding are not copied.	Fontovi čija licenca ne dozvoljava ugrađivanje ne kopiraju se.
 	Package collects a saved document with its linked files and fonts.	Paket prikuplja sačuvani dokument s njegovim povezanim datotekama i fontovima.
 	Package created	Paket je kreiran
-	Packaged {n} file(s) in {folder} {note}	Upakovano datoteka u {folder}: {n} {note}
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Upakovano datoteka u {folder}: {n} {note}|Upakovano datoteka u {folder}: {n} {note}|Upakovano datoteka u {folder}: {n} {note}
 	Packaged {n} file(s){note}	Upakovano datoteka: {n}{note}
 	Relink Linked Files to the Document	Ponovo poveži povezane datoteke s dokumentom
 	Save the document first?	Prvo sačuvati dokument?
-	{count} file(s) in {folder} {note}. Show the package folder?	Datoteka u {folder}: {count} {note}. Prikazati folder paketa?
-	{count} linked file(s) not found	Povezanih datoteka nije pronađeno: {count}
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	Datoteka u {folder}: {n} {note}. Prikazati folder paketa?|Datoteka u {folder}: {n} {note}. Prikazati folder paketa?|Datoteka u {folder}: {n} {note}. Prikazati folder paketa?
+@plural	{n} linked file not found|{n} linked files not found	Povezanih datoteka nije pronađeno: {n}|Povezanih datoteka nije pronađeno: {n}|Povezanih datoteka nije pronađeno: {n}
 	fonts not copied: {fonts}	fontovi nisu kopirani: {fonts}
 	Built-in presets are read-only: New… starts an editable copy.	Ugrađeni predlošci su samo za čitanje: Novo… započinje kopiju koja se može uređivati.
 	1 {unit} on the artboard stands for {real} {unit} in the scene.	1 {unit} na radnoj ploči predstavlja {real} {unit} u sceni.
@@ -5525,10 +5527,10 @@ axis	Y Axis	Y osa
 @msg	Packaged {n} file(s) in {folder}	Upakovano datoteka u {folder}: {n}
 @msg	Packaged {n} file(s) {note}	Upakovano datoteka: {n} {note}
 @msg	Packaged {n} file(s)	Upakovano datoteka: {n}
-	Packaged {n} file(s)	Upakovano datoteka: {n}
-	Packaged {n} file(s) in {folder}	Upakovano datoteka u {folder}: {n}
-	Packaged {n} file(s) {note}	Upakovano datoteka: {n} {note}
-	{count} file(s) in {folder}. Show the package folder?	Datoteka u {folder}: {count}. Prikazati folder paketa?
+@plural	Packaged {n} file|Packaged {n} files	Upakovano datoteka: {n}|Upakovano datoteka: {n}|Upakovano datoteka: {n}
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Upakovano datoteka u {folder}: {n}|Upakovano datoteka u {folder}: {n}|Upakovano datoteka u {folder}: {n}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	Upakovano datoteka: {n} {note}|Upakovano datoteka: {n} {note}|Upakovano datoteka: {n} {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	Datoteka u {folder}: {n}. Prikazati folder paketa?|Datoteka u {folder}: {n}. Prikazati folder paketa?|Datoteka u {folder}: {n}. Prikazati folder paketa?
 	Clockwise	U smjeru kazaljke na satu
 	Dither	Dithering
 	Fine noise hides banding in the gradient fill	Fini šum skriva trake u gradijentnoj ispuni

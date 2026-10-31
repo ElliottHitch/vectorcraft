@@ -672,7 +672,7 @@
 	1 Layer	1 vrstva
 	Libraries	Knihovny
 	Links	Propojení
-	{count} linked image(s) changed on disk. Show the new versions?	Počet propojených obrázků změněných na disku: {count}. Zobrazit nové verze?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	Na disku se změnil {n} propojený obrázek. Zobrazit novou verzi?|Na disku se změnily {n} propojené obrázky. Zobrazit nové verze?|Na disku se změnilo {n} propojených obrázků. Zobrazit nové verze?
 	Update Changed Links	Aktualizovat změněná propojení
 @msg	Updated {_1} linked file(s) changed on disk	Aktualizováno propojených souborů změněných na disku: {_1}
 	Magic Wand	Kouzelná hůlka
@@ -1505,8 +1505,8 @@ lighting	Light	Světlo
 	Select objects to see their CSS, or Generate CSS for the whole document.	Vyberte objekty, abyste viděli jejich CSS, nebo vygenerujte CSS pro celý dokument.
 	The selected objects have no CSS of their own (see below).	Vybrané objekty nemají vlastní CSS (viz níže).
 	Units: {units}	Jednotky: {units}
-	{count} more rules: Export writes every one.	Další pravidla ({count}): Export zapíše všechna.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	Vynecháno nepojmenovaných objektů: {count}. Pojmenujte je, nebo v nabídce panelu zapněte Nepojmenované objekty.
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	Další {n} pravidlo: Export ho zapíše.|Další {n} pravidla: Export zapíše všechna.|Dalších {n} pravidel: Export zapíše všechna.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	Vynechán {n} nepojmenovaný objekt. Pojmenujte ho, nebo v nabídce panelu zapněte Nepojmenované objekty.|Vynechány {n} nepojmenované objekty. Pojmenujte je, nebo v nabídce panelu zapněte Nepojmenované objekty.|Vynecháno {n} nepojmenovaných objektů. Pojmenujte je, nebo v nabídce panelu zapněte Nepojmenované objekty.
 	All Categories	Všechny kategorie
 	Repeat Objects	Objekty opakování
 	Save…	Uložit…
@@ -2403,19 +2403,21 @@ lighting	Light	Světlo
 	Stop	Zastavit
 	Searching…	Hledání…
 	Not found	Nenalezeno
-	{folders} folder(s) and {files} file(s) searched	Prohledáno složek: {folders}, souborů: {files}
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	Přeskočeno složek: {count} (např. složky jiných aplikací, systému a skryté složky)
-	{count} folder(s) or file(s) couldn't be read	Nepodařilo se přečíst složek nebo souborů: {count}
+	{folders} and {files} searched	Prohledáno: {folders}, {files}
+@plural	{n} folder|{n} folders	{n} složka|{n} složky|{n} složek
+@plural	{n} file|{n} files	{n} soubor|{n} soubory|{n} souborů
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Přeskočena {n} složka (např. složky jiných aplikací, systému a skryté složky)|Přeskočeny {n} složky (např. složky jiných aplikací, systému a skryté složky)|Přeskočeno {n} složek (např. složky jiných aplikací, systému a skryté složky)
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	Nepodařilo se přečíst {n} složku nebo soubor|Nepodařilo se přečíst {n} složky nebo soubory|Nepodařilo se přečíst {n} složek nebo souborů
 	The search stopped at its limit: search a smaller folder.	Hledání se zastavilo na limitu: prohledejte menší složku.
 	Copy only fonts you own or are licensed to install.	Kopírujte jen písma, která vlastníte nebo máte licenci instalovat.
 	VectorCraft copies the fonts to {folder}.	VectorCraft zkopíruje písma do {folder}.
-	Apply to All ({count} more missing)	Použít na všechny (chybí ještě {count})
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Použít na všechny (chybí ještě {n})|Použít na všechny (chybí ještě {n})|Použít na všechny (chybí ještě {n})
 	Ignore	Ignorovat
 	Linked File Not Found	Propojený soubor nebyl nalezen
 	Replace it with another file, or ignore it: its images keep showing the preview saved with the document.	Nahraďte jej jiným souborem, nebo jej ignorujte: jeho obrázky dál zobrazují náhled uložený s dokumentem.
 	Replace…	Nahradit…
 	Update Modified Links	Aktualizovat upravená propojení
-	{count} linked image(s) changed since this document was saved. Show the new versions?	Počet propojených obrázků změněných od uložení dokumentu: {count}. Zobrazit nové verze?
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	Od uložení dokumentu se změnil {n} propojený obrázek. Zobrazit novou verzi?|Od uložení dokumentu se změnily {n} propojené obrázky. Zobrazit nové verze?|Od uložení dokumentu se změnilo {n} propojených obrázků. Zobrazit nové verze?
 	Dialog	Dialogové okno
 	Convert Process to Global	Převést procesní na globální
 	Create From:	Vytvořit z:
@@ -2454,12 +2456,12 @@ lighting	Light	Světlo
 	Fonts whose licence doesn't allow embedding are not copied.	Písma, jejichž licence nepovoluje vkládání, se nekopírují.
 	Package collects a saved document with its linked files and fonts.	Sbalení shromáždí uložený dokument s jeho propojenými soubory a písmy.
 	Package created	Balíček vytvořen
-	Packaged {n} file(s) in {folder} {note}	Zabaleno souborů: {n} do {folder}{note}
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Zabalen {n} soubor do {folder} {note}|Zabaleny {n} soubory do {folder} {note}|Zabaleno {n} souborů do {folder} {note}
 	Packaged {n} file(s){note}	Zabaleno souborů: {n}{note}
 	Relink Linked Files to the Document	Znovu propojit propojené soubory s dokumentem
 	Save the document first?	Nejprve uložit dokument?
-	{count} file(s) in {folder} {note}. Show the package folder?	Souborů: {count} v {folder}{note}. Zobrazit složku balíčku?
-	{count} linked file(s) not found	Nenalezeno propojených souborů: {count}
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{n} soubor v {folder} {note}. Zobrazit složku balíčku?|{n} soubory v {folder} {note}. Zobrazit složku balíčku?|{n} souborů v {folder} {note}. Zobrazit složku balíčku?
+@plural	{n} linked file not found|{n} linked files not found	Nenalezen {n} propojený soubor|Nenalezeny {n} propojené soubory|Nenalezeno {n} propojených souborů
 	fonts not copied: {fonts}	nezkopírovaná písma: {fonts}
 	Built-in presets are read-only: New… starts an editable copy.	Vestavěná přednastavení jsou jen pro čtení: Nový… vytvoří kopii, kterou lze upravit.
 	1 {unit} on the artboard stands for {real} {unit} in the scene.	1 {unit} na pracovní ploše odpovídá {real} {unit} ve scéně.
@@ -5594,10 +5596,10 @@ axis	Y Axis	osa Y
 @msg	Packaged {n} file(s) in {folder}	Zabaleno souborů: {n} do {folder}
 @msg	Packaged {n} file(s) {note}	Zabaleno souborů: {n} {note}
 @msg	Packaged {n} file(s)	Zabaleno souborů: {n}
-	Packaged {n} file(s)	Zabaleno souborů: {n}
-	Packaged {n} file(s) in {folder}	Zabaleno souborů: {n} do {folder}
-	Packaged {n} file(s) {note}	Zabaleno souborů: {n} {note}
-	{count} file(s) in {folder}. Show the package folder?	Souborů: {count} v {folder}. Zobrazit složku balíčku?
+@plural	Packaged {n} file|Packaged {n} files	Zabalen {n} soubor|Zabaleny {n} soubory|Zabaleno {n} souborů
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Zabalen {n} soubor do {folder}|Zabaleny {n} soubory do {folder}|Zabaleno {n} souborů do {folder}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	Zabalen {n} soubor {note}|Zabaleny {n} soubory {note}|Zabaleno {n} souborů {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	{n} soubor v {folder}. Zobrazit složku balíčku?|{n} soubory v {folder}. Zobrazit složku balíčku?|{n} souborů v {folder}. Zobrazit složku balíčku?
 	Clockwise	Ve směru hodinových ručiček
 	Dither	Rozptýlení
 	Fine noise hides banding in the gradient fill	Jemný šum skryje pruhy ve výplni přechodem

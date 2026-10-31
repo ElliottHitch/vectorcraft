@@ -202,7 +202,7 @@ font-technology	Variable	Değişken
 	Apply Paragraph Style	Paragraf Stilini Uygula
 	Apply SVG Filter…	SVG Filtresini Uygula…
 	Apply to All	Tümüne Uygula
-	Apply to All ({count} more missing)	Tümüne Uygula ({count} daha eksik)
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Tümüne Uygula ({n} daha eksik)
 	Arc	Yay
 	Arc Lower…	Ark Alt…
 	Arc Tool	Yay Aracı
@@ -2095,7 +2095,7 @@ shape	Open	Açık
 	Package	Paket
 	Package collects a saved document with its linked files and fonts.	Paket, kayıtlı bir belgeyi bağlantılı dosyaları ve yazı tipleriyle birlikte toplar.
 	Package created	Paket oluşturuldu
-	Packaged {n} file(s) in {folder} {note}	{folder}{note} biçiminde paketlenmiş {n} dosyası/dosyaları
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	{n} dosya {folder} klasörüne paketlendi {note}
 	Packaged {n} file(s){note}	Paketlenmiş {n} dosyası/dosyaları{note}
 	Package…	Paket…
 	Page	Sayfa
@@ -2411,9 +2411,11 @@ shape	Open	Açık
 	Stop	Durdur
 	Searching…	Aranıyor…
 	Not found	Bulunamadı
-	{folders} folder(s) and {files} file(s) searched	{folders} klasör(ler)i ve {files} dosya(lar)ı arandı
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	Diğer uygulamaların ve sistemin klasörleri ve gizli klasörleri gibi {count} klasörleri atlandı
-	{count} folder(s) or file(s) couldn't be read	{count} klasör(ler)i veya dosya(lar) okunamadı
+	{folders} and {files} searched	{folders} ve {files} arandı
+@plural	{n} folder|{n} folders	{n} klasör
+@plural	{n} file|{n} files	{n} dosya
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Diğer uygulamaların ve sistemin klasörleri ve gizli klasörler gibi {n} klasör atlandı
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	{n} klasör veya dosya okunamadı
 	The search stopped at its limit: search a smaller folder.	Arama sınırda durdu: daha küçük bir klasörde arama yapın.
 	Copy only fonts you own or are licensed to install.	Yalnızca sahip olduğunuz veya yükleme lisansına sahip olduğunuz yazı tiplerini kopyalayın.
 	VectorCraft copies the fonts to {folder}.	VectorCraft yazı tiplerini {folder}'ye kopyalar.
@@ -3498,13 +3500,13 @@ shape	Open	Açık
 	Zoom Tool	Yakınlaştırma Aracı
 	Zoom with Mouse Wheel	Fare Tekerleği ile Yakınlaştırma
 	Scrub Numeric Fields by Dragging	Sayısal Alanları Sürükleyerek Fırçalayın
-	{count} file(s) in {folder} {note}. Show the package folder?	{folder}{note} içindeki {count} dosyası/dosyaları. Paket klasörü gösterilsin mi?
-	{count} linked file(s) not found	{count} bağlantılı dosya(lar) bulunamadı
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{folder} içinde {n} dosya {note}. Paket klasörü gösterilsin mi?
+@plural	{n} linked file not found|{n} linked files not found	{n} bağlantılı dosya bulunamadı
 	fonts not copied: {fonts}	kopyalanmayan yazı tipleri: {fonts}
-	{count} linked image(s) changed since this document was saved. Show the new versions?	{count} bağlantılı görseller bu belgenin kaydedilmesinden bu yana değiştirildi. Yeni sürümler gösterilsin mi?
-	{count} linked image(s) changed on disk. Show the new versions?	{count} bağlantılı görseller diskte değiştirildi. Yeni sürümler gösterilsin mi?
-	{count} more rules: Export writes every one.	{count} daha fazla kural: Dışa aktarma her birini yazar.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{count} adsız nesneler dışarıda bırakıldı: bunlara ad verin veya panel menüsünde Adsız Nesneler'i açın.
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	{n} bağlantılı görsel bu belgenin kaydedilmesinden bu yana değiştirildi. Yeni sürümler gösterilsin mi?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	{n} bağlantılı görsel diskte değiştirildi. Yeni sürümler gösterilsin mi?
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	{n} kural daha: Dışa aktarma her birini yazar.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{n} adsız nesne dışarıda bırakıldı: bunlara ad verin veya panel menüsünde Adsız Nesneler'i açın.
 	{effect} is already applied	{effect} zaten uygulandı
 	{format} Options	{format} Seçenekleri
 	{kind} Gradient	{kind} Degrade
@@ -5548,10 +5550,10 @@ axis	Y Axis	Y ekseni
 	Drop Artwork	Çizimi Bırak
 @msg	{key} must be [x, y] with finite coordinates	{key}, sonlu koordinatlı [x, y] olmalı
 @msg	ids must contain 1–10000 object ids	ids 1–10000 nesne kimliği içermeli
-	Packaged {n} file(s)	Paketlenmiş {n} dosyası/dosyaları
-	Packaged {n} file(s) in {folder}	{folder} biçiminde paketlenmiş {n} dosyası/dosyaları
-	Packaged {n} file(s) {note}	Paketlenmiş {n} dosyası/dosyaları {note}
-	{count} file(s) in {folder}. Show the package folder?	{folder} içindeki {count} dosyası/dosyaları. Paket klasörü gösterilsin mi?
+@plural	Packaged {n} file|Packaged {n} files	{n} dosya paketlendi
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	{n} dosya {folder} klasörüne paketlendi
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	{n} dosya paketlendi {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	{folder} içinde {n} dosya. Paket klasörü gösterilsin mi?
 	Clockwise	Saat yönünde
 	Dither	Titreme
 	Fine noise hides banding in the gradient fill	İnce gürültü, degrade dolgudaki bantları gizler

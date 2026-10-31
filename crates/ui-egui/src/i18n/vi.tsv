@@ -235,7 +235,7 @@ font-technology	Variable	Biến thiên
 	Apply Paragraph Style	Áp dụng kiểu đoạn văn
 	Apply SVG Filter…	Áp dụng bộ lọc SVG…
 	Apply to All	Áp dụng cho tất cả
-	Apply to All ({count} more missing)	Áp dụng cho tất cả ({count} còn thiếu)
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Áp dụng cho tất cả ({n} còn thiếu)
 	Approximate path	Đường dẫn xấp xỉ
 	Arabic	Ả Rập
 	Arc	Cung
@@ -2562,7 +2562,7 @@ file-filter	Templates	Mẫu
 	Package	Gói
 	Package collects a saved document with its linked files and fonts.	Gói thu thập tài liệu đã lưu cùng tệp liên kết và phông chữ.
 	Package created	Đã tạo gói
-	Packaged {n} file(s) in {folder} {note}	Đã đóng gói {n} tệp trong {folder}{note}
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Đã đóng gói {n} tệp trong {folder} {note}
 	Packaged {n} file(s){note}	Đã đóng gói {n} tệp{note}
 	Package…	Gói…
 	Page	Trang
@@ -4067,16 +4067,18 @@ mark-style	Japanese	Kiểu Nhật
 	Zoom to Selection	Thu phóng đến vùng chọn
 	Zoom Tool	Công cụ thu phóng
 	Zoom with Mouse Wheel	Thu phóng bằng con lăn chuột
-	{count} file(s) in {folder} {note}. Show the package folder?	{count} tệp trong {folder}{note}. Hiện thư mục gói?
-	{count} folder(s) or file(s) couldn't be read	{count} thư mục hoặc tệp không thể đọc được
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	Đã bỏ qua {count} thư mục, chẳng hạn thư mục của ứng dụng khác, thư mục hệ thống và thư mục ẩn
-	{count} linked file(s) not found	Không tìm thấy {count} tệp liên kết
-	{count} linked image(s) changed on disk. Show the new versions?	{count} ảnh liên kết đã thay đổi trên đĩa. Hiện phiên bản mới?
-	{count} linked image(s) changed since this document was saved. Show the new versions?	{count} ảnh liên kết đã thay đổi kể từ khi lưu tài liệu. Hiện phiên bản mới?
-	{count} more rules: Export writes every one.	Còn {count} quy tắc nữa: Xuất sẽ ghi tất cả.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{count} đối tượng chưa đặt tên bị bỏ qua: hãy đặt tên hoặc bật Đối tượng chưa đặt tên trong menu bảng.
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{n} tệp trong {folder} {note}. Hiện thư mục gói?
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	{n} thư mục hoặc tệp không thể đọc được
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Đã bỏ qua {n} thư mục, chẳng hạn thư mục của ứng dụng khác, thư mục hệ thống và thư mục ẩn
+@plural	{n} linked file not found|{n} linked files not found	Không tìm thấy {n} tệp liên kết
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	{n} ảnh liên kết đã thay đổi trên đĩa. Hiện phiên bản mới?
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	{n} ảnh liên kết đã thay đổi kể từ khi lưu tài liệu. Hiện phiên bản mới?
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	Còn {n} quy tắc nữa: Xuất sẽ ghi tất cả.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{n} đối tượng chưa đặt tên bị bỏ qua: hãy đặt tên hoặc bật Đối tượng chưa đặt tên trong menu bảng.
 	{effect} is already applied	{effect} đã được áp dụng
-	{folders} folder(s) and {files} file(s) searched	Đã tìm kiếm {folders} thư mục và {files} tệp
+	{folders} and {files} searched	Đã tìm kiếm {folders} và {files}
+@plural	{n} folder|{n} folders	{n} thư mục
+@plural	{n} file|{n} files	{n} tệp
 	{format} Options	Tùy chọn {format}
 	{kind} Gradient	Chuyển sắc {kind}
 gradient-kind	Radial	Hướng tâm
@@ -5191,10 +5193,10 @@ axis	Y Axis	Trục Y
 @msg	Packaged {n} file(s) in {folder}	Đã đóng gói {n} tệp trong {folder}
 @msg	Packaged {n} file(s) {note}	Đã đóng gói {n} tệp {note}
 @msg	Packaged {n} file(s)	Đã đóng gói {n} tệp
-	Packaged {n} file(s)	Đã đóng gói {n} tệp
-	Packaged {n} file(s) in {folder}	Đã đóng gói {n} tệp trong {folder}
-	Packaged {n} file(s) {note}	Đã đóng gói {n} tệp {note}
-	{count} file(s) in {folder}. Show the package folder?	{count} tệp trong {folder}. Hiện thư mục gói?
+@plural	Packaged {n} file|Packaged {n} files	Đã đóng gói {n} tệp
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Đã đóng gói {n} tệp trong {folder}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	Đã đóng gói {n} tệp {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	{n} tệp trong {folder}. Hiện thư mục gói?
 	Clockwise	Theo chiều kim đồng hồ
 	Dither	Dither
 	Fine noise hides banding in the gradient fill	Nhiễu mịn che dải màu trong vùng tô chuyển sắc

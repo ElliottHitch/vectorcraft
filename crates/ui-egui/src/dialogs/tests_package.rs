@@ -167,7 +167,7 @@ fn edits_after_ok_do_not_reach_the_package() {
     gate.open();
     background::wait_all(&mut app);
     assert_eq!(app.ui.dialog.as_ref().map(|d| d.kind.as_str()), Some("package"));
-    assert!(app.ui.status.starts_with("Packaged 3 file(s) in "), "{}", app.ui.status);
+    assert!(app.ui.status.starts_with("Packaged 3 files in "), "{}", app.ui.status);
     let files = files.lock().unwrap();
     let (_, bytes) = files.iter().find(|(p, _)| p.ends_with("card.vectorcraft")).unwrap();
     assert_eq!(vectorcraft_format::load(bytes).unwrap().node_count(), nodes, "the document as it was at OK");
@@ -213,7 +213,7 @@ fn a_dirty_documents_save_is_written_before_its_package() {
     release.join().unwrap();
     assert_eq!(written(&files), [doc]);
     assert!(app.background.jobs.is_empty() && !app.session.active().unwrap().is_dirty());
-    assert!(app.ui.status.starts_with("Packaged 3 file(s) in "), "the package's status came last: {}", app.ui.status);
+    assert!(app.ui.status.starts_with("Packaged 3 files in "), "the package's status came last: {}", app.ui.status);
 }
 
 #[test]
@@ -254,7 +254,7 @@ fn the_web_downloads_a_zip() {
     assert!(!frame(&mut app).contains("Location:"), "no folder to choose");
     confirm(&mut app).unwrap();
     assert!(app.ui.dialog.is_none());
-    assert!(app.ui.status.contains("Packaged") && app.ui.status.contains("file(s)"), "{}", app.ui.status);
+    assert!(app.ui.status.contains("Packaged") && app.ui.status.contains("files"), "{}", app.ui.status);
     let got = got.borrow();
     assert_eq!(got.len(), 1);
     assert_eq!(got[0].0, "card Folder.zip");
@@ -283,6 +283,23 @@ fn fonts_left_out_of_the_package_are_named() {
     app.run("ui.packageDialog", json!({})).unwrap();
     confirm(&mut app).unwrap();
     assert!(app.ui.status.contains(gone), "{}", app.ui.status);
+}
+
+/// The note on linked files left out of a package uses the form the language's plural rule picks
+/// for the count.
+#[test]
+fn the_missing_links_note_uses_each_count_form() {
+    let note = |code: &str, missing: usize| {
+        crate::i18n::set_current(crate::i18n::Lang::from_code(code).unwrap());
+        let note = package::package_status_note(missing, "");
+        crate::i18n::set_current(crate::i18n::Lang::EN);
+        note
+    };
+    assert_eq!(note("en", 1), "(1 linked file not found)");
+    assert_eq!(note("en", 2), "(2 linked files not found)");
+    assert_eq!(note("cs", 1), "(Nenalezen 1 propojený soubor)");
+    assert_eq!(note("cs", 2), "(Nenalezeny 2 propojené soubory)");
+    assert_eq!(note("cs", 5), "(Nenalezeno 5 propojených souborů)");
 }
 
 #[test]

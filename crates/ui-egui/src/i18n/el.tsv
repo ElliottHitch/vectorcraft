@@ -196,7 +196,7 @@ font-technology	Variable	Μεταβλητές
 	Apply Paragraph Style	Εφαρμογή στυλ παραγράφου
 	Apply SVG Filter…	Εφαρμογή φίλτρου SVG…
 	Apply to All	Εφαρμογή σε όλα
-	Apply to All ({count} more missing)	Εφαρμογή σε όλα (λείπουν ακόμη {count})
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Εφαρμογή σε όλα (λείπει ακόμη {n})|Εφαρμογή σε όλα (λείπουν ακόμη {n})
 	Arc	Τόξο
 	Arc Lower…	Κάτω τόξο…
 	Arc Tool	Τόξο (Arc Tool)
@@ -2928,7 +2928,7 @@ theme	Appearance	Εμφάνιση
 	Override Character Color	Παράκαμψη χρώματος χαρακτήρων
 	Package collects a saved document with its linked files and fonts.	Η συσκευασία συγκεντρώνει ένα αποθηκευμένο έγγραφο μαζί με συνδεδεμένα αρχεία και γραμματοσειρές.
 	Package created	Η συσκευασία δημιουργήθηκε
-	Packaged {n} file(s) in {folder} {note}	Συσκευάστηκαν {n} αρχεία στον φάκελο {folder}{note}
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Συσκευάστηκε {n} αρχείο στον φάκελο {folder} {note}|Συσκευάστηκαν {n} αρχεία στον φάκελο {folder} {note}
 	Packaged {n} file(s){note}	Συσκευάστηκαν {n} αρχεία{note}
 	Page	Σελίδα
 	Page information	Πληροφορίες σελίδας
@@ -3157,9 +3157,11 @@ theme	Appearance	Εμφάνιση
 	Find Fonts	Εύρεση γραμματοσειρών
 	Searching…	Αναζήτηση…
 	Not found	Δεν βρέθηκε
-	{folders} folder(s) and {files} file(s) searched	Έγινε αναζήτηση σε {folders} φακέλους και {files} αρχεία
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	Παραλείφθηκαν {count} φάκελοι, όπως φάκελοι άλλων εφαρμογών, του συστήματος και κρυφοί φάκελοι
-	{count} folder(s) or file(s) couldn't be read	Δεν ήταν δυνατή η ανάγνωση {count} φακέλων ή αρχείων
+	{folders} and {files} searched	Έγινε αναζήτηση: {folders}, {files}
+@plural	{n} folder|{n} folders	{n} φάκελος|{n} φάκελοι
+@plural	{n} file|{n} files	{n} αρχείο|{n} αρχεία
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Παραλείφθηκε {n} φάκελος, όπως φάκελοι άλλων εφαρμογών, του συστήματος και κρυφοί φάκελοι|Παραλείφθηκαν {n} φάκελοι, όπως φάκελοι άλλων εφαρμογών, του συστήματος και κρυφοί φάκελοι
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	Δεν ήταν δυνατή η ανάγνωση {n} φακέλου ή αρχείου|Δεν ήταν δυνατή η ανάγνωση {n} φακέλων ή αρχείων
 	The search stopped at its limit: search a smaller folder.	Η αναζήτηση έφτασε στο όριό της: επιλέξτε μικρότερο φάκελο.
 	Copy only fonts you own or are licensed to install.	Αντιγράψτε μόνο γραμματοσειρές που σας ανήκουν ή έχετε άδεια να εγκαταστήσετε.
 	VectorCraft copies the fonts to {folder}.	Το VectorCraft αντιγράφει τις γραμματοσειρές στον φάκελο {folder}.
@@ -3922,13 +3924,13 @@ theme	Appearance	Εμφάνιση
 	Zoom to Selection	Ζουμ στην επιλογή
 	Zoom with Mouse Wheel	Ζουμ με τον τροχό του ποντικιού
 	Scrub Numeric Fields by Dragging	Ρύθμιση αριθμητικών πεδίων με σύρσιμο
-	{count} file(s) in {folder} {note}. Show the package folder?	{count} αρχεία στον φάκελο {folder}{note}. Να εμφανιστεί ο φάκελος συσκευασίας;
-	{count} linked file(s) not found	Δεν βρέθηκαν {count} συνδεδεμένα αρχεία
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{n} αρχείο στον φάκελο {folder} {note}. Να εμφανιστεί ο φάκελος συσκευασίας;|{n} αρχεία στον φάκελο {folder} {note}. Να εμφανιστεί ο φάκελος συσκευασίας;
+@plural	{n} linked file not found|{n} linked files not found	Δεν βρέθηκε {n} συνδεδεμένο αρχείο|Δεν βρέθηκαν {n} συνδεδεμένα αρχεία
 	fonts not copied: {fonts}	γραμματοσειρές που δεν αντιγράφηκαν: {fonts}
-	{count} linked image(s) changed since this document was saved. Show the new versions?	{count} συνδεδεμένες εικόνες άλλαξαν μετά την αποθήκευση του εγγράφου. Να εμφανιστούν οι νέες εκδόσεις;
-	{count} linked image(s) changed on disk. Show the new versions?	{count} συνδεδεμένες εικόνες άλλαξαν στον δίσκο. Να εμφανιστούν οι νέες εκδόσεις;
-	{count} more rules: Export writes every one.	{count} ακόμη κανόνες: η εξαγωγή περιλαμβάνει όλους.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	Παραλείφθηκαν {count} αντικείμενα χωρίς όνομα: ονομάστε τα ή ενεργοποιήστε τα Αντικείμενα χωρίς όνομα από το μενού του πίνακα.
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	{n} συνδεδεμένη εικόνα άλλαξε μετά την αποθήκευση του εγγράφου. Να εμφανιστεί η νέα έκδοση;|{n} συνδεδεμένες εικόνες άλλαξαν μετά την αποθήκευση του εγγράφου. Να εμφανιστούν οι νέες εκδόσεις;
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	{n} συνδεδεμένη εικόνα άλλαξε στον δίσκο. Να εμφανιστεί η νέα έκδοση;|{n} συνδεδεμένες εικόνες άλλαξαν στον δίσκο. Να εμφανιστούν οι νέες εκδόσεις;
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	{n} ακόμη κανόνας: η εξαγωγή τον περιλαμβάνει.|{n} ακόμη κανόνες: η εξαγωγή περιλαμβάνει όλους.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	Παραλείφθηκε {n} αντικείμενο χωρίς όνομα: ονομάστε το ή ενεργοποιήστε τα Αντικείμενα χωρίς όνομα από το μενού του πίνακα.|Παραλείφθηκαν {n} αντικείμενα χωρίς όνομα: ονομάστε τα ή ενεργοποιήστε τα Αντικείμενα χωρίς όνομα από το μενού του πίνακα.
 	{effect} is already applied	Το εφέ {effect} έχει ήδη εφαρμοστεί
 	{format} Options	Επιλογές {format}
 	{kind} Gradient	Ντεγκραντέ {kind}
@@ -5546,10 +5548,10 @@ axis	Y Axis	Άξονας Y
 @msg	Packaged {n} file(s) in {folder}	Συσκευάστηκαν {n} αρχεία στον φάκελο {folder}
 @msg	Packaged {n} file(s) {note}	Συσκευάστηκαν {n} αρχεία {note}
 @msg	Packaged {n} file(s)	Συσκευάστηκαν {n} αρχεία
-	Packaged {n} file(s)	Συσκευάστηκαν {n} αρχεία
-	Packaged {n} file(s) in {folder}	Συσκευάστηκαν {n} αρχεία στον φάκελο {folder}
-	Packaged {n} file(s) {note}	Συσκευάστηκαν {n} αρχεία {note}
-	{count} file(s) in {folder}. Show the package folder?	{count} αρχεία στον φάκελο {folder}. Να εμφανιστεί ο φάκελος συσκευασίας;
+@plural	Packaged {n} file|Packaged {n} files	Συσκευάστηκε {n} αρχείο|Συσκευάστηκαν {n} αρχεία
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Συσκευάστηκε {n} αρχείο στον φάκελο {folder}|Συσκευάστηκαν {n} αρχεία στον φάκελο {folder}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	Συσκευάστηκε {n} αρχείο {note}|Συσκευάστηκαν {n} αρχεία {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	{n} αρχείο στον φάκελο {folder}. Να εμφανιστεί ο φάκελος συσκευασίας;|{n} αρχεία στον φάκελο {folder}. Να εμφανιστεί ο φάκελος συσκευασίας;
 	Clockwise	Δεξιόστροφα
 	Dither	Πρόσθεση θορύβου
 	Fine noise hides banding in the gradient fill	Ο λεπτός θόρυβος κρύβει τις λωρίδες στο γέμισμα ντεγκραντέ

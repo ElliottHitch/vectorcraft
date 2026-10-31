@@ -217,7 +217,7 @@ font-technology	Variable	Variables
 	Apply Paragraph Style	Aplicar estilo de párrafo
 	Apply SVG Filter…	Aplicar filtro SVG…
 	Apply to All	Aplicar a todo
-	Apply to All ({count} more missing)	Aplicar a todo (faltan {count} más)
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Aplicar a todo (falta {n} más)|Aplicar a todo (faltan {n} más)
 	Arc	Arco
 	Arc Lower…	Arco inferior…
 	Arc Tool	Herramienta Arco
@@ -2272,7 +2272,7 @@ font-technology	Variable	Variables
 	Package	Empaquetar
 	Package collects a saved document with its linked files and fonts.	Empaquetar reúne un documento guardado con sus archivos vinculados y fuentes.
 	Package created	Paquete creado
-	Packaged {n} file(s) in {folder} {note}	Se empaquetaron {n} archivo(s) en {folder}{note}
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Se empaquetó {n} archivo en {folder} {note}|Se empaquetaron {n} archivos en {folder} {note}
 	Packaged {n} file(s){note}	Se empaquetaron {n} archivo(s){note}
 	Package…	Empaquetar…
 	Page	Página
@@ -2592,9 +2592,11 @@ font-technology	Variable	Variables
 	Stop	Detener
 	Searching…	Buscando…
 	Not found	No se encontró
-	{folders} folder(s) and {files} file(s) searched	Se buscó en {folders} carpeta(s) y {files} archivo(s)
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	Se omitieron {count} carpeta(s), como las de otras aplicaciones y del sistema y las ocultas
-	{count} folder(s) or file(s) couldn't be read	No se pudieron leer {count} carpeta(s) o archivo(s)
+	{folders} and {files} searched	Se buscó en {folders} y {files}
+@plural	{n} folder|{n} folders	{n} carpeta|{n} carpetas
+@plural	{n} file|{n} files	{n} archivo|{n} archivos
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Se omitió {n} carpeta, como las de otras aplicaciones y del sistema y las ocultas|Se omitieron {n} carpetas, como las de otras aplicaciones y del sistema y las ocultas
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	No se pudo leer {n} carpeta o archivo|No se pudieron leer {n} carpetas o archivos
 	The search stopped at its limit: search a smaller folder.	La búsqueda se detuvo en su límite: busca en una carpeta más pequeña.
 	Copy only fonts you own or are licensed to install.	Copia solo fuentes que te pertenezcan o cuya licencia te permita instalarlas.
 	VectorCraft copies the fonts to {folder}.	VectorCraft copia las fuentes en {folder}.
@@ -3676,13 +3678,13 @@ font-technology	Variable	Variables
 	Zoom Tool	Herramienta Zoom
 	Zoom with Mouse Wheel	Zoom con la rueda del mouse
 	Scrub Numeric Fields by Dragging	Ajustar campos numéricos arrastrando
-	{count} file(s) in {folder} {note}. Show the package folder?	{count} archivo(s) en {folder}{note}. ¿Mostrar la carpeta del paquete?
-	{count} linked file(s) not found	No se encontraron {count} archivo(s) vinculado(s)
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{n} archivo en {folder} {note}. ¿Mostrar la carpeta del paquete?|{n} archivos en {folder} {note}. ¿Mostrar la carpeta del paquete?
+@plural	{n} linked file not found|{n} linked files not found	No se encontró {n} archivo vinculado|No se encontraron {n} archivos vinculados
 	fonts not copied: {fonts}	fuentes no copiadas: {fonts}
-	{count} linked image(s) changed since this document was saved. Show the new versions?	{count} imagen(es) vinculada(s) cambiaron desde que se guardó este documento. ¿Mostrar las versiones nuevas?
-	{count} linked image(s) changed on disk. Show the new versions?	{count} imagen(es) vinculada(s) cambiaron en el disco. ¿Mostrar las versiones nuevas?
-	{count} more rules: Export writes every one.	{count} reglas más: Exportar las escribe todas.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	Se omitieron {count} objetos sin nombre: ponles nombre o activa Objetos sin nombre en el menú del panel.
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	{n} imagen vinculada cambió desde que se guardó este documento. ¿Mostrar la versión nueva?|{n} imágenes vinculadas cambiaron desde que se guardó este documento. ¿Mostrar las versiones nuevas?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	{n} imagen vinculada cambió en el disco. ¿Mostrar la versión nueva?|{n} imágenes vinculadas cambiaron en el disco. ¿Mostrar las versiones nuevas?
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	{n} regla más: Exportar la escribe.|{n} reglas más: Exportar las escribe todas.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	Se omitió {n} objeto sin nombre: ponle nombre o activa Objetos sin nombre en el menú del panel.|Se omitieron {n} objetos sin nombre: ponles nombre o activa Objetos sin nombre en el menú del panel.
 	{effect} is already applied	{effect} ya está aplicado
 	{format} Options	Opciones de {format}
 	{kind} Gradient	Degradado {kind}
@@ -5536,10 +5538,10 @@ axis	Y Axis	Eje Y
 @msg	Packaged {n} file(s) in {folder}	Se empaquetaron {n} archivo(s) en {folder}
 @msg	Packaged {n} file(s) {note}	Se empaquetaron {n} archivo(s) {note}
 @msg	Packaged {n} file(s)	Se empaquetaron {n} archivo(s)
-	Packaged {n} file(s)	Se empaquetaron {n} archivo(s)
-	Packaged {n} file(s) in {folder}	Se empaquetaron {n} archivo(s) en {folder}
-	Packaged {n} file(s) {note}	Se empaquetaron {n} archivo(s) {note}
-	{count} file(s) in {folder}. Show the package folder?	{count} archivo(s) en {folder}. ¿Mostrar la carpeta del paquete?
+@plural	Packaged {n} file|Packaged {n} files	Se empaquetó {n} archivo|Se empaquetaron {n} archivos
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Se empaquetó {n} archivo en {folder}|Se empaquetaron {n} archivos en {folder}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	Se empaquetó {n} archivo {note}|Se empaquetaron {n} archivos {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	{n} archivo en {folder}. ¿Mostrar la carpeta del paquete?|{n} archivos en {folder}. ¿Mostrar la carpeta del paquete?
 	Clockwise	En sentido horario
 	Dither	Tramado
 	Fine noise hides banding in the gradient fill	Un ruido fino oculta las bandas del relleno de degradado

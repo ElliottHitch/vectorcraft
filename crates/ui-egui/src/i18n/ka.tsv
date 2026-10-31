@@ -566,7 +566,7 @@
 	Layers	შრეები
 	Libraries	ბიბლიოთეკა
 	Links	ბმულები
-	{count} linked image(s) changed on disk. Show the new versions?	დისკზე შეიცვალა დაკავშირებული გამოსახულებები ({count}). ვაჩვენო ახალი ვერსიები?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	დისკზე შეიცვალა დაკავშირებული გამოსახულებები ({n}). ვაჩვენო ახალი ვერსიები?
 	Update Changed Links	შეცვლილი ბმულების განახლება
 @msg	Updated {_1} linked file(s) changed on disk	განახლდა დისკზე შეცვლილი დაკავშირებული ფაილები: {_1}
 	Magic Wand	ჯადოსნური ჯოხი
@@ -1336,8 +1336,8 @@ lighting	Light	სინათლე
 	Select objects to see their CSS, or Generate CSS for the whole document.	მონიშნეთ ობიექტები მათი CSS-ის სანახავად, ან შექმენით CSS მთელი დოკუმენტისთვის.
 	The selected objects have no CSS of their own (see below).	მონიშნულ ობიექტებს საკუთარი CSS არ აქვს (იხ. ქვემოთ).
 	Units: {units}	ერთეულები: {units}
-	{count} more rules: Export writes every one.	კიდევ წესები: {count}. ექსპორტი ყველას ჩაწერს.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	გამოტოვებულია უსახელო ობიექტები: {count}. დაარქვით მათ სახელი ან პანელის მენიუში ჩართეთ „უსახელო ობიექტები“.
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	კიდევ წესები: {n}. ექსპორტი ყველას ჩაწერს.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	გამოტოვებულია უსახელო ობიექტები: {n}. დაარქვით მათ სახელი ან პანელის მენიუში ჩართეთ „უსახელო ობიექტები“.
 	All Categories	ყველა კატეგორია
 	Repeat Objects	გამეორების ობიექტები
 	Save…	შენახვა…
@@ -2093,19 +2093,21 @@ lighting	Light	სინათლე
 	Stop	შეწყვეტა
 	Searching…	ძიება…
 	Not found	ვერ მოიძებნა
-	{folders} folder(s) and {files} file(s) searched	მოიძებნა საქაღალდეები: {folders}, ფაილები: {files}
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	გამოტოვებული საქაღალდეები: {count} — მაგ. სხვა აპლიკაციების, სისტემის და დამალული საქაღალდეები
-	{count} folder(s) or file(s) couldn't be read	ვერ წაიკითხა საქაღალდეები ან ფაილები: {count}
+	{folders} and {files} searched	მოიძებნა: {folders}, {files}
+@plural	{n} folder|{n} folders	{n} საქაღალდე
+@plural	{n} file|{n} files	{n} ფაილი
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	გამოტოვებული საქაღალდეები: {n} — მაგ. სხვა აპლიკაციების, სისტემის და დამალული საქაღალდეები
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	ვერ წაიკითხა საქაღალდეები ან ფაილები: {n}
 	The search stopped at its limit: search a smaller folder.	ძიება ზღვარზე შეჩერდა: მოძებნეთ უფრო პატარა საქაღალდეში.
 	Copy only fonts you own or are licensed to install.	დააკოპირეთ მხოლოდ ის შრიფტები, რომლებიც გეკუთვნით ან რომელთა დაყენების ლიცენზია გაქვთ.
 	VectorCraft copies the fonts to {folder}.	VectorCraft შრიფტებს აკოპირებს აქ: {folder}.
-	Apply to All ({count} more missing)	ყველაზე გამოყენება (კიდევ დაკარგული: {count})
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	ყველაზე გამოყენება (კიდევ დაკარგული: {n})
 	Ignore	უგულებელყოფა
 	Linked File Not Found	დაკავშირებული ფაილი ვერ მოიძებნა
 	Replace it with another file, or ignore it: its images keep showing the preview saved with the document.	ჩაანაცვლეთ სხვა ფაილით ან უგულებელყავით: მისი გამოსახულებები დოკუმენტთან შენახულ წინასწარ ხედს აჩვენებს.
 	Replace…	ჩანაცვლება…
 	Update Modified Links	შეცვლილი ბმულების განახლება
-	{count} linked image(s) changed since this document was saved. Show the new versions?	დოკუმენტის შენახვის შემდეგ შეიცვალა დაკავშირებული გამოსახულებები: {count}. ვაჩვენოთ ახალი ვერსიები?
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	დოკუმენტის შენახვის შემდეგ შეიცვალა დაკავშირებული გამოსახულებები: {n}. ვაჩვენოთ ახალი ვერსიები?
 	Dialog	დიალოგი
 	Convert Process to Global	პროცესულის გლობალურად გარდაქმნა
 	Create From:	შექმნის წყარო:
@@ -2143,12 +2145,12 @@ lighting	Light	სინათლე
 	Fonts whose licence doesn't allow embedding are not copied.	შრიფტები, რომელთა ლიცენზია ჩაშენების უფლებას არ იძლევა, არ კოპირდება.
 	Package collects a saved document with its linked files and fonts.	შეფუთვა აგროვებს შენახულ დოკუმენტს მის დაკავშირებულ ფაილებთან და შრიფტებთან ერთად.
 	Package created	შეფუთვა შეიქმნა
-	Packaged {n} file(s) in {folder} {note}	შეიფუთა ფაილები: {n}, ადგილი: {folder}{note}
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	შეიფუთა ფაილები: {n}, ადგილი: {folder} {note}
 	Packaged {n} file(s){note}	შეიფუთა ფაილები: {n}{note}
 	Relink Linked Files to the Document	დაკავშირებული ფაილების დოკუმენტთან ხელახლა დაკავშირება
 	Save the document first?	ჯერ შევინახოთ დოკუმენტი?
-	{count} file(s) in {folder} {note}. Show the package folder?	ფაილები: {count}, ადგილი: {folder}{note}. ვაჩვენოთ შეფუთვის საქაღალდე?
-	{count} linked file(s) not found	ვერ მოიძებნა დაკავშირებული ფაილები: {count}
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	ფაილები: {n}, ადგილი: {folder} {note}. ვაჩვენოთ შეფუთვის საქაღალდე?
+@plural	{n} linked file not found|{n} linked files not found	ვერ მოიძებნა დაკავშირებული ფაილები: {n}
 	fonts not copied: {fonts}	არ დაკოპირდა შრიფტები: {fonts}
 	Built-in presets are read-only: New… starts an editable copy.	ჩაშენებული პრესეტები მხოლოდ წასაკითხია: „ახალი…“ ქმნის რედაქტირებად ასლს.
 	1 {unit} on the artboard stands for {real} {unit} in the scene.	1 {unit} სამუშაო დაფაზე სცენაში {real} {unit}-ს შეესაბამება.
@@ -5506,10 +5508,10 @@ axis	Y Axis	Y ღერძი
 @msg	Packaged {n} file(s) in {folder}	შეფუთულია ფაილი ({n}) საქაღალდეში {folder}
 @msg	Packaged {n} file(s) {note}	შეფუთულია ფაილი ({n}) {note}
 @msg	Packaged {n} file(s)	შეფუთულია ფაილი ({n})
-	Packaged {n} file(s)	შეფუთულია ფაილი ({n})
-	Packaged {n} file(s) in {folder}	შეფუთულია ფაილი ({n}) საქაღალდეში {folder}
-	Packaged {n} file(s) {note}	შეფუთულია ფაილი ({n}) {note}
-	{count} file(s) in {folder}. Show the package folder?	ფაილები: {count}, ადგილი: {folder}. ვაჩვენოთ შეფუთვის საქაღალდე?
+@plural	Packaged {n} file|Packaged {n} files	შეფუთულია ფაილი ({n})
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	შეფუთულია ფაილი ({n}) საქაღალდეში {folder}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	შეფუთულია ფაილი ({n}) {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	ფაილები: {n}, ადგილი: {folder}. ვაჩვენოთ შეფუთვის საქაღალდე?
 	Create PDF layers from top-level layers	PDF-ის ფენების შექმნა ზედა დონის ფენებიდან
 @msg	this kind of brush has no options dialog yet	ამ ტიპის ფუნჯს პარამეტრების დიალოგი ჯერ არ აქვს
 	Drag art, colors and text styles here to reuse them across documents. Libraries are stored on this machine — no account required.	გადმოათრიეთ აქ გრაფიკა, ფერები და ტექსტის სტილები, რომ სხვა დოკუმენტებშიც გამოიყენოთ. ბიბლიოთეკები ამ კომპიუტერზე ინახება — ანგარიში არ არის საჭირო.

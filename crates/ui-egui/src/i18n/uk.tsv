@@ -211,7 +211,7 @@ font-technology	Variable	Варіативні
 	Apply Paragraph Style	Застосувати стиль абзацу
 	Apply SVG Filter…	Застосувати фільтр SVG…
 	Apply to All	Застосувати до всіх
-	Apply to All ({count} more missing)	Застосувати до всіх (ще {count} відсутні)
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Застосувати до всіх (ще {n} відсутній)|Застосувати до всіх (ще {n} відсутні)|Застосувати до всіх (ще {n} відсутні)
 	Arc	Дуга
 	Arc Lower…	Дуга знизу…
 	Arc Tool	Інструмент «Дуга»
@@ -2291,7 +2291,7 @@ file-filter	Templates	Шаблони
 	Package	Упакувати
 	Package collects a saved document with its linked files and fonts.	Упаковка збирає збережений документ із його пов’язаними файлами та шрифтами.
 	Package created	Пакет створено
-	Packaged {n} file(s) in {folder} {note}	Упаковано файли: {n} {folder}{note}
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Упаковано файли: {n} {folder} {note}|Упаковано файли: {n} {folder} {note}|Упаковано файли: {n} {folder} {note}
 	Packaged {n} file(s){note}	Упаковано файли: {n}{note}
 	Package…	Упакувати…
 	Page	Сторінка
@@ -2615,9 +2615,11 @@ mark-style	Japanese	Японський
 	Stop	Зупинити
 	Searching…	Пошук…
 	Not found	Не знайдено
-	{folders} folder(s) and {files} file(s) searched	Переглянуто папок: {folders}, файлів: {files}
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	Пропущено папок: {count}, зокрема папки інших програм і системи та приховані папки
-	{count} folder(s) or file(s) couldn't be read	Не вдалося прочитати папок або файлів: {count}
+	{folders} and {files} searched	Переглянуто: {folders}, {files}
+@plural	{n} folder|{n} folders	{n} папка|{n} папки|{n} папок
+@plural	{n} file|{n} files	{n} файл|{n} файли|{n} файлів
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Пропущено папок: {n}, зокрема папки інших програм і системи та приховані папки|Пропущено папок: {n}, зокрема папки інших програм і системи та приховані папки|Пропущено папок: {n}, зокрема папки інших програм і системи та приховані папки
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	Не вдалося прочитати папок або файлів: {n}|Не вдалося прочитати папок або файлів: {n}|Не вдалося прочитати папок або файлів: {n}
 	The search stopped at its limit: search a smaller folder.	Пошук зупинився на межі: виберіть меншу папку.
 	Copy only fonts you own or are licensed to install.	Копіюйте лише шрифти, які належать вам або які ви маєте право встановлювати за ліцензією.
 	VectorCraft copies the fonts to {folder}.	VectorCraft копіює шрифти в {folder}.
@@ -3704,13 +3706,13 @@ effect	Points	Точки
 	Zoom Tool	Інструмент «Масштаб»
 	Zoom with Mouse Wheel	Масштабувати колесом миші
 	Scrub Numeric Fields by Dragging	Змінювати числові поля перетягуванням
-	{count} file(s) in {folder} {note}. Show the package folder?	файлів: {count} {folder}{note}. Показати папку пакета?
-	{count} linked file(s) not found	не знайдено пов’язаних файлів: {count}
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	файлів: {n} {folder} {note}. Показати папку пакета?|файлів: {n} {folder} {note}. Показати папку пакета?|файлів: {n} {folder} {note}. Показати папку пакета?
+@plural	{n} linked file not found|{n} linked files not found	не знайдено пов’язаних файлів: {n}|не знайдено пов’язаних файлів: {n}|не знайдено пов’язаних файлів: {n}
 	fonts not copied: {fonts}	шрифти не скопійовано: {fonts}
-	{count} linked image(s) changed since this document was saved. Show the new versions?	пов’язані зображення ({count}) змінилися з моменту збереження цього документа. Показати нові версії?
-	{count} linked image(s) changed on disk. Show the new versions?	пов’язані зображення ({count}) змінилися на диску. Показати нові версії?
-	{count} more rules: Export writes every one.	ще правил: {count}: експорт записує все.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	пропущено об’єкти без імені: {count}: назвіть їх або увімкніть «Об’єкти без імені» у меню панелі.
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	пов’язані зображення ({n}) змінилися з моменту збереження цього документа. Показати нові версії?|пов’язані зображення ({n}) змінилися з моменту збереження цього документа. Показати нові версії?|пов’язані зображення ({n}) змінилися з моменту збереження цього документа. Показати нові версії?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	пов’язані зображення ({n}) змінилися на диску. Показати нові версії?|пов’язані зображення ({n}) змінилися на диску. Показати нові версії?|пов’язані зображення ({n}) змінилися на диску. Показати нові версії?
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	ще правил: {n}: експорт записує все.|ще правил: {n}: експорт записує все.|ще правил: {n}: експорт записує все.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	пропущено об’єкти без імені: {n}: назвіть їх або увімкніть «Об’єкти без імені» у меню панелі.|пропущено об’єкти без імені: {n}: назвіть їх або увімкніть «Об’єкти без імені» у меню панелі.|пропущено об’єкти без імені: {n}: назвіть їх або увімкніть «Об’єкти без імені» у меню панелі.
 	{effect} is already applied	{effect} вже застосований
 	{format} Options	параметри {format}
 	{kind} Gradient	градієнт {kind}
@@ -5189,10 +5191,10 @@ axis	Y Axis	Вісь Y
 @msg	Packaged {n} file(s) in {folder}	Упаковано файли: {n} {folder}
 @msg	Packaged {n} file(s) {note}	Упаковано файли: {n} {note}
 @msg	Packaged {n} file(s)	Упаковано файли: {n}
-	Packaged {n} file(s)	Упаковано файли: {n}
-	Packaged {n} file(s) in {folder}	Упаковано файли: {n} {folder}
-	Packaged {n} file(s) {note}	Упаковано файли: {n} {note}
-	{count} file(s) in {folder}. Show the package folder?	файлів: {count} {folder}. Показати папку пакета?
+@plural	Packaged {n} file|Packaged {n} files	Упаковано файли: {n}|Упаковано файли: {n}|Упаковано файли: {n}
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Упаковано файли: {n} {folder}|Упаковано файли: {n} {folder}|Упаковано файли: {n} {folder}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	Упаковано файли: {n} {note}|Упаковано файли: {n} {note}|Упаковано файли: {n} {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	файлів: {n} {folder}. Показати папку пакета?|файлів: {n} {folder}. Показати папку пакета?|файлів: {n} {folder}. Показати папку пакета?
 	Clockwise	За годинниковою стрілкою
 	Dither	Дизеринг
 	Fine noise hides banding in the gradient fill	Дрібний шум приховує смуги в градієнтній заливці

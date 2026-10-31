@@ -203,7 +203,7 @@ font-technology	Variable	Променливи
 	Apply Paragraph Style	Прилагане на стил на абзац
 	Apply SVG Filter…	Прилагане на SVG филтър…
 	Apply to All	Прилагане към всички
-	Apply to All ({count} more missing)	Прилагане към всички (още {count} липсващи)
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Прилагане към всички (още {n} липсващ)|Прилагане към всички (още {n} липсващи)
 	Arc	Дъга
 	Arc Lower…	Дъга надолу…
 	Arc Tool	Инструмент „Дъга“
@@ -2217,7 +2217,7 @@ font-technology	Variable	Променливи
 	Package	Пакет
 	Package collects a saved document with its linked files and fonts.	Пакетът събира запазен документ заедно с неговите свързани файлове и шрифтове.
 	Package created	Пакетът е създаден
-	Packaged {n} file(s) in {folder} {note}	Пакетирани са {n} файла в {folder}{note}
+@plural	Packaged {n} file in {folder} {note}|Packaged {n} files in {folder} {note}	Пакетиран е {n} файл в {folder} {note}|Пакетирани са {n} файла в {folder} {note}
 	Packaged {n} file(s){note}	Пакетирани са {n} файла{note}
 	Package…	Пакет…
 	Page	Страница
@@ -2534,9 +2534,11 @@ font-technology	Variable	Променливи
 	Stop	Спиране
 	Searching…	Търсене…
 	Not found	Няма намерени резултати
-	{folders} folder(s) and {files} file(s) searched	Претърсени са {folders} папки и {files} файла
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	Пропуснати са {count} папки (като системни папки, папки на други приложения и скрити папки)
-	{count} folder(s) or file(s) couldn't be read	{count} папки или файла не можаха да бъдат прочетени
+	{folders} and {files} searched	Претърсени са {folders} и {files}
+@plural	{n} folder|{n} folders	{n} папка|{n} папки
+@plural	{n} file|{n} files	{n} файл|{n} файла
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Пропусната е {n} папка (като системни папки, папки на други приложения и скрити папки)|Пропуснати са {n} папки (като системни папки, папки на други приложения и скрити папки)
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	{n} папка или файл не можа да бъде прочетен|{n} папки или файла не можаха да бъдат прочетени
 	The search stopped at its limit: search a smaller folder.	Търсенето спре поради достигане на лимита: потърсете в по-малка папка.
 	Copy only fonts you own or are licensed to install.	Копирайте само шрифтове, които притежавате или имате лиценз да инсталирате.
 	VectorCraft copies the fonts to {folder}.	VectorCraft копира шрифтовете в {folder}.
@@ -3604,13 +3606,13 @@ font-technology	Variable	Променливи
 	Zoom Tool	Инструмент „Мащаб“
 	Zoom with Mouse Wheel	Мащабиране с колелцето на мишката
 	Scrub Numeric Fields by Dragging	Плъзгане на числени полета чрез влачене
-	{count} file(s) in {folder} {note}. Show the package folder?	{count} файл(а) в {folder}{note}. Показване на папката на пакета?
-	{count} linked file(s) not found	{count} свързан(и) файл(а) не са намерени
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{n} файл в {folder} {note}. Показване на папката на пакета?|{n} файла в {folder} {note}. Показване на папката на пакета?
+@plural	{n} linked file not found|{n} linked files not found	{n} свързан файл не е намерен|{n} свързани файла не са намерени
 	fonts not copied: {fonts}	некопирани шрифтове: {fonts}
-	{count} linked image(s) changed since this document was saved. Show the new versions?	{count} свързано(и) изображение(я) е/са променено(и) след запазването на този документ. Показване на новите версии?
-	{count} linked image(s) changed on disk. Show the new versions?	{count} свързано(и) изображение(я) е/са променено(и) на диска. Показване на новите версии?
-	{count} more rules: Export writes every one.	{count} още правила: Експортът записва всяко едно.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{count} ненаименувани обекта са пропуснати: наименувайте ги или включете „Ненаименувани обекти“ в менюто на панела.
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	{n} свързано изображение е променено след запазването на този документ. Показване на новата версия?|{n} свързани изображения са променени след запазването на този документ. Показване на новите версии?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	{n} свързано изображение е променено на диска. Показване на новата версия?|{n} свързани изображения са променени на диска. Показване на новите версии?
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	Още {n} правило: Експортът го записва.|Още {n} правила: Експортът записва всяко едно.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{n} ненаименуван обект е пропуснат: наименувайте го или включете „Ненаименувани обекти“ в менюто на панела.|{n} ненаименувани обекта са пропуснати: наименувайте ги или включете „Ненаименувани обекти“ в менюто на панела.
 	{effect} is already applied	{effect} вече е приложен
 	{format} Options	Опции за {format}
 	{kind} Gradient	{kind} градиент
@@ -5505,10 +5507,10 @@ axis	Y Axis	Y ос
 @msg	Packaged {n} file(s) in {folder}	Пакетирани са {n} файла в {folder}
 @msg	Packaged {n} file(s) {note}	Пакетирани са {n} файла {note}
 @msg	Packaged {n} file(s)	Пакетирани са {n} файла
-	Packaged {n} file(s)	Пакетирани са {n} файла
-	Packaged {n} file(s) in {folder}	Пакетирани са {n} файла в {folder}
-	Packaged {n} file(s) {note}	Пакетирани са {n} файла {note}
-	{count} file(s) in {folder}. Show the package folder?	{count} файл(а) в {folder}. Показване на папката на пакета?
+@plural	Packaged {n} file|Packaged {n} files	Пакетиран е {n} файл|Пакетирани са {n} файла
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Пакетиран е {n} файл в {folder}|Пакетирани са {n} файла в {folder}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	Пакетиран е {n} файл {note}|Пакетирани са {n} файла {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	{n} файл в {folder}. Показване на папката на пакета?|{n} файла в {folder}. Показване на папката на пакета?
 	Clockwise	По часовниковата стрелка
 	Dither	Дитъринг
 	Fine noise hides banding in the gradient fill	Фин шум скрива ивиците в градиентната запълка
