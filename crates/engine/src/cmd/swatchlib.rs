@@ -331,11 +331,18 @@ fn library_tab_name(file: &str, lib_name: &str) -> String {
 }
 
 /// The file name of library `name` with extension `ext`: characters file systems reject become
-/// `-`, and dots and spaces at either end are dropped. A name with nothing left is `Library`.
+/// `-`, and dots and spaces at either end are dropped. A name with nothing left is `Library`, and
+/// one that is a Windows device name (`CON`, `NUL`, `COM1`…) gets a `-` after it.
 pub fn library_file_name(name: &str, ext: &str) -> String {
     let base: String = name.chars().map(|c| if "/\\:*?\"<>|".contains(c) || c.is_control() { '-' } else { c }).collect();
     let base = base.trim_matches(['.', ' ']);
-    format!("{}.{ext}", if base.is_empty() { "Library" } else { base })
+    if base.is_empty() {
+        format!("Library.{ext}")
+    } else if crate::file_access::is_device_name(base) {
+        format!("{base}-.{ext}")
+    } else {
+        format!("{base}.{ext}")
+    }
 }
 
 /// The library files with extensions `exts` in folder `dir`, sorted by name.
