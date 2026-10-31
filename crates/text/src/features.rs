@@ -46,6 +46,9 @@ pub struct OtFeatures {
     pub extra: u32,
 }
 
+/// The most entries of a style's feature list read: every segment of its text reads the list again.
+const MAX_STYLE_FEATURES: usize = 256;
+
 /// Features beyond the named fields, off unless asked for, each bit `i` of [`OtFeatures::extra`]:
 /// stylistic sets `ss01`–`ss20`, stylistic alternates `salt`, titling `titl`, proportional `pnum`
 /// and lining `lnum` figures, superscript `sups` and subscript `subs`.
@@ -146,13 +149,15 @@ impl OtFeatures {
     /// The harfrust features for text in style `st`.
     pub(crate) fn resolve(&self, st: &CharStyle) -> Vec<Feature> {
         // The character's own OpenType settings override the layout-wide ones.
-        let own = self.with_tags(st.features.iter().map(String::as_str));
+        // (A style lists a few features; one with thousands, in a document, is read for the first.)
+        let listed = st.features.get(..MAX_STYLE_FEATURES).unwrap_or(&st.features);
+        let own = self.with_tags(listed.iter().map(String::as_str));
         let s = &own;
         let mut v = Vec::with_capacity(8);
         if st.kerning.is_some() {
             v.push(f(b"kern", false));
         }
-        let liga = s.ligatures && (!ligatures_suppressed_by(st.tracking) || explicit_ligatures(&st.features));
+        let liga = s.ligatures && (!ligatures_suppressed_by(st.tracking) || explicit_ligatures(listed));
         if !liga {
             v.push(f(b"liga", false));
             v.push(f(b"clig", false));
@@ -289,5 +294,23 @@ mod tests {
         assert_eq!(OtFeatures::from_tags(["-liga", "dlig"]).to_tags(), ["-liga", "dlig"]);
         assert!(OtFeatures::default().to_tags().is_empty());
         assert!(OtFeatures::known_tag("-onum") && !OtFeatures::known_tag("zzzz"));
+    }
+
+    /// The characters' language reaches the shaper (#4940): Source Serif 4's Turkish forms
+    /// (`locl`) keep f and i apart, and the dot on the i, where English ligates them. Runs in
+    /// different languages are shaped apart, each in its own.
+    #[test]
+    fn language_picks_the_fonts_forms() {
+        let st =
+            |language: Option<&str>| CharStyle { font_family: "Source Serif 4".into(), language: language.map(str::to_string), ..Default::default() };
+        let count = |language| layout(FontDb::global(), &TextObject::point(Point::ZERO, "fi", st(language))).glyphs.len();
+        assert_eq!((count(None), count(Some("en-US")), count(Some("tr"))), (1, 1, 2));
+        // A tag that isn't one (from a file) shapes without a language.
+        assert_eq!((count(Some("tr; DROP")), count(Some(""))), (1, 1));
+        let mut t = TextObject::point(Point::ZERO, "", st(None));
+        t.runs = vec![vectorcraft_doc::TextRun::new("fi", st(Some("tr"))), vectorcraft_doc::TextRun::new("fi", st(None))];
+        let glyphs = layout(FontDb::global(), &t).glyphs;
+        let per_run: Vec<usize> = (0..2).map(|r| glyphs.iter().filter(|g| g.run == r).count()).collect();
+        assert_eq!(per_run, [2, 1]);
     }
 }

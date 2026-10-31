@@ -95,6 +95,7 @@
 #![forbid(unsafe_code)]
 
 mod css;
+mod entities;
 mod export;
 mod glyph;
 mod import;
@@ -332,7 +333,7 @@ pub struct LinkedImage {
     pub bytes: std::sync::Arc<Vec<u8>>,
 }
 
-#[derive(Debug, thiserror::Error)]
+#[derive(Clone, Debug, thiserror::Error)]
 pub enum SvgError {
     #[error("SVG parse error: {0}")]
     Parse(String),
@@ -342,6 +343,14 @@ pub enum SvgError {
     /// SVGZ data unpacks to more than the reader takes (a guard against decompression bombs).
     #[error("SVG parse error: {0}")]
     TooBig(String),
+    /// The SVG expands to more objects than the reader takes (a guard against `<use>` and
+    /// nested-image expansion bombs, #3564).
+    #[error("the SVG expands to more than {0} objects")]
+    TooLarge(usize),
+    /// The SVG expands to more nested SVG images than the reader takes (a guard against
+    /// nested-image expansion bombs, #3564).
+    #[error("the SVG expands to more than {0} nested SVG images")]
+    TooManyImages(usize),
 }
 
 /// Export a document as an SVG string (linked images are not returned: see [`export_full`]).
@@ -378,7 +387,7 @@ pub struct Editing {
 /// The native document an SVG carries, if any, and whether the SVG was edited since.
 pub fn editing(svg: &str) -> Option<Editing> {
     // (An SVG nested too deep for the XML reader carries none: it isn't one of ours.)
-    if !svg.contains(EDITING_NS) || import::xml_too_deep(svg) {
+    if !svg.contains(EDITING_NS) || import::xml_too_deep(svg) || entities::expansion_too_large(svg) {
         return None;
     }
     let opts = usvg::roxmltree::ParsingOptions { allow_dtd: true, ..Default::default() };
@@ -540,13 +549,18 @@ pub fn import_with_report(svg: &str) -> Result<(Document, Vec<String>), SvgError
 }
 
 pub use glyph::glyph_art;
-pub use import::{MAX_ELEMENT_DEPTH, MAX_FOREIGN, MAX_FOREIGN_VALUE};
+pub use import::{MAX_ELEMENT_DEPTH, MAX_FOREIGN, MAX_FOREIGN_VALUE, MAX_NESTED_SVG_IMAGES, MAX_NODES};
 
 /// Import an SVG document reading the files it links to as `opts` says, also returning warnings.
 pub fn import_with(svg: &str, opts: &ImportOptions) -> Result<(Document, Vec<String>), SvgError> {
+    import_within(svg, opts, MAX_NODES)
+}
+
+/// [`import_with`], capping the objects the document may expand to at `max_nodes`.
+pub fn import_within(svg: &str, opts: &ImportOptions, max_nodes: usize) -> Result<(Document, Vec<String>), SvgError> {
     // usvg converts the tree by recursion, in large stack frames: the nesting it is given is
     // capped (`import::depth`), and it gets room for that cap whatever thread asks.
-    vectorcraft_doc::depth::with_deep_stack(|| import::import(svg, opts))
+    vectorcraft_doc::depth::with_deep_stack(|| import::import(svg, opts, max_nodes))
 }
 
 /// Reads a linked file: its bytes and the link to it (absolute path, size, time and hash), or

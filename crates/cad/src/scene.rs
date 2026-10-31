@@ -10,7 +10,7 @@ use kurbo::PathEl;
 use vectorcraft_color::Paint;
 use vectorcraft_doc::{AppearanceItem, Dash, Document, ImageObject, Node, NodeKind, StrokeLayer, SymbolBoxes, TextKind, TextObject, Unit};
 use vectorcraft_effects::stroke;
-use vectorcraft_geom::{Affine, BezPath, FillRule, PathData, Point, Rect};
+use vectorcraft_geom::{Affine, BezPath, FillRule, PathData, Point, Rect, Vec2};
 
 use crate::aci::nearest_aci;
 use crate::writer::{Codes, Drawing, EntityStyle, Handle, ImageDef, Layer, LineType, fixed};
@@ -126,7 +126,102 @@ fn circular_subpath(sub: &Sub) -> Option<CircularSub> {
     if samples.iter().any(|p| (centre.distance(*p) - radius).abs() > tolerance) {
         return None;
     }
+    // Verify that the curve progresses monotonically around the circle without reversing,
+    // both along each cubic segment's angular derivative and across sampled intervals,
+    // and that closed subpaths make exactly one full turn while open subpaths do not exceed one turn.
+    let mut total_turn = 0.0;
+    let mut dir: Option<bool> = None;
+    let ang_threshold = radius * radius * 1e-9;
+    let mut seg_from = sub.start;
+    for seg in &sub.segs {
+        let Seg::Cubic(a, b, to) = *seg else { return None };
+        for step in 0..=32 {
+            let t = f64::from(step) / 32.0;
+            let p = cubic_point(seg_from, a, b, to, t);
+            let u = 1.0 - t;
+            let dx = 3.0 * u * u * (a.x - seg_from.x) + 6.0 * u * t * (b.x - a.x) + 3.0 * t * t * (to.x - b.x);
+            let dy = 3.0 * u * u * (a.y - seg_from.y) + 6.0 * u * t * (b.y - a.y) + 3.0 * t * t * (to.y - b.y);
+            let cross = (p.x - centre.x) * dy - (p.y - centre.y) * dx;
+            if cross.abs() > ang_threshold {
+                let is_ccw = cross > 0.0;
+                if let Some(expected_ccw) = dir {
+                    if is_ccw != expected_ccw {
+                        return None;
+                    }
+                } else {
+                    dir = Some(is_ccw);
+                }
+            }
+        }
+        seg_from = to;
+    }
+    for w in samples.windows(2) {
+        let (p0, p1) = (w[0], w[1]);
+        let (v0x, v0y) = (p0.x - centre.x, p0.y - centre.y);
+        let (v1x, v1y) = (p1.x - centre.x, p1.y - centre.y);
+        let cross = v0x * v1y - v0y * v1x;
+        let dot = v0x * v1x + v0y * v1y;
+        let d_theta = cross.atan2(dot);
+        if d_theta.abs() > 1e-9 {
+            let is_ccw = d_theta > 0.0;
+            if let Some(expected_ccw) = dir {
+                if is_ccw != expected_ccw {
+                    return None;
+                }
+            } else {
+                dir = Some(is_ccw);
+            }
+            total_turn += d_theta;
+        }
+    }
+    if sub.closed {
+        if (total_turn.abs() - std::f64::consts::TAU).abs() > 1e-3 {
+            return None;
+        }
+    } else if total_turn.abs() < 1e-6 || total_turn.abs() >= std::f64::consts::TAU - 1e-3 {
+        return None;
+    }
     Some(CircularSub { centre, radius, samples })
+}
+
+/// A closed subpath that is the four-cubic circle under an affine map: an ellipse, or a circle
+/// scaled out of proportion. `u` and `v` are the conjugate semi-diameters through its first two
+/// anchors.
+struct EllipticalSub {
+    centre: Point,
+    u: Vec2,
+    v: Vec2,
+}
+
+/// Fit a closed subpath of four cubics to one ellipse. Its anchors give the center and two
+/// conjugate semi-diameters; the subpath mapped by their inverse must pass [`circular_subpath`] as
+/// the unit circle, so the same tolerance and turn checks apply.
+fn elliptical_subpath(sub: &Sub) -> Option<EllipticalSub> {
+    if !sub.closed || sub.segs.len() != 4 {
+        return None;
+    }
+    let (a0, a1, a2) = (sub.start, sub.segs.first()?.end(), sub.segs.get(1)?.end());
+    let centre = a0.midpoint(a2);
+    let (u, v) = (a0 - centre, a1 - centre);
+    let det = u.cross(v);
+    let scale2 = u.hypot2().max(v.hypot2());
+    if !det.is_finite() || !scale2.is_finite() || det.abs() <= scale2 * 1e-9 {
+        return None;
+    }
+    let unit = |p: Point| {
+        let d = p - centre;
+        Point::new(d.cross(v) / det, u.cross(d) / det)
+    };
+    let mut segs = Vec::with_capacity(4);
+    for seg in &sub.segs {
+        let Seg::Cubic(a, b, to) = *seg else { return None };
+        segs.push(Seg::Cubic(unit(a), unit(b), unit(to)));
+    }
+    let circle = circular_subpath(&Sub { start: unit(sub.start), segs, closed: true })?;
+    if circle.centre.to_vec2().hypot() > 5e-4 || (circle.radius - 1.0).abs() > 5e-4 {
+        return None;
+    }
+    Some(EllipticalSub { centre, u, v })
 }
 
 fn angle_deg(p: Point, centre: Point) -> f64 {
@@ -168,12 +263,43 @@ fn subpaths(bp: &BezPath) -> Vec<Sub> {
     out
 }
 
+/// The most pixels of an image written (it is held decoded, as RGBA and encoded at once).
+const MAX_IMAGE_PIXELS: u64 = 64 << 20;
+
+/// The most entities (handles) a drawing is written with.
+const MAX_ENTITIES: u32 = 10_000_000;
+
+/// The largest x or y a path may have to be flattened, and the most points its polygons keep.
+const MAX_COORD: f64 = 1e9;
+const MAX_POINTS: usize = 4_000_000;
+
+/// Do the dashes of `d` start at the start of their pattern, as a linetype's do? A pattern of
+/// odd length repeats twice in its linetype.
+fn starts_with_pattern(d: &Dash) -> bool {
+    if !d.is_dashed() || !d.offset.is_finite() {
+        return true;
+    }
+    let period = d.pattern.iter().sum::<f64>() * if d.pattern.len() % 2 == 1 { 2.0 } else { 1.0 };
+    let phase = d.offset.rem_euclid(period);
+    phase.min(period - phase) <= period * 1e-9
+}
+
 /// `bp` flattened into polygons (each closing implicitly), consecutive repeats dropped.
 fn polygons(bp: &BezPath) -> Vec<Vec<Point>> {
+    // Far outside any drawing, a curve flattens to millions of points at this tolerance.
+    let b = bp.control_box();
+    if !matches!(
+        b.x0.abs().max(b.x1.abs()).max(b.y0.abs()).max(b.y1.abs()).partial_cmp(&MAX_COORD),
+        Some(std::cmp::Ordering::Less | std::cmp::Ordering::Equal)
+    ) {
+        return vec![];
+    }
     let mut out: Vec<Vec<Point>> = vec![];
     let mut cur: Vec<Point> = vec![];
-    let push = |p: Point, cur: &mut Vec<Point>| {
-        if cur.last().is_none_or(|q| q.distance(p) > 1e-9) {
+    let mut points = 0usize;
+    let mut push = |p: Point, cur: &mut Vec<Point>| {
+        if points < MAX_POINTS && cur.last().is_none_or(|q| q.distance(p) > 1e-9) {
+            points += 1;
             cur.push(p);
         }
     };
@@ -208,21 +334,37 @@ fn symbol_name(name: &str, long: bool) -> String {
     s.trim().to_string()
 }
 
-/// `base` made unique among `taken` (any case) by `_2`, `_3`…, within `max` characters.
-fn unique(base: &str, taken: &[&str], max: usize) -> String {
-    let base = if base.is_empty() { "Layer".to_string() } else { base.to_string() };
-    let free = |n: &str| !taken.iter().any(|t| t.eq_ignore_ascii_case(n));
-    if free(&base) {
-        return base;
+/// The names a DXF table holds (compared in any case), and the next suffix to try for each base,
+/// so identical names don't each search the suffixes before.
+#[derive(Default)]
+struct Names {
+    taken: std::collections::HashSet<String>,
+    next: HashMap<String, usize>,
+}
+
+impl Names {
+    /// Names that are there already.
+    fn with(names: &[&str]) -> Self {
+        Self { taken: names.iter().map(|n| n.to_lowercase()).collect(), next: HashMap::new() }
     }
-    (2..)
-        .map(|i| {
-            let suffix = format!("_{i}");
+
+    /// `base` made unique by `_2`, `_3`…, within `max` characters; the name is taken from now on.
+    fn unique(&mut self, base: &str, max: usize) -> String {
+        let base = if base.is_empty() { "Layer".to_string() } else { base.to_string() };
+        if self.taken.insert(base.to_lowercase()) {
+            return base;
+        }
+        let next = self.next.entry(base.to_lowercase()).or_insert(2);
+        loop {
+            let suffix = format!("_{next}");
+            *next += 1;
             let keep: String = base.chars().take(max.saturating_sub(suffix.len())).collect();
-            format!("{keep}{suffix}")
-        })
-        .find(|n| free(n))
-        .unwrap_or(base)
+            let name = format!("{keep}{suffix}");
+            if self.taken.insert(name.to_lowercase()) {
+                return name;
+            }
+        }
+    }
 }
 
 fn overlaps(a: Rect, b: Rect) -> bool {
@@ -251,12 +393,14 @@ pub(crate) struct Scene<'a> {
     e: Codes,
     next: u32,
     layers: Vec<Layer>,
+    layer_names: Names,
     /// The DXF layer art goes on, and its flags.
     layer: String,
     flags: LayerFlags,
     linetypes: Vec<LineType>,
     /// (style name, font family).
     styles: Vec<(String, String)>,
+    style_names: Names,
     images: Vec<ImageDef>,
     files: Vec<DxfImage>,
     /// Image keys → index into `images` (`None`: left out).
@@ -283,10 +427,12 @@ impl<'a> Scene<'a> {
             e: Codes::new(o.version),
             next: fixed::FIRST_FREE,
             layers: vec![],
+            layer_names: Names::with(&["0", "Defpoints"]),
             layer: "0".into(),
             flags: LayerFlags { off: false, locked: false, plot: true },
             linetypes: vec![],
             styles: vec![],
+            style_names: Names::with(&[crate::writer::STANDARD_STYLE]),
             images: vec![],
             files: vec![],
             by_key: HashMap::new(),
@@ -348,6 +494,12 @@ impl<'a> Scene<'a> {
 
     fn node(&mut self, n: &Node, force: bool) {
         if let NodeKind::Layer { template: true, .. } = n.kind {
+            return;
+        }
+        // Symbols that hold symbols are written in full for each instance: depth alone doesn't
+        // bound how many entities that is.
+        if self.next.saturating_sub(fixed::FIRST_FREE) > MAX_ENTITIES {
+            self.warn("the drawing is too large for DXF: what follows 10 million entities was left out");
             return;
         }
         // Hidden layers are written, switched off.
@@ -452,9 +604,7 @@ impl<'a> Scene<'a> {
     fn add_layer(&mut self, n: &Node) -> String {
         let long = self.o.version.r2000();
         let base = symbol_name(n.name.as_deref().unwrap_or("Layer"), long);
-        let mut taken: Vec<&str> = self.layers.iter().map(|l| l.name.as_str()).collect();
-        taken.extend(["0", "Defpoints"]);
-        let name = unique(&base, &taken, if long { 255 } else { 31 });
+        let name = self.layer_names.unique(&base, if long { 255 } else { 31 });
         let aci = match n.kind {
             NodeKind::Layer { color, .. } => nearest_aci(color.rgb(), ColorDepth::Aci256),
             _ => 7,
@@ -513,13 +663,27 @@ impl<'a> Scene<'a> {
 
     /// The DXF lineweight nearest to `width` points (scaled with the drawing when asked).
     fn lineweight(&mut self, width: f64) -> i32 {
-        let scale = if self.o.scale_lineweights { self.o.scale } else { 1.0 };
-        let hundredths = width * 2540.0 / 72.0 * scale;
+        let hundredths = self.hundredths(width);
         let max = LINEWEIGHTS[LINEWEIGHTS.len() - 1];
         if hundredths > f64::from(max) + 5.0 {
             self.warn(WIDE_LINES);
         }
         LINEWEIGHTS.into_iter().min_by(|a, b| (f64::from(*a) - hundredths).abs().total_cmp(&(f64::from(*b) - hundredths).abs())).unwrap_or(max)
+    }
+
+    /// `width` points in hundredths of a millimetre, the unit of DXF lineweights (scaled with
+    /// the drawing when asked).
+    fn hundredths(&self, width: f64) -> f64 {
+        let scale = if self.o.scale_lineweights { self.o.scale } else { 1.0 };
+        width * 2540.0 / 72.0 * scale
+    }
+
+    /// Can a CAD line draw a plain stroke `width` points wide in this version? R12 polylines
+    /// carry their width, R13 and R14 have no lineweights, and from 2000 a lineweight holds up
+    /// to 2.11 mm, to the hundredth.
+    fn line_keeps_width(&self, width: f64) -> bool {
+        let v = self.o.version;
+        !v.handles() || (v.r2000() && self.hundredths(width).round() <= f64::from(LINEWEIGHTS[LINEWEIGHTS.len() - 1]))
     }
 
     /// A linetype for dash pattern `d` (one per distinct pattern).
@@ -574,7 +738,11 @@ impl<'a> Scene<'a> {
         }
         let Some(rgb) = self.paint_rgb(&st.paint) else { return };
         let plain = stroke::is_plain(st);
-        if self.o.alter_paths || (appearance && !plain) {
+        // A linetype has no phase: dashes that start part way into their pattern need outlines.
+        let lined = plain && st.dash.as_ref().is_none_or(starts_with_pattern);
+        // Alter Paths for Appearance outlines a stroke only when a line can't draw it.
+        let altered = self.o.alter_paths && !(lined && self.line_keeps_width(st.width));
+        if altered || (appearance && !lined) {
             let region = stroke::outline_region(&PathData::from_bezpath(bp), rule, st);
             let style = self.style(rgb, st.opacity, None, None);
             self.area(&region.to_bezpath(), FillRule::NonZero, &style, true);
@@ -641,9 +809,9 @@ impl<'a> Scene<'a> {
         self.e.int(98, 0);
     }
 
-    /// Path `bp` as lines: polylines for straight subpaths (and for curves in R12, flattened),
-    /// cubic splines for curved ones. `width`: the stroke weight, which DXF before 2000 gives
-    /// polylines as a width.
+    /// Path `bp` as lines: a line for an open subpath of one straight segment, polylines for
+    /// other straight subpaths (and for curves in R12, flattened), cubic splines for curved ones.
+    /// `width`: the stroke weight, which DXF before 2000 gives polylines as a width.
     fn lines(&mut self, bp: &BezPath, style: &EntityStyle, width: f64) {
         let v = self.o.version;
         let width = (!v.r2000() && width > 0.0).then_some(width * self.k);
@@ -656,11 +824,17 @@ impl<'a> Scene<'a> {
                 if sub.closed && pts.len() > 2 && pts.last().is_some_and(|p| p.distance(sub.start) <= 1e-9) {
                     pts.pop();
                 }
-                self.polyline(&pts, sub.closed, style, width);
+                // A LINE has no width, so a stroke before 2000 keeps its polyline width.
+                match (sub.closed, width, pts.as_slice()) {
+                    (false, None, &[a, b]) => self.line(a, b, style),
+                    _ => self.polyline(&pts, sub.closed, style, width),
+                }
             } else if (v.handles() || width.is_none()) && self.circular(&sub, style) {
                 // Native circles/arcs are preferred by CAD/CAM software. In R12, however, a
                 // stroked curve must stay on the flattened POLYLINE path so groups 40/41 retain
                 // its width. Non-circular curves continue through the existing fallback.
+            } else if v.handles() && self.elliptical(&sub, style) {
+                // R13 and later write an ellipse as a native ELLIPSE.
             } else if v.handles() {
                 self.spline(&sub, style);
             } else {
@@ -679,6 +853,16 @@ impl<'a> Scene<'a> {
         }
     }
 
+    /// A line from `a` to `b` (document space).
+    fn line(&mut self, a: Point, b: Point, style: &EntityStyle) {
+        let (a, b) = (self.pt(a), self.pt(b));
+        let layer = self.layer.clone();
+        let h = self.handle();
+        self.e.entity("LINE", h, fixed::MODEL_RECORD, &layer, style, "AcDbLine");
+        self.e.xyz(10, a.x, a.y);
+        self.e.xyz(11, b.x, b.y);
+    }
+
     /// A polyline through `pts` (document space): lightweight from R14, else a polyline with a
     /// vertex entity per point.
     fn polyline(&mut self, pts: &[Point], closed: bool, style: &EntityStyle, width: Option<f64>) {
@@ -688,7 +872,8 @@ impl<'a> Scene<'a> {
         let pts: Vec<Point> = pts.iter().map(|p| self.pt(*p)).collect();
         let layer = self.layer.clone();
         let h = self.handle();
-        let flags = i64::from(closed);
+        // Bit 128: a linetype runs on through the vertices instead of restarting at each one.
+        let flags = i64::from(closed) | if style.linetype.is_some() { 128 } else { 0 };
         if self.o.version.lwpolyline() {
             self.e.entity("LWPOLYLINE", h, fixed::MODEL_RECORD, &layer, style, "AcDbPolyline");
             self.e.int(90, pts.len() as i64);
@@ -788,6 +973,53 @@ impl<'a> Scene<'a> {
         true
     }
 
+    /// Write a recognized elliptical subpath as a native DXF ELLIPSE (R13 and later): its center,
+    /// the end of its major axis relative to the center, and the minor to major ratio. Returns
+    /// false when the curve is not an ellipse, leaving the caller to write it as a spline.
+    fn elliptical(&mut self, sub: &Sub, style: &EntityStyle) -> bool {
+        let Some(last) = sub.segs.last().map(|s| s.end()) else { return false };
+        if !sub.closed || last.distance(sub.start) > 1e-9 {
+            return false;
+        }
+        let Some(ellipse) = elliptical_subpath(sub) else { return false };
+        let centre = self.to_dxf * ellipse.centre;
+        let u = self.to_dxf * (ellipse.centre + ellipse.u) - centre;
+        let v = self.to_dxf * (ellipse.centre + ellipse.v) - centre;
+        // The semi-axes are the square roots of the eigenvalues of [[a, b], [b, d]] = u u^T + v v^T.
+        let (a, b, d) = (u.x * u.x + v.x * v.x, u.x * u.y + v.x * v.y, u.y * u.y + v.y * v.y);
+        let mean = (a + d) / 2.0;
+        let spread = ((a - d) / 2.0).hypot(b);
+        let (major, minor) = ((mean + spread).sqrt(), (mean - spread).max(0.0).sqrt());
+        let angle = 0.5 * (2.0 * b).atan2(a - d);
+        let axis = Vec2::new(major * angle.cos(), major * angle.sin());
+        let ratio = (minor / major).min(1.0);
+        // A thinner ellipse stays a spline: DXF readers such as ezdxf need a ratio of 1e-6 or more.
+        if !centre.x.is_finite() || !centre.y.is_finite() || !axis.x.is_finite() || !axis.y.is_finite() || !ratio.is_finite() || ratio < 1e-6 {
+            return false;
+        }
+
+        // The drawing extents take the ellipse's bounding box: half-widths hypot(u.x, v.x) and
+        // hypot(u.y, v.y) about the center.
+        let (c, eu, ev) = (ellipse.centre, ellipse.u, ellipse.v);
+        let (hx, hy) = (eu.x.hypot(ev.x), eu.y.hypot(ev.y));
+        for p in [Point::new(c.x - hx, c.y), Point::new(c.x + hx, c.y), Point::new(c.x, c.y - hy), Point::new(c.x, c.y + hy)] {
+            self.pt(p);
+        }
+
+        let layer = self.layer.clone();
+        let h = self.handle();
+        self.e.entity("ELLIPSE", h, fixed::MODEL_RECORD, &layer, style, "AcDbEllipse");
+        self.e.xyz(10, centre.x, centre.y);
+        self.e.xyz(11, axis.x, axis.y);
+        self.e.normal();
+        // The ratio and the end parameter are written in full: rounded to six decimals, a thin
+        // ellipse's minor axis would change size, and a whole turn would read back as an open curve.
+        self.e.raw(40, &ratio.to_string());
+        self.e.num(41, 0.0);
+        self.e.raw(42, &std::f64::consts::TAU.to_string());
+        true
+    }
+
     /// A curved subpath as one cubic B-spline whose clamped knots repeat at every joint, so it
     /// passes through every anchor (straight segments become straight cubics).
     fn spline(&mut self, sub: &Sub, style: &EntityStyle) {
@@ -855,11 +1087,23 @@ impl<'a> Scene<'a> {
         let angle = b.atan2(a).to_degrees();
         for line in &layout.lines {
             let Some(glyphs) = layout.glyphs.get(line.glyph_start..line.glyph_end) else { continue };
-            for run in glyphs.chunk_by(|x, y| x.run == y.run) {
-                let Some(first) = run.first() else { continue };
+            // A list marker is a TEXT entity of its own, holding the marker's characters where its
+            // characters' glyphs are drawn (not its tab's).
+            let marked: Vec<(usize, &vectorcraft_text::PositionedGlyph, Option<&vectorcraft_text::ListMarker>)> =
+                glyphs.iter().enumerate().map(|(k, g)| (line.glyph_start + k, g, layout.marker_of(line.glyph_start + k))).collect();
+            for chunk in marked.chunk_by(|x, y| x.1.run == y.1.run && x.2.is_some() == y.2.is_some()) {
+                let run: Vec<&vectorcraft_text::PositionedGlyph> =
+                    chunk.iter().filter(|(k, _, m)| m.is_none_or(|m| m.tab != *k)).map(|(_, g, _)| *g).collect();
+                let Some(&first) = run.first() else { continue };
                 let lo = run.iter().map(|g| g.byte).min().unwrap_or(first.byte);
                 let hi = run.iter().map(|g| g.byte + g.len).max().unwrap_or(lo);
-                let Some(s) = plain.get(lo..hi).map(str::trim_end).filter(|s| !s.trim().is_empty()) else { continue };
+                // A right-to-left paragraph's marker is drawn with its tab first and its number's
+                // period at the number's left; the TEXT entity holds the characters in that order.
+                let marker = chunk.first().and_then(|(_, _, m)| *m).map(|m| match m.text.strip_suffix('.') {
+                    Some(number) if m.tab == m.glyphs.start => format!(".{number}"),
+                    _ => m.text.clone(),
+                });
+                let Some(s) = marker.as_deref().or_else(|| plain.get(lo..hi).map(str::trim_end)).filter(|s| !s.trim().is_empty()) else { continue };
                 let Some(cs) = t.runs.get(first.run).map(|r| &r.style) else { continue };
                 let paint = if cs.fill.is_none() { &cs.stroke } else { &cs.fill };
                 let Some(rgb) = self.paint_rgb(paint) else { continue };
@@ -897,9 +1141,7 @@ impl<'a> Scene<'a> {
             return name.clone();
         }
         let long = self.o.version.r2000();
-        let mut taken: Vec<&str> = self.styles.iter().map(|(n, _)| n.as_str()).collect();
-        taken.push(crate::writer::STANDARD_STYLE);
-        let name = unique(&symbol_name(family, long), &taken, if long { 255 } else { 31 });
+        let name = self.style_names.unique(&symbol_name(family, long), if long { 255 } else { 31 });
         self.styles.push((name.clone(), family.to_string()));
         name
     }
@@ -910,7 +1152,7 @@ impl<'a> Scene<'a> {
             self.warn(NO_IMAGES);
             return;
         }
-        let Some(i) = self.image_def(&im.key) else { return };
+        let Some(i) = self.image_def(im) else { return };
         let Some((dw, dh)) = self.images.get(i).map(|d| (f64::from(d.size.0), f64::from(d.size.1))) else { return };
         let (w, h) = (f64::from(im.width.max(1)), f64::from(im.height.max(1)));
         let map = self.to_dxf * im.xf;
@@ -952,12 +1194,13 @@ impl<'a> Scene<'a> {
         }
     }
 
-    /// The image file for image `key`, encoded once in the chosen format (`None`: left out).
-    fn image_def(&mut self, key: &str) -> Option<usize> {
+    /// The image file for image `im`, encoded once in the chosen format (`None`: left out).
+    fn image_def(&mut self, im: &ImageObject) -> Option<usize> {
+        let key = im.key.as_str();
         if let Some(i) = self.by_key.get(key) {
             return *i;
         }
-        let made = self.encode_image(key);
+        let made = self.encode_image(im);
         let i = match made {
             Ok((file, size)) => {
                 let handle = self.handle();
@@ -974,9 +1217,18 @@ impl<'a> Scene<'a> {
         i
     }
 
-    /// Image `key` as a file in the chosen format, and its size in pixels.
-    fn encode_image(&self, key: &str) -> Result<(DxfImage, (u32, u32)), String> {
-        let blob = self.doc.images.get(key).filter(|b| !b.bytes.is_empty()).ok_or_else(|| "an image has no pixels and was left out".to_string())?;
+    /// Image `im` as a file in the chosen format, and its size in pixels.
+    fn encode_image(&self, im: &ImageObject) -> Result<(DxfImage, (u32, u32)), String> {
+        let blob = self.doc.image_blob(im).filter(|b| !b.bytes.is_empty()).ok_or_else(|| "an image has no pixels and was left out".to_string())?;
+        // The pixels it converts to (RGBA, 4 bytes each) are read from its header before decoding.
+        let (w, h) = image::ImageReader::new(Cursor::new(blob.bytes.as_slice()))
+            .with_guessed_format()
+            .ok()
+            .and_then(|r| r.into_dimensions().ok())
+            .ok_or_else(|| UNDECODED.to_string())?;
+        if u64::from(w) * u64::from(h) > MAX_IMAGE_PIXELS {
+            return Err("an image is too large for DXF and was left out".to_string());
+        }
         let img = image::load_from_memory(&blob.bytes).map_err(|_| UNDECODED.to_string())?;
         let size = (img.width(), img.height());
         let mut bytes = vec![];

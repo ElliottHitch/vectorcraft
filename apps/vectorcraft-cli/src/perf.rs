@@ -116,7 +116,7 @@ fn edit_drags(n: usize) -> Result<(f64, f64), String> {
     let view = vectorcraft_engine::ViewInfo { zoom: 8.0, ..Default::default() };
     let err = |e: vectorcraft_engine::EngineError| e.to_string();
     let mut drag = |down: Point| -> Result<f64, String> {
-        let ev = |kind, y: f64| PointerEvent { kind, pos: down + Vec2::new(0.0, y), mods: Mods::default(), pressure: 1.0 };
+        let ev = |kind, y: f64| PointerEvent { kind, pos: down + Vec2::new(0.0, y), mods: Mods::default(), backquote: false, pressure: 1.0 };
         s.execute("select.anchors", &json!({"id": id.0, "anchors": [[0, 400]]})).map_err(err)?;
         s.select_tool("directSelection", view).map_err(err)?;
         let undo = s.doc().map_err(err)?.history.undo.len();
@@ -215,7 +215,7 @@ fn deep(n: usize) -> Result<(), String> {
         let first = s.doc().map_err(err)?.selection.objects.first().copied();
         let at = first.and_then(|id| s.doc().ok()?.doc.node(id)?.geometric_bounds()).map(|b| b.center());
         if let Some(down) = at {
-            let ev = |kind, dx: f64| PointerEvent { kind, pos: down + Vec2::new(dx, 0.0), mods: Mods::default(), pressure: 1.0 };
+            let ev = |kind, dx: f64| PointerEvent { kind, pos: down + Vec2::new(dx, 0.0), mods: Mods::default(), backquote: false, pressure: 1.0 };
             s.select_tool("selection", view).map_err(err)?;
             s.pointer(&ev(PointerKind::Down, 0.0), view).map_err(err)?;
             let mut dx = 0.0;
@@ -285,7 +285,7 @@ fn deep(n: usize) -> Result<(), String> {
             let key = format!("photo {i}");
             d.images.insert(key.clone(), vectorcraft_doc::ImageBlob::new("image/png", photo));
             let xf = Affine::translate((f64::from(i % 2) * 800.0, f64::from(i / 2) * 600.0)) * Affine::scale(800.0 / 6000.0);
-            let image = vectorcraft_doc::ImageObject { key, width: 6000, height: 4000, xf, link: None, placement: Default::default() };
+            let image = vectorcraft_doc::ImageObject { key, width: 6000, height: 4000, xf, link: None, placement: Default::default(), pixels: None };
             let id = d.alloc_id();
             d.insert(l, usize::MAX, Node::new(id, vectorcraft_doc::NodeKind::Image(Box::new(image)))).map_err(|e| e.to_string())?;
         }
@@ -341,6 +341,9 @@ fn deep(n: usize) -> Result<(), String> {
 }
 
 pub fn run(args: &[String]) -> Result<(), String> {
+    if crate::help_requested(args, &["--paths"]) {
+        return crate::help();
+    }
     let mut n = 50_000usize;
     let mut want_deep = false;
     let mut it = args.iter();
