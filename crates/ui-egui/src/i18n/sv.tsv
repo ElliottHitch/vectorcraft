@@ -6053,3 +6053,15 @@ breakText	Glyphs	Glyfer
 	Gap 4	Mellanrum 4
 	Dash 5	Streck 5
 	Gap 5	Mellanrum 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Ordningsverktyg
+	Arrange in Grid…	Ordna i rutnät…
+	Arrange in Grid	Ordna i rutnät
+	Swap Objects	Byt plats på objekt
+	Swap Objects and Sizes	Byt plats och storlek på objekt
+	Replace with Top Object…	Ersätt med översta objektet…
+	Replace with Top Object	Ersätt med översta objektet
+	Set Size of Each…	Ange storlek för vart och ett…
+	Set Size of Each	Ange storlek för vart och ett
+@msg	select exactly two objects	markera exakt två objekt
+@msg	give `width` or `height`	ange `width` eller `height`

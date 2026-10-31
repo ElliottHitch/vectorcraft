@@ -5999,3 +5999,15 @@ breakText	Glyphs	Glyphes
 	Gap 4	Écart 4
 	Dash 5	Tiret 5
 	Gap 5	Écart 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Outils de disposition
+	Arrange in Grid…	Disposer en grille…
+	Arrange in Grid	Disposer en grille
+	Swap Objects	Permuter les objets
+	Swap Objects and Sizes	Permuter les objets et leurs tailles
+	Replace with Top Object…	Remplacer par l’objet supérieur…
+	Replace with Top Object	Remplacer par l’objet supérieur
+	Set Size of Each…	Définir la taille de chaque objet…
+	Set Size of Each	Définir la taille de chaque objet
+@msg	select exactly two objects	sélectionnez exactement deux objets
+@msg	give `width` or `height`	indiquez `width` ou `height`

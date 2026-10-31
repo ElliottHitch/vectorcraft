@@ -5991,3 +5991,15 @@ breakText	Glyphs	Glifs
 	Gap 4	Separació 4
 	Dash 5	Guió 5
 	Gap 5	Separació 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Eines d’organització
+	Arrange in Grid…	Organitza en quadrícula…
+	Arrange in Grid	Organitza en quadrícula
+	Swap Objects	Intercanvia els objectes
+	Swap Objects and Sizes	Intercanvia els objectes i les mides
+	Replace with Top Object…	Reemplaça per l’objecte superior…
+	Replace with Top Object	Reemplaça per l’objecte superior
+	Set Size of Each…	Defineix la mida de cadascun…
+	Set Size of Each	Defineix la mida de cadascun
+@msg	select exactly two objects	selecciona exactament dos objectes
+@msg	give `width` or `height`	indica `width` o `height`

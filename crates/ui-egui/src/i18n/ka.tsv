@@ -5990,3 +5990,15 @@ breakText	Glyphs	გლიფები
 	Gap 4	შუალედი 4
 	Dash 5	ტირე 5
 	Gap 5	შუალედი 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	განლაგების ხელსაწყოები
+	Arrange in Grid…	ბადეში განლაგება…
+	Arrange in Grid	ბადეში განლაგება
+	Swap Objects	ობიექტების გაცვლა
+	Swap Objects and Sizes	ობიექტებისა და ზომების გაცვლა
+	Replace with Top Object…	ზედა ობიექტით ჩანაცვლება…
+	Replace with Top Object	ზედა ობიექტით ჩანაცვლება
+	Set Size of Each…	თითოეულის ზომის დაყენება…
+	Set Size of Each	თითოეულის ზომის დაყენება
+@msg	select exactly two objects	მონიშნეთ ზუსტად ორი ობიექტი
+@msg	give `width` or `height`	მიუთითეთ `width` ან `height`

@@ -5600,3 +5600,15 @@ breakText	Glyphs	Гліфи
 	Gap 4	Проміжок 4
 	Dash 5	Штрих 5
 	Gap 5	Проміжок 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Інструменти розміщення
+	Arrange in Grid…	Розмістити сіткою…
+	Arrange in Grid	Розмістити сіткою
+	Swap Objects	Поміняти об’єкти місцями
+	Swap Objects and Sizes	Поміняти об’єкти місцями та розмірами
+	Replace with Top Object…	Замінити верхнім об’єктом…
+	Replace with Top Object	Замінити верхнім об’єктом
+	Set Size of Each…	Задати розмір кожного…
+	Set Size of Each	Задати розмір кожного
+@msg	select exactly two objects	виділіть рівно два об’єкти
+@msg	give `width` or `height`	укажіть `width` або `height`

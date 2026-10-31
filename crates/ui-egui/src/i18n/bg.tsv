@@ -5891,3 +5891,15 @@ breakText	Glyphs	Глифи
 	Gap 4	Разстояние 4
 	Dash 5	Тире 5
 	Gap 5	Разстояние 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Инструменти за подреждане
+	Arrange in Grid…	Подреждане в мрежа…
+	Arrange in Grid	Подреждане в мрежа
+	Swap Objects	Размяна на обекти
+	Swap Objects and Sizes	Размяна на обекти и размери
+	Replace with Top Object…	Замяна с горния обект…
+	Replace with Top Object	Замяна с горния обект
+	Set Size of Each…	Задаване на размер на всеки…
+	Set Size of Each	Задаване на размер на всеки
+@msg	select exactly two objects	изберете точно два обекта
+@msg	give `width` or `height`	задайте `width` или `height`

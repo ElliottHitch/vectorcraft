@@ -5686,3 +5686,15 @@ breakText	Glyphs	字形
 	Gap 4	間隔 4
 	Dash 5	線分 5
 	Gap 5	間隔 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	配置ツール
+	Arrange in Grid…	グリッドに配置…
+	Arrange in Grid	グリッドに配置
+	Swap Objects	オブジェクトを入れ替え
+	Swap Objects and Sizes	オブジェクトとサイズを入れ替え
+	Replace with Top Object…	最前面のオブジェクトで置き換え…
+	Replace with Top Object	最前面のオブジェクトで置き換え
+	Set Size of Each…	個別にサイズを設定…
+	Set Size of Each	個別にサイズを設定
+@msg	select exactly two objects	オブジェクトをちょうど 2 つ選択してください
+@msg	give `width` or `height`	`width` または `height` を指定してください

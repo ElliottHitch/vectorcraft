@@ -1,6 +1,6 @@
 # Parity with Adobe Illustrator
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Export for Screens laid out as Illustrator's, with Export PDFs As and sub-folders by scale or format; previously: Artwork Cleanup add-on: Join Point Text, #4826; scores unchanged; previously: G13: Direct Selection snaps a dragged line end square to straight paths and grazing curves; Path Precision Tools add-on: Shared Edge Merge Tool; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Arrange Tools add-on; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
 
 ## Feature submission evidence
 
@@ -1236,7 +1236,7 @@ applies to fills). Tests: `color::gradient::tests` (perceptual midpoint, expansi
 
 ## Artwork Cleanup add-on (2026-10-30)
 
-A VectorCraft addition, not an Illustrator feature, so no area score moves. Object › Plug-ins › Artwork Cleanup and its
+A VectorCraft addition, not a feature of the reference app, so no area score moves. Object › Plug-ins › Artwork Cleanup and its
 panel run `addon.cleanup.*`: Simplify Anchors (Keep Shape) on the shared kernel
 `vectorcraft_pathops::addons::keep_shape`, a health check of 16 kinds of issue on the selection or the document with
 Show, Fix Selected and Fix All (each one undo step), Deep Ungroup and Rejoin Path Pieces. Tests: `addons::` in
@@ -1255,7 +1255,7 @@ refusals), `addons::cleanup::tests` in `vectorcraft-ui-egui` (the submenu and th
 
 ## Path Precision Tools add-on (2026-10-30)
 
-A VectorCraft addition, not an Illustrator feature, so no area score moves. Object › Plug-ins › Path Precision Tools,
+A VectorCraft addition, not a feature of the reference app, so no area score moves. Object › Plug-ins › Path Precision Tools,
 its Anchor Inspector panel and three tools kept out of the shipped toolbars (listed in the All Tools drawer) run
 `addon.pathtools.*`: an Anchor Eraser Brush on the shared keep-shape kernel, an Extend Path tool (straight, stretched
 curve or arc; shortening back along the path), a Measure & Inspect tool with hover readouts (lengths, area, curvature,
@@ -1318,7 +1318,7 @@ ends), `addons::shared_edge` in `vectorcraft-tools`, `cmd::addons::pathtools::sh
 
 ## Smart Pen add-on (2026-10-30)
 
-A VectorCraft addition, not an Illustrator feature, so no area score moves. Object › Plug-ins › Smart Pen selects the
+A VectorCraft addition, not a feature of the reference app, so no area score moves. Object › Plug-ins › Smart Pen selects the
 Smart Pen Tool (kept out of the shipped toolbars, listed in the All Tools drawer, no shortcut) and opens its panel. The
 tool draws with a straight or curved next segment (a curve after a straight segment leaves it tangent), smooth drags
 with Alt, Shift and Space, Tab to switch a segment, a rubber band, closing, joining and continuing open ends; and edits
@@ -1333,7 +1333,7 @@ through the session) and `addons::pen::tests` in `vectorcraft-ui-egui` (the subm
 
 ## Color Effects add-on (2026-10-30)
 
-A VectorCraft addition, not an Illustrator feature, so no area score moves. Effect › Color Effects adds live Exposure
+A VectorCraft addition, not a feature of the reference app, so no area score moves. Effect › Color Effects adds live Exposure
 (stops of linear light, offset and gamma), Desaturate and Invert Colors as colour adjustments evaluated with those of
 Effect › Color Adjustments (`vectorcraft_effects::addons::color`), and `addon.color.filter` applies any colour adjustment
 to the colours themselves through the Edit Colors pass. Object › Plug-ins › Color Effects and its panel reach them.
@@ -1360,10 +1360,29 @@ tints, curves, multiplied inks, skip spot), `duotone_*` and `cmd::addons::color:
 params and RGB documents refused), and `the_duotone_dialog_has_a_row_per_tone_and_the_curve_of_one` and
 `print_ink_fixes_opens_its_options_and_runs_on_ok` in `vectorcraft-ui-egui`. Commands: `docs/mcp.md` › Color Effects
 add-on.
+## Arrange Tools add-on (2026-10-31)
+
+A VectorCraft addition, not a feature of the reference app, so no area score moves. Object › Plug-ins › Arrange Tools: Arrange in
+Grid… lays the top-level selected objects out in their stacking order from the back, in rows and columns (⌈√count⌉ by
+default), one row or one column, each centred in a cell as wide as its column's widest object and as tall as its row's
+tallest (visual bounds), with horizontal and vertical gaps, from the selection's top-left or centred on the artboard;
+Swap Objects swaps the bounds centres of two objects, and Swap Objects and Sizes their widths and heights too; Replace
+with Top Object… puts a copy of the topmost selected object centred on each of the others, in its stacking place, at its
+own size, the replaced object's size or fitted inside it in proportion, deleting or keeping the replaced objects; Set
+Size of Each… gives every object an exact width and/or height (one side may follow in proportion) about one of the nine
+reference points; Zoom to Selection fits the active view to the selection. Sizes and places are measured as
+`object.setBounds` measures them (Use Preview Bounds), strokes and effects scale as Scale Strokes & Effects says, each
+command is one undo step, and the three dialogs preview on the canvas. Tests: `cmd::addons::arrange::tests` in
+`vectorcraft-engine` (grid, row, column and artboard centring, visual bounds, swap with and without sizes and stroke
+scaling, replace with each fit and kept originals in stacking order, size with proportions and reference points, one
+undo step, off states, bad params refused), `addons::arrange::tests` in `vectorcraft-ui-egui` (the submenu, the
+dialogs, Preview and Cancel, Zoom to Selection) and `command_sweep`. Commands: `docs/mcp.md` › Arrange Tools add-on.
+
 ## Revision history
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | Arrange Tools add-on (a VectorCraft addition): evidence added; scores unchanged. |
 | 2026-10-31 | minor | Guides and snapping: Snap to Perpendicular and Snap to Tangent apply to an existing line's end dragged with Direct Selection, as the public pages describe for editing existing lines (the end anchor of a straight segment, not mid-line anchors or curved segments); a regression test covers both snaps, both toggles and non-snapping controls (#2530); scores and estimates unchanged. |
 | 2026-10-30 | minor | File formats: `.ai`/EPS editing data: a blend takes the transparency (opacity, blend mode, knockout) in its state block after its record, so its steps knock each other out as the page draws them; a user's file comes in 0.6% from its page instead of 1.3%. Scores and estimates unchanged. |
 | 2026-10-31 | minor | Path Precision Tools add-on: the Shared Edge Merge Tool and Keep Shared Points Together; evidence added; scores unchanged. |

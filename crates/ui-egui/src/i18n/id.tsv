@@ -5905,3 +5905,15 @@ breakText	Glyphs	Glif
 	Gap 4	Jarak 4
 	Dash 5	Garis 5
 	Gap 5	Jarak 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Alat penyusunan
+	Arrange in Grid…	Susun dalam grid…
+	Arrange in Grid	Susun dalam grid
+	Swap Objects	Tukar objek
+	Swap Objects and Sizes	Tukar objek dan ukuran
+	Replace with Top Object…	Ganti dengan objek teratas…
+	Replace with Top Object	Ganti dengan objek teratas
+	Set Size of Each…	Atur ukuran masing-masing…
+	Set Size of Each	Atur ukuran masing-masing
+@msg	select exactly two objects	pilih tepat dua objek
+@msg	give `width` or `height`	berikan `width` atau `height`

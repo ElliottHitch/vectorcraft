@@ -5924,3 +5924,15 @@ shape	Open	Otvoren
 @msg	`follow` must be "average", "a" or "b"	`follow` mora biti "average", "a" ili "b"
 @msg	the paths have nothing to merge there	putanje tu nemaju šta spojiti
 @msg	the path is locked or hidden	putanja je zaključana ili skrivena
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	Alati za raspoređivanje
+	Arrange in Grid…	Rasporedi u mrežu…
+	Arrange in Grid	Rasporedi u mrežu
+	Swap Objects	Zamijeni objekte
+	Swap Objects and Sizes	Zamijeni objekte i veličine
+	Replace with Top Object…	Zamijeni gornjim objektom…
+	Replace with Top Object	Zamijeni gornjim objektom
+	Set Size of Each…	Postavi veličinu svakog…
+	Set Size of Each	Postavi veličinu svakog
+@msg	select exactly two objects	odaberite tačno dva objekta
+@msg	give `width` or `height`	zadajte `width` ili `height`

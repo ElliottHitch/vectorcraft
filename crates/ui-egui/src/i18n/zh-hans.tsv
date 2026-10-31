@@ -5842,3 +5842,15 @@ breakText	Glyphs	字形
 	Gap 4	间隔 4
 	Dash 5	虚线 5
 	Gap 5	间隔 5
+# Arrange Tools add-on (Object › Plug-ins › Arrange Tools).
+	Arrange Tools	排列工具
+	Arrange in Grid…	按网格排列…
+	Arrange in Grid	按网格排列
+	Swap Objects	交换对象
+	Swap Objects and Sizes	交换对象和大小
+	Replace with Top Object…	替换为顶层对象…
+	Replace with Top Object	替换为顶层对象
+	Set Size of Each…	分别设置大小…
+	Set Size of Each	分别设置大小
+@msg	select exactly two objects	请恰好选择两个对象
+@msg	give `width` or `height`	请提供 `width` 或 `height`
