@@ -280,7 +280,9 @@ fn deleting_several_swatches_uses_each_count_form() {
     };
     assert_eq!(prompt("pl", 2), Some("Usunąć 2 próbki i grupy?".to_string()));
     assert_eq!(prompt("pl", 5), Some("Usunąć 5 próbek i grup?".to_string()));
-    assert_eq!(prompt("uk", 21), Some("Видалити 21 зразок або групу?".to_string()));
+    assert_eq!(prompt("uk", 21), Some("Видалити зразки та групи (21)?".to_string()));
+    assert_eq!(prompt("ru", 21), Some("Удалить образцы и группы (21)?".to_string()));
+    assert_eq!(prompt("bs", 21), Some("Izbrisati uzorke boja i grupe (21)?".to_string()));
     assert_eq!(prompt("uk", 22), Some("Видалити 22 зразки та групи?".to_string()));
     assert_eq!(prompt("uk", 25), Some("Видалити 25 зразків і груп?".to_string()));
 }

@@ -4087,7 +4087,7 @@ imageTrace	Outline	Obris
 @plural	{n} item|{n} items	{n} stavka|{n} stavke|{n} stavki
 @plural	Color Table ({n} color)|Color Table ({n} colors)	Tabela boja ({n} boja)|Tabela boja ({n} boje)|Tabela boja ({n} boja)
 @plural	Delete this {n} graphic style?|Delete these {n} graphic styles?	Izbrisati ovaj {n} grafički stil?|Izbrisati ova {n} grafička stila?|Izbrisati ovih {n} grafičkih stilova?
-@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Izbrisati {n} uzorak boje ili grupu?|Izbrisati {n} uzorka boja i grupe?|Izbrisati {n} uzoraka boja i grupa?
+@plural	Delete this {n} swatch or group?|Delete these {n} swatches and groups?	Izbrisati uzorke boja i grupe ({n})?|Izbrisati {n} uzorka boja i grupe?|Izbrisati {n} uzoraka boja i grupa?
 @plural	{n} Layer|{n} Layers	{n} sloj|{n} sloja|{n} slojeva
 @plural	{n} Object|{n} Objects	{n} objekat|{n} objekta|{n} objekata
 @plural	{n} area highlighted|{n} areas highlighted	Istaknuto {n} područje|Istaknuta {n} područja|Istaknuto {n} područja
