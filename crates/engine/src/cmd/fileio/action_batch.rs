@@ -292,8 +292,9 @@ struct DatasetOutput {
     joiner: &'static str,
 }
 
-/// Lists step output extensions and reserves artboard file names when the document has multiple artboards.
-/// Per-artboard names count for vectorcraft, template, AI and AIT saves and SVG, SVGZ, EPS, raster, DXF, EMF, WMF and AI exports.
+/// Lists step output extensions and reserves artboard file names for saves with any artboard or
+/// exports with multiple artboards. Per-artboard names count for vectorcraft, template, AI and AIT
+/// saves and SVG, SVGZ, EPS, raster, DXF, EMF, WMF and AI exports.
 #[cfg(not(target_arch = "wasm32"))]
 fn dataset_output_extensions(run: &Run<'_>, doc: &vectorcraft_doc::Document) -> Vec<DatasetOutput> {
     let mut outputs = Vec::new();
@@ -314,31 +315,31 @@ fn dataset_output_extensions(run: &Run<'_>, doc: &vectorcraft_doc::Document) -> 
             if safe_extension(&ext) {
                 let format_id = format.and_then(super::format).map(|f| f.id).unwrap_or("vectorcraft");
                 let is_save = matches!(id, "document.save" | "file.save" | "file.saveAs");
-                let artboards = doc.artboards.len() > 1
-                    && if is_save {
-                        matches!(format_id, "vectorcraft" | "template" | "ai" | "ait")
-                    } else {
-                        id == "document.export"
-                            && matches!(
-                                format_id,
-                                "svg"
-                                    | "svgz"
-                                    | "eps"
-                                    | "png"
-                                    | "jpg"
-                                    | "webp"
-                                    | "gif"
-                                    | "png8"
-                                    | "tiff"
-                                    | "bmp"
-                                    | "tga"
-                                    | "psd"
-                                    | "dxf"
-                                    | "emf"
-                                    | "wmf"
-                                    | "ai"
-                            )
-                    };
+                let artboards = if is_save {
+                    !doc.artboards.is_empty() && matches!(format_id, "vectorcraft" | "template" | "ai" | "ait")
+                } else {
+                    doc.artboards.len() > 1
+                        && id == "document.export"
+                        && matches!(
+                            format_id,
+                            "svg"
+                                | "svgz"
+                                | "eps"
+                                | "png"
+                                | "jpg"
+                                | "webp"
+                                | "gif"
+                                | "png8"
+                                | "tiff"
+                                | "bmp"
+                                | "tga"
+                                | "psd"
+                                | "dxf"
+                                | "emf"
+                                | "wmf"
+                                | "ai"
+                        )
+                };
                 outputs.push(DatasetOutput { ext, artboards, joiner: if format_id == "eps" { "_" } else { "-" } });
             }
         }
@@ -950,6 +951,40 @@ mod tests {
             file_names(&dest),
             ["Alpha-2-Artboard-1.vectorcraft", "Alpha-2-Artboard-2.vectorcraft", "Alpha-2.vectorcraft", "Alpha-Artboard-1.vectorcraft",]
         );
+    }
+
+    #[test]
+    fn batch_single_artboard_save_keeps_existing_artboard_file() {
+        let source = tmp("choice-single-artboard-source");
+        let dest = tmp("choice-single-artboard-dest");
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 20, "height": 20, "artboards": 1})).unwrap();
+        s.execute(
+            "document.save",
+            &json!({
+                "path": source.join("source.vectorcraft").to_string_lossy(),
+                "separateArtboards": true
+            }),
+        )
+        .unwrap();
+        assert!(source.join("source-Artboard-1.vectorcraft").exists());
+
+        let existing = dest.join("Alpha-Artboard-1.vectorcraft");
+        std::fs::write(&existing, b"keep").unwrap();
+        s.execute("dataset.new", &json!({"name": "Alpha"})).unwrap();
+        let r = s
+            .execute(
+                "action.batch",
+                &json!({
+                    "source": "datasets", "datasetFileNaming": "dataSetName",
+                    "destinationFolder": dest.to_string_lossy(),
+                    "commands": [{"command": "document.save", "params": {"separateArtboards": true}}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(std::fs::read(existing).unwrap(), b"keep");
+        assert_eq!(file_names(&dest), ["Alpha-2-Artboard-1.vectorcraft", "Alpha-2.vectorcraft", "Alpha-Artboard-1.vectorcraft"]);
     }
 
     #[test]
