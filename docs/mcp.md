@@ -585,6 +585,7 @@ font whose licence (OS/2 `fsType`) forbids subsetting is embedded whole, one tha
 with a warning. Type names its faces by numeric `font-weight` (600 for Semibold and for a Japanese face's W6, 300 for Light, `bold` for 700),
 embedded or not. `svgz` takes the same options and writes the SVG gzipped (`.svgz` files also open,
 place and paste). `run_command document.save {path: "x.svg", svg: {…}}` saves as SVG (or `.svgz`).
+Colorized grayscale and 1-bit images export in their fill color; linked mode writes a coverage PNG, and Tiny 1.2 writes a colorized PNG.
 
 Symbols export as one `<symbol>` with a `<use>` per instance. An instance the def can't stand for is written as its
 own art: one stained by its fill; one scaled while the symbol has strokes (their weight doesn't scale), or rotated or
@@ -4038,6 +4039,7 @@ is accepted); spot colours are Separation colour spaces, and overprinting fills 
 `overprints: "discard"`. RGB documents are written in CMYK unless `cmykPostScript: false`. When the file would hold an
 image that can't be decoded, the image is left out, and `warnings` carries "an image couldn't be decoded and is missing
 from the picture" once for all such images.
+Colorized grayscale and 1-bit images use their process or spot ink; the flattener leaves them alone unless they have opacity, a blending mode, an opacity mask or effects, or overlap other transparent art. Binary coverage leaves underlying art untouched. For a grayscale image, Level 3 leaves white (zero-coverage) pixels out, Level 2 writes them white, and gray midtones are written over white at both levels.
 
 PostScript has no transparency: it is flattened first with `flattenerPreset` (`high`, `medium` (default), `low` or a
 saved preset, see `flattener.presets.list`) and `flattener: {…}` options over it (those of
