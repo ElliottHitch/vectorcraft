@@ -855,6 +855,54 @@ fn pdf13_flattens_colorized_pattern_tile_images_in_a_repeat() {
     assert_pdf13_draws_pattern_square_as_canvas(&mut s);
 }
 
+/// [`colorized_pattern_over_blue`] with the square filled with a pattern named `outer` whose tile
+/// art is a 32 pt square filled with the colorized image pattern.
+fn nested_colorized_pattern_over_blue() -> Session {
+    let mut s = colorized_pattern_over_blue();
+    let square = pattern_square(&s);
+    s.execute("shape.rectangle", &json!({"x": 0, "y": 0, "width": 32, "height": 32})).unwrap();
+    let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
+    let inner = d.patterns[0].name.clone();
+    let rect = d.layers[0].children().unwrap().last().unwrap().id;
+    let mut tile = d.remove(rect).unwrap();
+    let paint = vectorcraft_color::Paint::Pattern { pattern: inner, xf: Default::default() };
+    let tile_node = std::sync::Arc::make_mut(&mut tile);
+    tile_node.appearance.items.retain(|i| matches!(i, vectorcraft_doc::appearance::AppearanceItem::Fill(_)));
+    for i in &mut tile_node.appearance.items {
+        if let vectorcraft_doc::appearance::AppearanceItem::Fill(f) = i {
+            f.paint = paint.clone();
+        }
+    }
+    let mut outer = d.patterns[0].clone();
+    outer.name = "outer".into();
+    outer.art = vec![tile];
+    d.patterns.push(outer);
+    for i in &mut d.node_mut(square).unwrap().appearance.items {
+        if let vectorcraft_doc::appearance::AppearanceItem::Fill(f) = i {
+            f.paint = vectorcraft_color::Paint::Pattern { pattern: "outer".into(), xf: Default::default() };
+        }
+    }
+    s
+}
+
+#[test]
+fn pdf13_flattens_colorized_image_in_a_pattern_nested_in_tile_art() {
+    let mut s = nested_colorized_pattern_over_blue();
+    assert_eq!(colour_at(&s.doc().unwrap().doc, 72.0, 72.0), [255, 0, 0]);
+    assert!(crate::cmd::flatten::flatten_document(&s.doc().unwrap().doc, &crate::cmd::FlattenOptions::default()).unwrap().is_some());
+    assert_pdf13_draws_pattern_square_as_canvas(&mut s);
+}
+
+#[test]
+fn flattening_skips_a_pattern_nested_in_hidden_tile_art() {
+    let mut s = nested_colorized_pattern_over_blue();
+    let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
+    let outer = d.pattern_mut("outer").unwrap();
+    std::sync::Arc::make_mut(&mut outer.art[0]).visible = false;
+    let d = &s.doc().unwrap().doc;
+    assert!(crate::cmd::flatten::flatten_document(d, &crate::cmd::FlattenOptions::default()).unwrap().is_none());
+}
+
 #[test]
 fn pdf13_leaves_a_hidden_shape_with_a_colorized_pattern_tile_image_hidden() {
     let mut s = colorized_pattern_over_blue();
