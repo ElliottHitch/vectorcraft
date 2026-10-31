@@ -461,6 +461,20 @@ fn auto_leading_new_distinguishes_unset_attributes() {
 }
 
 #[test]
+fn optical_character_style_captures_and_redefines_automatic_mode() {
+    let (mut s, id) = session_with_text("III");
+    s.execute("text.setRangeStyle", &json!({"id": id, "kerning": "optical"})).unwrap();
+    s.execute("charStyle.new", &json!({"name": "Profile", "id": id})).unwrap();
+    assert_eq!(s.doc().unwrap().doc.char_styles[0].attrs.get("opticalKerning"), Some(&json!(true)));
+    s.execute("text.setRangeStyle", &json!({"id": id, "kerning": "auto"})).unwrap();
+    s.execute("charStyle.apply", &json!({"name": "Profile", "id": id})).unwrap();
+    assert!(runs(&s, id)[0].style.optical_kerning);
+    s.execute("text.setRangeStyle", &json!({"id": id, "kerning": "auto"})).unwrap();
+    s.execute("charStyle.redefine", &json!({"name": "Profile", "id": id})).unwrap();
+    assert_eq!(s.doc().unwrap().doc.char_styles[0].attrs.get("opticalKerning"), Some(&json!(false)));
+}
+
+#[test]
 fn paragraph_styles_and_survive_save() {
     let (mut s, id) = session_with_text("Body");
     s.execute("paraStyle.new", &json!({"name": "Centered", "attrs": {"justify": "Center", "space_after": 6.0}})).unwrap();

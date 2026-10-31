@@ -1625,7 +1625,7 @@ font-technology	Variable	Variables
 	Keep the pasted color as a new swatch with a numbered name.	Conservar el color pegado como una muestra nueva con nombre numerado.
 	Keep this row's colors (exclude)	Conservar los colores de esta fila (excluir)
 	Keep:	Conservar:
-	Kerning (0 = Auto)	Interletraje (0 = auto)
+	Kerning	Interletraje
 	Keyboard Increment	Incremento de teclado
 	Keyboard Shortcut Conflicts	Conflictos de métodos abreviados de teclado
 	Keyboard Shortcut Set	Conjunto de métodos abreviados de teclado
@@ -2214,6 +2214,7 @@ font-technology	Variable	Variables
 	Open the URL in the web browser	Abrir la URL en el navegador web
 	Opened with {} note(s): {}	Abierto con {} nota(s): {}
 	Open…	Abrir…
+	Optical	Óptico
 	Optical Margin Alignment	Alineación óptica de márgenes
 	Optimize for fast web view	Optimizar para vista web rápida
 	Optimized	Optimizado
@@ -3843,6 +3844,7 @@ axis	Both	Ambos
 # names and values in backticks or code (`colorModel rgb`, `document.export`) stay as they are.
 @msg	no library `{id}`	no hay ninguna biblioteca `{id}`
 @msg	select some type first	selecciona primero algún texto
+@msg	kerning must be a number, "auto", or "optical"	El interletraje debe ser un número, «auto» u «optical»
 @msg	the selection has no gradient fill	la selección no tiene un degradado de relleno
 @msg	the selection has no gradient stroke	la selección no tiene un degradado de trazo
 @msg	the selection has no pattern fill	la selección no tiene un motivo de relleno

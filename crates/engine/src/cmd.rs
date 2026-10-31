@@ -87,6 +87,7 @@ pub mod swatchlib;
 pub mod symbollib;
 pub(crate) mod tabs;
 mod textedit;
+pub use textedit::effective_kerning;
 pub mod textstyles;
 pub(crate) mod textwrap;
 pub(crate) mod threads;

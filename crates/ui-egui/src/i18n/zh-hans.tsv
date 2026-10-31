@@ -1575,7 +1575,7 @@ file-filter	Templates	模板
 	Keep the pasted color as a new swatch with a numbered name.	将粘贴的颜色保留为新色板，并以编号命名。
 	Keep this row's colors (exclude)	保留此行的颜色 (排除)
 	Keep:	保留：
-	Kerning (0 = Auto)	字偶距 (0 = 自动)
+	Kerning	字偶距
 	Keyboard Increment	键盘增量
 	Keyboard Shortcut Conflicts	键盘快捷键冲突
 	Keyboard Shortcut Set	键盘快捷键组
@@ -2113,6 +2113,7 @@ file-filter	Templates	模板
 	Opened with {} note(s): {}	已打开，附 {} 条附注：{}
 	OpenType	OpenType
 	Open…	打开…
+	Optical	视觉
 	Optical Margin Alignment	视觉边界对齐
 	Optimize for fast web view	优化快速 Web 查看
 	Optimized	优化
@@ -4290,6 +4291,7 @@ imageTrace	Outline	轮廓
 @msg	choose a folder to export to	请选择要导出到的文件夹
 @msg	the selection has no URL (or they differ)	所选对象没有 URL (或其 URL 各不相同)
 @msg	select some type first	请先选择一些文字
+@msg	kerning must be a number, "auto", or "optical"	字偶距必须是数字、“auto”或“optical”
 @msg	the selection has no gradient fill	所选对象没有渐变填色
 @msg	the selection has no gradient stroke	所选对象没有渐变描边
 @msg	the selection has no pattern fill	所选对象没有图案填色

@@ -1351,7 +1351,6 @@ lighting	Light	Cahaya
 	Fractional Widths	Lebar fraksional
 	Hide Options	Sembunyikan opsi
 	Horizontal Scale %	Skala horizontal %
-	Kerning (0 = Auto)	Kerning (0 = Otomatis)
 	Leading	Leading
 	No Break	Tanpa pemenggalan
 	Proportional Metrics	Metrik proporsional
@@ -3271,6 +3270,7 @@ theme	Appearance	Tampilan
 	Identify Objects By	Identifikasi objek berdasarkan
 	Include SVG Code	Sertakan kode SVG
 	Italian	Italia
+	Kerning	Kerning
 	Keyboard Increment	Inkremen papan ketik
 	Language Options	Opsi bahasa
 	Large	Besar
@@ -3299,6 +3299,7 @@ theme	Appearance	Tampilan
 	On Paste	Saat menempel
 	On Screen	Di layar
 	Open Documents As Tabs	Buka dokumen sebagai tab
+	Optical	Optis
 	Options	Opsi
 	Output All Blacks Accurately	Keluarkan semua warna hitam secara akurat
 	Output All Blacks as Rich Black	Keluarkan semua warna hitam sebagai rich black
@@ -3881,6 +3882,7 @@ imageTrace	Outline	Kontur
 @plural	{n} stroke|{n} strokes	{n} goresan
 @msg	no library `{id}`	tidak ada pustaka `{id}`
 @msg	select some type first	pilih beberapa teks terlebih dahulu
+@msg	kerning must be a number, "auto", or "optical"	Kerning harus berupa angka, “auto”, atau “optical”
 @msg	{_1} has no {_2} style	{_1} tidak memiliki gaya {_2}
 @msg	a layer couldn't be read	satu lapisan tidak dapat dibaca
 @msg	it has more than one artboard	memiliki lebih dari satu artboard

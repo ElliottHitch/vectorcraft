@@ -1411,7 +1411,8 @@ lighting	Light	Svjetlo
 	Fractional Widths	Djelimične širine
 	Hide Options	Sakrij opcije
 	Horizontal Scale %	Vodoravna skala %
-	Kerning (0 = Auto)	Podrezivanje (0 = automatski)
+	Kerning	Podrezivanje
+	Optical	Optičko
 	Leading	Prored
 	No Break	Bez preloma
 	Proportional Metrics	Proporcionalna metrika
@@ -4114,6 +4115,7 @@ imageTrace	Outline	Obris
 @plural	{n} stroke|{n} strokes	{n} potez|{n} poteza|{n} poteza
 @msg	no library `{id}`	nema biblioteke `{id}`
 @msg	select some type first	prvo odaberite tekst
+@msg	kerning must be a number, "auto", or "optical"	Podrezivanje mora biti broj, „auto” ili „optical”
 @msg	the selection has no gradient fill	odabir nema ispunu gradijentom
 @msg	the selection has no gradient stroke	odabir nema potez gradijentom
 @msg	the selection has no pattern fill	odabir nema ispunu uzorkom

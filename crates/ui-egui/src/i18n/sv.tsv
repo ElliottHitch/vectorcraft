@@ -1587,7 +1587,7 @@ font-technology	Variable	Variabla
 	Keep the pasted color as a new swatch with a numbered name.	Behåll den inklistrade färgen som en ny färgruta med numrerat namn.
 	Keep this row's colors (exclude)	Behåll radens färger (undanta)
 	Keep:	Behåll:
-	Kerning (0 = Auto)	Kerning (0 = auto)
+	Kerning	Kerning
 	Keyboard Increment	Tangentbordssteg
 	Keyboard Shortcut Conflicts	Konflikter mellan kortkommandon
 	Keyboard Shortcut Set	Uppsättning kortkommandon
@@ -2159,6 +2159,7 @@ font-technology	Variable	Variabla
 	Open the URL in the web browser	Öppna URL:en i webbläsaren
 	Opened with {} note(s): {}	Öppnad med {} anteckning(ar): {}
 	Open…	Öppna…
+	Optical	Optisk
 	Optical Margin Alignment	Optisk marginaljustering
 	Optimize for fast web view	Optimera för snabb webbvisning
 	Optimized	Optimerad
@@ -3761,6 +3762,7 @@ axis	Both	Båda
 	Float Tool Group	Gör verktygsgruppen flytande
 @msg	no library `{id}`	inget bibliotek `{id}`
 @msg	select some type first	markera någon text först
+@msg	kerning must be a number, "auto", or "optical"	Kerning måste vara ett tal, ”auto” eller ”optical”
 @msg	the selection has no gradient fill	markeringen har ingen fyllnadsgradient
 @msg	the selection has no gradient stroke	markeringen har ingen konturgradient
 @msg	the selection has no pattern fill	markeringen har inget fyllnadsmönster

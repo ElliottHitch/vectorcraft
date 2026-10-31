@@ -1625,7 +1625,7 @@ font-technology	Variable	Variables
 	Keep the pasted color as a new swatch with a numbered name.	Conserver la couleur collée comme nouvelle nuance avec un nom numéroté.
 	Keep this row's colors (exclude)	Conserver les couleurs de cette ligne (exclure)
 	Keep:	Conserver :
-	Kerning (0 = Auto)	Crénage (0 = auto)
+	Kerning	Crénage
 	Keyboard Increment	Incrément clavier
 	Keyboard Shortcut Conflicts	Conflits de raccourcis clavier
 	Keyboard Shortcut Set	Jeu de raccourcis clavier
@@ -2212,6 +2212,7 @@ font-technology	Variable	Variables
 	Open the URL in the web browser	Ouvrir l’URL dans le navigateur web
 	Opened with {} note(s): {}	Ouvert avec {} remarque(s) : {}
 	Open…	Ouvrir…
+	Optical	Optique
 	Optical Margin Alignment	Alignement optique des marges
 	Optimize for fast web view	Optimiser pour un affichage web rapide
 	Optimized	Optimisé
@@ -3839,6 +3840,7 @@ axis	Both	Les deux
 # names and values in backticks or code (`colorModel rgb`, `document.export`) stay as they are.
 @msg	no library `{id}`	aucune bibliothèque `{id}`
 @msg	select some type first	sélectionnez d’abord du texte
+@msg	kerning must be a number, "auto", or "optical"	Le crénage doit être un nombre, « auto » ou « optical »
 @msg	the selection has no gradient fill	la sélection n’a pas de dégradé de fond
 @msg	the selection has no gradient stroke	la sélection n’a pas de dégradé de contour
 @msg	the selection has no pattern fill	la sélection n’a pas de motif de fond

@@ -1268,7 +1268,6 @@ lighting	Light	სინათლე
 	Fractional Widths	წილადი სიგანეები
 	Hide Options	პარამეტრების დამალვა
 	Horizontal Scale %	ჰორიზონტალური მასშტაბი %
-	Kerning (0 = Auto)	კერნინგი (0 = ავტო)
 	Leading	სტრიქონთა დაშორება
 	No Break	გადატანის გარეშე
 	Proportional Metrics	პროპორციული მეტრიკა
@@ -3082,6 +3081,7 @@ theme	Appearance	იერსახე
 	Identify Objects By	ობიექტების იდენტიფიკაცია:
 	Include SVG Code	SVG კოდის ჩართვა
 	Italian	იტალიური
+	Kerning	კერნინგი
 	Keyboard Increment	კლავიატურის ბიჯი
 	Language Options	ენის პარამეტრები
 	Large	დიდი
@@ -3110,6 +3110,7 @@ theme	Appearance	იერსახე
 	On Paste	ჩასმისას
 	On Screen	ეკრანზე
 	Open Documents As Tabs	დოკუმენტების ჩანართებად გახსნა
+	Optical	ოპტიკური
 	Options	პარამეტრები
 	Output All Blacks Accurately	ყველა შავის ზუსტად გამოტანა
 	Output All Blacks as Rich Black	ყველა შავის მდიდარ შავად გამოტანა
@@ -3647,6 +3648,7 @@ font-technology	Variable	ცვლადი
 @plural	{n} stroke|{n} strokes	კონტური: {n}
 @msg	no library `{id}`	ბიბლიოთეკა `{id}` არ არსებობს
 @msg	select some type first	ჯერ მონიშნეთ ტექსტი
+@msg	kerning must be a number, "auto", or "optical"	კერნინგი უნდა იყოს რიცხვი, „auto“ ან „optical“
 @msg	the selection has no gradient fill	მონიშნულს შევსების გრადიენტი არ აქვს
 @msg	the selection has no gradient stroke	მონიშნულს კონტურის გრადიენტი არ აქვს
 @msg	the selection has no pattern fill	მონიშნულს შევსების პატერნი არ აქვს

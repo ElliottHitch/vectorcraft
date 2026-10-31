@@ -1474,7 +1474,7 @@ font-technology	Variable	Değişken
 	Keep the pasted color as a new swatch with a numbered name.	Yapıştırılan rengi numaralı bir adla yeni bir renk örneği olarak koruyun.
 	Keep this row's colors (exclude)	Bu satırın renklerini koru (hariç tut)
 	Keep:	Sakla:
-	Kerning (0 = Auto)	Karakter Aralığı (0 = Otomatik)
+	Kerning	Karakter aralığı
 	Keyboard Increment	Klavye Artışı
 	Keyboard Shortcut Conflicts	Klavye Kısayolu Çakışmaları
 	Keyboard Shortcut Set	Klavye Kısayol Seti
@@ -2038,6 +2038,7 @@ shape	Open	Açık
 	Open the URL in the web browser	URL'yi web tarayıcısında açın
 	Opened with {} note(s): {}	{} notla açıldı: {}
 	Open…	Aç…
+	Optical	Optik
 	Optical Margin Alignment	Optik Kenar Boşluğu Hizalaması
 	Optimize for fast web view	Hızlı web görünümü için optimize edin
 	Optimized	Optimize edilmiş
@@ -3655,6 +3656,7 @@ axis	Both	Her İkisi
 	Float Tool Group	Araç Grubunu Yüzer Yap
 @msg	no library `{id}`	`{id}` kütüphanesi yok
 @msg	select some type first	önce bir tür seçin
+@msg	kerning must be a number, "auto", or "optical"	Karakter aralığı sayı, “auto” veya “optical” olmalıdır
 @msg	the selection has no gradient fill	seçimin degrade dolgusu yok
 @msg	the selection has no gradient stroke	seçimin degrade konturu yok
 @msg	the selection has no pattern fill	seçimin desen dolgusu yok

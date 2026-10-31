@@ -1365,7 +1365,6 @@ lighting	Light	Licht
 	Fractional Widths	Fractionele breedtes
 	Hide Options	Opties verbergen
 	Horizontal Scale %	Horizontale schaal %
-	Kerning (0 = Auto)	Kerning (0 = Auto)
 	Leading	Regelafstand
 	No Break	Niet afbreken
 	Proportional Metrics	Proportionele metingen
@@ -3285,6 +3284,7 @@ theme	Appearance	Vormgeving
 	Identify Objects By	Objecten identificeren op
 	Include SVG Code	SVG-code opnemen
 	Italian	Italiaans
+	Kerning	Kerning
 	Keyboard Increment	Toetsenbordincrement
 	Language Options	Taalopties
 	Large	Groot
@@ -3313,6 +3313,7 @@ theme	Appearance	Vormgeving
 	On Paste	Bij plakken
 	On Screen	Op scherm
 	Open Documents As Tabs	Documenten openen als tabbladen
+	Optical	Optisch
 	Options	Opties
 	Output All Blacks Accurately	Alle zwarttinten nauwkeurig uitvoeren
 	Output All Blacks as Rich Black	Alle zwarttinten uitvoeren als rijk zwart
@@ -3895,6 +3896,7 @@ imageTrace	Outline	Contour
 @plural	{n} stroke|{n} strokes	{n} lijn|{n} lijnen
 @msg	no library `{id}`	geen bibliotheek `{id}`
 @msg	select some type first	selecteer eerst wat tekst
+@msg	kerning must be a number, "auto", or "optical"	Kerning moet een getal, ‘auto’ of ‘optical’ zijn
 @msg	{_1} has no {_2} style	{_1} heeft geen {_2}stijl
 @msg	a layer couldn't be read	een laag kon niet worden gelezen
 @msg	it has more than one artboard	het heeft meer dan één tekengebied

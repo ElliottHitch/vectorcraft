@@ -1922,8 +1922,8 @@ file-filter	Templates	Mẫu
 	Keep this row's colors (exclude)	Giữ màu của hàng này (loại trừ)
 	Keep visible surfaces only when expanding	Chỉ giữ bề mặt hiển thị khi mở rộng
 	Keep:	Giữ:
-	Kerning (0 = Auto)	Kerning (0 = Tự động)
 	Key Color:	Màu chủ:
+	Kerning	Kerning
 	Keyboard Increment	Bước nhảy bàn phím
 	Keyboard Shortcut Conflicts	Xung đột phím tắt
 	Keyboard Shortcut Set	Bộ phím tắt
@@ -2499,6 +2499,7 @@ file-filter	Templates	Mẫu
 	“{name}” already exists. Replace it?	“{name}” đã tồn tại. Thay thế tệp này?
 	The name in the save panel was “{typed}”; VectorCraft added the file type's extension. Replacing the file overwrites its contents.	Tên trong bảng lưu là “{typed}”, và VectorCraft đã thêm phần mở rộng của loại tệp. Thay thế tệp sẽ ghi đè nội dung của tệp.
 	Open…	Mở…
+	Optical	Quang học
 	Optical Margin Alignment	Căn lề quang học
 	Optimize for fast web view	Tối ưu để xem web nhanh
 	Optimized	Đã tối ưu
@@ -4696,6 +4697,7 @@ theme	Appearance	Giao diện
 @msg	select paths or anchor points	chọn đường dẫn hoặc điểm neo
 @msg	select paths to join	hãy chọn đường dẫn để nối
 @msg	select some type first	hãy chọn chữ trước
+@msg	kerning must be a number, "auto", or "optical"	Kerning phải là số, “auto” hoặc “optical”
 @msg	the selection has no gradient fill	vùng chọn không có tô chuyển sắc
 @msg	the selection has no gradient stroke	vùng chọn không có nét chuyển sắc
 @msg	the selection has no pattern fill	vùng chọn không có tô họa tiết

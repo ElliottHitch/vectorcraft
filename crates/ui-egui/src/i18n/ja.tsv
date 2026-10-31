@@ -1880,7 +1880,7 @@ font-technology	Variable	バリアブル
 	Keep Plain Text	テキストのみを保持
 	Keep both sides the same width	両側を同じ幅に保つ
 	Keep this row's colors (exclude)	この行のカラーを保持 (除外)
-	Kerning (0 = Auto)	カーニング (0 = 自動)
+	Kerning	カーニング
 	Keyboard Increment	キー入力
 	Keyboard Shortcut Conflicts	キーボードショートカットの競合
 	Keyboard Shortcut Set	キーボードショートカットセット
@@ -2346,6 +2346,7 @@ font-technology	Variable	バリアブル
 	Open the URL in the web browser	URL を Web ブラウザーで開く
 	Optimize for fast web view	Web ビュー用に最適化
 	Optimized	最適化
+	Optical	オプティカル
 	Options	オプション
 	Options for Selection…	選択項目のオプション…
 	Options:	オプション:
@@ -4573,6 +4574,7 @@ swatch	Bright Violet	ビビッドバイオレット
 @msg	choose a folder to export to	書き出し先のフォルダーを選択してください
 @msg	the selection has no URL (or they differ)	選択したオブジェクトに URL がありません (または URL がそれぞれ異なります)
 @msg	select some type first	先にテキストを選択してください
+@msg	kerning must be a number, "auto", or "optical"	カーニングは数値、「auto」または「optical」にしてください
 @msg	the selection has no gradient fill	選択したオブジェクトに塗りのグラデーションがありません
 @msg	the selection has no gradient stroke	選択したオブジェクトに線のグラデーションがありません
 @msg	the selection has no pattern fill	選択したオブジェクトに塗りのパターンがありません

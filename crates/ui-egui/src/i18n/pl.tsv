@@ -1350,7 +1350,6 @@ lighting	Light	Światło
 	Fractional Widths	Szerokości ułamkowe
 	Hide Options	Ukryj opcje
 	Horizontal Scale %	Skala pozioma %
-	Kerning (0 = Auto)	Kerning (0 = auto)
 	Leading	Interlinia
 	No Break	Bez podziału
 	Proportional Metrics	Metryka proporcjonalna
@@ -3392,6 +3391,7 @@ theme	Appearance	Wygląd
 	Identify Objects By	Identyfikuj obiekty według
 	Include SVG Code	Dołącz kod SVG
 	Italian	Włoski
+	Kerning	Kerning
 	Keyboard Increment	Przyrost klawiatury
 	Language Options	Opcje języka
 	Large	Duże
@@ -3420,6 +3420,7 @@ theme	Appearance	Wygląd
 	On Paste	Przy wklejaniu
 	On Screen	Na ekranie
 	Open Documents As Tabs	Otwieraj dokumenty jako karty
+	Optical	Optyczny
 	Options	Opcje
 	Output All Blacks Accurately	Wyprowadzaj wszystkie czernie dokładnie
 	Output All Blacks as Rich Black	Wyprowadzaj wszystkie czernie jako czerń głęboką
@@ -3975,6 +3976,7 @@ imageTrace	Outline	Kontur
 @plural	{n} stroke|{n} strokes	{n} obrys|{n} obrysy|{n} obrysów
 @msg	no library `{id}`	brak biblioteki `{id}`
 @msg	select some type first	najpierw zaznacz tekst
+@msg	kerning must be a number, "auto", or "optical"	Kerning musi być liczbą, „auto” lub „optical”
 @msg	the selection has no gradient fill	zaznaczenie nie ma gradientu wypełnienia
 @msg	the selection has no gradient stroke	zaznaczenie nie ma gradientu obrysu
 @msg	the selection has no pattern fill	zaznaczenie nie ma wzorka wypełnienia
