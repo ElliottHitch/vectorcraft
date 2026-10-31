@@ -922,6 +922,27 @@ fn shift_marquee_toggles_anchors() {
     }
 }
 
+/// #4890: Alt held at the press makes a Direct Selection marquee Group Selection's for the drag:
+/// it selects each path it touches whole (with Shift, toggles it), not the anchors inside it, and
+/// leaves the paths it misses; the Group Selection cursor stays until the release.
+#[test]
+fn an_alt_marquee_selects_the_paths_it_touches_whole() {
+    let (d, a, _) = two_squares();
+    let (s, p) = (Selection::default(), paint());
+    let cx = cx(&d, &s, &p);
+    let alt = Mods { alt: true, ..Default::default() };
+    let alt_shift = Mods { shift: true, ..alt };
+    for (mods, cmd) in [(alt, "select.set"), (alt_shift, "select.toggle")] {
+        let mut t = DirectSelectionTool::new(false);
+        // Round A's top-right corner only; B (300..400) is left out.
+        t.pointer(&cx, &PointerEvent::new(PointerKind::Down, 150.0, 50.0).with_mods(mods));
+        t.pointer(&cx, &PointerEvent::new(PointerKind::Drag, 250.0, 150.0).with_mods(mods));
+        assert_eq!(t.cursor(&cx, Point::new(250.0, 150.0), mods), Cursor::GroupSelection, "{mods:?}");
+        let up = t.pointer(&cx, &PointerEvent::new(PointerKind::Up, 250.0, 150.0).with_mods(mods));
+        assert_eq!(up, vec![Action::Exec(cmd.into(), json!({"ids": [a.0]}))], "{mods:?}");
+    }
+}
+
 /// Group Selection: E pressed during a marquee drag makes it select the objects entirely inside
 /// it whole, a group's member without its group. Direct Selection does not take E.
 #[test]
