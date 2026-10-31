@@ -199,6 +199,31 @@ mod tests {
         assert_eq!((st.selection.len(), st.selection.key), (2, None), "both objects stay selected, without a key");
     }
 
+    /// #4864: a pick of an Asset Export command, which the palette runs with no params, opens the
+    /// Asset Export panel instead of failing on the missing params or exporting nowhere.
+    #[test]
+    fn a_pick_of_an_asset_export_command_opens_its_panel() {
+        let ids = ["assets.export", "assets.remove", "assets.rename", "assets.settings.set"];
+        for id in ids {
+            assert!(items().iter().any(|(_, item, _)| item == id), "{id} is in the palette");
+            let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), crate::Services::default());
+            app.run("file.new", json!({"width": 200, "height": 200})).unwrap();
+            app.ui.status.clear();
+            assert!(!crate::panel_docking::showing(&app.ui, crate::panels::asset_export::ID), "{id}");
+            // Run a pick the way `show` runs it.
+            menus::invoke(&mut app, id, json!({}));
+            assert!(crate::panel_docking::showing(&app.ui, crate::panels::asset_export::ID), "{id}: {}", app.ui.status);
+            assert!(!app.ui.status.contains("invalid parameters"), "{id}: {}", app.ui.status);
+            // A second pick leaves the open panel open, docked or floating.
+            menus::invoke(&mut app, id, json!({}));
+            assert!(crate::panel_docking::showing(&app.ui, crate::panels::asset_export::ID), "{id}: picked twice");
+            app.run("window.panel.float", json!({"panel": crate::panels::asset_export::ID})).unwrap();
+            assert!(crate::panel_docking::showing(&app.ui, crate::panels::asset_export::ID), "{id}: floating");
+            menus::invoke(&mut app, id, json!({}));
+            assert!(crate::panel_docking::showing(&app.ui, crate::panels::asset_export::ID), "{id}: floating, picked again");
+        }
+    }
+
     /// #1757: Up and Down move the highlighted result, wrapping at the ends; a new query starts
     /// from the first again.
     #[test]
