@@ -985,8 +985,9 @@ impl Families {
         }
         // The longest part of the name before a hyphen (or the comma of `Arial,Bold`, ISO 32000-1
         // §9.6.3) that names an available family, the rest its style: a family can hold hyphens
-        // (`Noto-Sans-Bold` is Noto Sans, Bold).
-        let cuts = std::iter::once(name.len()).chain(name.rmatch_indices(['-', ',']).map(|(i, _)| i));
+        // (`Noto-Sans-Bold` is Noto Sans, Bold). The name is the file's: a few cuts from its end are
+        // enough for any family, and each costs a pass over the name.
+        let cuts = std::iter::once(name.len()).chain(name.rmatch_indices(['-', ',']).map(|(i, _)| i).take(16));
         for cut in cuts {
             let (fam, style) = (name.get(..cut).unwrap_or(name), name.get(cut + 1..).unwrap_or(""));
             if let Some(f) = [fam, strip_ps(fam)].iter().find_map(|f| self.0.get(&norm(f)).cloned()) {
