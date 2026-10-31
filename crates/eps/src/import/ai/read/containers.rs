@@ -24,6 +24,7 @@ impl<'a> Reader<'a> {
             base,
             clips: Vec::new(),
             compound_members: false,
+            state: None,
         });
         self.after_object = false;
         Ok(())
@@ -260,13 +261,16 @@ impl<'a> Reader<'a> {
             return Ok(());
         }
         let Some(f) = self.frames.pop() else { return Ok(()) };
-        let Frame { kind, children, base, hidden, gs, after, mesh_ended, .. } = f;
+        let Frame { kind, children, base, hidden, gs, after, mesh_ended, state, .. } = f;
         let Kind::Obj(mut o) = kind else { return Ok(()) };
         obj::close(&mut o, &mut self.stack, base);
         self.obj_hidden = hidden;
         // Art made inside a dictionary (type's paths, a mask's art) isn't kept, and doesn't end what
         // follows the object the dictionary is about: a mesh's state comes after its mask.
         self.gs = gs;
+        if let Some(state) = state {
+            self.keep_state(state);
+        }
         self.after_object = after;
         self.mesh_ended = mesh_ended;
         if matches!(self.frames.last(), Some(Frame { kind: Kind::Obj(_), .. })) {
