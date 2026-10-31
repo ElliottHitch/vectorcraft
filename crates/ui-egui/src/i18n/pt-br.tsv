@@ -5962,3 +5962,4 @@ breakText	Glyphs	Glifos
 	Set Size of Each	Definir Tamanho de Cada Um
 @msg	select exactly two objects	selecione exatamente dois objetos
 @msg	give `width` or `height`	informe `width` ou `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} e posteriores (versão {n})

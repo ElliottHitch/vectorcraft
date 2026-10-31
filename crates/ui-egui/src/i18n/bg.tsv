@@ -5926,3 +5926,4 @@ breakText	Glyphs	Глифи
 	Set Size of Each	Задаване на размер на всеки
 @msg	select exactly two objects	изберете точно два обекта
 @msg	give `width` or `height`	задайте `width` или `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} и по-нови (версия {n})

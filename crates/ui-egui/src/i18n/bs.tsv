@@ -5960,3 +5960,4 @@ shape	Open	Otvoren
 	Set Size of Each	Postavi veličinu svakog
 @msg	select exactly two objects	odaberite tačno dva objekta
 @msg	give `width` or `height`	zadajte `width` ili `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} i novije (verzija {n})

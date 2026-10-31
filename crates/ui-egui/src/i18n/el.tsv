@@ -5995,3 +5995,4 @@ breakText	Glyphs	Γλύφοι
 	Set Size of Each	Ορισμός μεγέθους καθενός
 @msg	select exactly two objects	επιλέξτε ακριβώς δύο αντικείμενα
 @msg	give `width` or `height`	δώστε `width` ή `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} και νεότερες (έκδοση {n})

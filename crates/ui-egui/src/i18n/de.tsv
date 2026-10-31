@@ -5628,3 +5628,4 @@ breakText	Glyphs	Glyphen
 	Set Size of Each	Größe einzeln festlegen
 @msg	select exactly two objects	wählen Sie genau zwei Objekte aus
 @msg	give `width` or `height`	geben Sie `width` oder `height` an
+	VectorCraft {release} and later (version {n})	VectorCraft {release} und neuer (Version {n})

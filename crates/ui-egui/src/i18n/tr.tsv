@@ -6000,3 +6000,4 @@ breakText	Glyphs	Glifler
 	Set Size of Each	Her Birinin Boyutunu Ayarla
 @msg	select exactly two objects	tam olarak iki nesne seç
 @msg	give `width` or `height`	`width` veya `height` belirt
+	VectorCraft {release} and later (version {n})	VectorCraft {release} ve sonrası (sürüm {n})

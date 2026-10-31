@@ -5940,3 +5940,4 @@ breakText	Glyphs	Glif
 	Set Size of Each	Atur ukuran masing-masing
 @msg	select exactly two objects	pilih tepat dua objek
 @msg	give `width` or `height`	berikan `width` atau `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} dan yang lebih baru (versi {n})

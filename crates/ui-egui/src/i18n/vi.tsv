@@ -5644,3 +5644,4 @@ breakText	Glyphs	Glyph
 	Set Size of Each	Đặt kích thước từng cái
 @msg	select exactly two objects	hãy chọn đúng hai đối tượng
 @msg	give `width` or `height`	hãy cho `width` hoặc `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} trở lên (phiên bản {n})

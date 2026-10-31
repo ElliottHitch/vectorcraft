@@ -6042,3 +6042,4 @@ breakText	Glyphs	Glyfy
 	Set Size of Each	Nastavit velikost jednotlivě
 @msg	select exactly two objects	vyberte právě dva objekty
 @msg	give `width` or `height`	zadejte `width` nebo `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} a novější (verze {n})

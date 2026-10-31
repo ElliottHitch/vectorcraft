@@ -6033,3 +6033,4 @@ breakText	Glyphs	Glifs
 	Set Size of Each	Defineix la mida de cadascun
 @msg	select exactly two objects	selecciona exactament dos objectes
 @msg	give `width` or `height`	indica `width` o `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} i posteriors (versió {n})

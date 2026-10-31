@@ -5984,3 +5984,4 @@ breakText	Glyphs	Glyphs
 	Set Size of Each	Formaat van elk instellen
 @msg	select exactly two objects	selecteer precies twee objecten
 @msg	give `width` or `height`	geef `width` of `height` op
+	VectorCraft {release} and later (version {n})	VectorCraft {release} en nieuwer (versie {n})

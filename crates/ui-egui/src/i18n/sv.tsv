@@ -6095,3 +6095,4 @@ breakText	Glyphs	Glyfer
 	Set Size of Each	Ange storlek för vart och ett
 @msg	select exactly two objects	markera exakt två objekt
 @msg	give `width` or `height`	ange `width` eller `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} och senare (version {n})
