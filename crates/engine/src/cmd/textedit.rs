@@ -577,7 +577,8 @@ impl CharChange {
         Ok(())
     }
 
-    pub(crate) fn apply(&self, st: &mut CharStyle) {
+    /// The font family, style and Variable Font settings of [`Self::apply`].
+    fn apply_font(&self, st: &mut CharStyle) {
         if let Some(f) = &self.font {
             st.font_family = f.clone();
             // Keep the style when the new family has it, else its closest match.
@@ -596,6 +597,10 @@ impl CharChange {
         if let Some(v) = &self.font_axes {
             change_font_axes(st, v);
         }
+    }
+
+    pub(crate) fn apply(&self, st: &mut CharStyle) {
+        self.apply_font(st);
         if let Some(v) = self.size {
             st.size = v;
         }
