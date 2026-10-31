@@ -4703,6 +4703,8 @@ swatch	Bright Violet	ビビッドバイオレット
 @msg	the PCX file is cut short	PCX ファイルが途中で切れています
 @msg	the PCX file's header is damaged	PCX ファイルのヘッダーが壊れています
 @msg	PCX files with {bits}-bit pixels in {planes} planes can't be read	{planes} プレーンに {bits} bit のピクセルを持つ PCX ファイルは読み込めません
+@msg	the JPEG 2000 file can't be read	JPEG 2000 ファイルを読み込めません
+@msg	the JPEG 2000 file has an unsupported color space or JPX content	JPEG 2000 ファイルには未対応の色空間または JPX コンテンツがあります
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	PSD 画像が大きすぎて読み込めません（{_1} × {_2} ピクセル）
 @msg	zipped 32-bit PSD image data with prediction can't be read	予測付き ZIP 圧縮の 32 bit PSD 画像データは読み込めません
 @msg	{depth}-bit PSD files in this colour mode can't be read	このカラーモードの {depth} bit PSD ファイルは読み込めません

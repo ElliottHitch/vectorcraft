@@ -5144,6 +5144,8 @@ imageTrace	Outline	Körvonal
 @msg	the PCX file is cut short	a PCX-fájl csonka
 @msg	the PCX file's header is damaged	a PCX-fájl fejléce sérült
 @msg	PCX files with {bits}-bit pixels in {planes} planes can't be read	a {bits} bites pixeleket {planes} síkban tároló PCX-fájlok nem olvashatók
+@msg	the JPEG 2000 file can't be read	a JPEG 2000 fájl nem olvasható
+@msg	the JPEG 2000 file has an unsupported color space or JPX content	a JPEG 2000 fájl nem támogatott színteret vagy JPX-tartalmat tartalmaz
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	a PSD-kép túl nagy a beolvasáshoz ({_1} × {_2} pixel)
 @msg	the Save PDF dialog didn't open	a PDF mentése párbeszédablak nem nyílt meg
 @msg	the scale is not a usable number	a méretarány nem használható szám

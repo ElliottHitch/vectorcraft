@@ -4631,6 +4631,8 @@ theme	Appearance	외관
 @msg	the PCX file is cut short	PCX 파일이 잘려 있습니다
 @msg	the PCX file's header is damaged	PCX 파일의 헤더가 손상되었습니다
 @msg	PCX files with {bits}-bit pixels in {planes} planes can't be read	{planes}개 평면에 {bits}비트 픽셀이 있는 PCX 파일은 읽을 수 없습니다
+@msg	the JPEG 2000 file can't be read	JPEG 2000 파일을 읽을 수 없습니다
+@msg	the JPEG 2000 file has an unsupported color space or JPX content	JPEG 2000 파일에 지원되지 않는 색 공간 또는 JPX 콘텐츠가 있습니다
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	PSD 이미지가 너무 커서 읽을 수 없습니다({_1} × {_2}픽셀)
 @msg	zipped 32-bit PSD image data with prediction can't be read	예측이 적용된 ZIP 압축 32비트 PSD 이미지 데이터는 읽을 수 없습니다
 @msg	{depth}-bit PSD files in this colour mode can't be read	이 색상 모드의 {depth}비트 PSD 파일은 읽을 수 없습니다

@@ -4417,6 +4417,8 @@ imageTrace	Outline	轮廓
 @msg	the PCX file is cut short	PCX 文件不完整
 @msg	the PCX file's header is damaged	PCX 文件头已损坏
 @msg	PCX files with {bits}-bit pixels in {planes} planes can't be read	无法读取 {planes} 个平面中含 {bits} 位像素的 PCX 文件
+@msg	the JPEG 2000 file can't be read	无法读取 JPEG 2000 文件
+@msg	the JPEG 2000 file has an unsupported color space or JPX content	JPEG 2000 文件包含不受支持的色彩空间或 JPX 内容
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	PSD 图像过大，无法读取 ({_1} × {_2} 像素)
 @msg	zipped 32-bit PSD image data with prediction can't be read	无法读取带预测的 ZIP 压缩 32 位 PSD 图像数据
 @msg	{depth}-bit PSD files in this colour mode can't be read	无法读取此颜色模式下的 {depth} 位 PSD 文件

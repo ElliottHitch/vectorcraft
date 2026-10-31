@@ -6208,6 +6208,7 @@ dependencies = [
  "craft-docpath",
  "crc32fast",
  "flate2",
+ "hayro-jpeg2000",
  "image",
  "kurbo 0.13.1",
  "log",

@@ -4659,6 +4659,8 @@ axis	Both	Оба
 @msg	the PCX file is cut short	файл PCX обрезан
 @msg	the PCX file's header is damaged	заголовок файла PCX повреждён
 @msg	PCX files with {bits}-bit pixels in {planes} planes can't be read	файлы PCX с {bits}-битными пикселями в {planes} плоскостях не читаются
+@msg	the JPEG 2000 file can't be read	не удается прочитать файл JPEG 2000
+@msg	the JPEG 2000 file has an unsupported color space or JPX content	файл JPEG 2000 содержит неподдерживаемое цветовое пространство или содержимое JPX
 @msg	the PSD image is too large to read ({_1} × {_2} pixels)	изображение PSD слишком велико для чтения ({_1} × {_2} пикс.)
 @msg	zipped 32-bit PSD image data with prediction can't be read	32-битные данные изображения PSD со сжатием ZIP с предсказанием не читаются
 @msg	{depth}-bit PSD files in this colour mode can't be read	{depth}-битные файлы PSD в этом цветовом режиме не читаются
