@@ -170,11 +170,22 @@ pub(super) fn grid_len(rows: u32, cols: u32) -> Option<usize> {
 }
 
 impl GradientMesh {
+    /// The most quads one tessellation ([`Self::quads`]) makes, and so the most patches a mesh can
+    /// have: about 170 bytes a quad, so about 170 MB. A file's mesh can have any number of patches
+    /// and the view any zoom; the subdivision per patch gives way before memory does, and a mesh
+    /// with more patches than that is malformed, like a point count that doesn't fit (#3592).
+    pub const MAX_QUADS: usize = 1 << 20;
+
     pub fn idx(&self, r: usize, c: usize) -> usize {
         r * (self.cols as usize + 1) + c
     }
     pub fn is_valid(&self) -> bool {
-        self.rows >= 1 && self.cols >= 1 && grid_len(self.rows, self.cols) == Some(self.points.len())
+        self.rows >= 1 && self.cols >= 1 && grid_len(self.rows, self.cols) == Some(self.points.len()) && self.patches() <= Self::MAX_QUADS
+    }
+
+    /// The number of patches (rows times columns), saturating.
+    fn patches(&self) -> usize {
+        (self.rows as usize).saturating_mul(self.cols as usize)
     }
 
     /// A 1×1 mesh from its four corners (bottom-left, top-left, top-right, bottom-right in u/v
@@ -352,8 +363,9 @@ impl GradientMesh {
         if !self.is_valid() {
             return vec![];
         }
-        let n = n.clamp(1, 64);
-        let mut out = Vec::with_capacity(self.rows as usize * self.cols as usize * n * n);
+        // Finer than the budget allows gives way: a quad per patch is the least.
+        let n = n.clamp(1, 64).min(((Self::MAX_QUADS / self.patches()) as f64).sqrt() as usize).max(1);
+        let mut out = Vec::with_capacity(self.patches() * n * n);
         let mut grid = vec![Point::ZERO; (n + 1) * (n + 1)];
         let mut colors = vec![(Color::default(), 0.0f32); (n + 1) * (n + 1)];
         for r in 0..self.rows as usize {
