@@ -1252,6 +1252,27 @@ fn resolved_logical_binding_wins_over_position_alias() {
 }
 
 #[test]
+fn exact_shifted_logical_binding_wins_over_plain_text_binding() {
+    let mut app = remembered_paint_app();
+    crate::keymap::set_override(&mut app.ui.shortcut_overrides, "view.rulers", ";");
+    crate::keymap::set_override(&mut app.ui.shortcut_overrides, "view.grid", "Shift+;");
+    let rulers_before = app.ui.view.rulers;
+    let grid_before = app.ui.view.grid;
+    let journal_before = app.session.journal.len();
+    frame(
+        &mut app,
+        vec![
+            egui::Event::ModifiersChanged(Modifiers::SHIFT),
+            egui::Event::Key { key: Key::Semicolon, physical_key: Some(Key::Comma), pressed: true, repeat: false, modifiers: Modifiers::SHIFT },
+            egui::Event::Text(";".into()),
+        ],
+    );
+    assert_eq!(app.ui.view.grid, !grid_before, "Shift+; runs Show Grid");
+    assert_eq!(app.ui.view.rulers, rulers_before, "plain ; does not run Show Rulers");
+    assert!(app.session.journal.since(journal_before).iter().all(|(command, _)| !command.starts_with("paint.")), "the press runs no paint command");
+}
+
+#[test]
 fn user_shifted_punctuation_binding_runs_once() {
     let mut app = remembered_paint_app();
     crate::keymap::set_override(&mut app.ui.shortcut_overrides, "paint.lastGradient", "Shift+;");
