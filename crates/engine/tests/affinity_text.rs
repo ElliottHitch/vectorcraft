@@ -89,6 +89,34 @@ fn frame_type_keeps_dimensions_alignment_and_unit_conversion() {
 }
 
 #[test]
+fn objects_nested_in_text_are_clipped_by_the_type() {
+    let ellipse = F::Obj(
+        tag(b"ShpN"),
+        vec![
+            (tag(b"Desc"), F::Str("Inside".into())),
+            (tag(b"Shpe"), F::Obj(tag(b"ShpE"), vec![])),
+            (tag(b"ShpB"), F::F64s(vec![10.0, 20.0, 110.0, 70.0])),
+            (tag(b"BFFl"), F::Shared(vec![F::Obj(tag(b"FDsc"), vec![(tag(b"FDeF"), solid(1.0))])])),
+        ],
+    );
+    let bytes = document_with_children(
+        vec![block(utf8("TEXT"), vec![run(4, Some(attrs("Clip", "", 400, false, 40.0)))], &[])],
+        false,
+        72.0,
+        IDENTITY,
+        vec![ellipse],
+    );
+    let loaded = fileio::load("nested.af", &bytes).unwrap();
+    let NodeKind::Layer { children, .. } = &loaded.doc.layers[0].kind else { panic!("{:?}", loaded.doc.layers[0].kind) };
+    let NodeKind::Group { children: clipped, clip: true } = &children[0].kind else { panic!("{:?}", children[0].kind) };
+    let [text, inside] = clipped.as_slice() else { panic!("{clipped:?}") };
+    let NodeKind::Text(t) = &text.kind else { panic!("{:?}", text.kind) };
+    assert_eq!(t.runs[0].text, "TEXT");
+    assert_eq!(inside.name.as_deref(), Some("Inside"));
+    assert!(matches!(inside.kind, NodeKind::Path { clipping: false, .. }), "{:?}", inside.kind);
+}
+
+#[test]
 fn a_frame_too_short_for_its_first_line_is_made_taller_with_a_warning() {
     // #1423: a title taller than its frame (60 pt type in a 50 pt frame) drew nothing.
     let lines = |t: &TextObject| vectorcraft_text::layout(vectorcraft_text::FontDb::global(), t).lines.len();
