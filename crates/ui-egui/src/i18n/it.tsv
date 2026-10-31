@@ -3968,7 +3968,7 @@ axis	Both	Entrambi
 @msg	PDF settings are not an object	Le impostazioni PDF non sono un oggetto
 @msg	PDF security settings are not an object	Le impostazioni di sicurezza PDF non sono un oggetto
 @msg	PDF writer error: {0}	Errore del generatore PDF: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Pacchetto creato con {n} file in {folder} {note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Pacchetto creato con {n} file in {folder} ({note}
 @msg	Packaged {n} file(s){note}	Pacchetto creato con {n} file{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Anteprima nel browser richiede l'app desktop (sul web i file vengono invece scaricati)
 @msg	Release Guides: no guides	Rilascia guide: nessuna guida
@@ -5208,9 +5208,9 @@ lighting	Light	Luce
 	Slope:	Pendenza:
 axis	X Axis	Asse X
 axis	Y Axis	Asse Y
-@msg	Packaged {n} file(s) in {folder}	Pacchetto creato con {n} file in {folder}
-@msg	Packaged {n} file(s) {note}	Pacchetto creato con {n} file {note}
-@msg	Packaged {n} file(s)	Pacchetto creato con {n} file
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Pacchetto creato con {n} file in {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Pacchetto creato con {n} file {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Pacchetto creato con {n} file
 @plural	Packaged {n} file|Packaged {n} files	Pacchetto creato con {n} file|Pacchetto creato con {n} file
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Pacchetto creato con {n} file in {folder}|Pacchetto creato con {n} file in {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Pacchetto creato con {n} file {note}|Pacchetto creato con {n} file {note}

@@ -3735,7 +3735,7 @@ axis	Both	Her İkisi
 @msg	PDF settings are not an object	PDF ayarları bir nesne değildir
 @msg	PDF security settings are not an object	PDF güvenlik ayarları bir nesne değildir
 @msg	PDF writer error: {0}	PDF yazıcı hatası: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	{folder}{note} biçiminde paketlenmiş {n} dosyası/dosyaları
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	{n} dosya {folder} klasörüne paketlendi ({note}
 @msg	Packaged {n} file(s){note}	Paketlenmiş {n} dosyası/dosyaları{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Tarayıcıdaki önizleme için masaüstü uygulaması gerekir (bunun yerine web, dosyaları indirir)
 @msg	Release Guides: no guides	Sürüm Kılavuzları: kılavuz yok
@@ -5543,9 +5543,9 @@ theme	Appearance	Görünüm
 axis	X Axis	X ekseni
 axis	Y Axis	Y ekseni
 
-@msg	Packaged {n} file(s) in {folder}	{folder} biçiminde paketlenmiş {n} dosyası/dosyaları
-@msg	Packaged {n} file(s) {note}	Paketlenmiş {n} dosyası/dosyaları {note}
-@msg	Packaged {n} file(s)	Paketlenmiş {n} dosyası/dosyaları
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	{n} dosya {folder} klasörüne paketlendi
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	{n} dosya paketlendi {note}
+@msgplural	Packaged {n} file|Packaged {n} files	{n} dosya paketlendi
 # Artwork drag between document tabs.
 	Drop Artwork	Çizimi Bırak
 @msg	{key} must be [x, y] with finite coordinates	{key}, sonlu koordinatlı [x, y] olmalı

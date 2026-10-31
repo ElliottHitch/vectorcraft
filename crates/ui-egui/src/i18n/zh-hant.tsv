@@ -2114,7 +2114,7 @@ file-filter	Templates	範本
 @msg	{undecoded} image(s) couldn't be decoded and show as crossed boxes	無法解碼 {undecoded} 張影像：它們顯示為打叉的方框
 @msg	{_1} linked image(s) changed on disk: Update Links shows the new versions	有 {_1} 個連結影像已在磁碟上變更：「更新連結」可顯示新版本
 @msg	pick a colour, gradient or pattern to save as a swatch	請挑選要儲存為色票的顏色、漸層或圖樣
-@msg	Packaged {n} file(s) in {folder} {note}	已將 {n} 個檔案封裝到 {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	已將 {n} 個檔案封裝到 {folder}({note}
 @msg	Packaged {n} file(s){note}	已封裝 {n} 個檔案{note}
 @msg	choose a location for the package	請選擇封裝的位置
 @msg	missing `folder`	未提供 `folder`
@@ -5227,9 +5227,9 @@ lighting	Light	光源
 	Slope:	斜率:
 axis	X Axis	X 軸
 axis	Y Axis	Y 軸
-@msg	Packaged {n} file(s) in {folder}	已將 {n} 個檔案封裝到 {folder}
-@msg	Packaged {n} file(s) {note}	已封裝 {n} 個檔案 {note}
-@msg	Packaged {n} file(s)	已封裝 {n} 個檔案
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	已將 {n} 個檔案封裝到 {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	已封裝 {n} 個檔案 {note}
+@msgplural	Packaged {n} file|Packaged {n} files	已封裝 {n} 個檔案
 @plural	Packaged {n} file|Packaged {n} files	已封裝 {n} 個檔案
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	已將 {n} 個檔案封裝到 {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	已封裝 {n} 個檔案 {note}

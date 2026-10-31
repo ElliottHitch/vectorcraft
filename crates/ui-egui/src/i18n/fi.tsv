@@ -4151,7 +4151,7 @@ imageTrace	Outline	Ääriviiva
 @msg	PDF settings are not an object	PDF-asetukset eivät ole objekti
 @msg	PDF security settings are not an object	PDF-suojausasetukset eivät ole objekti
 @msg	PDF writer error: {0}	PDF-kirjoittimen virhe: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Paketoitiin {n} tiedosto(a) kansioon {folder} {note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Paketoitiin {n} tiedosto kansioon {folder} ({note}|Paketoitiin {n} tiedostoa kansioon {folder} ({note}
 @msg	Packaged {n} file(s){note}	Paketoitiin {n} tiedosto(a){note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Esikatselu selaimessa vaatii työpöytäsovelluksen (verkkoversio lataa tiedostot sen sijaan)
 @msg	Release Guides: no guides	Vapauta apuviivat: ei apuviivoja
@@ -5624,9 +5624,9 @@ swatch	Bright Violet	Kirkas violetti
 	Slope:	Kaltevuus:
 axis	X Axis	X-akseli
 axis	Y Axis	Y-akseli
-@msg	Packaged {n} file(s) in {folder}	Paketoitiin {n} tiedosto(a) kansioon {folder}
-@msg	Packaged {n} file(s) {note}	Paketoitiin {n} tiedosto(a) {note}
-@msg	Packaged {n} file(s)	Paketoitiin {n} tiedosto(a)
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Paketoitiin {n} tiedosto kansioon {folder}|Paketoitiin {n} tiedostoa kansioon {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Paketoitiin {n} tiedosto {note}|Paketoitiin {n} tiedostoa {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Paketoitiin {n} tiedosto|Paketoitiin {n} tiedostoa
 @plural	Packaged {n} file|Packaged {n} files	Paketoitiin {n} tiedosto|Paketoitiin {n} tiedostoa
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Paketoitiin {n} tiedosto kansioon {folder}|Paketoitiin {n} tiedostoa kansioon {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Paketoitiin {n} tiedosto {note}|Paketoitiin {n} tiedostoa {note}

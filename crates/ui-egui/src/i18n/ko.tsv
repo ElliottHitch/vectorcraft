@@ -4387,7 +4387,7 @@ theme	Appearance	외관
 @msg	{_1} linked image(s) changed on disk: Update Links shows the new versions	링크된 이미지 {_1}개가 디스크에서 바뀌었습니다: 링크 업데이트를 하면 새 버전이 표시됩니다
 @msg	Updated {_1} linked file(s) changed on disk	디스크에서 바뀐 링크된 파일 {_1}개를 업데이트했습니다
 @msg	pick a colour, gradient or pattern to save as a swatch	견본으로 저장할 색상, 그레이디언트 또는 패턴을 선택하세요
-@msg	Packaged {n} file(s) in {folder} {note}	{folder}에 파일 {n}개를 패키지했습니다{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	{folder}에 파일 {n}개를 패키지했습니다({note}
 @msg	Packaged {n} file(s){note}	파일 {n}개를 패키지했습니다{note}
 @msg	choose a location for the package	패키지 위치를 선택하세요
 @msg	missing `folder`	`folder`가 없습니다
@@ -5171,9 +5171,9 @@ lighting	Light	광원
 	Slope:	기울기:
 axis	X Axis	X축
 axis	Y Axis	Y축
-@msg	Packaged {n} file(s) in {folder}	{folder}에 파일 {n}개를 패키지했습니다
-@msg	Packaged {n} file(s) {note}	파일 {n}개를 패키지했습니다 {note}
-@msg	Packaged {n} file(s)	파일 {n}개를 패키지했습니다
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	{folder}에 파일 {n}개를 패키지했습니다
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	파일 {n}개를 패키지했습니다 {note}
+@msgplural	Packaged {n} file|Packaged {n} files	파일 {n}개를 패키지했습니다
 @plural	Packaged {n} file|Packaged {n} files	파일 {n}개를 패키지했습니다
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	{folder}에 파일 {n}개를 패키지했습니다
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	파일 {n}개를 패키지했습니다 {note}

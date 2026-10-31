@@ -4060,7 +4060,7 @@ imageTrace	Outline	Kontur
 @msg	PDF settings are not an object	Ustawienia PDF nie są obiektem
 @msg	PDF security settings are not an object	Ustawienia zabezpieczeń PDF nie są obiektem
 @msg	PDF writer error: {0}	Błąd zapisu PDF: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Spakowane pliki: {n} w {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Spakowane pliki: {n} w {folder} ({note}
 @msg	Packaged {n} file(s){note}	Spakowane pliki: {n}{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Podgląd w przeglądarce wymaga aplikacji desktopowej (wersja webowa zamiast tego pobiera pliki)
 @msg	Release Guides: no guides	Uwolnij linie pomocnicze: brak linii pomocniczych
@@ -5447,9 +5447,9 @@ mark-style	Japanese	Japońskie
 	Slope:	Nachylenie:
 axis	X Axis	Oś X
 axis	Y Axis	Oś Y
-@msg	Packaged {n} file(s) in {folder}	Spakowane pliki: {n} w {folder}
-@msg	Packaged {n} file(s) {note}	Spakowane pliki: {n} {note}
-@msg	Packaged {n} file(s)	Spakowane pliki: {n}
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Spakowane pliki: {n} w {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Spakowane pliki: {n} {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Spakowane pliki: {n}
 @plural	Packaged {n} file|Packaged {n} files	Spakowane pliki: {n}|Spakowane pliki: {n}|Spakowane pliki: {n}
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Spakowane pliki: {n} w {folder}|Spakowane pliki: {n} w {folder}|Spakowane pliki: {n} w {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Spakowane pliki: {n} {note}|Spakowane pliki: {n} {note}|Spakowane pliki: {n} {note}

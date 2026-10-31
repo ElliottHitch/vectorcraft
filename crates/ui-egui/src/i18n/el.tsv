@@ -2161,7 +2161,7 @@ axis	Both	Και τα δύο
 @msg	PDF settings are not an object	Οι ρυθμίσεις PDF δεν είναι αντικείμενο
 @msg	PDF security settings are not an object	Οι ρυθμίσεις ασφαλείας PDF δεν είναι αντικείμενο
 @msg	PDF writer error: {0}	Σφάλμα εγγραφής PDF: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Συσκευάστηκαν {n} αρχεία στον φάκελο {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Συσκευάστηκε {n} αρχείο στον φάκελο {folder} ({note}|Συσκευάστηκαν {n} αρχεία στον φάκελο {folder} ({note}
 @msg	Packaged {n} file(s){note}	Συσκευάστηκαν {n} αρχεία{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Η προεπισκόπηση σε πρόγραμμα περιήγησης απαιτεί την εφαρμογή υπολογιστή (η έκδοση ιστού πραγματοποιεί λήψη αρχείων)
 @msg	Release Guides: no guides	Αποδέσμευση οδηγών: δεν υπάρχουν οδηγοί
@@ -5545,9 +5545,9 @@ effect	Points	Σημεία
 	Slope:	Κλίση:
 axis	X Axis	Άξονας X
 axis	Y Axis	Άξονας Y
-@msg	Packaged {n} file(s) in {folder}	Συσκευάστηκαν {n} αρχεία στον φάκελο {folder}
-@msg	Packaged {n} file(s) {note}	Συσκευάστηκαν {n} αρχεία {note}
-@msg	Packaged {n} file(s)	Συσκευάστηκαν {n} αρχεία
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Συσκευάστηκε {n} αρχείο στον φάκελο {folder}|Συσκευάστηκαν {n} αρχεία στον φάκελο {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Συσκευάστηκε {n} αρχείο {note}|Συσκευάστηκαν {n} αρχεία {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Συσκευάστηκε {n} αρχείο|Συσκευάστηκαν {n} αρχεία
 @plural	Packaged {n} file|Packaged {n} files	Συσκευάστηκε {n} αρχείο|Συσκευάστηκαν {n} αρχεία
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Συσκευάστηκε {n} αρχείο στον φάκελο {folder}|Συσκευάστηκαν {n} αρχεία στον φάκελο {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Συσκευάστηκε {n} αρχείο {note}|Συσκευάστηκαν {n} αρχεία {note}

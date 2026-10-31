@@ -3833,7 +3833,7 @@ axis	Both	И двете
 @msg	PDF settings are not an object	Настройките за PDF не са обект
 @msg	PDF security settings are not an object	Настройките за сигурност на PDF не са обект
 @msg	PDF writer error: {0}	Грешка на PDF записа: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Пакетирани са {n} файла в {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Пакетиран е {n} файл в {folder} ({note}|Пакетирани са {n} файла в {folder} ({note}
 @msg	Packaged {n} file(s){note}	Пакетирани са {n} файла{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Прегледът в браузър изисква настолното приложение (уеб версията изтегля файловете вместо това)
 @msg	Release Guides: no guides	Освобождаване на водачи: няма водачи
@@ -5504,9 +5504,9 @@ theme	Appearance	Външен вид
 	Slope:	Наклон:
 axis	X Axis	X ос
 axis	Y Axis	Y ос
-@msg	Packaged {n} file(s) in {folder}	Пакетирани са {n} файла в {folder}
-@msg	Packaged {n} file(s) {note}	Пакетирани са {n} файла {note}
-@msg	Packaged {n} file(s)	Пакетирани са {n} файла
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Пакетиран е {n} файл в {folder}|Пакетирани са {n} файла в {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Пакетиран е {n} файл {note}|Пакетирани са {n} файла {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Пакетиран е {n} файл|Пакетирани са {n} файла
 @plural	Packaged {n} file|Packaged {n} files	Пакетиран е {n} файл|Пакетирани са {n} файла
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Пакетиран е {n} файл в {folder}|Пакетирани са {n} файла в {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Пакетиран е {n} файл {note}|Пакетирани са {n} файла {note}

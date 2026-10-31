@@ -3928,7 +3928,7 @@ axis	Both	Ambos
 @msg	PDF settings are not an object	los ajustes de PDF no son un objeto
 @msg	PDF security settings are not an object	los ajustes de seguridad de PDF no son un objeto
 @msg	PDF writer error: {0}	error del escritor de PDF: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Se empaquetaron {n} archivo(s) en {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Se empaquetó {n} archivo en {folder} ({note}|Se empaquetaron {n} archivos en {folder} ({note}
 @msg	Packaged {n} file(s){note}	Se empaquetaron {n} archivo(s){note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Previsualizar en el navegador requiere la aplicación de escritorio (la versión web descarga los archivos)
 @msg	Release Guides: no guides	Soltar guías: no hay guías
@@ -5535,9 +5535,9 @@ mark-style	Japanese	Japonesas
 	Slope:	Pendiente:
 axis	X Axis	Eje X
 axis	Y Axis	Eje Y
-@msg	Packaged {n} file(s) in {folder}	Se empaquetaron {n} archivo(s) en {folder}
-@msg	Packaged {n} file(s) {note}	Se empaquetaron {n} archivo(s) {note}
-@msg	Packaged {n} file(s)	Se empaquetaron {n} archivo(s)
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Se empaquetó {n} archivo en {folder}|Se empaquetaron {n} archivos en {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Se empaquetó {n} archivo {note}|Se empaquetaron {n} archivos {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Se empaquetó {n} archivo|Se empaquetaron {n} archivos
 @plural	Packaged {n} file|Packaged {n} files	Se empaquetó {n} archivo|Se empaquetaron {n} archivos
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Se empaquetó {n} archivo en {folder}|Se empaquetaron {n} archivos en {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Se empaquetó {n} archivo {note}|Se empaquetaron {n} archivos {note}

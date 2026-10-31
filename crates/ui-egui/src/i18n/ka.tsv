@@ -3723,7 +3723,7 @@ font-technology	Variable	ცვლადი
 @msg	PDF settings are not an object	PDF-ის პარამეტრები ობიექტი არ არის
 @msg	PDF security settings are not an object	PDF-ის უსაფრთხოების პარამეტრები ობიექტი არ არის
 @msg	PDF writer error: {0}	PDF-ის ჩამწერის შეცდომა: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	შეფუთულია ფაილი ({n}) საქაღალდეში {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	შეფუთულია ფაილი ({n}) საქაღალდეში {folder} ({note}
 @msg	Packaged {n} file(s){note}	შეფუთულია ფაილი ({n}){note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	ბრაუზერში წინასწარ ნახვას დესკტოპის აპი სჭირდება (ვებში ფაილები ჩამოიტვირთება)
 @msg	Release Guides: no guides	დამხმარე ხაზების მოხსნა: დამხმარე ხაზები არ არის
@@ -5505,9 +5505,9 @@ imageTrace	Outline	კონტური
 	Slope:	დახრა:
 axis	X Axis	X ღერძი
 axis	Y Axis	Y ღერძი
-@msg	Packaged {n} file(s) in {folder}	შეფუთულია ფაილი ({n}) საქაღალდეში {folder}
-@msg	Packaged {n} file(s) {note}	შეფუთულია ფაილი ({n}) {note}
-@msg	Packaged {n} file(s)	შეფუთულია ფაილი ({n})
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	შეფუთულია ფაილი ({n}) საქაღალდეში {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	შეფუთულია ფაილი ({n}) {note}
+@msgplural	Packaged {n} file|Packaged {n} files	შეფუთულია ფაილი ({n})
 @plural	Packaged {n} file|Packaged {n} files	შეფუთულია ფაილი ({n})
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	შეფუთულია ფაილი ({n}) საქაღალდეში {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	შეფუთულია ფაილი ({n}) {note}

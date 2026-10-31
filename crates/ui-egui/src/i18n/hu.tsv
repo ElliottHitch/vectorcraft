@@ -4955,7 +4955,7 @@ imageTrace	Outline	Körvonal
 @msg	Opened with {_1} note(s): {_2}	Megnyitva; megjegyzések: {_1}: {_2}
 @msg	Opened {url}	Megnyitva: {url}
 @msg	Outline Stroke: no stroked paths selected	Körvonal útvonallá alakítása: nincs kijelölt körvonalas útvonal
-@msg	Packaged {n} file(s) in {folder} {note}	Becsomagolt fájlok: {n}, mappa: {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Becsomagolt fájlok: {n}, mappa: {folder} ({note}
 @msg	Packaged {n} file(s){note}	Becsomagolt fájlok: {n}{note}
 @msg	page size {w} × {h}	oldalméret: {w} × {h}
 @msg	page {0} does not exist (the PDF has {1})	nincs ilyen oldal: {0} (a PDF oldalszáma: {1})
@@ -5579,9 +5579,9 @@ imageTrace	Outline	Körvonal
 	Slope:	Lejtés:
 axis	X Axis	X tengely
 axis	Y Axis	Y tengely
-@msg	Packaged {n} file(s) in {folder}	Becsomagolt fájlok: {n}, mappa: {folder}
-@msg	Packaged {n} file(s) {note}	Becsomagolt fájlok: {n} {note}
-@msg	Packaged {n} file(s)	Becsomagolt fájlok: {n}
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Becsomagolt fájlok: {n}, mappa: {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Becsomagolt fájlok: {n} {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Becsomagolt fájlok: {n}
 @plural	Packaged {n} file|Packaged {n} files	Becsomagolt fájlok: {n}
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Becsomagolt fájlok: {n}, mappa: {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Becsomagolt fájlok: {n} {note}

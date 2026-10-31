@@ -4606,7 +4606,7 @@ theme	Appearance	Giao diện
 @msg	Opened with {_1} note(s): {_2}	Đã mở với {_1} ghi chú: {_2}
 @msg	Opened {url}	Đã mở {url}
 @msg	Outline Stroke: no stroked paths selected	Đường bao nét: chưa chọn đường dẫn có nét
-@msg	Packaged {n} file(s) in {folder} {note}	Đã đóng gói {n} tệp trong {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Đã đóng gói {n} tệp trong {folder} ({note}
 @msg	Packaged {n} file(s){note}	Đã đóng gói {n} tệp{note}
 @msg	page size {w} × {h}	kích thước trang {w} × {h}
 @msg	page {0} does not exist (the PDF has {1})	trang {0} không tồn tại (PDF có {1} trang)
@@ -5190,9 +5190,9 @@ theme	Appearance	Giao diện
 	Slope:	Độ dốc:
 axis	X Axis	Trục X
 axis	Y Axis	Trục Y
-@msg	Packaged {n} file(s) in {folder}	Đã đóng gói {n} tệp trong {folder}
-@msg	Packaged {n} file(s) {note}	Đã đóng gói {n} tệp {note}
-@msg	Packaged {n} file(s)	Đã đóng gói {n} tệp
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Đã đóng gói {n} tệp trong {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Đã đóng gói {n} tệp {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Đã đóng gói {n} tệp
 @plural	Packaged {n} file|Packaged {n} files	Đã đóng gói {n} tệp
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Đã đóng gói {n} tệp trong {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Đã đóng gói {n} tệp {note}

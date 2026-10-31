@@ -5258,10 +5258,10 @@
 @msg	Opened with {_1} note(s): {_2}	Obert amb {_1} nota(es): {_2}
 @msg	Opened {url}	Obert {url}
 @msg	Outline Stroke: no stroked paths selected	Contorneja el traç: no hi ha cap traçat amb traç seleccionat
-@msg	Packaged {n} file(s)	Empaquetat {n} fitxer(s)
-@msg	Packaged {n} file(s) in {folder}	Empaquetats {n} fitxer(s) a {folder}
-@msg	Packaged {n} file(s) in {folder} {note}	Empaquetats {n} fitxer(s) a {folder} {note}
-@msg	Packaged {n} file(s) {note}	Empaquetats {n} fitxer(s) {note}
+@msgplural	Packaged {n} file|Packaged {n} files	S’ha empaquetat {n} fitxer|S’han empaquetat {n} fitxers
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	S’ha empaquetat {n} fitxer a {folder}|S’han empaquetat {n} fitxers a {folder}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	S’ha empaquetat {n} fitxer a {folder} ({note}|S’han empaquetat {n} fitxers a {folder} ({note}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	S’ha empaquetat {n} fitxer {note}|S’han empaquetat {n} fitxers {note}
 @msg	Packaged {n} file(s){note}	Empaquetats {n} fitxer(s){note}
 @msg	Packaging {_1}	Empaquetant {_1}
 @msg	page size {w} × {h}	mida de pàgina {w} × {h}

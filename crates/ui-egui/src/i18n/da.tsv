@@ -3953,7 +3953,7 @@ imageTrace	Outline	Kontur
 @msg	PDF settings are not an object	PDF-indstillinger er ikke et objekt
 @msg	PDF security settings are not an object	PDF-sikkerhedsindstillinger er ikke et objekt
 @msg	PDF writer error: {0}	PDF-skriverfejl: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Pakkede {n} fil(er) i {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Pakkede {n} fil i {folder} ({note}|Pakkede {n} filer i {folder} ({note}
 @msg	Packaged {n} file(s){note}	Pakkede {n} fil(er){note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Forhåndsvisning i browser kræver skrivebordsappen (webversionen downloader filer i stedet)
 @msg	Release Guides: no guides	Frigiv hjælpelinjer: ingen hjælpelinjer
@@ -5519,9 +5519,9 @@ swatch	Bright Violet	Kraftig violet
 	Slope:	Hældning:
 axis	X Axis	X-akse
 axis	Y Axis	Y-akse
-@msg	Packaged {n} file(s) in {folder}	Pakkede {n} fil(er) i {folder}
-@msg	Packaged {n} file(s) {note}	Pakkede {n} fil(er) {note}
-@msg	Packaged {n} file(s)	Pakkede {n} fil(er)
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Pakkede {n} fil i {folder}|Pakkede {n} filer i {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Pakkede {n} fil {note}|Pakkede {n} filer {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Pakkede {n} fil|Pakkede {n} filer
 @plural	Packaged {n} file|Packaged {n} files	Pakkede {n} fil|Pakkede {n} filer
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Pakkede {n} fil i {folder}|Pakkede {n} filer i {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Pakkede {n} fil {note}|Pakkede {n} filer {note}

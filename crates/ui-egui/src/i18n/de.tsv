@@ -3848,7 +3848,7 @@ theme	Appearance	Erscheinungsbild
 @msg	PDF settings are not an object	die PDF-Einstellungen sind kein Objekt
 @msg	PDF security settings are not an object	die PDF-Sicherheitseinstellungen sind kein Objekt
 @msg	PDF writer error: {0}	Fehler beim Schreiben der PDF-Datei: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	{n} Datei(en) in {folder} verpackt{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	{n} Datei in {folder} verpackt ({note}|{n} Dateien in {folder} verpackt ({note}
 @msg	Packaged {n} file(s){note}	{n} Datei(en) verpackt{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	„Vorschau im Browser“ erfordert die Desktop-App (im Web werden stattdessen Dateien heruntergeladen)
 @msg	Release Guides: no guides	Hilfslinien zurückwandeln: keine Hilfslinien
@@ -5174,9 +5174,9 @@ effect	Soft	Weich
 	Slope:	Steigung:
 axis	X Axis	X-Achse
 axis	Y Axis	Y-Achse
-@msg	Packaged {n} file(s) in {folder}	{n} Datei(en) in {folder} verpackt
-@msg	Packaged {n} file(s) {note}	{n} Datei(en) verpackt {note}
-@msg	Packaged {n} file(s)	{n} Datei(en) verpackt
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	{n} Datei in {folder} verpackt|{n} Dateien in {folder} verpackt
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	{n} Datei verpackt {note}|{n} Dateien verpackt {note}
+@msgplural	Packaged {n} file|Packaged {n} files	{n} Datei verpackt|{n} Dateien verpackt
 @plural	Packaged {n} file|Packaged {n} files	{n} Datei verpackt|{n} Dateien verpackt
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	{n} Datei in {folder} verpackt|{n} Dateien in {folder} verpackt
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	{n} Datei verpackt {note}|{n} Dateien verpackt {note}

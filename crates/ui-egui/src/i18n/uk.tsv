@@ -3952,7 +3952,7 @@ axis	Both	Обидві
 @msg	PDF settings are not an object	Параметри PDF не є об’єктом
 @msg	PDF security settings are not an object	Параметри безпеки PDF не є об’єктом
 @msg	PDF writer error: {0}	Помилка запису PDF: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Упаковано файли: {n} {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Упаковано файли: {n} {folder} ({note}
 @msg	Packaged {n} file(s){note}	Упаковано файли: {n}{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Перегляд у браузері вимагає настільної програми (web-версія завантажує файли)
 @msg	Release Guides: no guides	Звільнення напрямних: немає напрямних
@@ -5188,9 +5188,9 @@ lighting	Light	Світло
 	Slope:	Ухил:
 axis	X Axis	Вісь X
 axis	Y Axis	Вісь Y
-@msg	Packaged {n} file(s) in {folder}	Упаковано файли: {n} {folder}
-@msg	Packaged {n} file(s) {note}	Упаковано файли: {n} {note}
-@msg	Packaged {n} file(s)	Упаковано файли: {n}
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Упаковано файли: {n} {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Упаковано файли: {n} {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Упаковано файли: {n}
 @plural	Packaged {n} file|Packaged {n} files	Упаковано файли: {n}|Упаковано файли: {n}|Упаковано файли: {n}
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Упаковано файли: {n} {folder}|Упаковано файли: {n} {folder}|Упаковано файли: {n} {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Упаковано файли: {n} {note}|Упаковано файли: {n} {note}|Упаковано файли: {n} {note}

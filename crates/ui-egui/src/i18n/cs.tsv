@@ -4236,7 +4236,7 @@ imageTrace	Outline	Obrys
 @msg	PDF settings are not an object	nastavení PDF nejsou objekt
 @msg	PDF security settings are not an object	nastavení zabezpečení PDF nejsou objekt
 @msg	PDF writer error: {0}	chyba zápisu PDF: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Zabaleno souborů: {n} do {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Zabalen {n} soubor do {folder} ({note}|Zabaleny {n} soubory do {folder} ({note}|Zabaleno {n} souborů do {folder} ({note}
 @msg	Packaged {n} file(s){note}	Zabaleno souborů: {n}{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Náhled v prohlížeči vyžaduje desktopovou aplikaci (webová verze místo toho stahuje soubory)
 @msg	Release Guides: no guides	Uvolnit vodítka: žádná vodítka
@@ -5593,9 +5593,9 @@ mark-style	Japanese	Japonské
 	Slope:	Sklon:
 axis	X Axis	osa X
 axis	Y Axis	osa Y
-@msg	Packaged {n} file(s) in {folder}	Zabaleno souborů: {n} do {folder}
-@msg	Packaged {n} file(s) {note}	Zabaleno souborů: {n} {note}
-@msg	Packaged {n} file(s)	Zabaleno souborů: {n}
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Zabalen {n} soubor do {folder}|Zabaleny {n} soubory do {folder}|Zabaleno {n} souborů do {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Zabalen {n} soubor {note}|Zabaleny {n} soubory {note}|Zabaleno {n} souborů {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Zabalen {n} soubor|Zabaleny {n} soubory|Zabaleno {n} souborů
 @plural	Packaged {n} file|Packaged {n} files	Zabalen {n} soubor|Zabaleny {n} soubory|Zabaleno {n} souborů
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Zabalen {n} soubor do {folder}|Zabaleny {n} soubory do {folder}|Zabaleno {n} souborů do {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Zabalen {n} soubor {note}|Zabaleny {n} soubory {note}|Zabaleno {n} souborů {note}

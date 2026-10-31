@@ -4199,7 +4199,7 @@ imageTrace	Outline	Obris
 @msg	PDF settings are not an object	PDF postavke nisu objekat
 @msg	PDF security settings are not an object	PDF sigurnosne postavke nisu objekat
 @msg	PDF writer error: {0}	greška PDF zapisivača: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Upakovano datoteka u {folder}: {n} {note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Upakovano datoteka u {folder}: {n} ({note}
 @msg	Packaged {n} file(s){note}	Upakovano datoteka: {n}{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Pregledaj u pregledniku zahtijeva desktop aplikaciju (web umjesto toga preuzima datoteke)
 @msg	Release Guides: no guides	Oslobodi vodilice: nema vodilica
@@ -5524,9 +5524,9 @@ mark-style	Japanese	Japanski
 	Slope:	Nagib:
 axis	X Axis	X osa
 axis	Y Axis	Y osa
-@msg	Packaged {n} file(s) in {folder}	Upakovano datoteka u {folder}: {n}
-@msg	Packaged {n} file(s) {note}	Upakovano datoteka: {n} {note}
-@msg	Packaged {n} file(s)	Upakovano datoteka: {n}
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Upakovano datoteka u {folder}: {n}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Upakovano datoteka: {n} {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Upakovano datoteka: {n}
 @plural	Packaged {n} file|Packaged {n} files	Upakovano datoteka: {n}|Upakovano datoteka: {n}|Upakovano datoteka: {n}
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Upakovano datoteka u {folder}: {n}|Upakovano datoteka u {folder}: {n}|Upakovano datoteka u {folder}: {n}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Upakovano datoteka: {n} {note}|Upakovano datoteka: {n} {note}|Upakovano datoteka: {n} {note}

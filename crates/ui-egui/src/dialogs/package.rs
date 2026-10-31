@@ -160,24 +160,11 @@ fn packaged(app: &mut VectorcraftApp, r: Result<Value, String>, web: bool, later
         let (name, data) = (r["name"].as_str().unwrap_or("package.zip"), r["dataBase64"].as_str().unwrap_or_default());
         let bytes = vectorcraft_format::base64_decode(data).ok_or("the package came back damaged")?;
         io::write_named(app, None, name, &bytes)?;
-        let status = if shown_note.is_empty() {
-            crate::i18n::tn(n, "Packaged {n} file", "Packaged {n} files")
-        } else {
-            crate::i18n::fmt(&crate::i18n::tn(n, "Packaged {n} file {note}", "Packaged {n} files {note}"), &[("note", &shown_note)])
-        };
-        app.status(status);
+        app.status(package_status(n, None, &shown_note));
         return Ok(r);
     }
     let folder = r["folder"].as_str().unwrap_or_default().to_string();
-    let status = if shown_note.is_empty() {
-        crate::i18n::fmt(&crate::i18n::tn(n, "Packaged {n} file in {folder}", "Packaged {n} files in {folder}"), &[("folder", &folder)])
-    } else {
-        crate::i18n::fmt(
-            &crate::i18n::tn(n, "Packaged {n} file in {folder} {note}", "Packaged {n} files in {folder} {note}"),
-            &[("folder", &folder), ("note", &shown_note)],
-        )
-    };
-    app.status(status);
+    app.status(package_status(n, Some(&folder), &shown_note));
     let detail = if shown_note.is_empty() {
         crate::i18n::fmt(
             &crate::i18n::tn(n, "{n} file in {folder}. Show the package folder?", "{n} files in {folder}. Show the package folder?"),
@@ -193,6 +180,20 @@ fn packaged(app: &mut VectorcraftApp, r: Result<Value, String>, web: bool, later
         ask(app, tl!("Package created"), &detail, "file.showPackage", json!({ "folder": folder }));
     }
     Ok(r)
+}
+
+/// The status bar's line for a package of `n` files written to `folder` (`None`: the web's
+/// download), followed by `note` from [`package_status_note`] when it isn't empty. Each catalog
+/// also has `@msgplural` rows for the English line, shown after a language switch; they find the note
+/// after the folder by its opening `(`, so a folder name with spaces stays whole.
+pub(super) fn package_status(n: u64, folder: Option<&str>, note: &str) -> String {
+    let (one, other) = match (folder.is_some(), note.is_empty()) {
+        (false, true) => ("Packaged {n} file", "Packaged {n} files"),
+        (false, false) => ("Packaged {n} file {note}", "Packaged {n} files {note}"),
+        (true, true) => ("Packaged {n} file in {folder}", "Packaged {n} files in {folder}"),
+        (true, false) => ("Packaged {n} file in {folder} {note}", "Packaged {n} files in {folder} {note}"),
+    };
+    crate::i18n::fmt(&crate::i18n::tn(n, one, other), &[("folder", folder.unwrap_or_default()), ("note", note)])
 }
 
 /// Parenthetical notes after the folder path in a package status (`(2 linked files not found)` …),

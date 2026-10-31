@@ -3964,7 +3964,7 @@ axis	Both	Оба
 @msg	PDF settings are not an object	параметры PDF не являются объектом
 @msg	PDF security settings are not an object	параметры безопасности PDF не являются объектом
 @msg	PDF writer error: {0}	ошибка записи PDF: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Упаковано файлов: {n} в {folder}{note}
+@msgplural	Packaged {n} file in {folder} ({note}|Packaged {n} files in {folder} ({note}	Упаковано файлов: {n} в {folder} ({note}
 @msg	Packaged {n} file(s){note}	Упаковано файлов: {n}{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Просмотр в браузере требует настольного приложения (web-версия скачивает файлы)
 @msg	Release Guides: no guides	Освобождение направляющих: нет направляющих
@@ -5204,9 +5204,9 @@ lighting	Light	Свет
 	Slope:	Уклон:
 axis	X Axis	Ось X
 axis	Y Axis	Ось Y
-@msg	Packaged {n} file(s) in {folder}	Упаковано файлов: {n} в {folder}
-@msg	Packaged {n} file(s) {note}	Упаковано файлов: {n} {note}
-@msg	Packaged {n} file(s)	Упаковано файлов: {n}
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Упаковано файлов: {n} в {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Упаковано файлов: {n} {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Упаковано файлов: {n}
 @plural	Packaged {n} file|Packaged {n} files	Упаковано файлов: {n}|Упаковано файлов: {n}|Упаковано файлов: {n}
 @plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Упаковано файлов: {n} в {folder}|Упаковано файлов: {n} в {folder}|Упаковано файлов: {n} в {folder}
 @plural	Packaged {n} file {note}|Packaged {n} files {note}	Упаковано файлов: {n} {note}|Упаковано файлов: {n} {note}|Упаковано файлов: {n} {note}
