@@ -5726,7 +5726,7 @@ envelopes, graphs, symbols), are left out.
 | `strayPoints` | Paths of one anchor (not clipping paths) | Removes them |
 | `unpainted` | Paths and compound paths with no fill and no stroke | Removes them |
 | `zeroOpacity` | Objects at 0 % opacity | Removes them |
-| `duplicateObjects` | A path stacked directly on an identical one (geometry, paint, opacity) | Removes the upper one |
+| `duplicateObjects` | A path stacked directly on an identical one (geometry, paint, opacity), or type stacked directly on the same type (text, styles, paint) within 1 pt of it | Removes the upper one |
 | `offArtboard` | Top-level objects that touch no artboard | Removes them |
 | `duplicateAnchors` | Neighbouring anchors within 0.01 pt | Merges them |
 | `tinyHandles` | Handles shorter than 0.01 pt | Retracts them |
