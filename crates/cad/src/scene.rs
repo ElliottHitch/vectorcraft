@@ -10,7 +10,7 @@ use kurbo::PathEl;
 use vectorcraft_color::Paint;
 use vectorcraft_doc::{AppearanceItem, Dash, Document, ImageObject, Node, NodeKind, StrokeLayer, SymbolBoxes, TextKind, TextObject, Unit};
 use vectorcraft_effects::stroke;
-use vectorcraft_geom::{Affine, BezPath, FillRule, PathData, Point, Rect};
+use vectorcraft_geom::{Affine, BezPath, FillRule, PathData, Point, Rect, Vec2};
 
 use crate::aci::nearest_aci;
 use crate::writer::{Codes, Drawing, EntityStyle, Handle, ImageDef, Layer, LineType, fixed};
@@ -182,6 +182,46 @@ fn circular_subpath(sub: &Sub) -> Option<CircularSub> {
         return None;
     }
     Some(CircularSub { centre, radius, samples })
+}
+
+/// A closed subpath that is the four-cubic circle under an affine map: an ellipse, or a circle
+/// scaled out of proportion. `u` and `v` are the conjugate semi-diameters through its first two
+/// anchors.
+struct EllipticalSub {
+    centre: Point,
+    u: Vec2,
+    v: Vec2,
+}
+
+/// Fit a closed subpath of four cubics to one ellipse. Its anchors give the center and two
+/// conjugate semi-diameters; the subpath mapped by their inverse must pass [`circular_subpath`] as
+/// the unit circle, so the same tolerance and turn checks apply.
+fn elliptical_subpath(sub: &Sub) -> Option<EllipticalSub> {
+    if !sub.closed || sub.segs.len() != 4 {
+        return None;
+    }
+    let (a0, a1, a2) = (sub.start, sub.segs.first()?.end(), sub.segs.get(1)?.end());
+    let centre = a0.midpoint(a2);
+    let (u, v) = (a0 - centre, a1 - centre);
+    let det = u.cross(v);
+    let scale2 = u.hypot2().max(v.hypot2());
+    if !det.is_finite() || !scale2.is_finite() || det.abs() <= scale2 * 1e-9 {
+        return None;
+    }
+    let unit = |p: Point| {
+        let d = p - centre;
+        Point::new(d.cross(v) / det, u.cross(d) / det)
+    };
+    let mut segs = Vec::with_capacity(4);
+    for seg in &sub.segs {
+        let Seg::Cubic(a, b, to) = *seg else { return None };
+        segs.push(Seg::Cubic(unit(a), unit(b), unit(to)));
+    }
+    let circle = circular_subpath(&Sub { start: unit(sub.start), segs, closed: true })?;
+    if circle.centre.to_vec2().hypot() > 5e-4 || (circle.radius - 1.0).abs() > 5e-4 {
+        return None;
+    }
+    Some(EllipticalSub { centre, u, v })
 }
 
 fn angle_deg(p: Point, centre: Point) -> f64 {
@@ -764,6 +804,8 @@ impl<'a> Scene<'a> {
                 // Native circles/arcs are preferred by CAD/CAM software. In R12, however, a
                 // stroked curve must stay on the flattened POLYLINE path so groups 40/41 retain
                 // its width. Non-circular curves continue through the existing fallback.
+            } else if v.handles() && self.elliptical(&sub, style) {
+                // R13 and later write an ellipse as a native ELLIPSE.
             } else if v.handles() {
                 self.spline(&sub, style);
             } else {
@@ -898,6 +940,53 @@ impl<'a> Scene<'a> {
         }
         self.e.num(50, a0);
         self.e.num(51, a1);
+        true
+    }
+
+    /// Write a recognized elliptical subpath as a native DXF ELLIPSE (R13 and later): its center,
+    /// the end of its major axis relative to the center, and the minor to major ratio. Returns
+    /// false when the curve is not an ellipse, leaving the caller to write it as a spline.
+    fn elliptical(&mut self, sub: &Sub, style: &EntityStyle) -> bool {
+        let Some(last) = sub.segs.last().map(|s| s.end()) else { return false };
+        if !sub.closed || last.distance(sub.start) > 1e-9 {
+            return false;
+        }
+        let Some(ellipse) = elliptical_subpath(sub) else { return false };
+        let centre = self.to_dxf * ellipse.centre;
+        let u = self.to_dxf * (ellipse.centre + ellipse.u) - centre;
+        let v = self.to_dxf * (ellipse.centre + ellipse.v) - centre;
+        // The semi-axes are the square roots of the eigenvalues of [[a, b], [b, d]] = u u^T + v v^T.
+        let (a, b, d) = (u.x * u.x + v.x * v.x, u.x * u.y + v.x * v.y, u.y * u.y + v.y * v.y);
+        let mean = (a + d) / 2.0;
+        let spread = ((a - d) / 2.0).hypot(b);
+        let (major, minor) = ((mean + spread).sqrt(), (mean - spread).max(0.0).sqrt());
+        let angle = 0.5 * (2.0 * b).atan2(a - d);
+        let axis = Vec2::new(major * angle.cos(), major * angle.sin());
+        let ratio = (minor / major).min(1.0);
+        // A thinner ellipse stays a spline: DXF readers such as ezdxf need a ratio of 1e-6 or more.
+        if !centre.x.is_finite() || !centre.y.is_finite() || !axis.x.is_finite() || !axis.y.is_finite() || !ratio.is_finite() || ratio < 1e-6 {
+            return false;
+        }
+
+        // The drawing extents take the ellipse's bounding box: half-widths hypot(u.x, v.x) and
+        // hypot(u.y, v.y) about the center.
+        let (c, eu, ev) = (ellipse.centre, ellipse.u, ellipse.v);
+        let (hx, hy) = (eu.x.hypot(ev.x), eu.y.hypot(ev.y));
+        for p in [Point::new(c.x - hx, c.y), Point::new(c.x + hx, c.y), Point::new(c.x, c.y - hy), Point::new(c.x, c.y + hy)] {
+            self.pt(p);
+        }
+
+        let layer = self.layer.clone();
+        let h = self.handle();
+        self.e.entity("ELLIPSE", h, fixed::MODEL_RECORD, &layer, style, "AcDbEllipse");
+        self.e.xyz(10, centre.x, centre.y);
+        self.e.xyz(11, axis.x, axis.y);
+        self.e.normal();
+        // The ratio and the end parameter are written in full: rounded to six decimals, a thin
+        // ellipse's minor axis would change size, and a whole turn would read back as an open curve.
+        self.e.raw(40, &ratio.to_string());
+        self.e.num(41, 0.0);
+        self.e.raw(42, &std::f64::consts::TAU.to_string());
         true
     }
 
