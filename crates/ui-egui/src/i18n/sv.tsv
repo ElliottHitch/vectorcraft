@@ -908,7 +908,7 @@ font-technology	Variable	Variabla
 	Edit Symbol	Redigera symbol
 	Edit Text	Redigera text
 	Edit the applied effect, or add another one?	Vill du redigera den använda effekten eller lägga till en till?
-	Edit the selected point's colour in the Color panel	Redigera den markerade punktens färg i panelen Färg
+	Edit the point	Redigera punkten
 	Edit the stop	Redigera stoppet
 	Edit Theme	Redigera tema
 	Edit theme	Redigera tema
@@ -6095,3 +6095,4 @@ breakText	Glyphs	Glyfer
 	Set Size of Each	Ange storlek för vart och ett
 @msg	select exactly two objects	markera exakt två objekt
 @msg	give `width` or `height`	ange `width` eller `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} och senare (version {n})

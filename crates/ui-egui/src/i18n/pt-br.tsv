@@ -816,7 +816,7 @@
 	Edit or Apply Color Group…	Editar ou Aplicar Grupo de Cores…
 	Edit or Apply Colors	Editar ou Aplicar Cores
 	Edit the applied effect, or add another one?	Editar o efeito aplicado, ou adicionar outro?
-	Edit the selected point's colour in the Color panel	Edite a cor do ponto selecionado no painel Cor
+	Edit the point	Editar o ponto
 	Edit the stop	Editar a parada
 	Edit theme	Editar tema
 	Edit…	Editar…
@@ -5962,3 +5962,4 @@ breakText	Glyphs	Glifos
 	Set Size of Each	Definir Tamanho de Cada Um
 @msg	select exactly two objects	selecione exatamente dois objetos
 @msg	give `width` or `height`	informe `width` ou `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} e posteriores (versão {n})

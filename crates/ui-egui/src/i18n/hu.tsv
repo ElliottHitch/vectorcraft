@@ -1189,7 +1189,7 @@ font-technology	Variable	Változó
 	Edit Symbol	Szimbólum szerkesztése
 	Edit Text	Szöveg szerkesztése
 	Edit the applied effect, or add another one?	Szerkeszted az alkalmazott effektust, vagy újat adsz hozzá?
-	Edit the selected point's colour in the Color panel	A kijelölt pont színe a Szín panelen szerkeszthető
+	Edit the point	Pont szerkesztése
 	Edit the stop	Színátmenet-pont szerkesztése
 	Edit Theme	Téma szerkesztése
 	Edit theme	Téma szerkesztése
@@ -6029,3 +6029,4 @@ breakText	Glyphs	Glifák
 	Set Size of Each	Egyenkénti méret beállítása
 @msg	select exactly two objects	jelölj ki pontosan két objektumot
 @msg	give `width` or `height`	add meg a `width` vagy a `height` értéket
+	VectorCraft {release} and later (version {n})	VectorCraft {release} és újabb (verzió: {n})

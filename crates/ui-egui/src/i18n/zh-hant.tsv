@@ -883,7 +883,7 @@ font-technology	Variable	可變
 	Edit Symbol	編輯符號
 	Edit Text	編輯文字
 	Edit the applied effect, or add another one?	要編輯已套用的效果，還是新增另一個？
-	Edit the selected point's colour in the Color panel	在顏色面板中編輯所選點的顏色
+	Edit the point	編輯點
 	Edit the stop	編輯色標
 	Edit Theme	編輯主題
 	Edit theme	編輯主題
@@ -5681,3 +5681,4 @@ breakText	Glyphs	字符
 	Set Size of Each	個別設定大小
 @msg	select exactly two objects	請選取正好兩個物件
 @msg	give `width` or `height`	請提供 `width` 或 `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} 及更新版本 (版本 {n})

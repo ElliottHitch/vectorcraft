@@ -861,7 +861,7 @@
 	Edit Symbol	编辑符号
 	Edit Text	编辑文字
 	Edit the applied effect, or add another one?	编辑已应用的效果，还是再添加一个？
-	Edit the selected point's colour in the Color panel	在颜色面板中编辑所选点的颜色
+	Edit the point	编辑点
 	Edit the stop	编辑色标
 	Edit Theme	编辑主题
 	Edit theme	编辑主题
@@ -5884,3 +5884,4 @@ breakText	Glyphs	字形
 	Set Size of Each	分别设置大小
 @msg	select exactly two objects	请恰好选择两个对象
 @msg	give `width` or `height`	请提供 `width` 或 `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} 及更高版本 (版本 {n})

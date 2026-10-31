@@ -1453,7 +1453,7 @@ lighting	Light	Lys
 	Color:	Farve:
 	Delete Stop	Slet stop
 	Edit Gradient	Redigér gradient
-	Edit the selected point's colour in the Color panel	Redigér det markerede punkts farve i farvepanelet
+	Edit the point	Redigér punktet
 	Edit the stop	Redigér stoppet
 	Eyedropper: click the art to sample the stop's colour	Pipette: klik på grafikken for at prøvetage stoppets farve
 	Eyedropper: click the art to sample the key color	Pipette: klik på grafikken for at prøvetage nøglefarven
@@ -5940,3 +5940,4 @@ breakText	Glyphs	Glyffer
 	Set Size of Each	Angiv størrelse for hver
 @msg	select exactly two objects	markér præcis to objekter
 @msg	give `width` or `height`	angiv `width` eller `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} og nyere (version {n})

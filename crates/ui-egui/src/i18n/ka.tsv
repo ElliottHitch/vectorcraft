@@ -1370,7 +1370,7 @@ lighting	Light	სინათლე
 	Color:	ფერი:
 	Delete Stop	გადასვლის წერტილის წაშლა
 	Edit Gradient	გრადიენტის რედაქტირება
-	Edit the selected point's colour in the Color panel	მონიშნული წერტილის ფერის რედაქტირება ფერის პანელში
+	Edit the point	წერტილის რედაქტირება
 	Edit the stop	გადასვლის წერტილის რედაქტირება
 	Eyedropper: click the art to sample the stop's colour	პიპეტი: დაწკაპეთ ნახატზე გადასვლის წერტილის ფერის ასაღებად
 	Eyedropper: click the art to sample the key color	პიპეტი: დაწკაპეთ ნახატზე საკვანძო ფერის ასაღებად
@@ -6032,3 +6032,4 @@ breakText	Glyphs	გლიფები
 	Set Size of Each	თითოეულის ზომის დაყენება
 @msg	select exactly two objects	მონიშნეთ ზუსტად ორი ობიექტი
 @msg	give `width` or `height`	მიუთითეთ `width` ან `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} და უფრო ახალი (ვერსია {n})

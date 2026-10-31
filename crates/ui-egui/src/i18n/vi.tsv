@@ -1071,7 +1071,7 @@ font-technology	Variable	Biến thiên
 	Edit Symbol	Chỉnh sửa ký hiệu
 	Edit Text	Chỉnh sửa văn bản
 	Edit the applied effect, or add another one?	Chỉnh sửa hiệu ứng đã áp dụng, hay thêm hiệu ứng mới?
-	Edit the selected point's colour in the Color panel	Chỉnh sửa màu của điểm đã chọn trong bảng Màu
+	Edit the point	Chỉnh sửa điểm
 	Edit the stop	Chỉnh sửa điểm dừng
 	Edit Theme	Chỉnh sửa bộ màu
 	Edit theme	Chỉnh sửa bộ màu
@@ -5644,3 +5644,4 @@ breakText	Glyphs	Glyph
 	Set Size of Each	Đặt kích thước từng cái
 @msg	select exactly two objects	hãy chọn đúng hai đối tượng
 @msg	give `width` or `height`	hãy cho `width` hoặc `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} trở lên (phiên bản {n})

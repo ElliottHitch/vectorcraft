@@ -1453,7 +1453,7 @@ lighting	Light	Światło
 	Color:	Kolor:
 	Delete Stop	Usuń punkt koloru
 	Edit Gradient	Edytuj gradient
-	Edit the selected point's colour in the Color panel	Edytuj kolor zaznaczonego punktu w panelu Kolor
+	Edit the point	Edytuj punkt
 	Edit the stop	Edytuj punkt koloru
 	Eyedropper: click the art to sample the stop's colour	Kroplomierz: kliknij kompozycję, aby pobrać kolor punktu
 	Eyedropper: click the art to sample the key color	Kroplomierz: kliknij kompozycję, aby pobrać kolor kluczowy
@@ -5898,3 +5898,4 @@ breakText	Glyphs	Glify
 	Set Size of Each	Ustaw rozmiar każdego
 @msg	select exactly two objects	zaznacz dokładnie dwa obiekty
 @msg	give `width` or `height`	podaj `width` lub `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} i nowsze (wersja {n})

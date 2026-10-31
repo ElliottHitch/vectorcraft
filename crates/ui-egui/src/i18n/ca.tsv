@@ -1309,7 +1309,7 @@
 	Edit Symbol	Edita el símbol
 	Edit Text	Edita el text
 	Edit the applied effect, or add another one?	Vols editar l’efecte aplicat o afegir-ne un altre?
-	Edit the selected point's colour in the Color panel	Edita el color del punt seleccionat al panell Color
+	Edit the point	Edita el punt
 	Edit the stop	Edita la parada
 	Edit Theme	Edita el tema
 	Edit theme	Edita el tema
@@ -6033,3 +6033,4 @@ breakText	Glyphs	Glifs
 	Set Size of Each	Defineix la mida de cadascun
 @msg	select exactly two objects	selecciona exactament dos objectes
 @msg	give `width` or `height`	indica `width` o `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} i posteriors (versió {n})

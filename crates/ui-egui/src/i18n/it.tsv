@@ -921,7 +921,7 @@ font-technology	Variable	Variabili
 	Edit Symbol	Modifica simbolo
 	Edit Text	Modifica testo
 	Edit the applied effect, or add another one?	Modificare l'effetto applicato o aggiungerne un altro?
-	Edit the selected point's colour in the Color panel	Modifica il colore del punto selezionato nel pannello Colore
+	Edit the point	Modifica il punto
 	Edit the stop	Modifica il cursore colore
 	Edit Theme	Modifica tema
 	Edit theme	Modifica tema
@@ -5662,3 +5662,4 @@ breakText	Glyphs	Glifi
 	Set Size of Each	Imposta dimensione di ciascuno
 @msg	select exactly two objects	seleziona esattamente due oggetti
 @msg	give `width` or `height`	indica `width` o `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} e successive (versione {n})

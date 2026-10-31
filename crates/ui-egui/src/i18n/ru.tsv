@@ -919,7 +919,7 @@ font-technology	Variable	Вариативные
 	Edit Symbol	Редактировать символ
 	Edit Text	Редактировать текст
 	Edit the applied effect, or add another one?	Редактировать применённый эффект или добавить другой?
-	Edit the selected point's colour in the Color panel	Редактируйте цвет выбранной точки на панели «Цвет»
+	Edit the point	Редактировать точку
 	Edit the stop	Редактировать точку перехода
 	Edit Theme	Редактировать тему
 	Edit theme	Редактировать тему
@@ -6020,3 +6020,4 @@ breakText	Glyphs	Глифы
 	Set Size of Each	Задать размер каждого
 @msg	select exactly two objects	выделите ровно два объекта
 @msg	give `width` or `height`	укажите `width` или `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} и новее (версия {n})

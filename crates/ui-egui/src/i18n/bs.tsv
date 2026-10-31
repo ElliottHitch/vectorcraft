@@ -1516,7 +1516,7 @@ lighting	Light	Svjetlo
 	Color:	Boja:
 	Delete Stop	Izbriši tačku
 	Edit Gradient	Uredi gradijent
-	Edit the selected point's colour in the Color panel	Uredite boju odabrane tačke u panelu Boja
+	Edit the point	Uredi tačku
 	Edit the stop	Uredi tačku
 	Eyedropper: click the art to sample the stop's colour	Kapaljka: kliknite crtež da uzmete uzorak boje tačke
 	Eyedropper: click the art to sample the key color	Kapaljka: kliknite crtež da uzmete uzorak ključne boje
@@ -5960,3 +5960,4 @@ shape	Open	Otvoren
 	Set Size of Each	Postavi veličinu svakog
 @msg	select exactly two objects	odaberite tačno dva objekta
 @msg	give `width` or `height`	zadajte `width` ili `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} i novije (verzija {n})

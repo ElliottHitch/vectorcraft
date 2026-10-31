@@ -906,7 +906,7 @@ font-technology	Variable	Променливи
 	Edit Symbol	Редактиране на символ
 	Edit Text	Редактиране на текст
 	Edit the applied effect, or add another one?	Да се редактира ли приведеният ефект или да се добави друг?
-	Edit the selected point's colour in the Color panel	Редактиране на цвета на избраната точка в панела Цвят
+	Edit the point	Редактиране на точката
 	Edit the stop	Редактиране на опорната точка
 	Edit Theme	Редактиране на тема
 	Edit theme	Редактиране на тема
@@ -5926,3 +5926,4 @@ breakText	Glyphs	Глифи
 	Set Size of Each	Задаване на размер на всеки
 @msg	select exactly two objects	изберете точно два обекта
 @msg	give `width` or `height`	задайте `width` или `height`
+	VectorCraft {release} and later (version {n})	VectorCraft {release} и по-нови (версия {n})

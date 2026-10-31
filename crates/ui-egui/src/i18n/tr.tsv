@@ -900,7 +900,7 @@ font-technology	Variable	Değişken
 	Edit Symbol	Sembolü Düzenle
 	Edit Text	Metni Düzenle
 	Edit the applied effect, or add another one?	Uygulanan efekti düzenlemek veya başka bir efekt eklemek mi istiyorsunuz?
-	Edit the selected point's colour in the Color panel	Seçilen noktanın rengini Renk panelinde düzenleyin
+	Edit the point	Noktayı düzenle
 	Edit the stop	Durağı düzenle
 	Edit Theme	Temayı Düzenle
 	Edit theme	Temayı düzenle
@@ -6000,3 +6000,4 @@ breakText	Glyphs	Glifler
 	Set Size of Each	Her Birinin Boyutunu Ayarla
 @msg	select exactly two objects	tam olarak iki nesne seç
 @msg	give `width` or `height`	`width` veya `height` belirt
+	VectorCraft {release} and later (version {n})	VectorCraft {release} ve sonrası (sürüm {n})

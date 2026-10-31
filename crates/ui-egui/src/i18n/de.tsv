@@ -900,7 +900,7 @@ font-technology	Variable	Variabel
 	Edit Symbol	Symbol bearbeiten
 	Edit Text	Text bearbeiten
 	Edit the applied effect, or add another one?	Den angewendeten Effekt bearbeiten oder einen weiteren hinzufügen?
-	Edit the selected point's colour in the Color panel	Die Farbe des ausgewählten Punkts im Bedienfeld „Farbe“ bearbeiten
+	Edit the point	Punkt bearbeiten
 	Edit the stop	Farbstopp bearbeiten
 	Edit Theme	Thema bearbeiten
 	Edit theme	Thema bearbeiten
@@ -5628,3 +5628,4 @@ breakText	Glyphs	Glyphen
 	Set Size of Each	Größe einzeln festlegen
 @msg	select exactly two objects	wählen Sie genau zwei Objekte aus
 @msg	give `width` or `height`	geben Sie `width` oder `height` an
+	VectorCraft {release} and later (version {n})	VectorCraft {release} und neuer (Version {n})
