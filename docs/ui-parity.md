@@ -1,6 +1,6 @@
 # UI and interaction parity
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Arrange Tools add-on; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Direct Selection: an Alt-marquee selects the paths it touches whole, #4890; a click on a selected object's centre point selects it whole and a drag moves it, #4891; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -129,6 +129,8 @@ tools, never checked side by side) isn't captured row by row.
 | Direct Selection and Group Selection pick only inside the isolated object in isolation mode | done | #1666 |
 | Group Selection picks one path of a compound path (the outer shape or a hole) and moves it on its own; a second click adds the compound path | done | #2441; Shift-click on a selected member deselects it on release |
 | Direct Selection, Group Selection and the Selection tool take a clipping path (a clip group's, or a layer's clipping mask) on its outline, within the selection tolerance, even where the art it clips lies over its edge | done | `HitOptions::clip_outlines`; Select Behind lists the same; the eyedropper and the tools that act on what is drawn take the art |
+| Alt with Direct Selection makes a marquee Group Selection's for the drag: it selects every path it touches, whole (Shift toggles them), and the Group Selection pointer stays until the release | done | #4890 |
+| Direct Selection: a click on a selected object's centre point (Attributes › Show Center) selects the object whole, and a drag from it moves the object in one undo step | done | #4891 |
 | Escape cancels a Direct Selection drag | done | #1803 (#1743) |
 | Live Corners widgets (radius readout, Alt-click cycles kind, double-click the Corners dialog) | done | a Direct Selection click on a widget selects its corner (#1239); a press-and-drag on a widget of a path selected whole still rounds every corner (#908), and adding widgets to the selection by Shift-click (#1232) is missing; the bounding box hides while a widget is dragged with the Selection tool (#1229); a round corner next to a curved side curves smoothly instead of sticking out of the shape (#1512); a corner rounds until its cut reaches its neighbours' cuts, so one corner of a square alone reaches the whole side (#2332) |
 | Corners between curved sides (#1144), Relative rounding | done | #1144 closed; Relative rounding in the Corners dialog (Relative / Absolute, radius as a percentage of each corner's maximum, kept as the shape is resized; `object.setLiveShape` `relativeRadii`, #3091, `tests_livecorners::relative_corner_rounding_keeps_fraction_on_resize`) |
@@ -377,6 +379,7 @@ separate. Scores and hours unchanged. [Behavior and command details](development
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | Direct Selection: with Alt held at the press, a marquee selects every path it touches whole and keeps the Group Selection pointer while dragging (#4890); a click on a selected object's centre point (Show Center) selects the object whole, and a drag from it moves the object (#4891); scores unchanged |
 | 2026-10-31 | minor | Arrange Tools add-on (a VectorCraft addition): Object › Plug-ins › Arrange Tools; scores and estimates unchanged |
 | 2026-10-31 | minor | Export for Screens is laid out as Illustrator's: Artboards and Assets tabs with a grid or list of thumbnails, Clear Selection and Prefix under them, Create Sub-folders by Scale or Format (on by default), Export PDFs As Single File or Multiple Files (`pdfs`), iOS and Android rows, the format presets in a ☰ menu, and a Selected / files-to-export count; the naming pattern, Layers and Selection pages and folders list stay in `document.exportForScreens` for scripts and MCP; scores unchanged |
 | 2026-10-31 | minor | Properties: Quick Actions has Blend Options for one selected blend with any tool, not only the Blend tool, as the blending page describes (#4817); scores unchanged |

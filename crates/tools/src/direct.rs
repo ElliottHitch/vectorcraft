@@ -38,6 +38,8 @@
 //! them all, and the arrow keys nudge them; otherwise the type is selected whole. Dragging an anchor of type on
 //! a path's path reshapes the path (`text.reshapePath`): the text reflows along it.
 //! Dragging the brackets of selected type on a path moves or flips it ([`crate::pathtype`]).
+//! A press on a selected object's centre point (Attributes panel › Show Center) selects the object
+//! whole, and a drag from it moves the object.
 //!
 //! A press on the stroke of a path that isn't selected as a whole selects that segment's two anchors
 //! (the fill, or Alt, selects the whole path); dragging the segment bends it if it's curved, else
@@ -513,6 +515,16 @@ fn nearest_anchor(pd: &PathData, p: Point, tol: f64) -> Option<(usize, usize, Po
     pd.anchors().map(|(si, ai, a)| (si, ai, a.p)).filter(|(.., a)| a.distance(p) <= tol).min_by(|x, y| x.2.distance(p).total_cmp(&y.2.distance(p)))
 }
 
+/// The selected object whose centre point (Attributes panel › Show Center), drawn while it is
+/// selected, is within `tol` of `p`: (object, where the point is).
+fn hit_center(cx: &ToolContext, p: Point, tol: f64) -> Option<(NodeId, Point)> {
+    let (symbols, editable) = (cx.doc.symbol_boxes(), cx.doc.editable());
+    cx.selection.objects.iter().copied().filter(|id| editable(*id) && in_scope(cx.doc, cx.isolation, *id)).find_map(|id| {
+        let c = cx.doc.node(id).filter(|n| n.shows_center())?.geometric_bounds_with(&symbols)?.center();
+        (c.distance(p) <= tol).then_some((id, c))
+    })
+}
+
 /// An edge of an area type frame under `p`, topmost first: (text, the edge's two anchors).
 fn hit_frame_edge(cx: &ToolContext, p: Point, tol: f64) -> Option<(NodeId, Vec<AnchorRef>)> {
     anchor_owners(cx, is_area_type).into_iter().find_map(|id| {
@@ -741,6 +753,9 @@ impl Tool for DirectSelectionTool {
                 }
                 if let Some((id, si, ai, grab)) = hit_anchor(cx, p, point) {
                     return self.press_anchor(cx, ev, p, (id, si, ai, grab));
+                }
+                if let Some((id, center)) = hit_center(cx, p, point) {
+                    return self.press_center(cx, ev, p, id, center);
                 }
                 if let Some((id, anchors)) = hit_frame_edge(cx, p, tol) {
                     self.frame.clear();
@@ -1195,6 +1210,19 @@ impl DirectSelectionTool {
         self.click = already.then_some((id, si, ai));
         if !already {
             return vec![Action::Exec("select.anchors".into(), json!({"id": id.0, "anchors": [[si, ai]], "mode": "set"}))];
+        }
+        vec![]
+    }
+    /// Press on the centre point of object `id`: it selects the object whole (Shift toggles it),
+    /// as a press on its fill does, and a drag moves it held by that point (#4891).
+    fn press_center(&mut self, cx: &ToolContext, ev: &PointerEvent, p: Point, id: NodeId, center: Point) -> Vec<Action> {
+        self.state = State::MoveObject { start: p, grab: None, hold: center, began: false, deselect: None };
+        self.frame.clear();
+        if ev.mods.shift {
+            return vec![Action::Exec("select.toggle".into(), json!({"id": id.0}))];
+        }
+        if cx.selection.partial(id).is_some() || cx.selection.segments.contains_key(&id) {
+            return vec![Action::Exec("select.set".into(), json!({"ids": [id.0]}))];
         }
         vec![]
     }
