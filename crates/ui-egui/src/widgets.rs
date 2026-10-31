@@ -35,7 +35,7 @@ pub use chips::{ProxyClicks, chip_button, chip_button_named, fill_stroke_proxy, 
 pub(crate) use color::pointer_phase;
 pub use color::{
     Live, SliderValue, WheelResponse, channel_slider, channel_slider_named, channel_slider_valued, color_field, color_mesh, color_slider,
-    color_slider_named, color_slider_stepped, color_slider_valued, harmony_wheel, hex_field, hex_field_named, region_texture,
+    color_slider_named, color_slider_stepped, color_slider_valued, harmony_wheel, hex_field, hex_field_named, region_texture, stepped_area,
 };
 pub use drag::{PanelDrag, SwatchRows, art_drop, doc_preview, drag_source};
 #[cfg(test)]
