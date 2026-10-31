@@ -6982,9 +6982,6 @@ fn the_task_bar_lock_button_locks_selected_art_in_isolation_mode() {
         |x: f64| json!({"anchors": [{"x": x, "y": 130}, {"x": x + 40.0, "y": 130}, {"x": x + 40.0, "y": 170}, {"x": x, "y": 170}], "closed": true});
     let a = app.session.execute("path.create", &square(150.0)).unwrap()["id"].clone();
     let b = app.session.execute("path.create", &square(210.0)).unwrap()["id"].clone();
-    app.session.execute("select.set", &json!({"ids": [a.clone(), b]})).unwrap();
-    let a = app.session.execute("shape.rectangle", &json!({"x": 150, "y": 130, "width": 40, "height": 40})).unwrap()["id"].clone();
-    let b = app.session.execute("shape.rectangle", &json!({"x": 210, "y": 130, "width": 40, "height": 40})).unwrap()["id"].clone();
     app.session.execute("select.set", &json!({"ids": [a.clone(), b.clone()]})).unwrap();
     let g = app.session.execute("object.group", &json!({})).unwrap()["id"].clone();
     app.select_tool("selection");
