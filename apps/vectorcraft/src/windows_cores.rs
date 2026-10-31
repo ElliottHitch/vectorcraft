@@ -27,33 +27,14 @@ fn usable_cores() -> Option<usize> {
 
 #[cfg(test)]
 mod tests {
-    /// A process that may run on one core renders on the calling thread. With workers, the
-    /// renderer's flush spins on that core while the workers it waits for get no time, and a render
-    /// crawls or stalls.
+    /// The mask Windows reports for this process gives at least one core and no more than the
+    /// machine has. (A child process started with `start /affinity` would test a one-core mask
+    /// end to end, but a process spawned while other tests hold sockets inherits them and resets
+    /// their connections; `automatic_threads` covers the one-core count.)
     #[test]
-    fn a_process_limited_to_one_core_starts_no_render_workers() {
-        const CHILD: &str = "VECTORCRAFT_TEST_ONE_CORE";
-        const NAME: &str = "windows_cores::tests::a_process_limited_to_one_core_starts_no_render_workers";
-        if std::env::var_os(CHILD).is_some() {
-            assert_eq!(super::usable_cores(), Some(1));
-            super::install();
-            assert_eq!(vectorcraft_render::default_threads(), 0);
-            return;
-        }
-        // `start /affinity 1` runs this test again in a process allowed only the first core.
-        use std::os::windows::process::CommandExt;
-        let exe = std::env::current_exe().unwrap();
-        let output = std::process::Command::new("cmd")
-            .raw_arg(format!("/C start \"\" /affinity 1 /wait /b \"{}\" --exact {NAME} --nocapture", exe.display()))
-            .env(CHILD, "1")
-            .env_remove("VECTORCRAFT_RENDER_THREADS")
-            .output()
-            .unwrap();
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        assert!(
-            output.status.success() && stdout.contains("test result: ok. 1 passed; 0 failed;"),
-            "one-core test failed:\n{stdout}\n{}",
-            String::from_utf8_lossy(&output.stderr),
-        );
+    fn the_affinity_mask_gives_the_cores_the_process_may_use() {
+        let cores = super::usable_cores().unwrap();
+        let all = std::thread::available_parallelism().unwrap().get();
+        assert!((1..=all).contains(&cores), "{cores} of {all}");
     }
 }
