@@ -663,6 +663,39 @@ fn trace_source_draws_the_source_image_of_the_listed_objects() {
 }
 
 #[test]
+fn trace_source_applies_the_hidden_image_mask() {
+    use vectorcraft_doc::{ImageBlob, ImageObject, NodeKind, OpacityMask};
+
+    let mut png = Vec::new();
+    image::RgbaImage::from_pixel(1, 1, image::Rgba([255, 0, 0, 255])).write_to(&mut std::io::Cursor::new(&mut png), image::ImageFormat::Png).unwrap();
+    let mut d = Document::new(100.0, 100.0);
+    d.images.insert("trace-source".into(), ImageBlob::new("image/png", png));
+    let image = ImageObject {
+        key: "trace-source".into(),
+        width: 1,
+        height: 1,
+        xf: Affine::translate((10.0, 10.0)) * Affine::scale(80.0),
+        link: None,
+        placement: Default::default(),
+        pixels: None,
+    };
+    let mut source = Node::new(d.alloc_id(), NodeKind::Image(Box::new(image)));
+    source.visible = false;
+    let mask = rect_node(&mut d, Rect::new(10.0, 10.0, 50.0, 90.0), Paint::solid(Color::WHITE), Paint::None, 0.0);
+    source.extras_mut().mask = Some(Box::new(OpacityMask::new(mask, true)));
+    let result = rect_node(&mut d, Rect::new(10.0, 10.0, 90.0, 90.0), Paint::solid(Color::rgb(0.0, 0.0, 1.0)), Paint::None, 0.0);
+    let mut trace = Node::group(d.alloc_id(), vec![Arc::new(source), Arc::new(result)]);
+    trace.extras_mut().trace = Some(Box::new(serde_json::json!({ "view": "tracingResult" })));
+    let trace_id = trace.id;
+    d.insert(Some(d.layers[0].id), 0, trace).unwrap();
+
+    let opts = RenderOptions { trace_views: true, trace_source: Some(Arc::new(vec![trace_id])), background: Some([255; 4]), ..Default::default() };
+    let img = Renderer::new().render(&d, 100, 100, Affine::IDENTITY, &opts);
+    assert_eq!(img.pixel(30, 50), [255, 0, 0, 255]);
+    assert_eq!(img.pixel(70, 50), [255, 255, 255, 255]);
+}
+
+#[test]
 fn artboards_white_on_pasteboard() {
     let d = Document::new(50.0, 50.0);
     let r = Renderer::new().render(
@@ -745,6 +778,94 @@ fn opacity_mask_without_clip_and_inverted() {
     let img = Renderer::new().render(&masked_doc(true, true), 100, 100, Affine::IDENTITY, &opts);
     assert_eq!(img.pixel(30, 50), [255, 255, 255, 255], "inverted white → hidden");
     assert_eq!(img.pixel(80, 50), [255, 0, 0, 255], "inverted clip background → visible");
+}
+
+#[test]
+fn opacity_mask_art_root_applies_its_own_mask() {
+    use vectorcraft_doc::OpacityMask;
+
+    let mut d = Document::new(100.0, 100.0);
+    let mut object = rect_node(&mut d, Rect::new(10.0, 10.0, 90.0, 90.0), Paint::solid(Color::rgb(1.0, 0.0, 0.0)), Paint::None, 0.0);
+    let mut art = rect_node(&mut d, Rect::new(10.0, 10.0, 90.0, 90.0), Paint::solid(Color::WHITE), Paint::None, 0.0);
+    let inner = rect_node(&mut d, Rect::new(10.0, 10.0, 50.0, 90.0), Paint::solid(Color::WHITE), Paint::None, 0.0);
+    art.extras_mut().mask = Some(Box::new(OpacityMask::new(inner, true)));
+    art.visible = false;
+    object.extras_mut().mask = Some(Box::new(OpacityMask::new(art, true)));
+    let object_id = object.id;
+    d.insert(Some(d.layers[0].id), 0, object).unwrap();
+
+    let opts = RenderOptions { background: Some([255, 255, 255, 255]), ..Default::default() };
+    let mut renderer = Renderer::new();
+    let img = renderer.render(&d, 100, 100, Affine::IDENTITY, &opts);
+    assert_eq!(img.pixel(30, 50), [255, 0, 0, 255]);
+    assert_eq!(img.pixel(70, 50), [255, 255, 255, 255]);
+    let view = renderer.render(&d, 100, 100, Affine::IDENTITY, &RenderOptions { mask_view: Some(object_id), ..opts });
+    assert_eq!(view.pixel(30, 50), [255, 255, 255, 255]);
+    assert_eq!(view.pixel(70, 50), [0, 0, 0, 255]);
+}
+
+#[test]
+fn undecodable_image_in_mask_art_root_mask_leaves_out_outer_object() {
+    use vectorcraft_doc::{ImageBlob, ImageObject, NodeKind, OpacityMask};
+
+    let mut d = Document::new(100.0, 100.0);
+    d.images.insert("broken-root-mask-image".into(), ImageBlob::new("image/png", b"not a PNG".to_vec()));
+    let mut object = rect_node(&mut d, Rect::new(10.0, 10.0, 90.0, 90.0), Paint::solid(Color::rgb(1.0, 0.0, 0.0)), Paint::None, 0.0);
+    let mut art = rect_node(&mut d, Rect::new(10.0, 10.0, 90.0, 90.0), Paint::solid(Color::WHITE), Paint::None, 0.0);
+    let image = ImageObject {
+        key: "broken-root-mask-image".into(),
+        width: 20,
+        height: 20,
+        xf: Affine::translate((30.0, 30.0)),
+        link: None,
+        placement: Default::default(),
+        pixels: None,
+    };
+    art.extras_mut().mask = Some(Box::new(OpacityMask::new(Node::new(d.alloc_id(), NodeKind::Image(Box::new(image))), false)));
+    object.extras_mut().mask = Some(Box::new(OpacityMask::new(art, true)));
+    let object_id = object.id;
+    d.insert(Some(d.layers[0].id), 0, object).unwrap();
+
+    let opts = RenderOptions { background: Some([255; 4]), ..Default::default() };
+    let mut renderer = Renderer::new();
+    let img = renderer.render(&d, 100, 100, Affine::IDENTITY, &opts);
+    assert_eq!(img.pixel(70, 50), [255, 255, 255, 255]);
+    let view = renderer.render(&d, 100, 100, Affine::IDENTITY, &RenderOptions { mask_view: Some(object_id), ..opts });
+    assert_eq!(view.pixel(70, 50), [0, 0, 0, 255]);
+}
+
+#[test]
+fn placed_symbol_art_root_applies_its_own_mask() {
+    use vectorcraft_doc::{NodeKind, OpacityMask};
+
+    for grouped in [true, false] {
+        let mut d = Document::new(100.0, 100.0);
+        let red = rect_node(&mut d, Rect::new(10.0, 10.0, 90.0, 90.0), Paint::solid(Color::rgb(1.0, 0.0, 0.0)), Paint::None, 0.0);
+        let mut art = if grouped { Node::group(d.alloc_id(), vec![Arc::new(red)]) } else { red };
+        let inner = rect_node(&mut d, Rect::new(10.0, 10.0, 50.0, 90.0), Paint::solid(Color::WHITE), Paint::None, 0.0);
+        art.extras_mut().mask = Some(Box::new(OpacityMask::new(inner, true)));
+        d.symbols.push(vectorcraft_doc::Symbol { name: "Masked".into(), art: Arc::new(art) });
+        let instance = Node::new(d.alloc_id(), NodeKind::SymbolInstance { symbol: "Masked".into(), xf: Affine::IDENTITY });
+        d.insert(Some(d.layers[0].id), 0, instance).unwrap();
+
+        let img = render(&d);
+        assert_eq!(img.pixel(30, 50), [255, 0, 0, 255], "grouped {grouped}");
+        assert_eq!(img.pixel(70, 50), [255, 255, 255, 255], "grouped {grouped}");
+    }
+}
+
+#[test]
+fn node_thumbnail_applies_the_root_mask() {
+    use vectorcraft_doc::OpacityMask;
+
+    let mut d = Document::new(100.0, 100.0);
+    let mut node = rect_node(&mut d, Rect::new(10.0, 10.0, 90.0, 90.0), Paint::solid(Color::rgb(1.0, 0.0, 0.0)), Paint::None, 0.0);
+    let mask = rect_node(&mut d, Rect::new(10.0, 10.0, 50.0, 90.0), Paint::solid(Color::WHITE), Paint::None, 0.0);
+    node.extras_mut().mask = Some(Box::new(OpacityMask::new(mask, true)));
+
+    let img = Renderer::new().render_node_thumbnail(&d, &node, 100, Some([255; 4])).unwrap();
+    assert_eq!(img.pixel(25, 50), [255, 0, 0, 255]);
+    assert_eq!(img.pixel(75, 50), [255, 255, 255, 255]);
 }
 
 #[test]
