@@ -44,7 +44,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Add New Fill",
             ["Window", "Appearance"],
             Some("Cmd+/"),
-            "{ids?|id?, target?: \"object\"|\"contents\"} add a fill on top of each selected object's own stack, on an image right below its Contents row (a copy of its top fill; type without one: its characters' fill; else the default fill)",
+            "{ids?|id?, target?: \"object\"|\"contents\"} add a fill on top of each selected object's own stack, on an image right below its Contents row (a copy of its top fill; type without one: its characters' fill; else the default fill). With a fill row active (appearance.setActiveItem), no `ids` and no `target: \"contents\"`, the new fill is a copy of that row, right above it, and becomes the active row",
             has_doc,
             |s, p| add_item(s, p, true)
         ),
@@ -470,12 +470,45 @@ fn set_active_item(s: &mut Session, p: &Value) -> Result<Value> {
 fn add_item(s: &mut Session, p: &Value, fill: bool) -> Result<Value> {
     let ids = require_targets(s, p, if fill { "appearance.addFill" } else { "appearance.addStroke" })?;
     let defaults = s.paint.clone();
+    // The panel's active Fill row, when the new fill goes on the selection: the new fill is a copy
+    // of that row, right above it in each target that has it (others get a copy of their top fill).
     // Where the new item went in on the active item's object, when it is an image.
     let active = s.active_appearance_item.as_ref().and_then(|a| a.objects.first().copied());
+    // The active row is a row of the active object's stack, which need not come first in `ids`
+    // (they are in paint order): match the others against it.
+    let anchor = active.and_then(|a| ids.iter().position(|id| *id == a));
+    let selected = match (s.appearance_item(), anchor) {
+        (Some(index), Some(_)) if fill && p.get("ids").is_none() && p.get("id").is_none() && !targets_contents(p)? => {
+            ItemTarget::Item { index, explicit: false, aligned: true }.of_kind(s, true)
+        }
+        _ => ItemTarget::Top,
+    };
+    let per: Vec<Option<usize>> = match (selected, anchor) {
+        (ItemTarget::Item { index, .. }, Some(k)) => {
+            let mut order = ids.clone();
+            order.swap(0, k);
+            let mut per: Vec<Option<usize>> =
+                items_per_target(&s.doc()?.doc, &order, &[index], true).into_iter().map(|v| v.first().copied()).collect();
+            per.swap(0, k);
+            per
+        }
+        _ => vec![None; ids.len()],
+    };
     let mut inserted = None;
+    // Where the new fill went in on the active item's object, when it went above the active row.
+    let mut above = None;
     s.edit(if fill { "Add New Fill" } else { "Add New Stroke" }, |d, _| {
-        for id in &ids {
+        for (id, row) in ids.iter().zip(&per) {
             if let Some(n) = d.node_mut(*id) {
+                if let Some(i) = n.appearance.item_of_kind(*row, true)
+                    && let Some(paint) = n.appearance.paint_at(Some(i), true).cloned()
+                {
+                    n.appearance.insert_item(i + 1, AppearanceItem::Fill(FillLayer::new(paint)));
+                    if active == Some(*id) {
+                        above = Some(i + 1);
+                    }
+                    continue;
+                }
                 // A copy of the top fill (stroke); without one, type's characters' and otherwise the
                 // default paint, so a new fill on a group or type shows.
                 let paint = match (n.appearance.paint_at(None, fill), &n.kind) {
@@ -509,8 +542,9 @@ fn add_item(s: &mut Session, p: &Value, fill: bool) -> Result<Value> {
         }
         Ok(())
     })?;
-    // The rows above the new item move up by one.
-    s.remap_appearance_item(&ids, |a| Some(a + usize::from(inserted.is_some_and(|k| k <= a))));
+    // A fill added above the active row becomes the active row; otherwise the rows above the new
+    // item move up by one.
+    s.remap_appearance_item(&ids, |a| above.or(Some(a + usize::from(inserted.is_some_and(|k| k <= a)))));
     ok()
 }
 
