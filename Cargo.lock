@@ -6499,6 +6499,7 @@ dependencies = [
  "kurbo 0.13.1",
  "serde",
  "serde_json",
+ "vectorcraft-brush",
  "vectorcraft-color",
  "vectorcraft-doc",
  "vectorcraft-effects",

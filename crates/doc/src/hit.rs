@@ -110,6 +110,12 @@ pub fn hit_test_visible(doc: &Document, p: Point, opt: HitOptions) -> Option<Hit
     hit_test_skipping(doc, p, opt, &|_| false, false)
 }
 
+/// [`hit_test_visible`] passing over the nodes `skip` names (and their contents): what lies below
+/// them at `p`. A skipped clipping path still clips.
+pub fn hit_test_visible_skipping(doc: &Document, p: Point, opt: HitOptions, skip: &dyn Fn(NodeId) -> bool) -> Option<Hit> {
+    hit_test_skipping(doc, p, opt, skip, false)
+}
+
 /// The object of `selected` (topmost first) whose own art lies under `p` where a clipping mask
 /// hides it: a clip group (or a layer with a clipping mask) holding it doesn't clip to `p`. A
 /// click there hits nothing ([`hit_test`]), so the selection tools grab the selection by that
