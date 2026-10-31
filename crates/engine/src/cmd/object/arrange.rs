@@ -129,7 +129,7 @@ pub(super) fn ungroup(s: &mut Session, _: &Value) -> Result<Value> {
                 {
                     *clipping = false;
                 }
-                c.opacity *= n.opacity;
+                // Each member keeps its own opacity; the group's opacity goes with the group.
                 new_sel.push(c.id);
                 out.push(c);
             }
