@@ -1204,9 +1204,88 @@ mod tests {
         let Action::Preview(cmd, v) = &acts[0] else { panic!("{acts:?}") };
         assert_eq!((cmd.as_str(), &v["perpendicular"], &v["to"]), ("perspective.move", &json!(true), &json!([mid.x + 20.0, mid.y])));
         assert!(t.overlays(&c).iter().any(|o| matches!(o, Overlay::Measure { text, .. } if text.starts_with("dZ"))));
-        assert!(t.key(&c, ToolKey::Digit(3), Mods::default()).is_empty());
+        assert!(matches!(t.key(&c, ToolKey::Digit(3), Mods::default()).as_slice(), [Action::Preview(cmd, _)] if cmd == "perspective.move"));
         assert_eq!(t.pointer(&c, &PointerEvent::new(PointerKind::Up, mid.x + 20.0, mid.y)), vec![Action::Commit]);
         assert!(!t.busy());
+    }
+
+    #[test]
+    fn selection_move_shift_snaps_in_each_plane() {
+        for plane in Plane::ALL {
+            let g = grid(2);
+            let h = g.homography(plane).unwrap();
+            let from = h.apply(Point::new(50.0, 50.0)).unwrap();
+            let mut d = Document::new(800.0, 600.0);
+            let layer = d.layers[0].id;
+            let id = d.alloc_id();
+            d.insert(
+                Some(layer),
+                0,
+                vectorcraft_doc::Node::path(
+                    id,
+                    vectorcraft_geom::shapes::rectangle(Rect::new(from.x - 20.0, from.y - 20.0, from.x + 20.0, from.y + 20.0)),
+                    vectorcraft_doc::Appearance::default_art(),
+                ),
+            )
+            .unwrap();
+            g.store(&mut d);
+            set_attachment(d.node_mut(id).unwrap(), plane, 0.0);
+            let mut s = Selection::default();
+            s.add(id);
+            let p = paint();
+            let c = cx(&d, &s, &p);
+            let hi = h.inverse().unwrap();
+            let start = hi.apply(from).unwrap();
+            for (raw, expected) in [
+                (Vec2::new(60.0, 12.0), Vec2::new(60.0, 0.0)),
+                (Vec2::new(12.0, 60.0), Vec2::new(0.0, 60.0)),
+                (Vec2::new(40.0, 50.0), Vec2::new(45.0, 45.0)),
+            ] {
+                let to = h.apply(start + raw).unwrap();
+                let mut t = PerspectiveSelectionTool::default();
+                t.pointer(&c, &PointerEvent::new(PointerKind::Down, from.x, from.y));
+                let acts = t.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y).with_mods(Mods { shift: true, ..Default::default() }));
+                let Some(Action::Preview(cmd, v)) = acts.last() else { panic!("{acts:?}") };
+                assert_eq!(cmd, "perspective.move");
+                let endpoint = Point::new(v["to"][0].as_f64().unwrap(), v["to"][1].as_f64().unwrap());
+                let delta = hi.apply(endpoint).unwrap() - start;
+                assert!((delta - expected).hypot() < 1e-6, "{plane:?}: {delta:?} != {expected:?}");
+            }
+        }
+    }
+
+    #[test]
+    fn selection_move_recomputes_shift_copy_and_perpendicular() {
+        let (mut d, id) = doc_with_rect();
+        grid(2).store(&mut d);
+        set_attachment(d.node_mut(id).unwrap(), Plane::Right, 0.0);
+        let mut s = Selection::default();
+        s.add(id);
+        let p = paint();
+        let c = cx(&d, &s, &p);
+        let h = PerspectiveGrid::current(&d).homography(Plane::Right).unwrap();
+        let from = d.node(id).unwrap().geometric_bounds().unwrap().center();
+        let start = h.inverse().unwrap().apply(from).unwrap();
+        let to = h.apply(start + Vec2::new(60.0, 12.0)).unwrap();
+        let mut t = PerspectiveSelectionTool::default();
+        t.pointer(&c, &PointerEvent::new(PointerKind::Down, from.x, from.y));
+        let plain = t.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y));
+        let Some(Action::Preview(_, raw)) = plain.last() else { panic!("{plain:?}") };
+        assert_eq!(raw["to"], json!([to.x, to.y]));
+        let shifted =
+            t.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y).with_mods(Mods { shift: true, alt: true, ..Default::default() }));
+        let Some(Action::Preview(_, snapped)) = shifted.last() else { panic!("{shifted:?}") };
+        assert_eq!(snapped["copy"], json!(true));
+        assert_ne!(snapped["to"], raw["to"]);
+        let perpendicular = t.key(&c, ToolKey::Digit(5), Mods { shift: true, alt: true, ..Default::default() });
+        let Some(Action::Preview(_, depth)) = perpendicular.last() else { panic!("{perpendicular:?}") };
+        assert_eq!(depth["to"], raw["to"]);
+        let in_plane = t.key(&c, ToolKey::Digit(5), Mods { shift: true, alt: true, ..Default::default() });
+        let Some(Action::Preview(_, snapped_again)) = in_plane.last() else { panic!("{in_plane:?}") };
+        assert_eq!(snapped_again["to"], snapped["to"]);
+        let released = t.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y));
+        let Some(Action::Preview(_, raw_again)) = released.last() else { panic!("{released:?}") };
+        assert_eq!(raw_again["to"], raw["to"]);
     }
 
     #[test]

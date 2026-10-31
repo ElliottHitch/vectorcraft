@@ -112,6 +112,73 @@ fn alt_drag_copies_and_the_copy_stays_attached() {
 }
 
 #[test]
+fn shift_drag_moves_on_a_plane_axis() {
+    let (mut s, id) = persp_session();
+    s.select_tool("perspectiveSelection", ViewInfo::default()).unwrap();
+    let before = plane_pts(&s, id, Plane::Right, 0.0);
+    let h = grid(&s).homography(Plane::Right).unwrap();
+    let start = bounds_of(&before).center();
+    let (from, to) = (h.apply(start).unwrap(), h.apply(start + Vec2::new(80.0, 20.0)).unwrap());
+    let n = undo_len(&s);
+    drag(&mut s, &[from, to, to], Mods { shift: true, ..Default::default() });
+    assert_eq!(undo_len(&s), n + 1);
+    for (a, b) in before.iter().zip(plane_pts(&s, id, Plane::Right, 0.0)) {
+        assert!((b - *a - Vec2::new(80.0, 0.0)).hypot() < 1e-6, "shift move: {a:?} → {b:?}");
+    }
+    s.execute("edit.undo", &json!({})).unwrap();
+    assert_eq!(plane_pts(&s, id, Plane::Right, 0.0), before);
+}
+
+#[test]
+fn shift_drag_keeps_its_displacement_after_a_plane_key() {
+    let (mut s, id) = persp_session();
+    let v = ViewInfo::default();
+    s.select_tool("perspectiveSelection", v).unwrap();
+    let before = plane_pts(&s, id, Plane::Right, 0.0);
+    let h = grid(&s).homography(Plane::Right).unwrap();
+    let start = bounds_of(&before).center();
+    let (from, to) = (h.apply(start).unwrap(), h.apply(start + Vec2::new(80.0, 20.0)).unwrap());
+    let shift = Mods { shift: true, ..Default::default() };
+    s.pointer(&PointerEvent::new(PointerKind::Down, from.x, from.y), v).unwrap();
+    s.pointer(&PointerEvent::new(PointerKind::Drag, to.x, to.y), v).unwrap();
+    s.tool_key(ToolKey::Digit(2), shift, v).unwrap();
+    assert_eq!(grid(&s).plane, Plane::Ground);
+    s.pointer(&PointerEvent::new(PointerKind::Up, to.x, to.y).with_mods(shift), v).unwrap();
+    for (a, b) in before.iter().zip(plane_pts(&s, id, Plane::Right, 0.0)) {
+        assert!((b - *a - Vec2::new(80.0, 0.0)).hypot() < 1e-6, "plane key: {a:?} → {b:?}");
+    }
+}
+
+#[test]
+fn cmd_alt_shift_drag_copies_on_a_plane_axis() {
+    let (mut s, id) = persp_session();
+    let v = ViewInfo::default();
+    s.select_tool("directSelection", v).unwrap();
+    s.select_tool("perspectiveSelection", v).unwrap();
+    let before = plane_pts(&s, id, Plane::Right, 0.0);
+    let count = s.doc().unwrap().doc.node_count();
+    let h = grid(&s).homography(Plane::Right).unwrap();
+    let start = bounds_of(&before).center();
+    let (from, to) = (h.apply(start).unwrap(), h.apply(start + Vec2::new(80.0, 20.0)).unwrap());
+    let n = undo_len(&s);
+    drag(&mut s, &[from, to, to], Mods { cmd: true, alt: true, shift: true, ..Default::default() });
+    assert_eq!(undo_len(&s), n + 1);
+    assert_eq!(s.doc().unwrap().doc.node_count(), count + 1);
+    let copy = *s.doc().unwrap().selection.objects.first().unwrap();
+    assert_ne!(copy, id);
+    assert_eq!(s.doc().unwrap().selection.objects, vec![copy]);
+    assert_eq!(plane_pts(&s, id, Plane::Right, 0.0), before);
+    assert_eq!(attached(&s, copy), Some((Plane::Right, 0.0)));
+    for (a, b) in before.iter().zip(plane_pts(&s, copy, Plane::Right, 0.0)) {
+        assert!((b - *a - Vec2::new(80.0, 0.0)).hypot() < 1e-6, "shift copy: {a:?} → {b:?}");
+    }
+    s.execute("edit.undo", &json!({})).unwrap();
+    assert_eq!(s.doc().unwrap().doc.node_count(), count);
+    assert_eq!(plane_pts(&s, id, Plane::Right, 0.0), before);
+    assert_eq!(s.doc().unwrap().selection.objects, vec![id]);
+}
+
+#[test]
 fn cmd_alt_drag_copies_on_the_perspective_plane() {
     let (mut s, id) = persp_session();
     let v = ViewInfo::default();
