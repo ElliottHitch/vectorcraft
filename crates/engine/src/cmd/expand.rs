@@ -453,9 +453,9 @@ fn expand_pattern_fills(s: &mut Session) -> Result<()> {
 /// first ([`expand_live_with_transparent_image_patterns`]). Hidden shapes and shapes in hidden
 /// groups or layers and in template layers stay as they are. A pattern fill in tile art counts
 /// too, down to the [`PATTERN_LEVELS`] the canvas draws, and the tile art the expansion makes is
-/// expanded again for it. A pattern fill stays when its tiles would take the expanded art past
-/// [`MAX_GENERATED`](vectorcraft_doc::live::MAX_GENERATED) objects. Returns how many objects
-/// changed.
+/// expanded again for it. A pattern fill stays, and a live object stays live, when its art would
+/// take the expanded art past [`MAX_GENERATED`](vectorcraft_doc::live::MAX_GENERATED) objects.
+/// Returns how many objects changed.
 pub(crate) fn expand_transparent_image_patterns(
     d: &mut Document,
     root: NodeId,
@@ -465,8 +465,7 @@ pub(crate) fn expand_transparent_image_patterns(
     expand_transparent_image_patterns_within(d, root, see_through, colorize, vectorcraft_doc::live::MAX_GENERATED)
 }
 
-/// [`expand_transparent_image_patterns`] with the art the pattern fills expand to held to `budget`
-/// objects. Live art expands under its own budget ([`expand_live_with_transparent_image_patterns`]).
+/// [`expand_transparent_image_patterns`] with the expanded art held to `budget` objects.
 pub(crate) fn expand_transparent_image_patterns_within(
     d: &mut Document,
     root: NodeId,
@@ -478,7 +477,7 @@ pub(crate) fn expand_transparent_image_patterns_within(
     let made = std::cell::Cell::new(0usize);
     // Each pass brings the patterns in the expanded tiles' art up one level.
     for levels in (1..=PATTERN_LEVELS).rev() {
-        let live = expand_live_with_transparent_image_patterns(d, root, see_through, colorize, levels)?;
+        let live = expand_live_with_transparent_image_patterns(d, root, see_through, colorize, levels, &made, budget)?;
         let (_, n) = replace_leaves(d, root, |d, l| {
             // Past the budget, and for most leaves, which have no pattern fill, skip the ancestry walk.
             if made.get() >= budget || !l.appearance.items.iter().any(|i| pattern_fill(d, i).is_some()) {
@@ -547,13 +546,17 @@ fn drawn(n: &Node) -> bool {
 /// Expand the shown blends, envelopes, repeats and Intertwine groups under `root` that hold a
 /// pattern fill [`holds_transparent_image_patterns`] counts with `levels` into the art the exporters write for
 /// them ([`expand_live_deep`](vectorcraft_render::effects::expand_live_deep), under one budget for
-/// everything nested in each), so the shapes they draw are leaves. Returns how many were expanded.
+/// everything nested in each), so the shapes they draw are leaves. The objects that art holds count
+/// in `made`, and an object whose art would take `made` past `budget` stays live. Returns how many
+/// were expanded.
 fn expand_live_with_transparent_image_patterns(
     d: &mut Document,
     root: NodeId,
     see_through: &BTreeSet<String>,
     colorize: &dyn Fn(&Document, &Node) -> bool,
     levels: u32,
+    made: &std::cell::Cell<usize>,
+    budget: usize,
 ) -> Result<usize> {
     fn outermost(
         d: &Document,
@@ -592,10 +595,19 @@ fn expand_live_with_transparent_image_patterns(
     }
     let mut count = 0;
     for id in &live {
+        if made.get() >= budget {
+            break;
+        }
         let Some(n) = d.node(*id) else { continue };
         // Random Transform effects take their seed from the ids: bake them first ([`bake_seeded`]),
         // and leave the object live when that can't be done.
         let Some(mut g) = bake_seeded(&vectorcraft_render::effects::expand_live_deep(Some(d), n)) else { continue };
+        // An object whose art would take the expanded art past the budget stays live.
+        let size = g.count_with_masks();
+        if size > budget - made.get() {
+            continue;
+        }
+        made.set(made.get() + size);
         g.id = *id;
         fresh_ids(d, &mut g);
         *d.node_mut(*id).ok_or(EngineError::NoNode(*id))? = g;

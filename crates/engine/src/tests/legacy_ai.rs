@@ -919,6 +919,22 @@ fn pdf13_flattens_colorized_pattern_tile_images_in_a_repeat() {
     assert_pdf13_draws_pattern_square_as_canvas(&mut s);
 }
 
+/// A repeat whose art would take the expanded art past the budget stays live.
+#[test]
+fn a_repeat_past_the_budget_stays_live() {
+    for (budget, live) in [(1, 1), (usize::MAX, 0)] {
+        let mut s = colorized_pattern_over_blue();
+        let square = pattern_square(&s);
+        s.execute("object.repeat.grid", &json!({"ids": [square.0]})).unwrap();
+        let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
+        let layer = d.layers[0].id;
+        crate::cmd::expand::expand_transparent_image_patterns_within(d, layer, &Default::default(), &|_, _| true, budget).unwrap();
+        let mut repeats = 0;
+        d.walk(|n| repeats += usize::from(matches!(n.kind, vectorcraft_doc::NodeKind::Repeat(_))));
+        assert_eq!(repeats, live, "budget {budget}");
+    }
+}
+
 /// [`colorized_pattern_over_blue`] with the square filled with a pattern named `outer` whose tile
 /// art is a 32 pt square filled with the colorized image pattern.
 fn nested_colorized_pattern_over_blue() -> Session {
