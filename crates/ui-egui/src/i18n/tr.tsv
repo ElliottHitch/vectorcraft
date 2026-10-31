@@ -643,6 +643,13 @@ font-technology	Variable	Değişken
 	Create Report	Rapor Oluştur
 	Create Slice	Dilim Oluştur
 	Create Sub-folders	Alt Klasörler Oluşturun
+	Clear Selection	Seçimi Temizle
+	Export PDFs As:	PDF'leri Şu Şekilde Dışa Aktar:
+	Single File	Tek Dosya
+	Multiple Files	Birden Fazla Dosya
+	Format Presets	Biçim Ön Ayarları
+	Grid View	Izgara Görünümü
+	Selected: {n}, Total number of files to export: {m}	Seçilen: {n}, dışa aktarılacak toplam dosya sayısı: {m}
 	Create Text	Metin Oluştur
 	Create Trim Marks	Kesim İşaretleri Oluşturun
 	Created	Oluşturuldu
@@ -3848,6 +3855,7 @@ axis	Both	Her İkisi
 @msg	cannot split an open path at its end point	açık bir yolu bitiş noktasında bölemez
 @msg	closing needs three anchors	Kapanış üç çapaya ihtiyaç duyar
 @msg	check an asset to export	dışa aktarılacak bir varlığı kontrol etme
+@msg	check an artboard to export	dışa aktarılacak bir çalışma yüzeyi işaretleyin
 @msg	check a layer to export	dışa aktarılacak katmanı kontrol edin
 @msg	select the art to export first	önce dışa aktarılacak resmi seçin
 @msg	choice must be "merge" or "add", not `{choice}`	seçim "{choice}" değil "birleştir" veya "ekle" olmalıdır

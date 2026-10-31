@@ -2174,6 +2174,13 @@ lighting	Light	Światło
 	Use Artboards	Użyj obszarów kompozycji
 	Choose a folder	Wybierz folder
 	Create Sub-folders	Utwórz podfoldery
+	Clear Selection	Wyczyść zaznaczenie
+	Export PDFs As:	Eksportuj pliki PDF jako:
+	Single File	Jeden plik
+	Multiple Files	Wiele plików
+	Format Presets	Ustawienia formatów
+	Grid View	Widok siatki
+	Selected: {n}, Total number of files to export: {m}	Zaznaczono: {n}, łączna liczba plików do eksportu: {m}
 	Export Asset	Eksportuj zasób
 	Export to:	Eksportuj do:
 	Format Settings	Ustawienia formatu
@@ -4199,6 +4206,7 @@ imageTrace	Outline	Kontur
 @msg	cannot split an open path at its end point	nie można podzielić otwartej ścieżki w jej punkcie końcowym
 @msg	closing needs three anchors	zamknięcie wymaga trzech punktów
 @msg	check an asset to export	zaznacz zasób do eksportu
+@msg	check an artboard to export	zaznacz obszar kompozycji do eksportu
 @msg	check a layer to export	zaznacz warstwę do eksportu
 @msg	select the art to export first	najpierw zaznacz grafikę do eksportu
 @msg	choice must be "merge" or "add", not `{choice}`	wybór musi mieć wartość "merge" lub "add", nie `{choice}`

@@ -760,6 +760,13 @@ font-technology	Variable	Biến thiên
 	Create Report	Tạo báo cáo
 	Create Slice	Tạo lát cắt
 	Create Sub-folders	Tạo thư mục con
+	Clear Selection	Xóa lựa chọn
+	Export PDFs As:	Xuất PDF dưới dạng:
+	Single File	Một tệp
+	Multiple Files	Nhiều tệp
+	Format Presets	Thiết lập sẵn định dạng
+	Grid View	Chế độ lưới
+	Selected: {n}, Total number of files to export: {m}	Đã chọn: {n}, tổng số tệp sẽ xuất: {m}
 	Create Text	Tạo văn bản
 	Create Trim Marks	Tạo dấu cắt xén
 	Create:	Tạo:
@@ -4274,6 +4281,7 @@ theme	Appearance	Giao diện
 @msg	cannot read PDF: {0}	không thể đọc PDF: {0}
 @msg	cannot split an open path at its end point	không thể tách đường dẫn mở tại điểm cuối
 @msg	check an asset to export	hãy chọn một asset để xuất
+@msg	check an artboard to export	hãy chọn một bảng vẽ để xuất
 @msg	check a layer to export	hãy đánh dấu một lớp để xuất
 @msg	select the art to export first	hãy chọn hình cần xuất trước
 @msg	choice must be "merge" or "add", not `{choice}`	lựa chọn phải là "merge" hoặc "add", không phải `{choice}`

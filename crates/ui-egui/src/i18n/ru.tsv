@@ -661,6 +661,13 @@ font-technology	Variable	Вариативные
 	Create Report	Создать отчёт
 	Create Slice	Создать фрагмент
 	Create Sub-folders	Создать вложенные папки
+	Clear Selection	Снять выделение
+	Export PDFs As:	Экспортировать PDF как:
+	Single File	Один файл
+	Multiple Files	Несколько файлов
+	Format Presets	Наборы форматов
+	Grid View	Сетка
+	Selected: {n}, Total number of files to export: {m}	Выбрано: {n}, всего файлов для экспорта: {m}
 	Create Text	Создать текст
 	Create Trim Marks	Создать метки подрезки
 	Created	Создано
@@ -4104,6 +4111,7 @@ axis	Both	Оба
 @msg	cannot split an open path at its end point	нельзя разделить открытый контур в его конечной точке
 @msg	closing needs three anchors	для замыкания нужны три опорные точки
 @msg	check an asset to export	отметьте ресурс для экспорта
+@msg	check an artboard to export	отметьте монтажную область для экспорта
 @msg	check a layer to export	отметьте слой для экспорта
 @msg	select the art to export first	сначала выделите объекты для экспорта
 @msg	choice must be "merge" or "add", not `{choice}`	choice должно быть "merge" или "add", а не `{choice}`

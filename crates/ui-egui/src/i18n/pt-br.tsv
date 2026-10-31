@@ -585,6 +585,13 @@
 	Create Path	Criar Caminho
 	Create Slice	Criar Fatia
 	Create Sub-folders	Criar Subpastas
+	Clear Selection	Limpar Seleção
+	Export PDFs As:	Exportar PDFs Como:
+	Single File	Arquivo Único
+	Multiple Files	Vários Arquivos
+	Format Presets	Predefinições de Formato
+	Grid View	Exibição em Grade
+	Selected: {n}, Total number of files to export: {m}	Selecionados: {n}, número total de arquivos a exportar: {m}
 	Create Text	Criar Texto
 	Create Trim Marks	Criar Marcas de Corte
 	Create from Guides	Criar a partir de Guias
@@ -3646,6 +3653,7 @@ axis	Both	Ambos
 @msg	cannot split an open path at its end point	não é possível dividir um traçado aberto em sua extremidade
 @msg	closing needs three anchors	fechar exige três âncoras
 @msg	check an asset to export	marque um recurso para exportar
+@msg	check an artboard to export	marque uma prancheta para exportar
 @msg	check a layer to export	marque uma camada para exportar
 @msg	select the art to export first	selecione primeiro a arte a exportar
 @msg	choice must be "merge" or "add", not `{choice}`	choice deve ser "merge" ou "add", não `{choice}`
