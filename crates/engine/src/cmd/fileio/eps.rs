@@ -152,6 +152,8 @@ fn parse(p: &Value) -> Result<Settings> {
     let overprint = choice("overprints", q.overprints.clone(), Overprint::from_id, d.overprint, "preserve or discard")?;
     let mut flatten = flattener(&q, &[])?;
     flatten.preserve_overprints &= overprint == Overprint::Preserve;
+    // The writer draws colorized images in their ink.
+    flatten.keeps_colorize = true;
     let level = q.level.as_ref().map(super::dxf::text);
     let eps = EpsOptions {
         level: choice("level", level, Level::from_id, d.level, "2 or 3")?,
