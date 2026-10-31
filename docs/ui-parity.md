@@ -1,6 +1,6 @@
 # UI and interaction parity
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Direct Selection: an Alt-marquee selects the paths it touches whole, #4890; a click on a selected object's centre point selects it whole and a drag moves it, #4891; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Export for Screens laid out as the reference app's) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -379,6 +379,7 @@ separate. Scores and hours unchanged. [Behavior and command details](development
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | Export for Screens is laid out as the reference app's: Artboards and Assets tabs with a grid or list of thumbnails, Clear Selection and Prefix under them, Create Sub-folders by Scale or Format (on by default), Export PDFs As Single File or Multiple Files (`pdfs`), iOS and Android rows, the format presets in a ☰ menu, and a Selected / files-to-export count; the naming pattern, Layers and Selection pages and folders list stay in `document.exportForScreens` for scripts and MCP; scores unchanged |
 | 2026-10-31 | minor | Direct Selection: with Alt held at the press, a marquee selects every path it touches whole and keeps the Group Selection pointer while dragging (#4890); a click on a selected object's centre point (Show Center) selects the object whole, and a drag from it moves the object (#4891); scores unchanged |
 | 2026-10-31 | minor | Arrange Tools add-on (a VectorCraft addition): Object › Plug-ins › Arrange Tools; scores and estimates unchanged |
 | 2026-10-31 | minor | Export for Screens is laid out as Illustrator's: Artboards and Assets tabs with a grid or list of thumbnails, Clear Selection and Prefix under them, Create Sub-folders by Scale or Format (on by default), Export PDFs As Single File or Multiple Files (`pdfs`), iOS and Android rows, the format presets in a ☰ menu, and a Selected / files-to-export count; the naming pattern, Layers and Selection pages and folders list stay in `document.exportForScreens` for scripts and MCP; scores unchanged |
