@@ -2,8 +2,8 @@
 //! use, else Remove Strokes or Cancel. Yes and Remove Strokes run `brush.delete`, which leaves the
 //! strokes that used the brushes as plain strokes.
 //!
-//! Fields: `message` (the question, shown as the heading), `used` (whether a brush is in use) and
-//! `params` (the `brush.delete` params).
+//! Fields: `message` (the question, shown as the heading), `used` (whether a brush is in use),
+//! `params` (the `brush.delete` params) and `__doc` (the uid of the document it asks about).
 
 use serde_json::{Value, json};
 
@@ -25,8 +25,12 @@ pub fn ask(app: &mut VectorcraftApp, params: Value, used: bool) {
     } else {
         tl!("Delete the selected brushes?")
     };
-    app.ui.dialog = Some(Dialog::new(KIND, json!({"params": params, "used": used, "message": message})));
+    let doc = app.session.active().map(|d| d.uid);
+    app.ui.dialog = Some(Dialog::new(KIND, json!({"params": params, "used": used, "message": message, DOC: doc})));
 }
+
+/// The field that holds the uid of the document the question is about.
+const DOC: &str = "__doc";
 
 /// Whether a stroke uses one of `names` (`brush.unused`), or `None` when the query fails.
 pub fn used(app: &mut VectorcraftApp, names: &[String]) -> Option<bool> {
@@ -66,9 +70,14 @@ fn body(_: &mut VectorcraftApp, ui: &mut egui::Ui, d: &mut Dialog) -> DialogActi
 }
 
 /// Closes before running, so a dialog the command opens stays open. Yes on brushes that a stroke
-/// has started to use since the question opened asks again with Remove Strokes and Cancel.
+/// has started to use since the question opened asks again with Remove Strokes and Cancel. When
+/// another document has become the active one, it closes as Cancel does and deletes nothing.
 fn confirm(app: &mut VectorcraftApp, d: &Dialog) -> Result<Value, String> {
     let params = d.fields.get("params").cloned().unwrap_or_else(|| json!({}));
+    if d.fields.get(DOC).and_then(Value::as_u64) != app.session.active().map(|doc| doc.uid) {
+        app.ui.dialog = None;
+        return Ok(json!({}));
+    }
     if !d.bool("used") && used(app, &names(&params)) == Some(true) {
         ask(app, params, true);
         return Ok(json!({}));

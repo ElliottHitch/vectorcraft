@@ -70,6 +70,22 @@ fn yes_asks_again_when_a_stroke_started_using_the_brush() {
 }
 
 #[test]
+fn yes_deletes_nothing_after_another_document_became_active() {
+    let mut app = VectorcraftApp::new(Session::new(), Default::default());
+    app.run("file.new", json!({"width": 200, "height": 100})).unwrap();
+    let name = app.run("brush.list", json!({})).unwrap()["brushes"][0]["name"].as_str().unwrap().to_string();
+    let ctx = context();
+    ask(&mut app, json!({"name": name}), false);
+    app.run("file.new", json!({"width": 200, "height": 100})).unwrap();
+    app.run("document.activate", json!({"index": 1})).unwrap();
+    press(&ctx, &mut app, "Yes", 0.0);
+    assert!(app.ui.dialog.is_none());
+    assert!(app.run("brush.get", json!({"name": name})).is_ok(), "the second document keeps the brush");
+    app.run("document.activate", json!({"index": 0})).unwrap();
+    assert!(app.run("brush.get", json!({"name": name})).is_ok(), "the first document keeps the brush");
+}
+
+#[test]
 fn visible_remove_strokes_and_cancel_buttons_control_used_deletion() {
     for choice in ["Cancel", "Remove Strokes"] {
         let mut app = VectorcraftApp::new(Session::new(), Default::default());
