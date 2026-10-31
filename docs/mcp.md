@@ -2971,8 +2971,10 @@ destination and overridden Save/Export paths use the chosen stem with the output
 set name under Data Set Name falls back to the document stem plus its three-digit ordinal. Batch writes `/`, `\`,
 `:`, `<`, `>`, `"`, `|`, `?`, `*` and control characters in the data set's name as `-`, and adds the next free `-2`,
 `-3` suffix to a stem already used in the batch (compared without case). An output already in a destination folder
-gets the next free suffix only when the batch may read and write that folder before it starts. Under Data Set Name,
-VectorCraft makes Windows device names safe (`CON` becomes `CON-`). This is VectorCraft's naming behavior. Caps: 500
+gets the next free suffix only when the batch may read and write that folder before it starts. When a step can write
+one file per artboard and the document has several artboards, a file with one of those artboard file names for the
+stem counts too. Under Data Set Name, VectorCraft makes Windows device names safe (`CON` becomes `CON-`). This is
+VectorCraft's naming behavior. Caps: 500
 files or data sets, 8 folder levels, 256 steps. An action recorded in the Actions panel leaves the artboard out,
 and its steps of these commands get the artboard that is active when the action plays. A press with the Selection,
 Direct Selection or Group Selection tool inside an artboard makes that artboard the active one; with the Selection

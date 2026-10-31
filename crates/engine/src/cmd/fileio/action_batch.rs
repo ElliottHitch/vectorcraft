@@ -146,7 +146,7 @@ fn batch_datasets(s: &mut Session, cmd: &str, run: &Run<'_>) -> Result<Value> {
         return Err(bad(cmd, format!("more than {MAX_BATCH_FILES} data sets")));
     }
     let doc_stem = st.path.as_deref().and_then(|p| std::path::Path::new(p).file_stem().and_then(|s| s.to_str())).unwrap_or("Untitled").to_string();
-    let stems = dataset_stems(&names, &doc_stem, run.dataset_file_naming, run)?;
+    let stems = dataset_stems(&names, &doc_stem, run.dataset_file_naming, run, &st.doc)?;
     let steps = filter_steps(run.steps, true, false);
     let run = Run { steps: &steps, ..*run };
     let mut processed = Vec::new();
@@ -239,7 +239,7 @@ fn finish_destination(s: &mut Session, run: &Run<'_>, stem: &str, ext: &str, sou
 /// suffixes when a stem was used earlier or its output already exists in a folder the batch may
 /// read and write.
 #[cfg(not(target_arch = "wasm32"))]
-fn dataset_stems(names: &[String], doc_stem: &str, naming: &str, run: &Run<'_>) -> Result<Vec<String>> {
+fn dataset_stems(names: &[String], doc_stem: &str, naming: &str, run: &Run<'_>, doc: &vectorcraft_doc::Document) -> Result<Vec<String>> {
     use super::screens::{file_part, safe_file_name};
 
     if !matches!(naming, "fileNumber" | "fileDataSetName" | "dataSetName") {
@@ -258,13 +258,19 @@ fn dataset_stems(names: &[String], doc_stem: &str, naming: &str, run: &Run<'_>) 
             _ => format!("{doc_stem}_{safe}"),
         }
     });
-    let extensions = dataset_output_extensions(run);
+    let outputs = dataset_output_extensions(run, doc);
     let mut taken = std::collections::HashSet::new();
+    let mut reserved = std::collections::HashSet::new();
     let mut stems = Vec::with_capacity(bases.len());
     for base in bases {
         let mut candidate = base.clone();
         let mut suffix = 2;
-        while taken.contains(&candidate.to_lowercase()) || dataset_output_exists(run.dest_folder, &candidate, &extensions) {
+        while taken.contains(&candidate.to_lowercase())
+            || dataset_output_paths(run.dest_folder, &candidate, &outputs, doc)
+                .iter()
+                .any(|path| reserved.contains(&path.to_string_lossy().to_lowercase()))
+            || dataset_output_exists(run.dest_folder, &candidate, &outputs, doc)
+        {
             if suffix > 10_000 {
                 return Err(bad("action.batch", "no free data set file name in destination folder"));
             }
@@ -272,16 +278,27 @@ fn dataset_stems(names: &[String], doc_stem: &str, naming: &str, run: &Run<'_>) 
             suffix += 1;
         }
         taken.insert(candidate.to_lowercase());
+        reserved
+            .extend(dataset_output_paths(run.dest_folder, &candidate, &outputs, doc).into_iter().map(|path| path.to_string_lossy().to_lowercase()));
         stems.push(candidate);
     }
     Ok(stems)
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-fn dataset_output_extensions(run: &Run<'_>) -> Vec<String> {
-    let mut extensions = Vec::new();
+struct DatasetOutput {
+    ext: String,
+    artboards: bool,
+    joiner: &'static str,
+}
+
+/// Lists step output extensions and reserves artboard file names when the document has multiple artboards.
+/// Per-artboard names count for vectorcraft, template, AI and AIT saves and SVG, SVGZ, EPS, raster, DXF, EMF, WMF and AI exports.
+#[cfg(not(target_arch = "wasm32"))]
+fn dataset_output_extensions(run: &Run<'_>, doc: &vectorcraft_doc::Document) -> Vec<DatasetOutput> {
+    let mut outputs = Vec::new();
     if run.destination == "folder" {
-        extensions.push("vectorcraft".to_string());
+        outputs.push(DatasetOutput { ext: "vectorcraft".into(), artboards: false, joiner: "-" });
     }
     for step in run.steps {
         let id = step.get("command").and_then(Value::as_str).unwrap_or("");
@@ -295,25 +312,73 @@ fn dataset_output_extensions(run: &Run<'_>) -> Vec<String> {
                 None => "vectorcraft".to_string(),
             };
             if safe_extension(&ext) {
-                extensions.push(ext);
+                let format_id = format.and_then(super::format).map(|f| f.id).unwrap_or("vectorcraft");
+                let is_save = matches!(id, "document.save" | "file.save" | "file.saveAs");
+                let artboards = doc.artboards.len() > 1
+                    && if is_save {
+                        matches!(format_id, "vectorcraft" | "template" | "ai" | "ait")
+                    } else {
+                        id == "document.export"
+                            && matches!(
+                                format_id,
+                                "svg"
+                                    | "svgz"
+                                    | "eps"
+                                    | "png"
+                                    | "jpg"
+                                    | "webp"
+                                    | "gif"
+                                    | "png8"
+                                    | "tiff"
+                                    | "bmp"
+                                    | "tga"
+                                    | "psd"
+                                    | "dxf"
+                                    | "emf"
+                                    | "wmf"
+                                    | "ai"
+                            )
+                    };
+                outputs.push(DatasetOutput { ext, artboards, joiner: if format_id == "eps" { "_" } else { "-" } });
             }
         }
     }
-    extensions
+    outputs
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-fn dataset_output_exists(folder: Option<&str>, stem: &str, extensions: &[String]) -> bool {
+fn dataset_output_exists(folder: Option<&str>, stem: &str, outputs: &[DatasetOutput], doc: &vectorcraft_doc::Document) -> bool {
     let Some(folder) = folder else { return false };
     if super::may_read(folder).is_err() || super::may_write(folder).is_err() {
         return false;
     }
-    extensions.iter().any(|ext| {
-        output_path(folder, stem, ext).is_some_and(|path| {
-            let path_text = path.to_string_lossy();
-            super::may_read(&path_text).is_ok() && super::may_write(&path_text).is_ok() && path.exists()
-        })
+    dataset_output_paths(Some(folder), stem, outputs, doc).iter().any(|path| {
+        let path_text = path.to_string_lossy();
+        super::may_read(&path_text).is_ok() && super::may_write(&path_text).is_ok() && path.exists()
     })
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn dataset_output_paths(folder: Option<&str>, stem: &str, outputs: &[DatasetOutput], doc: &vectorcraft_doc::Document) -> Vec<std::path::PathBuf> {
+    let Some(folder) = folder else { return Vec::new() };
+    let boards: Vec<_> = (0..doc.artboards.len()).collect();
+    let mut parts = super::artboard_file_names(doc, &boards);
+    for board in boards {
+        parts.extend(super::artboard_file_names(doc, &[board]));
+    }
+    let mut paths = Vec::new();
+    for output in outputs {
+        if !safe_extension(&output.ext) || super::format(&output.ext).is_none() {
+            continue;
+        }
+        paths.extend(output_path(folder, stem, &output.ext));
+        if output.artboards {
+            for part in &parts {
+                paths.extend(output_path(folder, &format!("{stem}{}{part}", output.joiner), &output.ext));
+            }
+        }
+    }
+    paths
 }
 
 /// Returns whether an extension is safe to use in an output file name.
@@ -761,7 +826,7 @@ mod tests {
             dest_folder: None,
             dataset_file_naming: "fileDataSetName",
         };
-        let stems = dataset_stems(&names, "source", "fileNumber", &run).unwrap();
+        let stems = dataset_stems(&names, "source", "fileNumber", &run, &vectorcraft_doc::Document::new(100.0, 80.0)).unwrap();
         for n in [1, 2, 10, 100, 500] {
             assert_eq!(stems[n - 1], format!("source{n:03}"));
         }
@@ -786,8 +851,8 @@ mod tests {
             dest_folder: None,
             dataset_file_naming: "fileDataSetName",
         };
-        assert_eq!(dataset_stems(&[String::new()], "Untitled", "dataSetName", &run).unwrap(), ["Untitled001"]);
-        assert_eq!(dataset_stems(&["   ".to_string()], "Untitled", "dataSetName", &run).unwrap(), ["Untitled001"]);
+        assert_eq!(dataset_stems(&[String::new()], "Untitled", "dataSetName", &run, &s.doc().unwrap().doc).unwrap(), ["Untitled001"]);
+        assert_eq!(dataset_stems(&["   ".to_string()], "Untitled", "dataSetName", &run, &s.doc().unwrap().doc).unwrap(), ["Untitled001"]);
     }
 
     #[test]
@@ -836,6 +901,126 @@ mod tests {
     }
 
     #[test]
+    fn batch_artboard_export_keeps_existing_output() {
+        let dest = tmp("choice-existing-artboard-export");
+        let existing = dest.join("Alpha-Artboard-1.png");
+        std::fs::write(&existing, b"keep").unwrap();
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 20, "height": 20, "artboards": 2})).unwrap();
+        s.execute("dataset.new", &json!({"name": "Alpha"})).unwrap();
+        let r = s
+            .execute(
+                "action.batch",
+                &json!({
+                    "source": "datasets", "datasetFileNaming": "dataSetName",
+                    "destinationFolder": dest.to_string_lossy(),
+                    "commands": [{"command": "document.export", "params": {"format": "png", "useArtboards": true}}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(std::fs::read(existing).unwrap(), b"keep");
+        assert_eq!(file_names(&dest), ["Alpha-2-Artboard-1.png", "Alpha-2-Artboard-2.png", "Alpha-Artboard-1.png"]);
+    }
+
+    #[test]
+    fn batch_remembered_separate_artboards_keeps_existing_output() {
+        let source = tmp("choice-remembered-separate-source");
+        let dest = tmp("choice-remembered-separate-dest");
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 20, "height": 20, "artboards": 2})).unwrap();
+        s.execute("document.save", &json!({"path": source.join("source.vectorcraft").to_string_lossy(), "separateArtboards": true})).unwrap();
+        assert!(source.join("source-Artboard-1.vectorcraft").exists());
+        let existing = dest.join("Alpha-Artboard-1.vectorcraft");
+        std::fs::write(&existing, b"keep").unwrap();
+        s.execute("dataset.new", &json!({"name": "Alpha"})).unwrap();
+        let r = s
+            .execute(
+                "action.batch",
+                &json!({
+                    "source": "datasets", "datasetFileNaming": "dataSetName",
+                    "destinationFolder": dest.to_string_lossy(),
+                    "commands": [{"command": "document.save"}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(std::fs::read(existing).unwrap(), b"keep");
+        assert_eq!(
+            file_names(&dest),
+            ["Alpha-2-Artboard-1.vectorcraft", "Alpha-2-Artboard-2.vectorcraft", "Alpha-2.vectorcraft", "Alpha-Artboard-1.vectorcraft",]
+        );
+    }
+
+    #[test]
+    fn batch_pdf_export_ignores_artboard_named_file() {
+        let dest = tmp("choice-pdf-artboard-name");
+        let existing = dest.join("Alpha-Artboard-1.pdf");
+        std::fs::write(&existing, b"keep").unwrap();
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 20, "height": 20, "artboards": 2})).unwrap();
+        s.execute("dataset.new", &json!({"name": "Alpha"})).unwrap();
+        let r = s
+            .execute(
+                "action.batch",
+                &json!({
+                    "source": "datasets", "datasetFileNaming": "dataSetName",
+                    "destinationFolder": dest.to_string_lossy(),
+                    "commands": [{"command": "document.export", "params": {"format": "pdf"}}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(std::fs::read(existing).unwrap(), b"keep");
+        assert_eq!(file_names(&dest), ["Alpha-Artboard-1.pdf", "Alpha.pdf"]);
+    }
+
+    #[test]
+    fn batch_separate_artboards_ignores_unrelated_extension() {
+        let dest = tmp("choice-separate-unrelated-extension");
+        let unrelated = dest.join("Alpha-photo.png");
+        std::fs::write(&unrelated, b"keep").unwrap();
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 20, "height": 20, "artboards": 2})).unwrap();
+        s.execute("dataset.new", &json!({"name": "Alpha"})).unwrap();
+        let r = s
+            .execute(
+                "action.batch",
+                &json!({
+                    "source": "datasets", "datasetFileNaming": "dataSetName",
+                    "destinationFolder": dest.to_string_lossy(),
+                    "commands": [{"command": "document.save", "params": {"separateArtboards": true}}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(r["failed"], 0, "{r}");
+        assert_eq!(std::fs::read(unrelated).unwrap(), b"keep");
+        assert_eq!(file_names(&dest), ["Alpha-Artboard-1.vectorcraft", "Alpha-Artboard-2.vectorcraft", "Alpha-photo.png", "Alpha.vectorcraft"]);
+    }
+
+    #[test]
+    fn batch_separate_artboards_reserves_prior_output_names() {
+        let dest = tmp("choice-separate-reserved");
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 20, "height": 20, "artboards": 2})).unwrap();
+        s.execute("dataset.new", &json!({"name": "Alpha"})).unwrap();
+        s.execute("dataset.new", &json!({"name": "Alpha-Artboard-1"})).unwrap();
+        let r = s
+            .execute(
+                "action.batch",
+                &json!({
+                    "source": "datasets", "datasetFileNaming": "dataSetName",
+                    "destinationFolder": dest.to_string_lossy(),
+                    "commands": [{"command": "document.save", "params": {"separateArtboards": true}}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(r["failed"], 0, "{r}");
+        assert!(dest.join("Alpha-Artboard-1.vectorcraft").exists());
+        assert!(dest.join("Alpha-Artboard-1-2.vectorcraft").exists());
+    }
+
+    #[test]
     fn batch_does_not_probe_a_denied_destination() {
         let allowed = tmp("probe-allowed");
         let denied = tmp("probe-denied");
@@ -854,7 +1039,10 @@ mod tests {
             dataset_file_naming: "fileDataSetName",
         };
         crate::file_access::confine(Some(&roots), || {
-            assert_eq!(dataset_stems(&["Alpha".into()], "source", "dataSetName", &run).unwrap(), ["Alpha"]);
+            assert_eq!(
+                dataset_stems(&["Alpha".into()], "source", "dataSetName", &run, &vectorcraft_doc::Document::new(100.0, 80.0)).unwrap(),
+                ["Alpha"]
+            );
             let mut s = with_data_sets(&["Alpha"]);
             let result = s
                 .execute(
@@ -890,7 +1078,8 @@ mod tests {
                 dataset_file_naming: "fileDataSetName",
             };
             assert_eq!(
-                dataset_stems(&["Alpha".into()], "source", "dataSetName", &run).unwrap_or_else(|e| panic!("{format}: {e}")),
+                dataset_stems(&["Alpha".into()], "source", "dataSetName", &run, &vectorcraft_doc::Document::new(100.0, 80.0))
+                    .unwrap_or_else(|e| panic!("{format}: {e}")),
                 ["Alpha"],
                 "{format}"
             );
@@ -915,8 +1104,14 @@ mod tests {
             dest_folder: Some(&folder),
             dataset_file_naming: "fileDataSetName",
         };
-        assert_eq!(dataset_stems(&[".".into(), "..".into()], ".", "dataSetName", &run).unwrap(), ["Untitled001", "Untitled002"]);
-        assert_eq!(dataset_stems(&["Alpha".into()], "..", "fileNumber", &run).unwrap(), ["Untitled001"]);
+        assert_eq!(
+            dataset_stems(&[".".into(), "..".into()], ".", "dataSetName", &run, &vectorcraft_doc::Document::new(100.0, 80.0)).unwrap(),
+            ["Untitled001", "Untitled002"]
+        );
+        assert_eq!(
+            dataset_stems(&["Alpha".into()], "..", "fileNumber", &run, &vectorcraft_doc::Document::new(100.0, 80.0)).unwrap(),
+            ["Untitled001"]
+        );
         let output = root.join("named");
         let mut s = with_data_sets(&[".", ".."]);
         let r = named_batch(&mut s, &output, Some("dataSetName"));
@@ -931,7 +1126,12 @@ mod tests {
         std::fs::create_dir_all(&folder).unwrap();
         std::fs::write(root.join("outside.svg"), b"private").unwrap();
         let folder = folder.to_string_lossy().into_owned();
-        assert!(!dataset_output_exists(Some(&folder), "../outside", &["svg".into()]));
+        assert!(!dataset_output_exists(
+            Some(&folder),
+            "../outside",
+            &[DatasetOutput { ext: "svg".into(), artboards: false, joiner: "-" }],
+            &vectorcraft_doc::Document::new(100.0, 80.0),
+        ));
     }
 
     #[test]
