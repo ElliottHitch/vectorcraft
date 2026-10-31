@@ -204,6 +204,21 @@ mod tests {
         assert!(huge.quads(1).is_empty());
     }
 
+    /// Flat pieces of a mesh over the quad budget follow the coarser subdivision [`GradientMesh::quads`]
+    /// gives way to: each patch's pieces are its own quads', so together they cover the mesh once.
+    #[test]
+    fn a_large_meshs_pieces_follow_the_quad_budget() {
+        let m = GradientMesh::from_surface(60, 60, &|u, v| Point::new(u * 300.0, v * 300.0), &|u, v| Color::rgb(u as f32, v as f32, 0.5));
+        let area = |pts: &[Point]| {
+            let n = pts.len();
+            (0..n).map(|i| pts[i].x * pts[(i + 1) % n].y - pts[(i + 1) % n].x * pts[i].y).sum::<f64>().abs() / 2.0
+        };
+        let pieces = m.pieces(32);
+        assert!(pieces.len() >= 3600, "{} pieces", pieces.len());
+        let total: f64 = pieces.iter().map(|p| area(&p.pts)).sum();
+        assert!((total - 90_000.0).abs() < 90.0, "covered {total}");
+    }
+
     /// A file's rows and columns can be anything: a point count too large to compute is no match
     /// for the points (u32::MAX × u32::MAX wrapped to 0 and passed for a grid without points).
     #[test]

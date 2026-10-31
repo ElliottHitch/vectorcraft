@@ -367,13 +367,19 @@ impl GradientMesh {
         (Color::rgb(rgb[0], rgb[1], rgb[2]), op)
     }
 
-    /// Tessellate into `n`×`n` quads per patch, each coloured at its centre and its corners.
+    /// The quads per patch side [`Self::quads`] cuts at when `n` is asked: 1 to 64, and coarser
+    /// where the patches at `n` would pass [`Self::MAX_QUADS`] (a quad per patch is the least).
+    fn subdivision(&self, n: usize) -> usize {
+        n.clamp(1, 64).min(((Self::MAX_QUADS / self.patches().max(1)) as f64).sqrt() as usize).max(1)
+    }
+
+    /// Tessellate into `n`×`n` quads per patch ([`Self::subdivision`]), each coloured at its centre
+    /// and its corners.
     pub fn quads(&self, n: usize) -> Vec<MeshQuad> {
         if !self.is_valid() {
             return vec![];
         }
-        // Finer than the budget allows gives way: a quad per patch is the least.
-        let n = n.clamp(1, 64).min(((Self::MAX_QUADS / self.patches()) as f64).sqrt() as usize).max(1);
+        let n = self.subdivision(n);
         let mut out = Vec::with_capacity(self.patches() * n * n);
         let mut grid = vec![Point::ZERO; (n + 1) * (n + 1)];
         let mut colors = vec![(Color::default(), 0.0f32); (n + 1) * (n + 1)];
@@ -411,7 +417,7 @@ impl GradientMesh {
     /// all its quads. A piece's outline runs through its quads' outer corners, so it covers what
     /// they covered, and it takes the colour at its centre.
     pub fn pieces(&self, n: usize) -> Vec<MeshPiece> {
-        let n = n.clamp(1, 64);
+        let n = self.subdivision(n);
         let quads = self.quads(n);
         let cols = (self.cols as usize).max(1);
         let mut out = Vec::with_capacity(quads.len());
