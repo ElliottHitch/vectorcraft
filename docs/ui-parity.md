@@ -1,6 +1,6 @@
 # UI and interaction parity
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G1: Grid Repeat Options has a Preview checkbox, #2651; scores unchanged; previously: Path Precision Tools add-on: Shared Edge Merge Tool; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Direct Selection snaps a dragged line end square to straight paths and grazing curves; Path Precision Tools add-on: Shared Edge Merge Tool; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -152,7 +152,7 @@ tools, never checked side by side) isn't captured row by row.
 | Snapping tolerance preference | done | |
 | Snap to Point, Snap to Grid, Snap to Pixel; Pixel Preview | done | #1840: with Snap to Grid on, anchors and objects snap to the grid even when Snap to Pixel is also ticked (#1816 waits for the reporter) |
 | Snap to Glyph | done | View › Snap to Glyph (`view.snapToGlyph`); new type and drawing snap to live-text baselines and glyph bounds when Smart Guides are on (#3124). Character panel menu › Show Snap to Glyph Options: a checkbox for each guide (Baseline, x-height, Glyph Bounds, Proximity Guides, Angular Guides, Anchor Point), dimmed while Snap to Glyph is off (#4232) |
-| Tangent and perpendicular snapping for line endpoints (new in 30.0) | partial | #2530: tangent snapping to curves and perpendicular snapping to straight segments for drawn lines; saved Preferences › Smart Guides › Geometric Guides controls, on by default. Other tool/drag cases remain. [Public source](https://helpx.adobe.com/illustrator/desktop/measure-and-align/plot-and-measure/snap-to-perpendicular.html) |
+| Tangent and perpendicular snapping for line endpoints (new in 30.0) | done | #2530: tangent snapping to curves and perpendicular snapping to straight segments for lines drawn with the Line Segment, Pen and Curvature tools, and for an existing line whose end anchor is dragged with Direct Selection (the only anchor selected, an open path's end on a straight segment; Shift keeps its angle step instead; Group Selection moves the path whole and does not snap so); mid-line anchors, curved segments' ends and curves as perpendicular targets are excluded, as the pages say. Saved Preferences › Smart Guides › Geometric Guides controls, on by default. [Perpendicular](https://helpx.adobe.com/illustrator/desktop/measure-and-align/plot-and-measure/snap-to-perpendicular.html) and [tangent](https://helpx.adobe.com/illustrator/desktop/measure-and-align/plot-and-measure/snap-to-tangent.html) pages; test `dragged_line_ends_snap_perpendicular_to_segments_and_tangent_to_curves` |
 | Snapping panel/popover consolidating the snap options (30.0) | partial | Control bar › Snapping provides quick access through existing view commands and prefs.set; no View › Snapping submenu. Floating-panel parity remains unverified. |
 | Customisable rotation snap angle (#973) | missing | Illustrator: Constrain Angle and construction angles only |
 | Ruler guides: drag out, select, move, delete, lock, Make/Release Guides | done | #414, #451; marquee selects unlocked ruler guides |
@@ -376,6 +376,7 @@ separate. Scores and hours unchanged. [Behavior and command details](development
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | Smart guides and snapping: Snap to Perpendicular and Snap to Tangent for an existing line's end dragged with Direct Selection (#2530), so the tangent and perpendicular row is done; scores and estimates unchanged |
 | 2026-10-31 | minor | Grid Repeat Options has a Preview checkbox (#2651); scores and estimates unchanged |
 | 2026-10-31 | minor | Path Precision Tools add-on: the Shared Edge Merge Tool and Keep Shared Points Together; scores and estimates unchanged |
 | 2026-10-31 | minor | Path Precision Tools add-on: live Path Effects in Effect › Path Effects; scores and estimates unchanged |
