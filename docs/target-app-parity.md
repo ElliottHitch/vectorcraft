@@ -1,6 +1,6 @@
 # Parity with Adobe Illustrator
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G8: a gradient mesh from a file is budgeted, #3592; scores unchanged; previously: Path Precision Tools add-on: Shared Edge Merge Tool; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G1: Grid Repeat Options has a Preview checkbox, #2651; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x; public release notes through 30.7, August 2026)
 
 ## Feature submission evidence
 
@@ -19,6 +19,7 @@ Artboard Options forwards the active Artboard tool's Scale Artwork with Artboard
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | Patterns: Grid Repeat Options has a Preview checkbox, as the public grid options page lists (#2651); scores unchanged. |
 | 2026-10-31 | minor | Hardening: a gradient mesh read from a file is budgeted at about a million quads, so a huge one no longer exhausts memory when drawn or exported (#3592); scores unchanged. |
 | 2026-10-30 | minor | File formats: `.ai`/EPS editing data: a blend takes the transparency (opacity, blend mode, knockout) in its state block after its record, so its steps knock each other out as the page draws them; a user's file comes in 0.6% from its page instead of 1.3%. Scores and estimates unchanged. |
 | 2026-10-30 | minor | File formats: `.ai`/EPS editing-data fidelity from an audit of a user's files: All Caps and Small Caps (#4708); placed files at their box's corner, kept where they draw closer to the page (#4664, #4723, #4742); pages cropped to the art, with `UserUnit` (#4658, #4727); gradient mesh corners with handle weights of 0 and the state written after a mesh (#4738, #4744, #4748); type on a path spaced as the file lays it out (#4743); synthetic regressions in `crates/eps`; evidence added; scores unchanged. |

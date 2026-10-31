@@ -1,6 +1,6 @@
 # UI and interaction parity
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Path Precision Tools add-on: Shared Edge Merge Tool; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (G1: Grid Repeat Options has a Preview checkbox, #2651; scores unchanged; previously: Path Precision Tools add-on: Shared Edge Merge Tool; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
 
 ## Feature submission evidence
 
@@ -274,6 +274,7 @@ next unit in the order a right-click on a ruler lists them, from Feet back to Po
 | Command search: Up and Down move through the results, Enter runs the highlighted one | done | #1798 (#1757) |
 | Pathfinder panel: a group selected alone counts its nested shapes, so an expanded stroked object keeps the Shape Modes enabled | done | #1642 (#1635) |
 | Selected Grid Repeat shows row, column and corner handles and spacing sliders; bounding-box handles take priority where they meet | done | #2691, `tools/src/repeat_grid.rs`; [public behavior reference](https://helpx.adobe.com/illustrator/desktop/paint-and-fill/create-and-edit-patterns/set-grid-repeat-options.html); drags preview and commit `object.repeat.options` as one undo step, Escape cancels; Radial Repeat has no handles yet |
+| Grid Repeat Options (Object › Repeat › Options…) has a Preview checkbox: the repeat on the canvas follows the fields while the dialog is open, Cancel puts the original back without a history step, OK keeps the previewed values as one undo step | done | #2651; [public behavior reference](https://helpx.adobe.com/illustrator/desktop/paint-and-fill/create-and-edit-patterns/set-grid-repeat-options.html) lists the Preview option for the grid options only, so Radial and Mirror Repeat Options have none; `dialogs/command.rs` tests |
 | Selected Mirror Repeat shows a prominent axis with move and rotation handles; bounding-box handles take priority over the axis line | done | #2877, `tools/src/mirror.rs`; [public behavior reference](https://helpx.adobe.com/illustrator/desktop/paint-and-fill/create-and-edit-patterns/set-mirror-repeat-options.html) |
 | Object › Expand on radial, grid and mirror repeats makes groups of their instances | done | #1765 (#1756) |
 | Object › Expand… is dimmed while the selection has appearance attributes (effects, several fills or strokes, a fill or stroke with its own transparency or effects, a brush); its tooltip and the status bar say to use Object › Expand Appearance first, which leaves a stroked line with Zig Zag a stroked zig-zag line that Expand then outlines | done | #3089; [public behavior reference](https://helpx.adobe.com/illustrator/desktop/manage-objects/arrange-objects/expand-objects.html); `dialogs/expand.rs` tests, engine `tests_objexpand`. `object.expand` (agents, scripts) still bakes effects in one step |
@@ -375,6 +376,7 @@ separate. Scores and hours unchanged. [Behavior and command details](development
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | Grid Repeat Options has a Preview checkbox (#2651); scores and estimates unchanged |
 | 2026-10-31 | minor | Path Precision Tools add-on: the Shared Edge Merge Tool and Keep Shared Points Together; scores and estimates unchanged |
 | 2026-10-31 | minor | Path Precision Tools add-on: live Path Effects in Effect › Path Effects; scores and estimates unchanged |
 | 2026-10-31 | minor | Path Precision Tools add-on: the Corner Tool (editable corners, panel section) and Slide Anchor Along Path; scores and estimates unchanged |
