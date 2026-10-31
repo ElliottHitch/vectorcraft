@@ -129,6 +129,89 @@ fn shift_drag_moves_on_a_plane_axis() {
     assert_eq!(plane_pts(&s, id, Plane::Right, 0.0), before);
 }
 
+/// An attached rectangle with a horizontal edge close enough to a gridline to be pulled by snapping.
+fn near_gridline_session() -> (Session, NodeId) {
+    let (mut s, id) = persp_session();
+    let g = grid(&s);
+    let b = bounds_of(&plane_pts(&s, id, Plane::Right, 0.0));
+    let dy = (b.y0 / g.cell).round() * g.cell + g.cell * 0.1 - b.y0;
+    let h = g.homography(Plane::Right).unwrap();
+    let from = h.apply(b.center()).unwrap();
+    let to = h.apply(b.center() + Vec2::new(0.0, dy)).unwrap();
+    s.execute("perspective.move", &json!({"ids": [id.0], "from": [from.x, from.y], "to": [to.x, to.y], "snap": false})).unwrap();
+    s.execute("perspective.grid.snap", &json!({"on": true})).unwrap();
+    (s, id)
+}
+
+fn shift_move_near_gridline(diagonal: bool, copy: bool) {
+    let (mut s, id) = near_gridline_session();
+    s.select_tool("perspectiveSelection", ViewInfo::default()).unwrap();
+    let before = plane_pts(&s, id, Plane::Right, 0.0);
+    let h = grid(&s).homography(Plane::Right).unwrap();
+    let start = bounds_of(&before).center();
+    let raw = if diagonal { Vec2::new(40.0, 50.0) } else { Vec2::new(80.0, 20.0) };
+    let from = h.apply(start).unwrap();
+    let to = h.apply(start + raw).unwrap();
+    drag(&mut s, &[from, to, to], Mods { shift: true, alt: copy, ..Default::default() });
+    let target = if copy { *s.doc().unwrap().selection.objects.first().unwrap() } else { id };
+    assert!(!copy || target != id);
+    let after = plane_pts(&s, target, Plane::Right, 0.0);
+    for (a, b) in before.iter().zip(after) {
+        let d = b - *a;
+        if diagonal {
+            assert!((d.x - d.y).abs() < 1e-6, "diagonal move left its line: {d:?}");
+        } else {
+            assert!(d.y.abs() < 1e-6, "axis move left its line: {d:?}");
+        }
+    }
+    if copy {
+        assert_eq!(plane_pts(&s, id, Plane::Right, 0.0), before);
+    }
+}
+
+#[test]
+fn shift_axis_move_stays_on_axis_with_grid_snap() {
+    shift_move_near_gridline(false, false);
+}
+
+#[test]
+fn shift_axis_copy_stays_on_axis_with_grid_snap() {
+    shift_move_near_gridline(false, true);
+}
+
+#[test]
+fn shift_diagonal_move_stays_on_diagonal_with_grid_snap() {
+    shift_move_near_gridline(true, false);
+}
+
+#[test]
+fn shift_diagonal_copy_stays_on_diagonal_with_grid_snap() {
+    shift_move_near_gridline(true, true);
+}
+
+#[test]
+fn constrained_move_command_stays_on_axis_with_grid_snap() {
+    let (mut s, id) = near_gridline_session();
+    let before = plane_pts(&s, id, Plane::Right, 0.0);
+    let h = grid(&s).homography(Plane::Right).unwrap();
+    let start = bounds_of(&before).center();
+    let from = h.apply(start).unwrap();
+    let to = h.apply(start + Vec2::new(80.0, 0.0)).unwrap();
+    s.execute("perspective.move", &json!({"ids": [id.0], "from": [from.x, from.y], "to": [to.x, to.y], "constrain": [1.0, 0.0]})).unwrap();
+    for (a, b) in before.iter().zip(plane_pts(&s, id, Plane::Right, 0.0)) {
+        assert!((b.y - a.y).abs() < 1e-6, "constrained command left axis: {a:?} to {b:?}");
+    }
+}
+
+#[test]
+fn constrained_move_rejects_invalid_direction() {
+    let (mut s, id) = near_gridline_session();
+    for direction in [json!([0.0, 0.0]), json!([1.0]), json!([1.0, "bad"]), json!([null, 1.0])] {
+        let error = s.execute("perspective.move", &json!({"ids": [id.0], "from": [1.0, 1.0], "to": [2.0, 2.0], "constrain": direction})).unwrap_err();
+        assert!(error.to_string().contains("constrain must be two finite numbers, not both zero"), "{error}");
+    }
+}
+
 #[test]
 fn shift_drag_keeps_its_displacement_after_a_plane_key() {
     let (mut s, id) = persp_session();

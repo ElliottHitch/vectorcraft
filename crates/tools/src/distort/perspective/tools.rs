@@ -167,7 +167,7 @@ impl PerspectiveSelectionTool {
         let SelDrag::Move { ids, from, last, perp, copy, shift, .. } = &self.drag else { return None };
         let g = PerspectiveGrid::current(cx.doc);
         let at = ids.first().and_then(|id| g.attachment_of(cx.doc, *id)).or((g.plane != Plane::None).then_some((g.plane, g.offset(g.plane))));
-        let to = if *shift && !*perp {
+        let constrained = if *shift && !*perp {
             at.and_then(|(plane, depth)| {
                 let h = g.homography_at(plane, depth)?;
                 let hi = h.inverse()?;
@@ -176,13 +176,16 @@ impl PerspectiveSelectionTool {
                 let angle = (delta.y.atan2(delta.x) / std::f64::consts::FRAC_PI_4).round() * std::f64::consts::FRAC_PI_4;
                 let direction = Vec2::new(angle.cos(), angle.sin());
                 let distance = delta.x * direction.x + delta.y * direction.y;
-                h.apply(start + direction * distance).filter(|p| p.x.is_finite() && p.y.is_finite())
+                h.apply(start + direction * distance).filter(|p| p.x.is_finite() && p.y.is_finite()).map(|to| (to, direction))
             })
-            .unwrap_or(*last)
         } else {
-            *last
+            None
         };
+        let to = if let Some((to, _)) = constrained { to } else { *last };
         let mut v = json!({"ids": crate::json_ids(ids), "from": [from.x, from.y], "to": [to.x, to.y], "copy": copy, "perpendicular": perp});
+        if let Some((_, direction)) = constrained {
+            v["constrain"] = json!([direction.x, direction.y]);
+        }
         if g.plane != Plane::None {
             v["plane"] = json!(g.plane.id());
         }

@@ -284,12 +284,28 @@ pub(super) fn persp_move(s: &mut Session, p: &Value) -> Result<Value> {
     }
     let fallback = plane_param(&grid_of(&s.doc()?.doc), p, C).ok();
     let (perp, copy) = (switch_or(p, "perpendicular", false, C)?, switch_or(p, "copy", false, C)?);
+    let constrain = match p.get("constrain").filter(|v| !v.is_null()) {
+        Some(v) => {
+            let direction = v.as_array().filter(|v| v.len() == 2).and_then(|v| Some((v.first()?.as_f64()?, v.get(1)?.as_f64()?)));
+            let (x, y) = direction.ok_or_else(|| bad(C, "constrain must be two finite numbers, not both zero"))?;
+            if !x.is_finite() || !y.is_finite() || (x == 0.0 && y == 0.0) {
+                return Err(bad(C, "constrain must be two finite numbers, not both zero"));
+            }
+            let scale = x.abs().max(y.abs());
+            let (x, y) = (x / scale, y / scale);
+            let length = x.hypot(y);
+            Some(vectorcraft_geom::Vec2::new(x / length, y / length))
+        }
+        None => None,
+    };
     // `snap_fix` uses Snap to Grid's setting for a `snap` that is not true or false.
     check_switches(p, &["snap"], C)?;
     // Snap to Grid: a correction for the objects on the first one's plane and depth.
     let fix = if perp { None } else { crate::cmd::perspgrid::snap_fix(&s.doc()?.doc, &ids, p, (from, to)) };
     let snapped = move |pl: Plane, depth: f64, dv: vectorcraft_geom::Vec2| {
-        dv + fix.filter(|f| f.0 == pl && f.1 == depth).map_or(vectorcraft_geom::Vec2::ZERO, |f| f.2)
+        dv + fix
+            .filter(|f| f.0 == pl && f.1 == depth)
+            .map_or(vectorcraft_geom::Vec2::ZERO, |f| constrain.map_or(f.2, |unit| unit * (f.2.x * unit.x + f.2.y * unit.y)))
     };
     // In-plane: the plane-space offset under the pointer; perpendicular: the depth it reaches.
     let step = |g: &PerspectiveGrid, pl: Plane, depth: f64| -> Result<(Homography, f64)> {

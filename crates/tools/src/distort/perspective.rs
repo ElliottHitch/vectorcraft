@@ -1250,6 +1250,9 @@ mod tests {
                 let endpoint = Point::new(v["to"][0].as_f64().unwrap(), v["to"][1].as_f64().unwrap());
                 let delta = hi.apply(endpoint).unwrap() - start;
                 assert!((delta - expected).hypot() < 1e-6, "{plane:?}: {delta:?} != {expected:?}");
+                let direction = expected / expected.hypot();
+                let sent = Vec2::new(v["constrain"][0].as_f64().unwrap(), v["constrain"][1].as_f64().unwrap());
+                assert!((sent - direction).hypot() < 1e-12, "{plane:?}: {sent:?} != {direction:?}");
             }
         }
     }
@@ -1276,16 +1279,19 @@ mod tests {
             t.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y).with_mods(Mods { shift: true, alt: true, ..Default::default() }));
         let Some(Action::Preview(_, snapped)) = shifted.last() else { panic!("{shifted:?}") };
         assert_eq!(snapped["copy"], json!(true));
+        assert_eq!(snapped["constrain"], json!([1.0, 0.0]));
         assert_ne!(snapped["to"], raw["to"]);
         let perpendicular = t.key(&c, ToolKey::Digit(5), Mods { shift: true, alt: true, ..Default::default() });
         let Some(Action::Preview(_, depth)) = perpendicular.last() else { panic!("{perpendicular:?}") };
         assert_eq!(depth["to"], raw["to"]);
+        assert!(depth.get("constrain").is_none());
         let in_plane = t.key(&c, ToolKey::Digit(5), Mods { shift: true, alt: true, ..Default::default() });
         let Some(Action::Preview(_, snapped_again)) = in_plane.last() else { panic!("{in_plane:?}") };
         assert_eq!(snapped_again["to"], snapped["to"]);
         let released = t.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y));
         let Some(Action::Preview(_, raw_again)) = released.last() else { panic!("{released:?}") };
         assert_eq!(raw_again["to"], raw["to"]);
+        assert!(raw_again.get("constrain").is_none());
     }
 
     #[test]
