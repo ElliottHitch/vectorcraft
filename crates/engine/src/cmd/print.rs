@@ -11,6 +11,7 @@ use vectorcraft_pdf::{PrintLayers, PrintOptions, PrintPreview, PrintSettings};
 
 use super::fileio::pdf::{merge, pdf_error};
 use super::fileio::{extension, write_or_return};
+use super::flatten::expand_transparent_tile_images;
 use super::{CommandSpec, EngineError, Result, Session, bad, bool_or, cmd, has_doc, str_param};
 
 const SETUP: &str = "print.setup";
@@ -179,6 +180,14 @@ fn print(s: &mut Session, p: &Value) -> Result<Value> {
     // Raster effects print as images at the document's raster effects resolution.
     let flat = super::rasterfx::flatten_raster_effects(doc);
     let doc = flat.as_ref().unwrap_or(doc);
+    let bitmap = set.advanced.print_as_bitmap && set.output.mode == vectorcraft_pdf::OutputMode::Composite;
+    let expanded = if postscript && !bitmap {
+        let options = super::printadvanced::flattener(PRINT, &set, &s.prefs.flattener_presets)?;
+        options.as_ref().map(|o| expand_transparent_tile_images(doc, o)).transpose()?.flatten()
+    } else {
+        None
+    };
+    let doc = expanded.as_ref().unwrap_or(doc);
     // Print as Bitmap and the flattener preset (Advanced) render and flatten it first.
     let prepared = super::printadvanced::prepare(PRINT, doc, &set, &s.prefs.flattener_presets, s.prefs.black_output == "rich")?;
     let path = str_param(p, "path");
@@ -201,7 +210,6 @@ fn print(s: &mut Session, p: &Value) -> Result<Value> {
         None => Level::default(),
     };
     let mut warnings = vec![];
-    let bitmap = set.advanced.print_as_bitmap && set.output.mode == vectorcraft_pdf::OutputMode::Composite;
     if !bitmap && doc.layers.iter().any(|l| l.shows_transparency()) {
         warnings.push("transparency is flattened into opaque art and images (PostScript has none): see flattenerPreset".to_string());
     }

@@ -704,3 +704,100 @@ fn only_the_transparent_pattern_fill_of_a_leaf_is_expanded() {
     assert_eq!(patterns.len(), 1, "{patterns:?}");
     assert!(images > 0);
 }
+
+#[test]
+fn pdf13_flattens_see_through_pattern_tile_images() {
+    let mut s = pattern_over_blue(&checker([0, 200, 0, 255], [255, 255, 255, 0]), 1.0);
+    let before = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
+    let r = s.execute("document.exportPdf", &json!({"compatibility": "1.3"})).unwrap();
+    let bytes = vectorcraft_format::base64_decode(r["dataBase64"].as_str().unwrap()).unwrap();
+    let page = vectorcraft_pdf::import(&bytes).unwrap();
+    let after = [colour_at(&page, 72.0, 72.0), colour_at(&page, 88.0, 72.0)];
+    for (a, b) in before.iter().zip(after) {
+        assert!(a.iter().zip(b).all(|(a, b)| a.abs_diff(b) <= 4), "before {before:?} after {after:?}");
+    }
+}
+
+#[test]
+fn pdf13_flattens_colorized_pattern_tile_images() {
+    let mut s = colorized_pattern_over_blue();
+    let before = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
+    let r = s.execute("document.exportPdf", &json!({"compatibility": "1.3"})).unwrap();
+    let bytes = vectorcraft_format::base64_decode(r["dataBase64"].as_str().unwrap()).unwrap();
+    let page = vectorcraft_pdf::import(&bytes).unwrap();
+    let after = [colour_at(&page, 72.0, 72.0), colour_at(&page, 88.0, 72.0)];
+    for (a, b) in before.iter().zip(after) {
+        assert!(a.iter().zip(b).all(|(a, b)| a.abs_diff(b) <= 4), "before {before:?} after {after:?}");
+    }
+}
+
+#[test]
+fn eps_level3_writes_see_through_pattern_tile_images() {
+    let mut s = pattern_over_blue(&checker([0, 200, 0, 255], [255, 255, 255, 0]), 1.0);
+    let before = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
+    let r = s.execute("document.exportEps", &json!({"previewFormat": "none", "useArtboards": true, "level": 3})).unwrap();
+    s.execute("document.open", &json!({"name": "p.eps", "dataBase64": r["dataBase64"], "editingData": false})).unwrap();
+    let page = &s.doc().unwrap().doc;
+    let after = [colour_at(page, 72.0, 72.0), colour_at(page, 88.0, 72.0)];
+    for (a, b) in before.iter().zip(after) {
+        assert!(a.iter().zip(b).all(|(a, b)| a.abs_diff(b) <= 4), "before {before:?} after {after:?}");
+    }
+}
+
+#[test]
+fn eps_flattens_colorized_pattern_tile_images_and_warns() {
+    let mut s = colorized_pattern_over_blue();
+    let before = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
+    let r = s.execute("document.exportEps", &json!({"previewFormat": "none", "useArtboards": true, "level": 3})).unwrap();
+    assert!(warnings(&r).iter().any(|w| w.contains("transparency is flattened")), "{:?}", warnings(&r));
+    s.execute("document.open", &json!({"name": "p.eps", "dataBase64": r["dataBase64"], "editingData": false})).unwrap();
+    let after = [colour_at(&s.doc().unwrap().doc, 72.0, 72.0), colour_at(&s.doc().unwrap().doc, 88.0, 72.0)];
+    for (a, b) in before.iter().zip(after) {
+        assert!(a.iter().zip(b).all(|(a, b)| a.abs_diff(b) <= 4), "before {before:?} after {after:?}");
+    }
+}
+
+#[test]
+fn eps_warns_for_colorized_image_nested_in_pattern_tile_group() {
+    let mut s = colorized_pattern_over_blue();
+    let d = std::sync::Arc::make_mut(&mut s.doc_mut().unwrap().doc);
+    let id = d.alloc_id();
+    let art = std::mem::take(&mut d.patterns[0].art);
+    d.patterns[0].art.push(std::sync::Arc::new(vectorcraft_doc::Node::group(id, art)));
+    let r = s.execute("document.exportEps", &json!({"previewFormat": "none", "useArtboards": true, "level": 3})).unwrap();
+    assert!(warnings(&r).iter().any(|w| w.contains("transparency is flattened")), "{:?}", warnings(&r));
+}
+
+#[test]
+fn postscript_print_warns_for_colorized_pattern_tile_image() {
+    let mut s = colorized_pattern_over_blue();
+    let r = s.execute("file.print", &json!({"format": "postscript"})).unwrap();
+    assert!(warnings(&r).iter().any(|w| w.contains("transparency is flattened")), "{:?}", warnings(&r));
+}
+
+#[test]
+fn eps_pattern_does_not_flatten_a_separate_see_through_image() {
+    let mut output = vec![];
+    for tile in [checker([0, 200, 0, 255], [255, 230, 0, 255]), checker([0, 200, 0, 255], [255, 255, 255, 0])] {
+        let mut s = pattern_over_blue(&tile, 1.0);
+        s.execute("shape.rectangle", &json!({"x": 8, "y": 8, "width": 24, "height": 24})).unwrap();
+        s.execute("paint.setFill", &json!({"color": "#ff0000"})).unwrap();
+        let p = json!({"name": "i.png", "dataBase64": vectorcraft_format::base64_encode(&png(20, 20, [0, 0, 0, 128])), "at": [20, 20]});
+        s.execute("file.place", &p).unwrap();
+        let r =
+            s.execute("document.exportEps", &json!({"previewFormat": "none", "useArtboards": true, "level": 3, "flattenerPreset": "high"})).unwrap();
+        let image_warning = warnings(&r).iter().any(|w| w.contains("partly transparent"));
+        s.execute("document.open", &json!({"name": "p.eps", "dataBase64": r["dataBase64"], "editingData": false})).unwrap();
+        output.push((colour_at(&s.doc().unwrap().doc, 20.0, 20.0), image_warning));
+    }
+    assert_eq!(output[0], output[1], "EPS layer image changed when a see-through pattern tile was present: {output:?}");
+}
+
+#[test]
+fn opaque_pattern_tile_images_do_not_change_during_export_flattening() {
+    let s = pattern_over_blue(&checker([0, 200, 0, 255], [255, 230, 0, 255]), 1.0);
+    let d = &s.doc().unwrap().doc;
+    assert!(crate::cmd::flatten::flatten_document(d, &crate::cmd::FlattenOptions::default()).unwrap().is_none());
+    let o = crate::cmd::FlattenOptions { no_transparency: Some(crate::cmd::flatten::see_through_images(d)), ..Default::default() };
+    assert!(crate::cmd::flatten::flatten_document(d, &o).unwrap().is_none());
+}

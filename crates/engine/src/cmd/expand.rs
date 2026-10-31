@@ -456,16 +456,30 @@ pub(crate) fn expand_transparent_image_patterns(d: &mut Document, root: NodeId, 
         if !l.appearance.items.iter().any(|i| pattern_fill(d, i).is_some()) {
             return None;
         }
-        let shape = d.ancestry(l.id).unwrap_or_default().iter().filter_map(|a| d.node(*a)).any(blended);
-        let transparent = |d: &Document, i: &AppearanceItem| {
-            pattern_fill(d, i).is_some_and(|(f, def, _)| {
-                let on = shape || f.opacity < 1.0 || f.blend != BlendMode::Normal;
-                def.art.iter().any(|a| transparent_image(a, see_through, on))
-            })
-        };
-        expand_patterns_where(d, l, transparent)
+        expand_patterns_where(d, l, |d, i| transparent_pattern_fill(d, l, i, see_through))
     })?;
     Ok(n)
+}
+
+/// Whether a path or compound path of `d` has a pattern fill that
+/// [`expand_transparent_image_patterns`] would expand with `see_through`.
+pub(crate) fn has_transparent_image_patterns(d: &Document, see_through: &BTreeSet<String>) -> bool {
+    let mut found = false;
+    d.walk(|n| {
+        if !found && matches!(n.kind, NodeKind::Path { .. } | NodeKind::Compound { .. }) {
+            found = n.appearance.items.iter().any(|i| transparent_pattern_fill(d, n, i, see_through));
+        }
+    });
+    found
+}
+
+/// Whether `i`, an item of leaf `l`, is a pattern fill whose tile art holds a transparent image
+/// ([`transparent_image`]), counting the fill's and the shape's opacity and blending mode.
+fn transparent_pattern_fill(d: &Document, l: &Node, i: &AppearanceItem, see_through: &BTreeSet<String>) -> bool {
+    let Some((f, def, _)) = pattern_fill(d, i) else { return false };
+    let shape = d.ancestry(l.id).unwrap_or_default().iter().filter_map(|a| d.node(*a)).any(blended);
+    let on = shape || f.opacity < 1.0 || f.blend != BlendMode::Normal;
+    def.art.iter().any(|a| transparent_image(a, see_through, on))
 }
 
 /// Whether `n` has opacity or a blending mode of its own.

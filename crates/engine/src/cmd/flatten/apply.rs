@@ -292,13 +292,35 @@ pub(super) fn opaque(n: &mut Node) {
     }
 }
 
+/// Expand pattern fills whose image tiles need transparency flattening.
+pub(crate) fn expand_transparent_tile_images(doc: &Document, o: &FlattenOptions) -> Result<Option<Document>> {
+    if doc.patterns.is_empty() {
+        return Ok(None);
+    }
+    let keys = o.no_transparency.clone().unwrap_or_default();
+    if !crate::cmd::expand::has_transparent_image_patterns(doc, &keys) {
+        return Ok(None);
+    }
+    let mut d = doc.clone();
+    let layers: Vec<NodeId> = d.layers.iter().map(|l| l.id).collect();
+    let mut changed = 0;
+    for id in layers {
+        changed += crate::cmd::expand::expand_transparent_image_patterns(&mut d, id, &keys)?;
+    }
+    Ok((changed > 0).then_some(d))
+}
+
 /// `doc` with everything it draws flattened with `o`, as formats without transparency (EPS)
 /// write it: every visible object of the visible layers, locked ones too (a clipping layer's
-/// clipping path stays). `None` when that changes nothing.
+/// clipping path stays). Pattern tile images with opacity, blending or colorize are expanded;
+/// see-through tile pixels are expanded when `o.no_transparency` counts them. `None` when nothing
+/// changes.
 pub(crate) fn flatten_document(doc: &Document, o: &FlattenOptions) -> Result<Option<Document>> {
+    let expanded = expand_transparent_tile_images(doc, o)?;
+    let doc = expanded.as_ref().unwrap_or(doc);
     let outlining = o.text_to_outlines || o.strokes_to_outlines || !o.preserve_overprints;
     if !outlining && !doc.layers.iter().any(|l| l.shows_transparency() || o.draws_see_through_image(l)) {
-        return Ok(None);
+        return Ok(expanded);
     }
     let mut roots = vec![];
     for l in doc.layers.iter().filter(|l| l.visible && !matches!(l.kind, NodeKind::Layer { template: true, .. })) {
@@ -307,7 +329,7 @@ pub(crate) fn flatten_document(doc: &Document, o: &FlattenOptions) -> Result<Opt
     }
     let plan = plan(doc, &roots, o, true)?;
     if plan.flat.is_empty() && !plan.kept.iter().any(|id| doc.node(*id).is_some_and(|n| kept_work(n, o))) {
-        return Ok(None);
+        return Ok(expanded);
     }
     let mut d = doc.clone();
     apply(&mut d, &mut vectorcraft_doc::Selection::default(), plan, o)?;
