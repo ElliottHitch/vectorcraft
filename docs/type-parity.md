@@ -1,6 +1,6 @@
 # Type parity
 
-> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (Highlight Alternate Glyphs: an optional feature (such as `salt`) that changes a lam-alef ligature is highlighted again, only the required ligature staying clear, and a lam-alef with any combining mark (Arabic Extended-A/B/C included) counts as the ligature (#394); scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
+> **Last reviewed:** 2026-10-10 · **Last updated:** 2026-10-31 · **Change:** minor (PDF import finds installed fonts whose PDF names hold hyphens or a composite font's CMap; scores unchanged) · **Target:** Adobe Illustrator 2026 (30.x)
 
 Type is Illustrator's largest single area by use (weight 13 of 105 across "Type core" and "Type advanced" in
 [target-app-parity.md](target-app-parity.md)). This checklist lists the features one by one. Status is from the
@@ -71,6 +71,7 @@ Character Styles menu New/Redefine and footer New capture the first selected cha
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-10-31 | minor | PDF import finds an installed font whose PDF name holds hyphens (`Noto-Sans-Bold` is Noto Sans, Bold: the longest part before a hyphen that names an installed family) and a composite font by its CIDFont's name rather than its base name, which ends in the CMap's (`Name-Identity-H`, [ISO 32000-1 §9.7.6.1](https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf)); a missing font is split only before a style part (`Helvetica-BoldOblique`), so it is reported as `MS PGothic`, not `MS`; scores unchanged |
 | 2026-10-31 | minor | Highlight Alternate Glyphs: an optional feature (such as `salt`) that changes a lam-alef ligature is highlighted again, only the required ligature staying clear, and a lam-alef with any combining mark (Arabic Extended-A/B/C included) counts as the ligature (#394); scores unchanged |
 | 2026-10-30 | minor | Highlight Alternate Glyphs leaves the required lam-alef ligature unhighlighted also in older Arabic fonts (such as legacy Arial) that put it in `liga` rather than `rlig` (#394); scores unchanged |
 | 2026-10-30 | minor | Character panel menu › Show Snap to Glyph Options shows the Snap to Glyph section (Baseline, x-height, Glyph Bounds, Proximity Guides, Angular Guides, Anchor Point; `view.snapToGlyph.options`) (#4232); scores unchanged |
