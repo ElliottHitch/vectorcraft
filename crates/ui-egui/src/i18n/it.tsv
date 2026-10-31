@@ -5497,6 +5497,11 @@ anchor	Points:	Punti:
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	Colore punti dalla grafica
+	Basic Character Formats	Formati carattere di base
+	Case	Maiuscole e minuscole
+@msg	{label} must be a number	{label} deve essere un numero
+@msg	{label} must be a number of at least 0.1	{label} deve essere un numero di almeno 0,1
+@msg	no character style `{name}`	Stile di carattere `{name}` non trovato
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	Bicromia…

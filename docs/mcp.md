@@ -5109,6 +5109,22 @@ name and the Type tool's selection as it was when the dialog opened (else the se
 has, or an empty one, keeps the dialog open, and Cancel adds no style. A plain click on New still makes the style at
 once.
 
+`ui.charStyleOptions {name}` opens Character Style Options for an existing named style.
+Character Style Options uses `charStyle.edit {name, to, attrs}` to replace the name and complete sparse
+attribute map in one undo step. `to` is trimmed and must be unique. The command updates text using the style
+while preserving local overrides; Undo/Redo restores the definition and its users. The `charStyleOptions`
+dialog exposes `name`, `font_family`, `font_style`, `size`, `leading`, `kerning`, `tracking`, `case`,
+`position`, `underline`, `strikethrough`, `charAlign`, `section`, and `preview`. An empty field leaves its
+attribute unset. `leading` and `kerning` also accept `Auto` to store an explicit automatic value.
+The New Character Style dialog accepts the same character fields and starts with the selected text's
+captured attributes. Without selected text, it starts with the character defaults for the interface language
+(including `charAlign: "emBoxCenter"` in Japanese); changing a Basic field keeps other seeded attributes.
+Without selected text, the New Paragraph Style dialog sends no `attrs`, and the engine gives the new style the
+paragraph defaults for the interface language. Reset Panel in Basic Character
+Formats removes those fields from the definition.
+`ui.charStyleOptions.resetPanel {}` performs that reset when Basic Character Formats is selected in
+either character-style dialog; it is disabled on General.
+
 In the native file a text object's `para` holds the first paragraph's attributes and `paras` (left out when every
 paragraph is alike) one entry per paragraph, so older readers keep the first paragraph's. SVG export anchors each
 centred or right-aligned line on its own (`<tspan text-anchor>`), and SVG import gives each line's paragraph its

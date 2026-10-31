@@ -5865,6 +5865,11 @@ anchor	Points:	Pontok:
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	Pontszín a grafikából
+	Basic Character Formats	Alapvető karakterformátumok
+	Case	Kis- és nagybetűk
+@msg	{label} must be a number	{label}: szám kell
+@msg	{label} must be a number of at least 0.1	{label} legalább 0,1 értékű szám kell legyen
+@msg	no character style `{name}`	A(z) `{name}` karakterstílus nem található
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	Duplex…

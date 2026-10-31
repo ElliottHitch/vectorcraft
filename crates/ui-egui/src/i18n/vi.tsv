@@ -5479,6 +5479,11 @@ anchor	Points:	Điểm:
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	Màu chấm theo tác phẩm
+	Basic Character Formats	Định dạng ký tự cơ bản
+	Case	Chữ hoa và chữ thường
+@msg	{label} must be a number	{label} phải là một số
+@msg	{label} must be a number of at least 0.1	{label} phải là một số ít nhất bằng 0,1
+@msg	no character style `{name}`	Không tìm thấy kiểu ký tự `{name}`
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	Hai tông…

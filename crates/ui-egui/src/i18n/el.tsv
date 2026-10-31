@@ -5830,6 +5830,11 @@ anchor	Points:	Σημεία:
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	Χρώμα κουκκίδων από το γραφικό
+	Basic Character Formats	Βασικές μορφές χαρακτήρων
+	Case	Πεζά και κεφαλαία
+@msg	{label} must be a number	Το {label} πρέπει να είναι αριθμός
+@msg	{label} must be a number of at least 0.1	Το {label} πρέπει να είναι αριθμός τουλάχιστον 0,1
+@msg	no character style `{name}`	Δεν βρέθηκε το στυλ χαρακτήρων `{name}`
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	Δίτονο…

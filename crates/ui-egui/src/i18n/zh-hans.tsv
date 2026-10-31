@@ -5720,6 +5720,11 @@ anchor	Points:	点：
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	网点颜色取自图稿
+	Basic Character Formats	基本字符格式
+	Case	大小写
+@msg	{label} must be a number	{label} 必须是数字
+@msg	{label} must be a number of at least 0.1	{label} 必须是至少 0.1 的数字
+@msg	no character style `{name}`	找不到字符样式 `{name}`
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	双色调…

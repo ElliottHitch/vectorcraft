@@ -5563,6 +5563,11 @@ anchor	Points:	ポイント:
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	ドットの色をアートから取得
+	Basic Character Formats	基本文字形式
+	Case	大文字と小文字
+@msg	{label} must be a number	{label} には数値を指定してください
+@msg	{label} must be a number of at least 0.1	{label} には 0.1 以上の数値を指定してください
+@msg	no character style `{name}`	文字スタイル `{name}` が見つかりません
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	ダブルトーン…

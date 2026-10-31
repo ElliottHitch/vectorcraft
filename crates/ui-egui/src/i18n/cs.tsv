@@ -5878,6 +5878,11 @@ anchor	Points:	Body:
 
 # Color Effects add-on: Vector Halftone (Effect › Color Effects).
 	Dot Color from Art	Barva bodů podle kresby
+	Basic Character Formats	Základní formáty znaků
+	Case	Velikost písmen
+@msg	{label} must be a number	{label} musí být číslo
+@msg	{label} must be a number of at least 0.1	{label} musí být číslo alespoň 0,1
+@msg	no character style `{name}`	styl znaků `{name}` neexistuje
 
 # Color Effects add-on: Duotone (Effect › Color Effects) and Print Ink Fixes (Object › Plug-ins › Color Effects).
 	Duotone…	Dvoutón…
