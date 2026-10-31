@@ -253,8 +253,9 @@ mod tests {
         assert_eq!(m.locate_within(p, 1.0), None);
         let (r, c, u, v) = m.locate_within(p, 3.0).unwrap();
         assert_eq!((r, c), (0, 1));
+        assert_eq!(u, 1.0, "on the right edge");
         let q = m.eval(r, c, u, v);
-        assert!(q.distance(Point::new(100.0, 30.0)) < 0.5, "{q:?}");
+        assert!(q.distance(Point::new(100.0, 30.0)) < 1e-6, "{q:?}");
         assert_eq!(m.locate_within(Point::new(30.0, 60.0), 3.0), m.locate(Point::new(30.0, 60.0)));
     }
 
