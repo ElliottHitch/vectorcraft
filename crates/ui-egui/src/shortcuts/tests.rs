@@ -1486,6 +1486,11 @@ fn one_key_shortcuts_use_the_key_of_the_same_keystroke_in_either_order() {
     app.select_tool("pen");
     frame(&mut app, vec![press(Key::P), text("з"), press(Key::V), text("м")]);
     assert_eq!(app.session.tool_id(), "selection", "key before its text");
+    // A text with no key press of its own right before a desktop keystroke leaves that press to
+    // the keystroke's text.
+    assert_eq!(typing_presses(&[text("p"), press(Key::V), text("м")]), [None, None, Some(1)]);
+    frame(&mut app, vec![text("p"), press(Key::V), text("м")]);
+    assert_eq!(app.session.tool_id(), "selection", "the text after the key uses it");
     let names = |events: &[egui::Event]| -> Vec<String> {
         shortcut_presses(events, Modifiers::NONE).into_iter().filter_map(|(n, _)| n.into_iter().next()).collect()
     };

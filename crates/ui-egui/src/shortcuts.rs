@@ -848,9 +848,24 @@ fn latin(text: &str, physical: Option<Key>) -> String {
 
 /// For each event, the index of the key press that typed it when it is text: the press right
 /// before it (egui-winit) unless an earlier text took that press, or else the press right after it
-/// (eframe's web build with no text field focused). Each press types at most one text.
+/// (eframe's web build with no text field focused). Each press types at most one text. A text
+/// takes the press after it only when every later text in the same run of alternating texts and
+/// presses has a press after it too; otherwise the text after that press takes it as the press
+/// before it, and this text has none.
 fn typing_presses(events: &[egui::Event]) -> Vec<Option<usize>> {
     let is_press = |k: usize| matches!(events.get(k), Some(egui::Event::Key { pressed: true, .. }));
+    let is_text = |k: usize| matches!(events.get(k), Some(egui::Event::Text(_)));
+    // Whether the run of alternating texts and presses that starts with the text at `j` ends
+    // with a press.
+    let ends_with_press = |mut j: usize| loop {
+        if !is_press(j + 1) {
+            break false;
+        }
+        if !is_text(j + 2) {
+            break true;
+        }
+        j += 2;
+    };
     let mut taken = None;
     events
         .iter()
@@ -860,7 +875,7 @@ fn typing_presses(events: &[egui::Event]) -> Vec<Option<usize>> {
                 return None;
             }
             let before = j.checked_sub(1).filter(|&k| is_press(k) && taken != Some(k));
-            let by = before.or_else(|| Some(j + 1).filter(|&k| is_press(k)));
+            let by = before.or_else(|| ends_with_press(j).then_some(j + 1));
             taken = by.or(taken);
             by
         })
