@@ -282,6 +282,39 @@ fn shift_drag_keeps_its_displacement_after_a_plane_key() {
 }
 
 #[test]
+fn loose_art_move_survives_clearing_the_active_plane() {
+    for (drag_after_key, switch_before_drag) in [(false, false), (true, false), (false, true)] {
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 800, "height": 600, "created": null})).unwrap();
+        s.execute("perspective.grid.preset", &json!({"kind": 2})).unwrap();
+        s.execute("perspective.grid.snap", &json!({"on": false})).unwrap();
+        s.execute("perspective.plane.set", &json!({"plane": "right"})).unwrap();
+        let result = s.execute("shape.rectangle", &json!({"x": 450, "y": 380, "width": 60, "height": 60})).unwrap();
+        let id = NodeId(result["id"].as_u64().unwrap());
+        assert_eq!(attached(&s, id), None);
+        let before = s.doc().unwrap().doc.node(id).unwrap().geometric_bounds().unwrap();
+        let (from, to) = (before.center(), before.center() + Vec2::new(30.0, 15.0));
+        let v = ViewInfo::default();
+        s.select_tool("perspectiveSelection", v).unwrap();
+        let undo_before = undo_len(&s);
+        s.pointer(&PointerEvent::new(PointerKind::Down, from.x, from.y), v).unwrap();
+        if switch_before_drag {
+            s.tool_key(ToolKey::Digit(2), Mods::default(), v).unwrap();
+        }
+        s.pointer(&PointerEvent::new(PointerKind::Drag, to.x, to.y), v).unwrap();
+        s.tool_key(ToolKey::Digit(4), Mods::default(), v).unwrap();
+        assert_eq!(grid(&s).plane, Plane::None);
+        if drag_after_key {
+            s.pointer(&PointerEvent::new(PointerKind::Drag, to.x + 10.0, to.y), v).unwrap();
+        }
+        s.pointer(&PointerEvent::new(PointerKind::Up, to.x, to.y), v).unwrap();
+        assert_eq!(attached(&s, id), Some((if switch_before_drag { Plane::Ground } else { Plane::Right }, 0.0)));
+        assert_ne!(s.doc().unwrap().doc.node(id).unwrap().geometric_bounds().unwrap(), before);
+        assert_eq!(undo_len(&s), undo_before + 1);
+    }
+}
+
+#[test]
 fn cmd_alt_shift_drag_copies_on_a_plane_axis() {
     let (mut s, id) = persp_session();
     let v = ViewInfo::default();

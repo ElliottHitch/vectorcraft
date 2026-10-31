@@ -120,7 +120,7 @@ enum SelDrag {
     Idle,
     /// Pressed on an object: moves `ids` once the pointer leaves the drag threshold. `perp`: along
     /// the plane's normal (5 pressed while dragging); `copy` and `shift`: modifiers at the last event.
-    Move { ids: Vec<NodeId>, from: Point, last: Point, began: bool, perp: bool, copy: bool, shift: bool },
+    Move { ids: Vec<NodeId>, from: Point, last: Point, plane: Plane, began: bool, perp: bool, copy: bool, shift: bool },
     /// Dragging `handle` of the perspective bounding box `rect` (plane space, on `plane` at `depth`).
     Scale { ids: Vec<NodeId>, plane: Plane, depth: f64, rect: Rect, handle: BoxHandle },
     /// Dragging a plane widget.
@@ -164,9 +164,11 @@ pub(super) fn resize_cursor(d: Vec2) -> Cursor {
 impl PerspectiveSelectionTool {
     /// The `perspective.move` preview for the move drag (and its measurement label).
     fn move_preview(&mut self, cx: &ToolContext) -> Option<Action> {
-        let SelDrag::Move { ids, from, last, perp, copy, shift, .. } = &self.drag else { return None };
+        let SelDrag::Move { ids, from, last, plane, perp, copy, shift, .. } = &self.drag else { return None };
         let g = PerspectiveGrid::current(cx.doc);
-        let at = ids.first().and_then(|id| g.attachment_of(cx.doc, *id)).or((g.plane != Plane::None).then_some((g.plane, g.offset(g.plane))));
+        let move_plane = if g.plane == Plane::None { *plane } else { g.plane };
+        let at =
+            ids.first().and_then(|id| g.attachment_of(cx.doc, *id)).or((move_plane != Plane::None).then_some((move_plane, g.offset(move_plane))));
         let constrained = if *shift && !*perp {
             at.and_then(|(plane, depth)| {
                 let delta = g.plane_delta(plane, depth, *from, *last)?;
@@ -179,8 +181,8 @@ impl PerspectiveSelectionTool {
         if *shift && !*perp {
             v["constrain"] = json!(true);
         }
-        if g.plane != Plane::None {
-            v["plane"] = json!(g.plane.id());
+        if move_plane != Plane::None {
+            v["plane"] = json!(move_plane.id());
         }
         self.measure = at.and_then(|(pl, depth)| {
             let text = if *perp {
@@ -230,24 +232,26 @@ impl Tool for PerspectiveSelectionTool {
                     vec![top]
                 };
                 // Selecting an object in perspective makes its plane the active one.
+                let mut plane = g.plane;
                 if let Some((pl, _)) = g.attachment_of(cx.doc, top)
                     && pl != g.plane
                 {
                     acts.push(Action::Exec("perspective.plane.set".into(), json!({"plane": pl.id()})));
+                    plane = pl;
                 }
-                self.drag = SelDrag::Move { ids, from: p, last: p, began: false, perp: false, copy: m.alt, shift: m.shift };
+                self.drag = SelDrag::Move { ids, from: p, last: p, plane, began: false, perp: false, copy: m.alt, shift: m.shift };
                 acts
             }
-            (PointerKind::Drag, SelDrag::Move { ids, from, began, perp, .. }) => {
+            (PointerKind::Drag, SelDrag::Move { ids, from, plane, began, perp, .. }) => {
                 if !began && p.distance(from) < cx.tol(3.0) {
-                    self.drag = SelDrag::Move { ids, from, last: p, began, perp, copy: m.alt, shift: m.shift };
+                    self.drag = SelDrag::Move { ids, from, last: p, plane, began, perp, copy: m.alt, shift: m.shift };
                     return vec![];
                 }
                 let mut out = vec![];
                 if !began {
                     out.push(Action::Begin(if m.alt { "Copy in Perspective" } else { "Move in Perspective" }.into()));
                 }
-                self.drag = SelDrag::Move { ids, from, last: p, began: true, perp, copy: m.alt, shift: m.shift };
+                self.drag = SelDrag::Move { ids, from, last: p, plane, began: true, perp, copy: m.alt, shift: m.shift };
                 out.extend(self.move_preview(cx));
                 out
             }
@@ -307,10 +311,14 @@ impl Tool for PerspectiveSelectionTool {
             return if *began { self.move_preview(cx).into_iter().collect() } else { vec![] };
         }
         if matches!(key, ToolKey::Digit(1..=4))
-            && let SelDrag::Move { began: true, shift, .. } = &mut self.drag
+            && let SelDrag::Move { began, plane, shift, .. } = &mut self.drag
         {
             *shift = mods.shift;
-            return self.move_preview(cx).into_iter().collect();
+            let active = PerspectiveGrid::current(cx.doc).plane;
+            if active != Plane::None {
+                *plane = active;
+            }
+            return if *began { self.move_preview(cx).into_iter().collect() } else { vec![] };
         }
         let (dx, dy) = match key {
             ToolKey::Left => (-1, 0),

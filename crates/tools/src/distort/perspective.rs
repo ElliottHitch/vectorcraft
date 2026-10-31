@@ -1287,6 +1287,31 @@ mod tests {
     }
 
     #[test]
+    fn loose_move_preview_keeps_its_plane_when_the_active_plane_is_cleared() {
+        let (mut d, id) = doc_with_rect();
+        let mut g = grid(2);
+        g.plane = Plane::Right;
+        g.store(&mut d);
+        let mut selection = Selection::default();
+        selection.add(id);
+        let p = paint();
+        let from = d.node(id).unwrap().geometric_bounds().unwrap().center();
+        let to = from + Vec2::new(30.0, 15.0);
+        let mut tool = PerspectiveSelectionTool::default();
+        let c = cx(&d, &selection, &p);
+        tool.pointer(&c, &PointerEvent::new(PointerKind::Down, from.x, from.y));
+        let actions = tool.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x, to.y));
+        assert!(matches!(actions.last(), Some(Action::Preview(_, params)) if params["plane"] == "right"));
+        g.plane = Plane::None;
+        g.store(&mut d);
+        let c = cx(&d, &selection, &p);
+        let actions = tool.key(&c, ToolKey::Digit(4), Mods::default());
+        assert!(matches!(actions.last(), Some(Action::Preview(_, params)) if params["plane"] == "right"), "{actions:?}");
+        let actions = tool.pointer(&c, &PointerEvent::new(PointerKind::Drag, to.x + 10.0, to.y));
+        assert!(matches!(actions.last(), Some(Action::Preview(_, params)) if params["plane"] == "right"), "{actions:?}");
+    }
+
+    #[test]
     fn selection_move_recomputes_shift_copy_and_perpendicular() {
         let (mut d, id) = doc_with_rect();
         grid(2).store(&mut d);
