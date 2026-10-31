@@ -5662,6 +5662,11 @@ breakText	Glyphs	字形
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` は lines、paragraphs、words、glyphs のいずれかにしてください({other} は使用できません)
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` は "line" または "paragraph" にしてください({other} は使用できません)
 @msg	`align` must be "left", "center" or "right", not {other}	`align` は "left"、"center"、"right" のいずれかにしてください({other} は使用できません)
+	File + Number	ファイル名 + 番号
+	File + Data Set Name	ファイル名 + データセット名
+	Data Set Name	データセット名
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` は `fileNumber`、`fileDataSetName`、`dataSetName` のいずれかである必要があります
+@msg	no free data set file name in destination folder	保存先フォルダーに使用可能なデータセットのファイル名がありません
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	パス効果

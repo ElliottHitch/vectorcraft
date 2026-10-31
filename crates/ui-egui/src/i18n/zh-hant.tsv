@@ -5615,6 +5615,11 @@ breakText	Glyphs	字符
 @msg	`by` must be lines, paragraphs, words or glyphs, not {other}	`by` 必須是 lines、paragraphs、words 或 glyphs，而不是 {other}
 @msg	`kind` must be "line" or "paragraph", not {other}	`kind` 必須是 "line" 或 "paragraph"，而不是 {other}
 @msg	`align` must be "left", "center" or "right", not {other}	`align` 必須是 "left"、"center" 或 "right"，而不是 {other}
+	File + Number	檔案 + 編號
+	File + Data Set Name	檔案 + 資料集名稱
+	Data Set Name	資料集名稱
+@msg	`datasetFileNaming` must be `fileNumber`, `fileDataSetName` or `dataSetName`	`datasetFileNaming` 必須是 `fileNumber`、`fileDataSetName` 或 `dataSetName`
+@msg	no free data set file name in destination folder	目的地資料夾中沒有可用的資料集檔案名稱
 
 # Path Precision Tools add-on: Path Effects (Effect › Path Effects).
 	Path Effects	路徑效果
