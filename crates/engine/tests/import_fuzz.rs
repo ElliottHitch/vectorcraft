@@ -1781,6 +1781,31 @@ proptest! {
 
 // ---------- SVG saved with hidden layers and editing data ----------
 
+proptest! {
+    #![proptest_config(config())]
+
+    /// Mutated JP2 boxes and raw codestream markers must return errors rather than unwind.
+    #[test]
+    fn mutated_jpeg2000_files_do_not_panic(raw in any::<bool>(), cut in 0usize..300, edits in prop::collection::vec((0usize..300, any::<u8>()), 0..8)) {
+        let (name, mut bytes) = if raw {
+            ("a.j2k", include_bytes!("fixtures/jpeg2000/checker-raw.j2k").to_vec())
+        } else {
+            ("a.jp2", include_bytes!("fixtures/jpeg2000/checker.jp2").to_vec())
+        };
+        for (at, byte) in edits {
+            if let Some(slot) = bytes.get_mut(at) { *slot = byte; }
+        }
+        bytes.truncate(cut);
+        let result = catch_quiet(|| {
+            let mut s = vectorcraft_engine::Session::new();
+            let params = json!({"name": name, "dataBase64": vectorcraft_format::base64_encode(&bytes)});
+            let _ = no_panic(s.execute("document.open", &params));
+            let _ = no_panic(s.execute("file.place", &params));
+        });
+        prop_assert!(result.is_ok(), "{name}: panicked: {:?}", result.err());
+    }
+}
+
 /// The rich document with a hidden layer, saved as SVG with its editing data.
 fn saved_svg() -> String {
     let mut d = rich_doc();
