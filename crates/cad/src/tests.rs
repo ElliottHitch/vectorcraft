@@ -125,6 +125,71 @@ fn every_version_declares_its_acadver_and_is_well_formed() {
     assert_eq!(DxfVersion::from_id("2019"), None);
 }
 
+/// The structure strict readers (Autodesk Fusion, #3085) need: the required sections and table
+/// entries, handles that every reference resolves to, and LAYOUT objects with only the group codes
+/// the DXF Reference defines for PLOTSETTINGS and LAYOUT (AutoCAD DXF Reference, OBJECTS section:
+/// https://help.autodesk.com/view/OARX/2018/ENU/?guid=GUID-1113675E-AB07-4567-BD47-B7FBE7290D1C).
+#[test]
+fn r2000_and_later_files_have_the_structure_cad_apps_require() {
+    use std::collections::HashSet;
+    // Common object codes, then AcDbPlotSettings, then AcDbLayout (76 is the shade plot mode in
+    // the first and the UCS type in the second).
+    let layout_codes: HashSet<i32> = [0, 5, 102, 330, 360, 100]
+        .into_iter()
+        .chain([1, 2, 4, 6, 7, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 140, 141, 142, 143, 70, 72, 73, 74, 75, 76, 77, 78, 147, 148, 149, 333])
+        .chain([71, 10, 20, 11, 21, 12, 22, 32, 14, 24, 34, 15, 25, 35, 146, 13, 23, 33, 16, 26, 36, 17, 27, 37, 331, 345, 346])
+        .collect();
+    let d = shapes_doc();
+    for v in DxfVersion::ALL.into_iter().filter(|v| *v >= DxfVersion::R2000) {
+        let out = export(&d, &DxfOptions { version: v, ..opts(&d) }).unwrap();
+        let p = pairs(&out.bytes);
+        for name in ["HEADER", "CLASSES", "TABLES", "BLOCKS", "ENTITIES", "OBJECTS"] {
+            assert!(p.windows(2).any(|w| w[0] == (0, "SECTION".into()) && w[1] == (2, name.into())), "{v:?}: {name} section");
+        }
+        let tables = section(&p, "TABLES");
+        let names = |k: &str| -> Vec<String> { tables.iter().filter(|o| kind(o) == k).filter_map(|o| get(o, 2).map(str::to_string)).collect() };
+        for (k, want) in [
+            ("LTYPE", "ByBlock"),
+            ("LTYPE", "ByLayer"),
+            ("LTYPE", "Continuous"),
+            ("LAYER", "0"),
+            ("STYLE", "Standard"),
+            ("APPID", "ACAD"),
+            ("DIMSTYLE", "Standard"),
+            ("BLOCK_RECORD", "*Model_Space"),
+            ("BLOCK_RECORD", "*Paper_Space"),
+        ] {
+            assert!(names(k).iter().any(|n| n == want), "{v:?}: {k} {want}");
+        }
+        // Every object after the header has a handle below $HANDSEED, and every reference to
+        // another object (owner 330, soft/hard pointers 340/350/390) names one of them.
+        let body = &p[p.iter().position(|x| *x == (0, "ENDSEC".into())).unwrap()..];
+        let handles: HashSet<u32> = body.iter().filter(|x| x.0 == 5 || x.0 == 105).map(|x| u32::from_str_radix(&x.1, 16).unwrap()).collect();
+        let seed = u32::from_str_radix(&header(&p, "$HANDSEED").unwrap(), 16).unwrap();
+        assert!(handles.iter().all(|h| *h < seed), "{v:?}: handles below the seed");
+        for (code, value) in body.iter().filter(|x| matches!(x.0, 330 | 340 | 350 | 390)) {
+            let h = u32::from_str_radix(value, 16).unwrap();
+            assert!(h == 0 || handles.contains(&h), "{v:?}: group {code} points at missing handle {value}");
+        }
+        let objects = section(&p, "OBJECTS");
+        let layouts: Vec<&Pairs> = objects.iter().filter(|o| kind(o) == "LAYOUT").collect();
+        assert_eq!(layouts.len(), 2, "{v:?}: Model and Layout1");
+        for l in &layouts {
+            let bad: Vec<i32> = l.iter().map(|x| x.0).filter(|c| !layout_codes.contains(c)).collect();
+            assert!(bad.is_empty(), "{v:?}: LAYOUT has group codes the DXF Reference doesn't define: {bad:?}");
+            // The paper image origin is 148 (x) and 149 (y).
+            assert!(get(l, 148).is_some() && get(l, 149).is_some(), "{v:?}: paper image origin");
+            // Flag 1024 marks the model space layout, and only it.
+            let name = l.iter().skip_while(|x| x.1 != "AcDbLayout").find(|x| x.0 == 1).map(|x| x.1.as_str());
+            let flags: i64 = get(l, 70).unwrap().parse().unwrap();
+            assert_eq!(flags & 1024 != 0, name == Some("Model"), "{v:?}: model type flag of {name:?}");
+        }
+        // The plot style placeholder carries only the common object codes.
+        let holder = objects.iter().find(|o| kind(o) == "ACDBPLACEHOLDER").expect("placeholder");
+        assert!(holder.iter().all(|x| matches!(x.0, 0 | 5 | 102 | 330)), "{v:?}: placeholder {holder:?}");
+    }
+}
+
 #[test]
 fn r12_viewport_has_no_duplicate_group_codes() {
     let d = shapes_doc();
