@@ -945,7 +945,7 @@ font-technology	Variable	가변
 	Apply Last Gradient	마지막 그레이디언트 적용
 	Apply Paragraph Style	단락 스타일 적용
 	Apply to All	모두에 적용
-	Apply to All ({count} more missing)	모두에 적용(누락 {count}개 더 있음)
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	모두에 적용(누락 {n}개 더 있음)
 	Arc	호
 	Arc Tool	호 도구
 	Area / Path Type	영역/패스 문자
@@ -2608,9 +2608,11 @@ mark-style	Japanese	일본식
 	Stop	중지
 	Searching…	검색 중…
 	Not found	찾을 수 없음
-	{folders} folder(s) and {files} file(s) searched	폴더 {folders}개, 파일 {files}개 검색함
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	다른 앱과 시스템 폴더, 숨김 폴더 등 {count}개 폴더 건너뜀
-	{count} folder(s) or file(s) couldn't be read	폴더 또는 파일 {count}개를 읽을 수 없음
+	{folders} and {files} searched	{folders}, {files} 검색함
+@plural	{n} folder|{n} folders	폴더 {n}개
+@plural	{n} file|{n} files	파일 {n}개
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	다른 앱과 시스템 폴더, 숨김 폴더 등 {n}개 폴더 건너뜀
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	폴더 또는 파일 {n}개를 읽을 수 없음
 	The search stopped at its limit: search a smaller folder.	검색이 한도에서 중단됨: 더 작은 폴더를 검색하세요.
 	Copy only fonts you own or are licensed to install.	소유했거나 설치 라이선스가 있는 글꼴만 복사하세요.
 	VectorCraft copies the fonts to {folder}.	VectorCraft가 글꼴을 {folder}에 복사합니다.
@@ -3295,13 +3297,13 @@ mark-style	Japanese	일본식
 	the preset	프리셋
 	tile {number}	타일 {number}
 	to	~
-	{count} file(s) in {folder} {note}. Show the package folder?	{folder}에 파일 {count}개{note}. 패키지 폴더를 표시하시겠습니까?
-	{count} linked file(s) not found	연결된 파일 {count}개를 찾을 수 없습니다
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{folder}에 파일 {n}개 {note}. 패키지 폴더를 표시하시겠습니까?
+@plural	{n} linked file not found|{n} linked files not found	연결된 파일 {n}개를 찾을 수 없습니다
 	fonts not copied: {fonts}	복사되지 않은 글꼴: {fonts}
-	{count} linked image(s) changed since this document was saved. Show the new versions?	이 문서를 저장한 이후 연결된 이미지 {count}개가 변경되었습니다. 새 버전을 표시하시겠습니까?
-	{count} linked image(s) changed on disk. Show the new versions?	연결된 이미지 {count}개가 디스크에서 변경되었습니다. 새 버전을 표시하시겠습니까?
-	{count} more rules: Export writes every one.	규칙 {count}개 더 있음: 내보내기 시 모두 기록됩니다.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	이름 없는 개체 {count}개가 제외되었습니다. 이름을 지정하거나 패널 메뉴에서 이름 없는 개체를 켜십시오.
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	이 문서를 저장한 이후 연결된 이미지 {n}개가 변경되었습니다. 새 버전을 표시하시겠습니까?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	연결된 이미지 {n}개가 디스크에서 변경되었습니다. 새 버전을 표시하시겠습니까?
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	규칙 {n}개 더 있음: 내보내기 시 모두 기록됩니다.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	이름 없는 개체 {n}개가 제외되었습니다. 이름을 지정하거나 패널 메뉴에서 이름 없는 개체를 켜십시오.
 	{effect} is already applied	{effect}이(가) 이미 적용되어 있습니다
 	{format} Options	{format} 옵션
 	{kind} Gradient	{kind} 그레이디언트
@@ -3572,7 +3574,7 @@ file-filter	Templates	템플릿
 	Output Black	출력 검정
 	Output White	출력 흰색
 	Output › Mode	출력 › 모드
-	Packaged {n} file(s) in {folder} {note}	{folder}에 파일 {n}개를 패키지했습니다{note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	{folder}에 파일 {n}개를 패키지했습니다 {note}
 	Packaged {n} file(s){note}	파일 {n}개를 패키지했습니다{note}
 	Page information	페이지 정보
 	Paragraph Style	단락 스타일
@@ -4385,7 +4387,7 @@ theme	Appearance	외관
 @msg	{_1} linked image(s) changed on disk: Update Links shows the new versions	링크된 이미지 {_1}개가 디스크에서 바뀌었습니다: 링크 업데이트를 하면 새 버전이 표시됩니다
 @msg	Updated {_1} linked file(s) changed on disk	디스크에서 바뀐 링크된 파일 {_1}개를 업데이트했습니다
 @msg	pick a colour, gradient or pattern to save as a swatch	견본으로 저장할 색상, 그레이디언트 또는 패턴을 선택하세요
-@msg	Packaged {n} file(s) in {folder} {note}	{folder}에 파일 {n}개를 패키지했습니다{note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	{folder}에 파일 {n}개를 패키지했습니다({note})
 @msg	Packaged {n} file(s){note}	파일 {n}개를 패키지했습니다{note}
 @msg	choose a location for the package	패키지 위치를 선택하세요
 @msg	missing `folder`	`folder`가 없습니다
@@ -5169,13 +5171,13 @@ lighting	Light	광원
 	Slope:	기울기:
 axis	X Axis	X축
 axis	Y Axis	Y축
-@msg	Packaged {n} file(s) in {folder}	{folder}에 파일 {n}개를 패키지했습니다
-@msg	Packaged {n} file(s) {note}	파일 {n}개를 패키지했습니다 {note}
-@msg	Packaged {n} file(s)	파일 {n}개를 패키지했습니다
-	Packaged {n} file(s)	파일 {n}개를 패키지했습니다
-	Packaged {n} file(s) in {folder}	{folder}에 파일 {n}개를 패키지했습니다
-	Packaged {n} file(s) {note}	파일 {n}개를 패키지했습니다 {note}
-	{count} file(s) in {folder}. Show the package folder?	{folder}에 파일 {count}개. 패키지 폴더를 표시하시겠습니까?
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	{folder}에 파일 {n}개를 패키지했습니다
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	파일 {n}개를 패키지했습니다 {note}
+@msgplural	Packaged {n} file|Packaged {n} files	파일 {n}개를 패키지했습니다
+@plural	Packaged {n} file|Packaged {n} files	파일 {n}개를 패키지했습니다
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	{folder}에 파일 {n}개를 패키지했습니다
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	파일 {n}개를 패키지했습니다 {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	{folder}에 파일 {n}개. 패키지 폴더를 표시하시겠습니까?
 	Clockwise	시계 방향
 	Dither	디더
 	Fine noise hides banding in the gradient fill	미세한 노이즈로 그레이디언트 칠의 띠를 감춥니다

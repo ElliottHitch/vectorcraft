@@ -217,7 +217,7 @@ font-technology	Variable	Variabili
 	Apply Paragraph Style	Applica stile paragrafo
 	Apply SVG Filter…	Applica filtro SVG…
 	Apply to All	Applica a tutti
-	Apply to All ({count} more missing)	Applica a tutti (ne mancano altri {count})
+@plural	Apply to All ({n} more missing)|Apply to All ({n} more missing)	Applica a tutti (ne manca ancora {n})|Applica a tutti (ne mancano altri {n})
 	Arc	Arco
 	Arc Lower…	Arco inferiore…
 	Arc Tool	Strumento Arco
@@ -2299,7 +2299,7 @@ file-filter	Templates	Modelli
 	Package	Crea pacchetto
 	Package collects a saved document with its linked files and fonts.	Il comando Crea pacchetto raccoglie un documento salvato insieme ai file collegati e ai font.
 	Package created	Pacchetto creato
-	Packaged {n} file(s) in {folder} {note}	Pacchetto creato con {n} file in {folder} {note}
+@plural	Packaged {n} file {note} in {folder}|Packaged {n} files {note} in {folder}	Pacchetto creato con {n} file in {folder} {note}|Pacchetto creato con {n} file in {folder} {note}
 	Packaged {n} file(s){note}	Pacchetto creato con {n} file{note}
 	Package…	Crea pacchetto…
 	Page	Pagina
@@ -2623,9 +2623,11 @@ mark-style	Japanese	Giapponese
 	Stop	Interrompi
 	Searching…	Ricerca in corso…
 	Not found	Non trovato
-	{folders} folder(s) and {files} file(s) searched	Cartelle cercate: {folders}, file: {files}
-	{count} folder(s) skipped, such as other apps' and the system's folders and hidden ones	Cartelle saltate: {count}, ad esempio quelle di altre app e di sistema e quelle nascoste
-	{count} folder(s) or file(s) couldn't be read	Cartelle o file non leggibili: {count}
+	{folders} and {files} searched	Cercato in {folders} e {files}
+@plural	{n} folder|{n} folders	{n} cartella|{n} cartelle
+@plural	{n} file|{n} files	{n} file|{n} file
+@plural	{n} folder skipped, such as another app's or the system's folder or a hidden one|{n} folders skipped, such as other apps' and the system's folders and hidden ones	Cartelle saltate: {n}, ad esempio quelle di altre app e di sistema e quelle nascoste|Cartelle saltate: {n}, ad esempio quelle di altre app e di sistema e quelle nascoste
+@plural	{n} folder or file couldn't be read|{n} folders or files couldn't be read	Cartelle o file non leggibili: {n}|Cartelle o file non leggibili: {n}
 	The search stopped at its limit: search a smaller folder.	La ricerca si è fermata al suo limite: cerca in una cartella più piccola.
 	Copy only fonts you own or are licensed to install.	Copia solo font di tua proprietà o con una licenza che ti consente di installarli.
 	VectorCraft copies the fonts to {folder}.	VectorCraft copia i font in {folder}.
@@ -3711,13 +3713,13 @@ mark-style	Japanese	Giapponese
 	Zoom Tool	Strumento Zoom
 	Zoom with Mouse Wheel	Zoom con la rotellina del mouse
 	Scrub Numeric Fields by Dragging	Regola i campi numerici trascinando
-	{count} file(s) in {folder} {note}. Show the package folder?	{count} file in {folder} {note}. Vuoi mostrare la cartella del pacchetto?
-	{count} linked file(s) not found	File collegati non trovati: {count}
+@plural	{n} file in {folder} {note}. Show the package folder?|{n} files in {folder} {note}. Show the package folder?	{n} file in {folder} {note}. Vuoi mostrare la cartella del pacchetto?|{n} file in {folder} {note}. Vuoi mostrare la cartella del pacchetto?
+@plural	{n} linked file not found|{n} linked files not found	File collegati non trovati: {n}|File collegati non trovati: {n}
 	fonts not copied: {fonts}	font non copiati: {fonts}
-	{count} linked image(s) changed since this document was saved. Show the new versions?	Immagini collegate modificate dopo il salvataggio di questo documento: {count}. Vuoi mostrare le nuove versioni?
-	{count} linked image(s) changed on disk. Show the new versions?	Immagini collegate modificate su disco: {count}. Vuoi mostrare le nuove versioni?
-	{count} more rules: Export writes every one.	Altre {count} regole: Esporta le scrive tutte.
-	{count} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{count} oggetti senza nome esclusi: assegna loro un nome o attiva Oggetti senza nome nel menu del pannello.
+@plural	{n} linked image changed since this document was saved. Show the new version?|{n} linked images changed since this document was saved. Show the new versions?	Immagini collegate modificate dopo il salvataggio di questo documento: {n}. Vuoi mostrare le nuove versioni?|Immagini collegate modificate dopo il salvataggio di questo documento: {n}. Vuoi mostrare le nuove versioni?
+@plural	{n} linked image changed on disk. Show the new version?|{n} linked images changed on disk. Show the new versions?	Immagini collegate modificate su disco: {n}. Vuoi mostrare le nuove versioni?|Immagini collegate modificate su disco: {n}. Vuoi mostrare le nuove versioni?
+@plural	{n} more rule: Export writes it.|{n} more rules: Export writes every one.	{n} regola in più: Esporta la scrive.|Altre {n} regole: Esporta le scrive tutte.
+@plural	{n} unnamed object left out: name it, or turn on Unnamed Objects in the panel menu.|{n} unnamed objects left out: name them, or turn on Unnamed Objects in the panel menu.	{n} oggetto senza nome escluso: assegnagli un nome o attiva Oggetti senza nome nel menu del pannello.|{n} oggetti senza nome esclusi: assegna loro un nome o attiva Oggetti senza nome nel menu del pannello.
 	{effect} is already applied	L'effetto {effect} è già applicato
 	{format} Options	Opzioni {format}
 	{kind} Gradient	Sfumatura {kind}
@@ -3966,7 +3968,7 @@ axis	Both	Entrambi
 @msg	PDF settings are not an object	Le impostazioni PDF non sono un oggetto
 @msg	PDF security settings are not an object	Le impostazioni di sicurezza PDF non sono un oggetto
 @msg	PDF writer error: {0}	Errore del generatore PDF: {0}
-@msg	Packaged {n} file(s) in {folder} {note}	Pacchetto creato con {n} file in {folder} {note}
+@msgplural	Packaged {n} file ({note}) in {folder}|Packaged {n} files ({note}) in {folder}	Pacchetto creato con {n} file in {folder} ({note})
 @msg	Packaged {n} file(s){note}	Pacchetto creato con {n} file{note}
 @msg	Preview in Browser needs the desktop app (the web downloads files instead)	Anteprima nel browser richiede l'app desktop (sul web i file vengono invece scaricati)
 @msg	Release Guides: no guides	Rilascia guide: nessuna guida
@@ -5206,13 +5208,13 @@ lighting	Light	Luce
 	Slope:	Pendenza:
 axis	X Axis	Asse X
 axis	Y Axis	Asse Y
-@msg	Packaged {n} file(s) in {folder}	Pacchetto creato con {n} file in {folder}
-@msg	Packaged {n} file(s) {note}	Pacchetto creato con {n} file {note}
-@msg	Packaged {n} file(s)	Pacchetto creato con {n} file
-	Packaged {n} file(s)	Pacchetto creato con {n} file
-	Packaged {n} file(s) in {folder}	Pacchetto creato con {n} file in {folder}
-	Packaged {n} file(s) {note}	Pacchetto creato con {n} file {note}
-	{count} file(s) in {folder}. Show the package folder?	{count} file in {folder}. Vuoi mostrare la cartella del pacchetto?
+@msgplural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Pacchetto creato con {n} file in {folder}
+@msgplural	Packaged {n} file {note}|Packaged {n} files {note}	Pacchetto creato con {n} file {note}
+@msgplural	Packaged {n} file|Packaged {n} files	Pacchetto creato con {n} file
+@plural	Packaged {n} file|Packaged {n} files	Pacchetto creato con {n} file|Pacchetto creato con {n} file
+@plural	Packaged {n} file in {folder}|Packaged {n} files in {folder}	Pacchetto creato con {n} file in {folder}|Pacchetto creato con {n} file in {folder}
+@plural	Packaged {n} file {note}|Packaged {n} files {note}	Pacchetto creato con {n} file {note}|Pacchetto creato con {n} file {note}
+@plural	{n} file in {folder}. Show the package folder?|{n} files in {folder}. Show the package folder?	{n} file in {folder}. Vuoi mostrare la cartella del pacchetto?|{n} file in {folder}. Vuoi mostrare la cartella del pacchetto?
 	Clockwise	In senso orario
 	Dither	Dithering
 	Fine noise hides banding in the gradient fill	Un rumore fine nasconde le bande nel riempimento sfumato
