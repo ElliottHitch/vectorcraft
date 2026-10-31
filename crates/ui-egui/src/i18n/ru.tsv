@@ -4246,6 +4246,7 @@ axis	Both	Оба
 @msg	no such perspective grid preset	такого набора сетки перспективы нет
 @msg	no such recent file	такого последнего файла нет
 @msg	no such recent font	такого последнего шрифта нет
+@msg	some text is hidden or locked, so its font wasn't replaced	часть текста скрыта или заблокирована, поэтому её шрифт не заменён
 @msg	no such saved selection	такого сохранённого выделения нет
 @msg	no such segment	такого сегмента нет
 @msg	no such spine point	такой точки остова нет

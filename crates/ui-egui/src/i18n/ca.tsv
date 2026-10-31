@@ -5170,6 +5170,7 @@
 @msg	no such perspective grid preset	no existeix aquest preajust de quadrícula de perspectiva
 @msg	no such recent file	no existeix aquest fitxer recent
 @msg	no such recent font	no existeix aquest tipus de lletra recent
+@msg	some text is hidden or locked, so its font wasn't replaced	part del text està amagat o bloquejat, així que el seu tipus de lletra no s'ha substituït
 @msg	no such saved selection	no existeix aquesta selecció desada
 @msg	no such segment	no existeix aquest segment
 @msg	no such spine point	no existeix aquest punt de l’espina

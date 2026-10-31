@@ -3787,6 +3787,7 @@ axis	Both	Ambos
 @msg	no such perspective grid preset	predefinição de grade de perspectiva inexistente
 @msg	no such recent file	arquivo recente inexistente
 @msg	no such recent font	fonte recente inexistente
+@msg	some text is hidden or locked, so its font wasn't replaced	parte do texto está oculta ou bloqueada, então sua fonte não foi substituída
 @msg	no such saved selection	seleção salva inexistente
 @msg	no such segment	segmento inexistente
 @msg	no such spine point	ponto da coluna inexistente

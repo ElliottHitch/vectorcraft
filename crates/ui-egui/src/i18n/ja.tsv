@@ -4544,6 +4544,7 @@ swatch	Bright Violet	ビビッドバイオレット
 @msg	no such perspective grid preset	指定された遠近グリッドプリセットが見つかりません
 @msg	no such recent file	指定された最近使ったファイルが見つかりません
 @msg	no such recent font	指定された最近使ったフォントが見つかりません
+@msg	some text is hidden or locked, so its font wasn't replaced	一部のテキストが非表示またはロックされているため、そのフォントは置換されませんでした
 @msg	no such saved selection	指定された選択範囲は保存されていません
 @msg	no such user library	指定されたユーザーライブラリが見つかりません
 @msg	no such view	指定された表示が見つかりません

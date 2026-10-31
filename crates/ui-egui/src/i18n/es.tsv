@@ -4210,6 +4210,7 @@ axis	Both	Ambos
 @msg	no such perspective grid preset	no existe ese preajuste de cuadrícula de perspectiva
 @msg	no such recent file	no existe ese archivo reciente
 @msg	no such recent font	no existe esa fuente reciente
+@msg	some text is hidden or locked, so its font wasn't replaced	parte del texto está oculto o bloqueado, así que su fuente no se ha reemplazado
 @msg	no such saved selection	no existe esa selección guardada
 @msg	no such segment	no existe ese segmento
 @msg	no such spine point	no existe ese punto del eje

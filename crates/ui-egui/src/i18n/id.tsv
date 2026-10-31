@@ -4199,6 +4199,7 @@ imageTrace	Outline	Kontur
 @msg	no such perspective grid preset	tidak ada preset kisi perspektif seperti itu
 @msg	no such recent file	tidak ada berkas terbaru seperti itu
 @msg	no such recent font	tidak ada font terbaru seperti itu
+@msg	some text is hidden or locked, so its font wasn't replaced	sebagian teks tersembunyi atau terkunci, sehingga fontnya tidak diganti
 @msg	no such saved selection	tidak ada seleksi tersimpan seperti itu
 @msg	no such segment	tidak ada segmen seperti itu
 @msg	no such subpath	tidak ada subjalur seperti itu

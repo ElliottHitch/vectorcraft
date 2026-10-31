@@ -4523,6 +4523,7 @@ theme	Appearance	Giao diện
 @msg	no such perspective grid preset	không có thiết lập sẵn lưới phối cảnh như vậy
 @msg	no such recent file	không có tệp gần đây như vậy
 @msg	no such recent font	không có phông chữ gần đây như vậy
+@msg	some text is hidden or locked, so its font wasn't replaced	một số văn bản bị ẩn hoặc bị khóa nên phông chữ của chúng không được thay thế
 @msg	no such saved selection	không có vùng chọn đã lưu như vậy
 @msg	no such segment	không có đoạn như vậy
 @msg	no such spine point	không có điểm trục như vậy

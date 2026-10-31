@@ -2201,6 +2201,7 @@ file-filter	Templates	範本
 @msg	no such perspective grid preset	沒有這個透視格點預設集
 @msg	no such recent file	沒有這個最近使用的檔案
 @msg	no such recent font	沒有這個最近使用的字體
+@msg	some text is hidden or locked, so its font wasn't replaced	部分文字已隱藏或鎖定，因此其字體未被取代
 @msg	no such saved selection	沒有這個已儲存的選取範圍
 @msg	no such user library	沒有這個使用者資料庫
 @msg	no such view	沒有這個檢視

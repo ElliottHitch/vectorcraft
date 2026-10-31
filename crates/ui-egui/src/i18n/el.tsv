@@ -4170,6 +4170,7 @@ theme	Appearance	Εμφάνιση
 @msg	no such perspective grid preset	δεν υπάρχει τέτοια προεπιλογή πλέγματος προοπτικής
 @msg	no such recent file	δεν υπάρχει τέτοιο πρόσφατο αρχείο
 @msg	no such recent font	δεν υπάρχει τέτοια πρόσφατη γραμματοσειρά
+@msg	some text is hidden or locked, so its font wasn't replaced	κάποιο κείμενο είναι κρυφό ή κλειδωμένο, οπότε η γραμματοσειρά του δεν αντικαταστάθηκε
 @msg	no such saved selection	δεν υπάρχει τέτοια αποθηκευμένη επιλογή
 @msg	no such segment	δεν υπάρχει τέτοιο τμήμα
 @msg	no such spine point	δεν υπάρχει τέτοιο σημείο κεντρικής καμπύλης

@@ -29,7 +29,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Replace Font",
             [],
             None,
-            "{from: {family, style?}, to: {family (any of its names; stored as the font's own family name), style?}, selectionOnly?} (style omitted: every style of the family / keep the closest style) → {runs}",
+            "{from: {family, style?}, to: {family (any of its names; stored as the font's own family name), style?}, selectionOnly?} (style omitted: every style of the family / keep the closest style); text that is hidden or locked, in a hidden or locked group or layer, or on a locked artboard keeps its font → {runs, skipped?: the text objects left in the font, warning?}",
             has_doc,
             replace
         ),
@@ -414,9 +414,17 @@ fn replace(s: &mut Session, p: &Value) -> Result<Value> {
         Some((f, m)) if m != vectorcraft_text::FontMatch::Missing => f.family.clone(),
         _ => return Err(bad(C, format!("font family `{tf}` is not available"))),
     };
-    let ids = scope(s, bool_or(p, "selectionOnly", false))?;
     let matches = |st: &vectorcraft_doc::CharStyle| {
         st.font_family.eq_ignore_ascii_case(&ff) && fs.as_ref().is_none_or(|x| st.font_style.eq_ignore_ascii_case(x))
+    };
+    // Only text the Selection tool can reach changes: not hidden or locked, in a hidden or locked
+    // group or layer, or on a locked artboard. The text left in the font is counted.
+    let (ids, skipped) = {
+        let d = &s.doc()?.doc;
+        let editable = d.editable();
+        let (ids, other): (Vec<NodeId>, Vec<NodeId>) = scope(s, bool_or(p, "selectionOnly", false))?.into_iter().partition(|id| editable(*id));
+        let skipped = other.into_iter().filter(|id| text(d, *id).is_some_and(|t| t.runs.iter().any(|r| matches(&r.style)))).count();
+        (ids, skipped)
     };
     let n = s.edit("Replace Font", |d, _| {
         let mut n = 0;
@@ -446,8 +454,16 @@ fn replace(s: &mut Session, p: &Value) -> Result<Value> {
         }
         Ok(n)
     })?;
-    Ok(json!({ "runs": n }))
+    let mut out = json!({ "runs": n });
+    if skipped > 0 {
+        out["skipped"] = json!(skipped);
+        out["warning"] = json!(REPLACE_SKIPPED);
+    }
+    Ok(out)
 }
+
+/// What Replace Font says when it left text in the font that it can't reach.
+const REPLACE_SKIPPED: &str = "some text is hidden or locked, so its font wasn't replaced";
 
 fn select_font(s: &mut Session, p: &Value) -> Result<Value> {
     let family = str_param(p, "family").ok_or_else(|| bad("select.font", "missing `family`"))?.to_string();
@@ -620,6 +636,69 @@ mod tests {
         assert_eq!(s.doc().unwrap().selection.objects, [NodeId(ids[0]), NodeId(template)]);
         assert_eq!(s.execute("select.font", &json!({"family": "Inter"})).unwrap()["count"], 0);
         assert!(s.doc().unwrap().selection.objects.is_empty());
+    }
+
+    /// Replace Font leaves hidden and locked text in its font, and text inside a hidden or locked
+    /// group or layer, and says so. Text on a visible, unlocked template layer is changed.
+    #[test]
+    fn replace_font_skips_hidden_and_locked_text() {
+        let mut s = Session::new();
+        s.execute("file.new", &json!({"width": 200, "height": 200})).unwrap();
+        let text = |s: &mut Session, y: i32| {
+            s.execute("text.create", &json!({"x": 10, "y": y, "text": "Serif", "font": "Source Serif 4"})).unwrap()["id"].as_u64().unwrap()
+        };
+        let mut ids = vec![];
+        for y in [20, 40, 60, 80, 100] {
+            ids.push(text(&mut s, y));
+        }
+        for (id, group, cmd) in
+            [(ids[1], false, "object.hide"), (ids[2], false, "object.lock"), (ids[3], true, "object.hide"), (ids[4], true, "object.lock")]
+        {
+            s.execute("select.set", &json!({"ids": [id]})).unwrap();
+            if group {
+                s.execute("object.group", &json!({})).unwrap();
+            }
+            s.execute(cmd, &json!({})).unwrap();
+        }
+        let mut layer_text = |props: &[Value]| {
+            let layer = s.execute("layer.new", &json!({})).unwrap()["id"].as_u64().unwrap();
+            let id = text(&mut s, 140);
+            for p in props {
+                let mut p = p.clone();
+                p["id"] = json!(layer);
+                s.execute("layer.setProps", &p).unwrap();
+            }
+            id
+        };
+        ids.push(layer_text(&[json!({"visible": false})]));
+        ids.push(layer_text(&[json!({"locked": true})]));
+        // Template on locks the layer; unlocking it makes its text editable again.
+        let template = layer_text(&[json!({"template": true}), json!({"locked": false})]);
+        let family = |s: &Session, id: u64| text_family(s, id);
+        let r = s.execute("text.replaceFont", &json!({"from": {"family": "Source Serif 4"}, "to": {"family": "Source Sans 3"}})).unwrap();
+        assert_eq!(r["runs"], 2, "{r}");
+        assert_eq!(r["skipped"], 6, "{r}");
+        assert_eq!(r["warning"], REPLACE_SKIPPED, "{r}");
+        assert_eq!(family(&s, ids[0]), "Source Sans 3");
+        assert_eq!(family(&s, template), "Source Sans 3");
+        for id in &ids[1..] {
+            assert_eq!(family(&s, *id), "Source Serif 4", "object {id}");
+        }
+        // The font stays in the document's list while the skipped text uses it.
+        let fams: Vec<String> =
+            s.execute("text.fonts", &json!({})).unwrap().as_array().unwrap().iter().map(|f| f["family"].as_str().unwrap().to_string()).collect();
+        assert_eq!(fams, ["Source Sans 3", "Source Serif 4"]);
+        // Only skipped text left: nothing changes, and the warning says why.
+        let r = s.execute("text.replaceFont", &json!({"from": {"family": "Source Serif 4"}, "to": {"family": "Source Sans 3"}})).unwrap();
+        assert_eq!((r["runs"].clone(), r["skipped"].clone(), r["warning"].clone()), (json!(0), json!(6), json!(REPLACE_SKIPPED)), "{r}");
+        // A plain replacement carries no warning.
+        let r = s.execute("text.replaceFont", &json!({"from": {"family": "Source Sans 3"}, "to": {"family": "Inter"}})).unwrap();
+        assert_eq!(r, json!({"runs": 2}));
+    }
+
+    /// The font family of text object `id`'s first run.
+    fn text_family(s: &Session, id: u64) -> String {
+        text(&s.doc().unwrap().doc, NodeId(id)).unwrap().runs[0].style.font_family.clone()
     }
 }
 

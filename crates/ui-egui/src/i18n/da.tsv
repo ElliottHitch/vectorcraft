@@ -4199,6 +4199,7 @@ imageTrace	Outline	Kontur
 @msg	no such perspective grid preset	ingen sådan perspektivgitterforudindstilling
 @msg	no such recent file	ingen sådan seneste fil
 @msg	no such recent font	ingen sådan seneste skrifttype
+@msg	some text is hidden or locked, so its font wasn't replaced	noget tekst er skjult eller låst, så dens skrifttype blev ikke erstattet
 @msg	no such saved selection	ingen sådan gemt markering
 @msg	no such segment	intet sådant segment
 @msg	no such subpath	ingen sådan delsti

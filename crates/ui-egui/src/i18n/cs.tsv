@@ -4517,6 +4517,7 @@ imageTrace	Outline	Obrys
 @msg	no such perspective grid preset	takové přednastavení perspektivní mřížky neexistuje
 @msg	no such recent file	takový nedávný soubor neexistuje
 @msg	no such recent font	takové nedávné písmo neexistuje
+@msg	some text is hidden or locked, so its font wasn't replaced	některý text je skrytý nebo zamčený, a proto jeho písmo nebylo nahrazeno
 @msg	no such saved selection	takový uložený výběr neexistuje
 @msg	no such segment	takový segment neexistuje
 @msg	no such spine point	takový bod páteře neexistuje
